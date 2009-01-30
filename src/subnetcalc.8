@@ -1,0 +1,55 @@
+.\" $Id$
+.\"
+.\" IPv4 Subnet Calculator
+.\" Copyright (C) 2002-2009 by Thomas Dreibholz
+.\"
+.\" This program is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU General Public License as published by
+.\" the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU General Public License
+.\" along with this program.  If not, see <http://www.gnu.org/licenses/>.
+.\"
+.\" Contact: dreibh@iem.uni-due.de
+.\"
+.\" ###### Setup ############################################################
+.Dd January 30, 2009
+.Dt subnetcalc 8
+.Os subnetcalc
+.\" ###### Name #############################################################
+.Sh NAME
+.Nm subnetcalc
+.Nd IPv4 Subnet Calculator
+.\" ###### Synopsis #########################################################
+.Sh SYNOPSIS
+.Nm subnetcalc
+.Op Address
+.Op Netmask
+.\" ###### Description ######################################################
+.Sh DESCRIPTION
+.Nm subnetcalc
+is a simple IPv4 subnet address calculator. For given IP address and netmask, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability.
+.Pp
+.\" ###### Arguments ########################################################
+.Sh ARGUMENTS
+The following arguments have to be provided:
+.Bl -tag -width indent
+.It Address
+The IP address.
+.It Netmask
+The netmask.
+.El
+.\" ###### Authors ##########################################################
+.Sh AUTHORS
+Dr. Thomas Dreibholz
+.br
+http://tdrwww.iem.uni-due.de/dreibholz/rserpool/
+.br
+mailto://dreibh@iem.uni-due.de
+.br

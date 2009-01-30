@@ -1,0 +1,112 @@
+#!/bin/bash
+# $Id$
+#
+# Debian Packaging Scripts
+# Copyright (C) 2002-2009 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@iem.uni-due.de
+
+
+. ./debian.conf
+
+
+# ---------------------------------------------------------------------------
+# ATTENTION:
+# debian/changelog MUST be like package (version-0ubuntu1); $INPUT_DISTRIBUTION
+# "ubuntu" and "$INPUT_DISTRIBUTION" are exchanged by this script
+#
+# USAGE:
+# ./make-deb default            => for Ubuntu REVU
+#    Note: Replaces "Maintainer" by MOTU and writes original maintainer entry
+#          to "XSBC-Original-Maintainer"
+# ./make-deb unstable           => for Debian Mentors
+# ./make-deb intrepid|hardy|... => for Launchpad PPA
+# ---------------------------------------------------------------------------
+
+
+DISTRIBUTIONS=`\
+( \
+while [ x$1 != "x" ] ; do \
+   echo $1 && \
+   shift ; \
+done \
+) | sort -u`
+if [ "$DISTRIBUTIONS" == "" ] ; then
+   DISTRIBUTIONS="default"
+fi
+
+
+UPSTREAM_PACKAGE="`find . -name $PACKAGE-*.gz`"
+UPSTREAM_PACKAGES=`find . -name $PACKAGE-*.gz | wc --lines`
+if [ "$UPSTREAM_PACKAGE" == "" ]; then
+   rm -f $PACKAGE-*.gz $PACKAGE"_"*.gz
+   ( ./bootstrap && ./configure $CONFOPT && make dist ) || exit 1
+   UPSTREAM_PACKAGE="`find . -name $PACKAGE-*.gz`"
+elif [ $UPSTREAM_PACKAGES -ne 1 ] ; then
+   echo "ERROR: There are multiple upstream packages (from \"make dist\")!" >&2
+   echo "       Remove all except the actual version!" >&2
+   exit 1
+fi
+
+
+for DISTRIBUTION in $DISTRIBUTIONS ; do
+
+   VERSION=`ls $PACKAGE-*.gz|sed -e "s/$PACKAGE-//g" -e "s/.tar.gz//g"` && \
+   rm -rf $PACKAGE-$VERSION $PACKAGE-$VERSION.orig && \
+   tar xzf $INPUT/$PACKAGE-$VERSION.tar.gz && \
+   cp -r $PACKAGE-$VERSION $PACKAGE-$VERSION.orig && \
+   cd $PACKAGE-$VERSION && \
+   cp -r $INPUT/debian . && \
+   rm -rf debian/.svn || exit
+
+
+   if [ "$DISTRIBUTION" != "default" ] ; then
+      if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
+         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
+      else
+         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/ubuntu-$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
+      fi
+      mv debian/changelog.new debian/changelog
+   else
+      sed -e "s/^Maintainer:/Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
+      mv debian/control.new debian/control
+   fi
+
+
+   # Without signature!
+   # debuild -us -uc
+   # For sources:
+   # debuild -S
+   # For binaries:
+   # debuild -b
+
+   # Including signature!
+   debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>'
+
+
+   # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
+   # Important: After that, update with option "--override-config"!
+   # sudo pbuilder update --override-config
+
+   cd ..
+done
+
+
+if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
+   rm -f "$UPSTREAM_PACKAGE.asc"
+fi
+echo "Signing upstream package $UPSTREAM_PACKAGE ..."
+gpg -sab "$UPSTREAM_PACKAGE"

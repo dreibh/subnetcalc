@@ -1,0 +1,5 @@
+subnetcalc (1.0.0-0ubuntu1) intrepid; urgency=low
+
+  * Initial Ubuntu package.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Tue, 30 Jan 2009 08:49:32 +0200
