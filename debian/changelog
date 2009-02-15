@@ -1,4 +1,4 @@
-subnetcalc (1.0.1-0ubuntu1) jaunty; urgency=low
+subnetcalc (1.0.2-0ubuntu1) jaunty; urgency=low
 
   * Initial Ubuntu package (LP: #325653).
 
