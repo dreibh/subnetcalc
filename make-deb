@@ -49,12 +49,23 @@ if [ "$DISTRIBUTIONS" == "" ] ; then
 fi
 
 
+echo ""
+echo "====== Creating upstream package ======================================"
+echo ""
 UPSTREAM_PACKAGE="`find . -name $PACKAGE-*.gz`"
 UPSTREAM_PACKAGES=`find . -name $PACKAGE-*.gz | wc --lines`
 if [ "$UPSTREAM_PACKAGE" == "" ]; then
    rm -f $PACKAGE-*.gz $PACKAGE"_"*.gz
-   ( ./bootstrap && ./configure $CONFOPT && make dist ) || exit 1
+   echo Running "$MAKE_DIST" ...
+   eval "$MAKE_DIST"
    UPSTREAM_PACKAGE="`find . -name $PACKAGE-*.gz`"
+   echo ""
+   echo "==> Upstream package is $UPSTREAM_PACKAGE"
+   echo ""
+   if [ ! -e $UPSTREAM_PACKAGE ] ; then
+      echo "ERROR: No upstrem package found!"
+      exit 1
+   fi
 elif [ $UPSTREAM_PACKAGES -ne 1 ] ; then
    echo "ERROR: There are multiple upstream packages (from \"make dist\")!" >&2
    echo "       Remove all except the actual version!" >&2
@@ -62,7 +73,12 @@ elif [ $UPSTREAM_PACKAGES -ne 1 ] ; then
 fi
 
 
+echo ""
+echo "====== Creating packages =============================================="
 for DISTRIBUTION in $DISTRIBUTIONS ; do
+
+   echo ""
+   echo "------ Creating package for $DISTRIBUTION ------"
 
    VERSION=`ls $PACKAGE-*.gz|sed -e "s/$PACKAGE-//g" -e "s/.tar.gz//g"` && \
    rm -rf $PACKAGE-$VERSION $PACKAGE-$VERSION.orig && \
@@ -75,7 +91,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    if [ "$DISTRIBUTION" != "default" ] ; then
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
-         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
+         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu[0-9]//1" <debian/changelog >debian/changelog.new
       else
          sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/ubuntu-$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
       fi
@@ -94,7 +110,8 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    # debuild -b
 
    # Including signature!
-   debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>'
+   # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>'
+   debuild -sa -S "-k$MAINTAINER"
 
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
@@ -105,8 +122,36 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 done
 
 
+
+echo ""
+echo "====== Signing upstream package ======================================="
+echo ""
 if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
    rm -f "$UPSTREAM_PACKAGE.asc"
 fi
 echo "Signing upstream package $UPSTREAM_PACKAGE ..."
 gpg -sab "$UPSTREAM_PACKAGE"
+
+
+
+echo ""
+echo "====== Command overview ==============================================="
+echo ""
+
+echo "Upload to PPA:"
+for DISTRIBUTION in $DISTRIBUTIONS ; do
+   if [ $DISTRIBUTION != "unstable" -a $DISTRIBUTION != "testing" -a $DISTRIBUTION != "stable" -a $DISTRIBUTION != "default" ] ; then
+      echo "   dput ppa `ls $PACKAGE*$DISTRIBUTION*.changes`"
+   fi
+done
+echo ""
+
+echo "Build test:"
+for DISTRIBUTION in $DISTRIBUTIONS ; do
+   if [ $DISTRIBUTION = "unstable" -o $DISTRIBUTION = "testing" -o $DISTRIBUTION = "stable" ] ; then
+      echo "   sudo pbuilder build `ls $PACKAGE*-[0-9].dsc`"
+   else
+      echo "   sudo pbuilder build `ls $PACKAGE*$DISTRIBUTION[0-9].dsc`"
+   fi
+done
+echo ""
