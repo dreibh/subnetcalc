@@ -1,5 +1,97 @@
 ------------------------------------------------------------------------
+r171 | dreibh | 2009-02-21 14:40:08 +0100 (Sat, 21 Feb 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+
+Updated Debian scripts.
+
+------------------------------------------------------------------------
+r168 | dreibh | 2009-02-15 20:25:12 +0100 (Sun, 15 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.8
+
+
+------------------------------------------------------------------------
+r166 | dreibh | 2009-02-15 20:04:21 +0100 (Sun, 15 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian.conf
+   M /trunk/subnetcalc/make-deb
+
+
+------------------------------------------------------------------------
+r165 | dreibh | 2009-02-15 19:54:04 +0100 (Sun, 15 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+
+
+------------------------------------------------------------------------
+r153 | dreibh | 2009-02-06 09:33:21 +0100 (Fri, 06 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/wireshark-experimental/renew-debian-changelog
+
+
+------------------------------------------------------------------------
+r152 | dreibh | 2009-02-05 15:56:09 +0100 (Thu, 05 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/watch
+   A /trunk/wireshark-experimental
+   A /trunk/wireshark-experimental/clean-deb
+   A /trunk/wireshark-experimental/debian.conf
+   A /trunk/wireshark-experimental/make-deb
+   A /trunk/wireshark-experimental/renew-debian-changelog
+
+
+------------------------------------------------------------------------
+r151 | dreibh | 2009-02-04 14:38:00 +0100 (Wed, 04 Feb 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian.conf
+
+
+------------------------------------------------------------------------
+r149 | dreibh | 2009-01-30 09:34:07 +0100 (Fri, 30 Jan 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+
+------------------------------------------------------------------------
 r148 | dreibh | 2009-01-30 09:25:43 +0100 (Fri, 30 Jan 2009) | 2 lines
+Changed paths:
+   A /trunk/subnetcalc
+   A /trunk/subnetcalc/AUTHORS
+   A /trunk/subnetcalc/BUGS
+   A /trunk/subnetcalc/COPYING
+   A /trunk/subnetcalc/ChangeLog
+   A /trunk/subnetcalc/INSTALL
+   A /trunk/subnetcalc/Makefile.am
+   A /trunk/subnetcalc/NEWS
+   A /trunk/subnetcalc/README
+   A /trunk/subnetcalc/bootstrap
+   A /trunk/subnetcalc/clean-deb
+   A /trunk/subnetcalc/configure.in
+   A /trunk/subnetcalc/debian
+   A /trunk/subnetcalc/debian/changelog
+   A /trunk/subnetcalc/debian/compat
+   A /trunk/subnetcalc/debian/control
+   A /trunk/subnetcalc/debian/copyright
+   A /trunk/subnetcalc/debian/rules
+   A /trunk/subnetcalc/debian/subnetcalc.install
+   A /trunk/subnetcalc/debian/subnetcalc.manpages
+   A /trunk/subnetcalc/debian/watch
+   A /trunk/subnetcalc/debian.conf
+   A /trunk/subnetcalc/make-deb
+   A /trunk/subnetcalc/src
+   A /trunk/subnetcalc/src/Makefile.am
+   A /trunk/subnetcalc/src/subnetcalc.8
+   A /trunk/subnetcalc/src/subnetcalc.cc
 
 Added subnetcalc.
 
