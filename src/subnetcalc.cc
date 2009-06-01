@@ -1,6 +1,6 @@
 /* $Id$
  *
- * IPv4 Subnet Calculator
+ * IPv4/IPv6 Subnet Calculator
  * Copyright (C) 2002-2009 by Thomas Dreibholz
  *
  * This program is free software: you can redistribute it and/or modify
@@ -49,6 +49,19 @@ inline in6_addr getIPv6Address(const sockaddr_union& address)
 {
    assert(address.sa.sa_family == AF_INET6);
    return(address.in6.sin6_addr);
+}
+
+
+// ###### Is given address a multicast address? #############################
+inline bool isMulticast(const sockaddr_union& address)
+{
+   if(isIPv4(address)) {
+      return(IN_CLASSD(ntohl(getIPv4Address(address))));
+   }
+   else {
+      const in6_addr ipv6address = getIPv6Address(address);
+      return(IN6_IS_ADDR_MULTICAST(&ipv6address));
+   }
 }
 
 
@@ -121,9 +134,9 @@ void printAddressBinary(std::ostream&         os,
 unsigned int getPrefixLength(const sockaddr_union& netmask)
 {
    int  prefixLength;
-   bool belongsToNetwork = false;
+   bool belongsToNetwork = true;
 
-   if(netmask.sa.sa_family == AF_INET) {
+   if(netmask.sa.sa_family == AF_INET) {   puts("INETv4");
       prefixLength     = 32;
       const uint32_t a = ntohl(getIPv4Address(netmask));
       for(int i = 31;i >= 0;i--) {
@@ -132,7 +145,7 @@ unsigned int getPrefixLength(const sockaddr_union& netmask)
             prefixLength--;
          }
          else {
-            if(belongsToNetwork == true) {
+            if(belongsToNetwork == false) {
                return(-1);
             }
          }
@@ -140,7 +153,7 @@ unsigned int getPrefixLength(const sockaddr_union& netmask)
    }
    else {
       prefixLength = 128;
-      for(int j = 3;j >= 0;j--) {
+      for(int j = 0;j < 4;j++) {
          const uint32_t a = ntohl(getIPv6Address(netmask).s6_addr32[j]);
          for(int i = 31;i >= 0;i--) {
             if(!(a & (1 << (uint32_t)i))) {
@@ -148,13 +161,14 @@ unsigned int getPrefixLength(const sockaddr_union& netmask)
                prefixLength--;
             }
             else {
-               if(belongsToNetwork == true) {
+               if(belongsToNetwork == false) {
                   return(-1);
                }
             }
          }
       }
    }
+   printf("PL=%d\n",prefixLength);
    return(prefixLength);
 }
 
@@ -282,6 +296,15 @@ void printAddressProperties(std::ostream&         os,
                             const sockaddr_union& network,
                             const sockaddr_union& broadcast)
 {
+   in_addr_t ipv4address;
+   in6_addr  ipv6address;
+   if(isIPv4(address)) {
+      ipv4address = ntohl(getIPv4Address(address));
+   }
+   else {
+      ipv6address = getIPv6Address(address);
+   }
+
    // ====== Common properties ==============================================
    os << "Properties    =" << std::endl;
    if(address == network) {
@@ -291,6 +314,9 @@ void printAddressProperties(std::ostream&         os,
       os << "   - " << address << " is the BROADCAST address of "
          << network << "/" << prefix << std::endl;
    }
+   else if(isMulticast(address)) {
+      os << "   - " << address << " is a MULTICAST address" << std::endl;
+   }
    else {
       os << "   - " << address << " is a HOST address in "
          << network << "/" << prefix << std::endl;
@@ -299,7 +325,6 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv4 properties ================================================
    if(isIPv4(address)) {
-      const in_addr_t    ipv4address = ntohl(getIPv4Address(address));
       const unsigned int a           = ipv4address >> 24;
       const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
       if(IN_CLASSA(ipv4address)) {
@@ -337,7 +362,42 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv6 properties ================================================
    else {
+      // ------ Special addresses -------------------------------------------
+      if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
+         os << "   - Loopback address" << std::endl;
+      }
+      else if(IN6_IS_ADDR_UNSPECIFIED(&ipv6address)) {
+         os << "   - Unspecified address" << std::endl;
+      }
 
+      // ------ Multicast addresses -----------------------------------------
+      else if(IN6_IS_ADDR_MULTICAST(&ipv6address)) {
+         // ------ Multicast scope ------------------------------------------
+         os << "   - Multicast Properties" << std::endl;
+         os << "      + Scope: ";
+         if(IN6_IS_ADDR_MC_NODELOCAL(&ipv6address)) {
+            os << "node-local";
+         }
+         else if(IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address)) {
+            os << "link-local";
+         }
+         else if(IN6_IS_ADDR_MC_SITELOCAL(&ipv6address)) {
+            os << "site-local";
+         }
+         else if(IN6_IS_ADDR_MC_ORGLOCAL(&ipv6address)) {
+            os << "organization-local";
+         }
+         else if(IN6_IS_ADDR_MC_GLOBAL(&ipv6address)) {
+            os << "global";
+         }
+         os << std::endl;
+
+         // ------ Multicast flags ------------------------------------------
+         const uint8_t flags = (((uint8_t*)&ipv6address)[1] & 0xf0) >> 4;
+         if(flags == 0x1) {
+            os << "      + Temporary" << std::endl;
+         }
+      }
    }
 }
 
@@ -374,6 +434,12 @@ int main(int argc, char** argv)
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
       std::cerr << "ERROR: Invalid netmask ";
+      printAddress(&netmask.sa, false, std::cerr);
+      std::cerr << "!" << std::endl;
+      exit(1);
+   }
+   if(netmask.sa.sa_family != address.sa.sa_family) {
+      std::cerr << "ERROR: Incompatible netmask ";
       printAddress(&netmask.sa, false, std::cerr);
       std::cerr << "!" << std::endl;
       exit(1);
@@ -415,10 +481,6 @@ int main(int argc, char** argv)
    }*/
 
 
-   char maxHostsString[128];
-   snprintf((char*)&maxHostsString, sizeof(maxHostsString),
-            "%1.0f  =  2^%u - %u", maxHosts, hostBits, reservedHosts);
-
    std::cout << "Address       = " << address        << std::endl;
    printAddressBinary(std::cout, address, prefix, "                ");
    std::cout << "Network       = " << network        << " / " << prefix << std::endl;
@@ -428,8 +490,12 @@ int main(int argc, char** argv)
    }
    std::cout << "Wildcard Mask = " << wildcard       << std::endl;
    std::cout << "Hosts Bits    = " << hostBits       << std::endl;
-   std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
-   std::cout << "HostRange     = { " << host1 << " - " << host2 << " }" << std::endl;
-
+   if(!isMulticast(address)) {
+      char maxHostsString[128];
+      snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+               "%1.0f  =  2^%u - %u", maxHosts, hostBits, reservedHosts);
+      std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
+      std::cout << "Host Range    = { " << host1 << " - " << host2 << " }" << std::endl;
+   }
    printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
 }
