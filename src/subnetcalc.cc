@@ -28,121 +28,130 @@
 
 #include "tools.h"
 
-// #include <sys/types.h>
-// #include <sys/socket.h>
-// #include <netinet/in.h>
-// #include <arpa/inet.h>
 
-
-bool isIPv4(const sockaddr_union& address)
+// ###### Is given address an IPv4 address? #################################
+inline bool isIPv4(const sockaddr_union& address)
 {
-printf("%08x %08x %08x %08x\n",
-        address.in6.sin6_addr.s6_addr32[0],address.in6.sin6_addr.s6_addr32[1],address.in6.sin6_addr.s6_addr32[2],address.in6.sin6_addr.s6_addr32[3]);
-
-   return( IN6_IS_ADDR_V4MAPPED(&address.in6.sin6_addr) ||
-           IN6_IS_ADDR_V4COMPAT(&address.in6.sin6_addr) );
+   return(address.sa.sa_family == AF_INET);
 }
 
-// // ###### Convert string to IPv4 address ####################################
-// bool getAddress(const char* str, uint32_t& address)
-// {
-//    in_addr iaddr;
-//
-//    if(inet_aton(str, &iaddr) == 0) {
-//       return(false);
-//    }
-//    address = ntohl(iaddr.s_addr);
-//    return(true);
-// }
-//
-//
-// // ###### Get IPv4 address class ############################################
-// const char* getAddressClass(uint32_t address) {
-//    if((address & 0x80000000) == 0) {
-//       return("A");
-//    }
-//    else if((address & 0xc0000000) == 0x80000000) {
-//       return("B");
-//    }
-//    else if((address & 0xe0000000) == 0xc0000000) {
-//       return("C");
-//    }
-//    return("Invalid!");
-// }
-//
-//
-// // ###### Print IPv4 address in binary digits ###############################
-// void putAddressBinary(uint32_t address, const size_t prefix)
-// {
-//    for(int i = 31;i >= 0;i--) {
-//       const uint32_t v = (uint32_t)1 << i;
-//       if(32 - i > (int)prefix) {   // Colourize output
-//          printf("\x1b[33m");
-//       }
-//       else {
-//          printf("\x1b[34m");
-//       }
-//       if(address >= v) {
-//          printf("1");
-//          address -= v;
-//       }
-//       else {
-//          printf("0");
-//       }
-//       printf("\x1b[0m");   // Turn off colour printing
-//       if( ((i % 8) == 0) && (i > 0) ) printf(" . ");
-//    }
-// }
-//
-//
-// // ###### Print IPv4 address ################################################
-// void putAddress(const uint32_t address)
-// {
-//    char    str[256];
-//    in_addr iaddr;
-//
-//    iaddr.s_addr = htonl(address);
-//    inet_ntop(AF_INET, (char*)&iaddr, (char*)&str, sizeof(str));
-//    fputs(str, stdout);
-// }
-//
+
+// ###### Extract IPv4 address from address #################################
+inline in_addr_t getIPv4Address(const sockaddr_union& address)
+{
+   assert(address.sa.sa_family == AF_INET);
+   return(address.in.sin_addr.s_addr);
+}
+
+
+// ###### Extract IPv4 address from address #################################
+inline in6_addr getIPv6Address(const sockaddr_union& address)
+{
+   assert(address.sa.sa_family == AF_INET6);
+   return(address.in6.sin6_addr);
+}
+
+
+// ###### Print IPv4 address in binary digits ###############################
+void printAddressBinary(std::ostream&         os,
+                        const sockaddr_union& address,
+                        const unsigned int    prefix,
+                        const char*           indent = "")
+{
+   if(address.sa.sa_family == AF_INET) {
+      os << indent;
+      uint32_t a = ntohl(getIPv4Address(address));
+      for(int i = 31;i >= 0;i--) {
+         const uint32_t v = (uint32_t)1 << i;
+         if(32 - i > (int)prefix) {   // Colourize output
+            os << "\x1b[33m";
+         }
+         else {
+            os << "\x1b[34m";
+         }
+         if(a >= v) {
+            os << "1";
+            a -= v;
+         }
+         else {
+            os << "0";
+         }
+         os << "\x1b[0m";   // Turn off colour printing
+         if( ((i % 8) == 0) && (i > 0) ) {
+            os << " . ";
+         }
+      }
+      os << std::endl;
+   }
+   else {
+      int p = 128;
+      for(int j = 0;j < 8;j++) {
+         uint16_t a = ntohs(getIPv6Address(address).s6_addr16[j]);
+         char str[16];
+         snprintf((char*)&str, sizeof(str), "%04x", a);
+         os << indent << str << " = ";
+         for(int i = 15;i >= 0;i--) {
+            const uint32_t v = (uint32_t)1 << i;
+            if(p > (int)prefix) {   // Colourize output
+               os << "\x1b[33m";
+            }
+            else {
+               os << "\x1b[34m";
+            }
+            if(a >= v) {
+               os << "1";
+               a -= v;
+            }
+            else {
+               os << "0";
+            }
+            os << "\x1b[0m";   // Turn off colour printing
+            if( ((i % 8) == 0) && (i > 0) ) {
+               os << " ";
+            }
+            p--;
+         }
+         os << std::endl;
+      }
+   }
+}
 
 
 // ###### Is given netmask valid? ###########################################
 unsigned int getPrefixLength(const sockaddr_union& netmask)
 {
    int  prefixLength;
-   bool host = true;
+   bool belongsToNetwork = false;
 
    if(netmask.sa.sa_family == AF_INET) {
       prefixLength     = 32;
-      const uint32_t a = ntohl(netmask.in.sin_addr.s_addr);
-      for(int i = 0;i <= 31;i++) {
-         if(a & (1 << (uint32_t)i)) {
-            host = false;
+      const uint32_t a = ntohl(getIPv4Address(netmask));
+      for(int i = 31;i >= 0;i--) {
+         if(!(a & (1 << (uint32_t)i))) {
+            belongsToNetwork = false;
+            prefixLength--;
          }
          else {
-            if(host == false) {
+            if(belongsToNetwork == true) {
                return(-1);
             }
          }
-         prefixLength--;
       }
    }
    else {
       prefixLength = 128;
       for(int j = 3;j >= 0;j--) {
-         const uint32_t a = ntohl(netmask.in6.sin6_addr.s6_addr32[j]);
-         for(int i = 0;i <= 31;i++) {
-            if(a & (1 << (uint32_t)i)) {
-               host = false;
+         const uint32_t a = ntohl(getIPv6Address(netmask).s6_addr32[j]);
+         for(int i = 31;i >= 0;i--) {
+            if(!(a & (1 << (uint32_t)i))) {
+               belongsToNetwork = false;
+               prefixLength--;
             }
             else {
-               if(host == false) {
+               if(belongsToNetwork == true) {
                   return(-1);
                }
             }
-            prefixLength--;
          }
       }
    }
@@ -214,12 +223,122 @@ std::ostream& operator<<(std::ostream& os, const sockaddr_union& a)
 sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
 {
    sockaddr_union a = a1;
-   for(int j = 3;j >= 0;j--) {
-      const uint64_t sum = (uint64_t)a.in6.sin6_addr.s6_addr32[j] + (uint64_t)n;
-      a.in6.sin6_addr.s6_addr32[j] = (uint32_t)(sum & 0xffffffffULL);
-      n = (uint32_t)(sum >> 32);
+   if(a.sa.sa_family == AF_INET) {
+      a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) + n);
+   }
+   else {
+      for(int j = 3;j >= 0;j--) {
+         const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) + (uint64_t)n;
+         a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
+         n = (uint32_t)(sum >> 32);
+      }
    }
    return(a);
+}
+
+
+// ###### "-" operator for addresses ########################################
+sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
+{
+   sockaddr_union a = a1;
+   if(a.sa.sa_family == AF_INET) {
+      a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) - n);
+   }
+   else {
+      for(int j = 3;j >= 0;j--) {
+         const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) - (uint64_t)n;
+         a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
+         n = (uint32_t)(sum >> 32);
+      }
+   }
+   return(a);
+}
+
+
+// ###### "==" operator for addresses #######################################
+int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
+{
+   assert(a1.sa.sa_family == a2.sa.sa_family);
+
+   if(a1.sa.sa_family == AF_INET) {
+      return(a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
+   }
+   else {
+      for(int j = 3;j >= 0;j--) {
+         if(a1.in6.sin6_addr.s6_addr32[j] != a2.in6.sin6_addr.s6_addr32[j]) {
+            return(false);
+         }
+      }
+      return(true);
+   }
+}
+
+
+// ###### Print address properties ##########################################
+void printAddressProperties(std::ostream&         os,
+                            const sockaddr_union& address,
+                            const sockaddr_union& netmask,
+                            const unsigned int    prefix,
+                            const sockaddr_union& network,
+                            const sockaddr_union& broadcast)
+{
+   // ====== Common properties ==============================================
+   os << "Properties    =" << std::endl;
+   if(address == network) {
+      os << "   - " << address << " is a NETWORK address" << std::endl;
+   }
+   else if((isIPv4(address)) && (address == broadcast)) {
+      os << "   - " << address << " is the BROADCAST address of "
+         << network << "/" << prefix << std::endl;
+   }
+   else {
+      os << "   - " << address << " is a HOST address in "
+         << network << "/" << prefix << std::endl;
+   }
+
+
+   // ====== IPv4 properties ================================================
+   if(isIPv4(address)) {
+      const in_addr_t    ipv4address = ntohl(getIPv4Address(address));
+      const unsigned int a           = ipv4address >> 24;
+      const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
+      if(IN_CLASSA(ipv4address)) {
+         os << "   - Class A" << std::endl;
+         if(ipv4address == INADDR_LOOPBACK) {
+            os << "   - Loopback address" << std::endl;
+         }
+         else if(a == IN_LOOPBACKNET) {
+            os << "   - In loopback network" << std::endl;
+         }
+         else if(a == 10) {
+            os << "   - Private" << std::endl;
+         }
+      }
+      else if(IN_CLASSB(ipv4address)) {
+         os << "   - Class B" << std::endl;
+         if((a == 172) && ((b >= 16) && (b <= 31))) {
+            os << "   - Private" << std::endl;
+         }
+      }
+      else if(IN_CLASSC(ipv4address)) {
+         os << "   - Class C" << std::endl;
+         if((a == 192) && (b == 168)) {
+            os << "   - Private" << std::endl;
+         }
+      }
+      else if(IN_CLASSD(ipv4address)) {
+         os << "   - Class D (Multicast)" << std::endl;
+      }
+      else {
+         os << "   - Invalid (not in class A, B, C or D)" << std::endl;
+      }
+   }
+
+
+   // ====== IPv6 properties ================================================
+   else {
+
+   }
 }
 
 
@@ -260,35 +379,24 @@ int main(int argc, char** argv)
       exit(1);
    }
 
+
    network   = address & netmask;
    broadcast = network | (~netmask);
    wildcard  = ~netmask;
-
    if(isIPv4(address)) {
-      puts("IS-IPv4");
-      hostBits      = 128 - prefix;
       reservedHosts = 2;
-      maxHosts      = pow(2.0, (double)hostBits);
+      hostBits      = 32 - prefix;
       host1         = network + 1;
+      host2         = broadcast - 1;
    }
    else {
-      puts("IS-IPv6");
-      hostBits      = 128 - prefix;
       reservedHosts = 1;
-      maxHosts      = pow(2.0, (double)hostBits);
+      hostBits      = 128 - prefix;
+      host1         = network + 1;
+      host2         = broadcast;   // There is no broadcast address for IPv6!
    }
+   maxHosts = pow(2.0, (double)hostBits) - reservedHosts;
 
-/*   if(isIPv4(address)) {
-
-      hosts -= 2;
-      host1  = network + 1;
-      host2  = broadcast - 1;
-   }
-   else {
-      hosts -= 1;
-      host1  = network + 1;
-      host2  = broadcast;
-   }*/
 /*
    if(prefix < 31) {
       hosts     = (1 << (32 - prefix)) - 2;
@@ -312,11 +420,16 @@ int main(int argc, char** argv)
             "%1.0f  =  2^%u - %u", maxHosts, hostBits, reservedHosts);
 
    std::cout << "Address       = " << address        << std::endl;
+   printAddressBinary(std::cout, address, prefix, "                ");
    std::cout << "Network       = " << network        << " / " << prefix << std::endl;
    std::cout << "Netmask       = " << netmask        << std::endl;
-   std::cout << "Broadcast     = " << broadcast      << std::endl;
+   if(isIPv4(address)) {
+      std::cout << "Broadcast     = " << broadcast      << std::endl;
+   }
    std::cout << "Wildcard Mask = " << wildcard       << std::endl;
    std::cout << "Hosts Bits    = " << hostBits       << std::endl;
    std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
    std::cout << "HostRange     = { " << host1 << " - " << host2 << " }" << std::endl;
+
+   printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
 }
