@@ -1,6 +1,6 @@
 .\" $Id$
 .\"
-.\" IPv4 Subnet Calculator
+.\" IPv4/IPv6 Subnet Calculator
 .\" Copyright (C) 2002-2009 by Thomas Dreibholz
 .\"
 .\" This program is free software: you can redistribute it and/or modify
@@ -25,25 +25,41 @@
 .\" ###### Name #############################################################
 .Sh NAME
 .Nm subnetcalc
-.Nd IPv4 Subnet Calculator
+.Nd IPv4/IPv6 Subnet Calculator
 .\" ###### Synopsis #########################################################
 .Sh SYNOPSIS
 .Nm subnetcalc
 .Op Address
-.Op Netmask
+.Op Netmask/Prefix
+.Op Fl uniquelocal
+.Op Fl uniquelocalhq
 .\" ###### Description ######################################################
 .Sh DESCRIPTION
 .Nm subnetcalc
-is a simple IPv4 subnet address calculator. For given IP address and netmask, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability.
+is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
 .Pp
 .\" ###### Arguments ########################################################
 .Sh ARGUMENTS
 The following arguments have to be provided:
 .Bl -tag -width indent
 .It Address
-The IP address.
-.It Netmask
-The netmask.
+The IP address. If a hostname is provided here, it is tried to resolve the address by the DNS server and the first returned address is used.
+.It Netmask/Prefix
+The netmask or prefix length (0-32 for IPv4; 0-128 for IPv6).
+.It Fl uniquelocal
+Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux, /dev/urandom is used for random number generation.
+.It Fl uniquelocalhq
+Like -uniquelocal, but using /dev/random instead on Linux systems for highest-quality random number generation. On other systems, this option is equal to -uniquelocal.
+.El
+.\" ###### Arguments ########################################################
+.Sh EXAMPLES
+.Bl -tag -width indent
+.It subnetcalc 172.31.255.254 255.255.255.0
+.It subnetcalc 172.31.255.254 24
+.It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
+.It subnetcalc www.iem.uni-due.de 24
+.It subnetcalc fd00:: 64 -uniquelocal
+.It subnetcalc fd00:9876:256:7bff:fe1b:3255 56 -uniquelocalhq
 .El
 .\" ###### Authors ##########################################################
 .Sh AUTHORS

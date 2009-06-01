@@ -115,6 +115,39 @@ int readPrefix(const char*           parameter,
 }
 
 
+// ###### Generate a unique local IPv6 address ##############################
+void generateUniqueLocal(sockaddr_union& address,
+                         const bool      highQualityRng = false)
+{
+   uint8_t buffer[5];
+   if(address.sa.sa_family != AF_INET6) {
+      std::cerr << "ERROR: An IPv6 address must be given to generate a unique local address!" << std::endl;
+      exit(1);
+   }
+
+   // ====== Read random number from random device ==========================
+   const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
+   FILE* fh = fopen(randomFile, "r");
+   if(fh != NULL) {
+      std::cout << "Generating Unique Local IPv6 address (using " << randomFile << ") ..." << std::endl;
+
+      if(fread((char*)&buffer, 5, 1, fh) != 1) {
+         std::cerr << "ERROR: Unable to read from " << randomFile << "!" << std::endl;
+         exit(1);
+      }
+      fclose(fh);
+   }
+   else {
+      std::cerr << "ERROR: Unable to open " << randomFile << "!" << std::endl;
+      exit(1);
+   }
+
+   // ====== Create IPv6 Unique Local address ===============================
+   address.in6.sin6_addr.s6_addr[0] = 0xfd;
+   memcpy((char*)&address.in6.sin6_addr.s6_addr[1], (const char*)&buffer, sizeof(buffer));
+}
+
+
 // ###### Print IPv4 address in binary digits ###############################
 void printAddressBinary(std::ostream&         os,
                         const sockaddr_union& address,
@@ -347,7 +380,7 @@ void printUnicastProperties(std::ostream&   os,
    if(hasGlobalID) {
       char           globalIDString[16];
       const uint16_t globalID = ntohs(ipv6address.s6_addr16[3]);
-      snprintf((char*)&globalIDString, sizeof(globalIDString), "%02x %04x %04x",
+      snprintf((char*)&globalIDString, sizeof(globalIDString), "%02x%04x%04x",
                ipv6address.s6_addr[1],
                ntohs(ipv6address.s6_addr16[1]),
                ntohs(ipv6address.s6_addr16[2]));
@@ -505,12 +538,6 @@ void printAddressProperties(std::ostream&         os,
          printUnicastProperties(std::cout, ipv6address, false, false);
       }
 
-      // ------ Site-Local Unicast ------------------------------------------
-      else if((a & 0xfc00) == 0xfc00) {
-         os << "   - Site-Local Unicast Properties:" << std::endl;
-         printUnicastProperties(std::cout, ipv6address, true, false);
-      }
-
       // ------ Unique Local Unicast ----------------------------------------
       else if((a & 0xfc00) == 0xfc00) {
          os << "   - Unique Local Unicast Properties:" << std::endl;
@@ -521,6 +548,12 @@ void printAddressProperties(std::ostream&         os,
             os << "      + Assigned by global instance" << std::endl;
          }
          printUnicastProperties(std::cout, ipv6address, true, true);
+      }
+
+      // ------ Site-Local Unicast ------------------------------------------
+      else if((a & 0xfc00) == 0xfc00) {
+         os << "   - Site-Local Unicast Properties:" << std::endl;
+         printUnicastProperties(std::cout, ipv6address, true, false);
       }
 
       // ------ Global Unicast ----------------------------------------------
@@ -548,11 +581,12 @@ int main(int argc, char** argv)
    sockaddr_union host1;
    sockaddr_union host2;
 
-   if(argc != 3) {
-      printf("Usage: %s [Address] [Netmask]\n", argv[0]);
+
+   // ====== Get address and netmask ========================================
+   if(argc < 3) {
+      printf("Usage: %s [Address] [Netmask|Prefix] [-uniquelocal|-uniquelocalhq]\n", argv[0]);
       exit(1);
    }
-
    if(string2address(argv[1], &address) == false) {
       printf("ERROR: Bad address %s!\n", argv[1]);
       exit(1);
@@ -578,6 +612,22 @@ int main(int argc, char** argv)
    }
 
 
+   // ====== Handle optional parameters =====================================
+   for(int i = 3;i < argc;i++) {
+      if(strcmp(argv[i], "-uniquelocal") == 0) {
+         generateUniqueLocal(address);
+      }
+      else if(strcmp(argv[i], "-uniquelocalhq") == 0) {
+         generateUniqueLocal(address, true);
+      }
+      else {
+         std::cerr << "ERROR: Bad argument " << argv[i] << "!" << std::endl;
+         exit(1);
+      }
+   }
+
+
+   // ====== Calculate network address, hosts, etc. =========================
    network   = address & netmask;
    broadcast = network | (~netmask);
    wildcard  = ~netmask;
@@ -613,6 +663,7 @@ int main(int argc, char** argv)
    }*/
 
 
+   // ====== Print results ==================================================
    std::cout << "Address       = " << address        << std::endl;
    printAddressBinary(std::cout, address, prefix, "                   ");
    std::cout << "Network       = " << network        << " / " << prefix << std::endl;
