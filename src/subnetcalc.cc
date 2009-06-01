@@ -83,7 +83,7 @@ int readPrefix(const char*           parameter,
    }
    netmask = forAddress;
    if(netmask.sa.sa_family == AF_INET) {
-      if(prefix > 31) {
+      if(prefix > 32) {
          return(-1);
       }
       int p = prefix;
@@ -219,7 +219,7 @@ unsigned int getPrefixLength(const sockaddr_union& netmask)
    int  prefixLength;
    bool belongsToNetwork = true;
 
-   if(netmask.sa.sa_family == AF_INET) {   puts("INETv4");
+   if(netmask.sa.sa_family == AF_INET) {
       prefixLength     = 32;
       const uint32_t a = ntohl(getIPv4Address(netmask));
       for(int i = 31;i >= 0;i--) {
@@ -636,6 +636,11 @@ int main(int argc, char** argv)
       hostBits      = 32 - prefix;
       host1         = network + 1;
       host2         = broadcast - 1;
+      if(prefix >= 31) {   // Special case for Point-to-Point links
+         reservedHosts = 0;
+         host1 = network;
+         host2 = broadcast;
+      }
    }
    else {
       reservedHosts = 1;
@@ -645,38 +650,26 @@ int main(int argc, char** argv)
    }
    maxHosts = pow(2.0, (double)hostBits) - reservedHosts;
 
-/*
-   if(prefix < 31) {
-      hosts     = (1 << (32 - prefix)) - 2;
-      host1     = network + 1;
-      host2     = broadcast - 1;
-   }
-   else if(prefix == 31) {
-      hosts = 2;
-      host1 = netmask;
-      host2 = broadcast;
-   }
-   else {
-      hosts = 1;
-      host1 = broadcast;
-      host2 = broadcast;
-   }*/
-
 
    // ====== Print results ==================================================
-   std::cout << "Address       = " << address        << std::endl;
+   std::cout << "Address       = " << address << std::endl;
    printAddressBinary(std::cout, address, prefix, "                   ");
-   std::cout << "Network       = " << network        << " / " << prefix << std::endl;
-   std::cout << "Netmask       = " << netmask        << std::endl;
+   std::cout << "Network       = " << network << " / " << prefix << std::endl;
+   std::cout << "Netmask       = " << netmask << std::endl;
    if(isIPv4(address)) {
-      std::cout << "Broadcast     = " << broadcast      << std::endl;
+      if(reservedHosts == 2) {
+         std::cout << "Broadcast     = " << broadcast << std::endl;
+      }
+      else {
+         std::cout << "Broadcast     = not needed on Point-to-Point links" << std::endl;
+      }
    }
-   std::cout << "Wildcard Mask = " << wildcard       << std::endl;
-   std::cout << "Hosts Bits    = " << hostBits       << std::endl;
+   std::cout << "Wildcard Mask = " << wildcard << std::endl;
+   std::cout << "Hosts Bits    = " << hostBits << std::endl;
    if(!isMulticast(address)) {
       char maxHostsString[128];
       snprintf((char*)&maxHostsString, sizeof(maxHostsString),
-               "%1.0f  =  2^%u - %u", maxHosts, hostBits, reservedHosts);
+               "%1.0f   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
       std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
       std::cout << "Host Range    = { " << host1 << " - " << host2 << " }" << std::endl;
    }

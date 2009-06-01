@@ -1,0 +1,18 @@
+#!/bin/bash
+
+TEST=valgrind
+
+make -j2
+
+$TEST ./subnetcalc 10.1.1.1 32
+$TEST ./subnetcalc 10.1.1.1 24
+$TEST ./subnetcalc 10.1.1.1 31
+$TEST ./subnetcalc 10.1.1.1 255.255.255.255
+
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff:ffff::
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 56
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff::
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64
+
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocalhq
+$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocal
