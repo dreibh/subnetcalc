@@ -22,6 +22,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
 #include <math.h>
 #include <assert.h>
 #include <iostream>
@@ -65,6 +66,55 @@ inline bool isMulticast(const sockaddr_union& address)
 }
 
 
+// ###### Read prefix from parameter ########################################
+int readPrefix(const char*           parameter,
+               const sockaddr_union& forAddress,
+               sockaddr_union&       netmask)
+{
+   bool isNumber = false;
+   for(int i = 0;i < strlen(parameter);i++) {
+      if(!isdigit(parameter[i])) {
+         return(-1);
+      }
+   }
+   int prefix = atol(parameter);
+   if(prefix < 0) {
+      return(-1);
+   }
+   netmask = forAddress;
+   if(netmask.sa.sa_family == AF_INET) {
+      if(prefix > 31) {
+         return(-1);
+      }
+      int p = prefix;
+      netmask.in.sin_addr.s_addr = 0;
+      for(int i = 31;i >= 0;i--) {
+         if(p > 0) {
+            netmask.in.sin_addr.s_addr |= (1 << i);
+         }
+         p--;
+      }
+      netmask.in.sin_addr.s_addr = ntohl(netmask.in.sin_addr.s_addr);
+   }
+   else {
+      if(prefix > 128) {
+         return(-1);
+      }
+      int p = prefix;
+      for(int j = 0;j < 16;j++) {
+         netmask.in6.sin6_addr.s6_addr[j] = 0;
+         for(int i = 7;i >= 0;i--) {
+            if(p > 0) {
+               netmask.in6.sin6_addr.s6_addr[j] |= (1 << i);
+            }
+            p--;
+         }
+      }
+   }
+   return(prefix);
+}
+
+
 // ###### Print IPv4 address in binary digits ###############################
 void printAddressBinary(std::ostream&         os,
                         const sockaddr_union& address,
@@ -97,7 +147,7 @@ void printAddressBinary(std::ostream&         os,
       os << std::endl;
    }
    else {
-      int p = 128;
+      int p = 0;
       for(int j = 0;j < 8;j++) {
          uint16_t a = ntohs(getIPv6Address(address).s6_addr16[j]);
          char str[16];
@@ -105,7 +155,7 @@ void printAddressBinary(std::ostream&         os,
          os << indent << str << " = ";
          for(int i = 15;i >= 0;i--) {
             const uint32_t v = (uint32_t)1 << i;
-            if(p > (int)prefix) {   // Colourize output
+            if(p < (int)prefix) {   // Colourize output
                os << "\x1b[33m";
             }
             else {
@@ -122,7 +172,7 @@ void printAddressBinary(std::ostream&         os,
             if( ((i % 8) == 0) && (i > 0) ) {
                os << " ";
             }
-            p--;
+            p++;
          }
          os << std::endl;
       }
@@ -168,7 +218,6 @@ unsigned int getPrefixLength(const sockaddr_union& netmask)
          }
       }
    }
-   printf("PL=%d\n",prefixLength);
    return(prefixLength);
 }
 
@@ -288,6 +337,55 @@ int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
 }
 
 
+// ###### Print IPv6 unicast properties of given address ####################
+void printUnicastProperties(std::ostream&   os,
+                            const in6_addr& ipv6address,
+                            const bool      hasSubnetID = true,
+                            const bool      hasGlobalID = false)
+{
+   // ====== Global ID ======================================================
+   if(hasGlobalID) {
+      char           globalIDString[16];
+      const uint16_t globalID = ntohs(ipv6address.s6_addr16[3]);
+      snprintf((char*)&globalIDString, sizeof(globalIDString), "%02x %04x %04x",
+               ipv6address.s6_addr[1],
+               ntohs(ipv6address.s6_addr16[1]),
+               ntohs(ipv6address.s6_addr16[2]));
+      os << "      + Global ID    = " << globalIDString << std::endl;
+   }
+
+   // ====== Subnet ID ======================================================
+   if(hasSubnetID) {
+      char           subnetIDString[16];
+      const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
+      snprintf((char*)&subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
+      os << "      + Subnet ID    = " << subnetIDString << std::endl;
+   }
+
+   // ====== Interface ID ===================================================
+   char           interfaceIDString[128];
+   const uint16_t interfaceID[4] = { ntohs(ipv6address.s6_addr16[4]),
+                                     ntohs(ipv6address.s6_addr16[5]),
+                                     ntohs(ipv6address.s6_addr16[6]),
+                                     ntohs(ipv6address.s6_addr16[7]) };
+   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "%04x:%04x:%04x:%04x",
+            interfaceID[0], interfaceID[1], interfaceID[2], interfaceID[3]);
+   os << "      + Interface ID = " << interfaceIDString << std::endl;
+
+   if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
+       ((interfaceID[2] & 0xff00) == 0xfe00) ) {
+      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "%02x:%02x:%02x:%02x:%02x:%02x",
+               ipv6address.s6_addr[8] ^ 0x02,
+               ipv6address.s6_addr[9],
+               ipv6address.s6_addr[10],
+               ipv6address.s6_addr[13],
+               ipv6address.s6_addr[14],
+               ipv6address.s6_addr[15]);
+      os << "      + MAC address  = " << interfaceIDString << std::endl;
+   }
+}
+
+
 // ###### Print address properties ##########################################
 void printAddressProperties(std::ostream&         os,
                             const sockaddr_union& address,
@@ -325,8 +423,8 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv4 properties ================================================
    if(isIPv4(address)) {
-      const unsigned int a           = ipv4address >> 24;
-      const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
+      const unsigned int a = ipv4address >> 24;
+      const unsigned int b = (ipv4address & 0x00ff0000) >> 16;
       if(IN_CLASSA(ipv4address)) {
          os << "   - Class A" << std::endl;
          if(ipv4address == INADDR_LOOPBACK) {
@@ -362,6 +460,8 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv6 properties ================================================
    else {
+      const uint16_t a = ntohs(ipv6address.s6_addr16[0]);
+
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
          os << "   - Loopback address" << std::endl;
@@ -398,6 +498,36 @@ void printAddressProperties(std::ostream&         os,
             os << "      + Temporary" << std::endl;
          }
       }
+
+      // ------ Link-local Unicast ------------------------------------------
+      else if((a & 0xffc0) == 0xfe80) {
+         os << "   - Link-Local Unicast Properties:" << std::endl;
+         printUnicastProperties(std::cout, ipv6address, false, false);
+      }
+
+      // ------ Site-Local Unicast ------------------------------------------
+      else if((a & 0xfc00) == 0xfc00) {
+         os << "   - Site-Local Unicast Properties:" << std::endl;
+         printUnicastProperties(std::cout, ipv6address, true, false);
+      }
+
+      // ------ Unique Local Unicast ----------------------------------------
+      else if((a & 0xfc00) == 0xfc00) {
+         os << "   - Unique Local Unicast Properties:" << std::endl;
+         if(a & 0x0100) {
+            os << "      + Locally chosen" << std::endl;
+         }
+         else {
+            os << "      + Assigned by global instance" << std::endl;
+         }
+         printUnicastProperties(std::cout, ipv6address, true, true);
+      }
+
+      // ------ Global Unicast ----------------------------------------------
+      else if((a & 0xe000) == 0x2000) {
+         os << "   - Global Unicast Properties:" << std::endl;
+         printUnicastProperties(std::cout, ipv6address, false, false);
+      }
    }
 }
 
@@ -427,9 +557,11 @@ int main(int argc, char** argv)
       printf("ERROR: Bad address %s!\n", argv[1]);
       exit(1);
    }
-   if(string2address(argv[2], &netmask) == false) {
-      printf("ERROR: Bad netmask %s!\n", argv[2]);
-      exit(1);
+   if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
+      if(string2address(argv[2], &netmask) == false) {
+         printf("ERROR: Bad netmask %s!\n", argv[2]);
+         exit(1);
+      }
    }
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
@@ -482,7 +614,7 @@ int main(int argc, char** argv)
 
 
    std::cout << "Address       = " << address        << std::endl;
-   printAddressBinary(std::cout, address, prefix, "                ");
+   printAddressBinary(std::cout, address, prefix, "                   ");
    std::cout << "Network       = " << network        << " / " << prefix << std::endl;
    std::cout << "Netmask       = " << netmask        << std::endl;
    if(isIPv4(address)) {
