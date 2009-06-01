@@ -9,7 +9,8 @@ Standards-Version: 3.8.0
 Package: subnetcalc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: IPv4 Subnet Calculator
+Recommends: rsplib-tools
+Description: IPv4/IPv6 Subnet Calculator
  SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or
  IPv6 address and netmask or prefix length, it calculates network address,
  broadcast address, maximum number of hosts and host address range. Also,
