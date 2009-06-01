@@ -310,7 +310,7 @@ sockaddr_union operator~(const sockaddr_union& a1)
 // ###### Output operator for addresses #####################################
 std::ostream& operator<<(std::ostream& os, const sockaddr_union& a)
 {
-   printAddress(&a.sa, false, os);
+   printAddress(os, &a.sa, false, true);
    return(os);
 }
 
@@ -416,6 +416,14 @@ void printUnicastProperties(std::ostream&   os,
                ipv6address.s6_addr[15]);
       os << "      + MAC address  = " << interfaceIDString << std::endl;
    }
+
+   // ====== Solicited Node Multicast Address ===============================
+   char snmcAddressString[32];
+   snprintf((char*)&snmcAddressString, sizeof(snmcAddressString),
+            "ff02::1:ff%02x:%04x",
+            ntohs(ipv6address.s6_addr16[6]) & 0xff,
+            ntohs(ipv6address.s6_addr16[7]));
+   os << "      + Sol. Node MC = " << snmcAddressString << std::endl;
 }
 
 
@@ -438,15 +446,15 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== Common properties ==============================================
    os << "Properties    =" << std::endl;
-   if(address == network) {
+   if(isMulticast(address)) {
+      os << "   - " << address << " is a MULTICAST address" << std::endl;
+   }
+   else if(address == network) {
       os << "   - " << address << " is a NETWORK address" << std::endl;
    }
    else if((isIPv4(address)) && (address == broadcast)) {
       os << "   - " << address << " is the BROADCAST address of "
          << network << "/" << prefix << std::endl;
-   }
-   else if(isMulticast(address)) {
-      os << "   - " << address << " is a MULTICAST address" << std::endl;
    }
    else {
       os << "   - " << address << " is a HOST address in "
@@ -475,6 +483,9 @@ void printAddressProperties(std::ostream&         os,
          if((a == 172) && ((b >= 16) && (b <= 31))) {
             os << "   - Private" << std::endl;
          }
+         if((a == 169) && (b == 254)) {
+            os << "   - Link-local address" << std::endl;
+         }
       }
       else if(IN_CLASSC(ipv4address)) {
          os << "   - Class C" << std::endl;
@@ -484,6 +495,26 @@ void printAddressProperties(std::ostream&         os,
       }
       else if(IN_CLASSD(ipv4address)) {
          os << "   - Class D (Multicast)" << std::endl;
+         // ------ Multicast scope ------------------------------------------
+         os << "      + Scope: ";
+         if(a == 224) {
+            os << "link-local";
+         }
+         else if((a == 239) && (b >= 192) && (b <= 251)) {
+            os << "organization-local";
+         }
+         else if((a == 239) && (b >= 252) && (b <= 255)) {
+            os << "site-local";
+         }
+         else {
+            os << "global";
+         }
+         os << std::endl;
+
+         // ------ Source-specific multicast --------------------------------
+         if(a == 232) {
+            os << "      + Source-specific multicast" << std::endl;
+         }
       }
       else {
          os << "   - Invalid (not in class A, B, C or D)" << std::endl;
@@ -494,6 +525,7 @@ void printAddressProperties(std::ostream&         os,
    // ====== IPv6 properties ================================================
    else {
       const uint16_t a = ntohs(ipv6address.s6_addr16[0]);
+      const uint16_t b = ntohs(ipv6address.s6_addr16[1]);
 
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
@@ -523,12 +555,35 @@ void printAddressProperties(std::ostream&         os,
          else if(IN6_IS_ADDR_MC_GLOBAL(&ipv6address)) {
             os << "global";
          }
+         else {
+            os << "unknown";
+         }
          os << std::endl;
 
          // ------ Multicast flags ------------------------------------------
          const uint8_t flags = (((uint8_t*)&ipv6address)[1] & 0xf0) >> 4;
          if(flags == 0x1) {
-            os << "      + Temporary" << std::endl;
+            os << "      + Temporary-allocated address" << std::endl;
+         }
+
+         // ------ Source-specific multicast --------------------------------
+         if( ((a & 0xfff0) == 0xff30) && (b == 0x0000) ) {
+            // FF0x:0::/32
+            os << "      + Source-specific multicast" << std::endl;
+         }
+
+         // ------ Solicited node multicast address -------------------------
+         // FF02::1:FF00:0/104
+         if((a == 0xff02) &&
+            (ntohs(ipv6address.s6_addr16[5]) == 0x0001) &&
+            (ntohs(ipv6address.s6_addr16[6]) & 0xff00) == 0xff00) {
+            char nodeAddressString[64];
+            snprintf((char*)&nodeAddressString, sizeof(nodeAddressString),
+                     "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
+                     ntohs(ipv6address.s6_addr16[6]) >> 8,
+                     ntohs(ipv6address.s6_addr16[7]));
+            os << "      + Solicited node multicast address for addresses "
+               << nodeAddressString << std::endl;
          }
       }
 
@@ -600,13 +655,13 @@ int main(int argc, char** argv)
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
       std::cerr << "ERROR: Invalid netmask ";
-      printAddress(&netmask.sa, false, std::cerr);
+      printAddress(std::cerr, &netmask.sa, false);
       std::cerr << "!" << std::endl;
       exit(1);
    }
    if(netmask.sa.sa_family != address.sa.sa_family) {
       std::cerr << "ERROR: Incompatible netmask ";
-      printAddress(&netmask.sa, false, std::cerr);
+      printAddress(std::cerr, &netmask.sa, false);
       std::cerr << "!" << std::endl;
       exit(1);
    }

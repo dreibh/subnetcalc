@@ -16,3 +16,6 @@ $TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64
 
 $TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocalhq
 $TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocal
+
+$TEST ./subnetcalc ff02::1:ff11:2233 104
+$TEST ./subnetcalc ff3e:0::123:4 128
