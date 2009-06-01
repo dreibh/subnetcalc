@@ -3,7 +3,7 @@ Section: net
 Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh
-Build-Depends: debhelper (>= 5), autotools-dev
+Build-Depends: debhelper (>= 5), autotools-dev, libsctp-dev (>= 1.0.5)
 Standards-Version: 3.8.0
 
 Package: subnetcalc

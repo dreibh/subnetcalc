@@ -1,4 +1,12 @@
 ------------------------------------------------------------------------
+r181 | dreibh | 2009-04-30 11:24:57 +0200 (Thu, 30 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+
+
+------------------------------------------------------------------------
 r171 | dreibh | 2009-02-21 14:40:08 +0100 (Sat, 21 Feb 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
