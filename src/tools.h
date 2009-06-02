@@ -36,8 +36,6 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
-#include <ext_socket.h>
-
 #include <iostream>
 
 
@@ -59,7 +57,6 @@ union sockaddr_union {
 
 bool checkIPv6();
 size_t getSocklen(const struct sockaddr* address);
-int addresscmp(const struct sockaddr* a1, const struct sockaddr* a2, const bool port);
 bool address2string(const struct sockaddr* address,
                     char*                  buffer,
                     const size_t           length,
@@ -73,42 +70,5 @@ void printAddress(std::ostream&          os,
                   const struct sockaddr* address,
                   const bool             port      = true,
                   const bool             hideScope = false);
-
-const char* getProtocolName(const uint8_t protocol);
-uint16_t getPort(const struct sockaddr* address);
-bool setPort(struct sockaddr* address, uint16_t port);
-bool setNonBlocking(int fd);
-int createAndBindSocket(const int      type,
-                        const int      protocol,
-                        const uint16_t localPort,
-                        const bool     blocking = false);
-uint64_t hton64(const uint64_t value);
-uint64_t ntoh64(const uint64_t value);
-
-
-typedef unsigned long long network_double_t;
-
-network_double_t doubleToNetwork(double value);
-double networkToDouble(const network_double_t value);
-
-
-void installBreakDetector();
-void uninstallBreakDetector();
-bool breakDetected();
-void sendBreak(const bool quiet);
-
-
-#define RANDOM_CONSTANT    0
-#define RANDOM_UNIFORM     1
-#define RANDOM_EXPONENTIAL 2
-
-double getRandomValue(const double x, const uint8_t rng);
-uint8_t random8();
-uint16_t random16();
-uint64_t random64();
-uint32_t random32();
-double randomDouble();
-double randomExpDouble(const double p);
-
 
 #endif

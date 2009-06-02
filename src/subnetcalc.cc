@@ -34,6 +34,10 @@
 #define s6_addr16 __u6_addr.__u6_addr16
 #define s6_addr32 __u6_addr.__u6_addr32
 #endif
+#ifdef __APPLE__
+#define s6_addr16 __u6_addr.__u6_addr16
+#define s6_addr32 __u6_addr.__u6_addr32
+#endif
 
 
 // ###### Is given address an IPv4 address? #################################
