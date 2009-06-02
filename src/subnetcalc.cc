@@ -411,13 +411,16 @@ void printUnicastProperties(std::ostream&   os,
                                      ntohs(ipv6address.s6_addr16[5]),
                                      ntohs(ipv6address.s6_addr16[6]),
                                      ntohs(ipv6address.s6_addr16[7]) };
-   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "%04x:%04x:%04x:%04x",
-            interfaceID[0], interfaceID[1], interfaceID[2], interfaceID[3]);
+   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m",
+            interfaceID[0],
+            (interfaceID[1] & 0xff00) >> 8, (interfaceID[1] & 0x00ff),
+            (interfaceID[2] & 0xff00) >> 8, (interfaceID[2] & 0x00ff),
+            interfaceID[3]);
    os << "      + Interface ID = " << interfaceIDString << std::endl;
 
    if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
        ((interfaceID[2] & 0xff00) == 0xfe00) ) {
-      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "%02x:%02x:%02x:%02x:%02x:%02x",
+      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "\x1b[36m%02x:%02x:%02x\x1b[0m:\x1b[38m%02x:%02x:%02x\x1b[0m",
                ipv6address.s6_addr[8] ^ 0x02,
                ipv6address.s6_addr[9],
                ipv6address.s6_addr[10],
@@ -430,7 +433,7 @@ void printUnicastProperties(std::ostream&   os,
    // ====== Solicited Node Multicast Address ===============================
    char snmcAddressString[32];
    snprintf((char*)&snmcAddressString, sizeof(snmcAddressString),
-            "ff02::1:ff%02x:%04x",
+            "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m",
             ntohs(ipv6address.s6_addr16[6]) & 0xff,
             ntohs(ipv6address.s6_addr16[7]));
    os << "      + Sol. Node MC = " << snmcAddressString << std::endl;
@@ -521,6 +524,15 @@ void printAddressProperties(std::ostream&         os,
          }
          os << std::endl;
 
+         // ------ Corresponding MAC address --------------------------------
+         char macAddressString[32];
+         snprintf((char*)&macAddressString, sizeof(macAddressString),
+                  "01:00:5e:%02x:%02x:%02x",
+                  (ipv4address & 0x007f0000) >> 16,
+                  (ipv4address & 0x0000ff00) >> 8,
+                  (ipv4address & 0x000000ff));
+         os << "      + Corresponding multicast MAC address: " << macAddressString << std::endl;
+
          // ------ Source-specific multicast --------------------------------
          if(a == 232) {
             os << "      + Source-specific multicast" << std::endl;
@@ -576,6 +588,16 @@ void printAddressProperties(std::ostream&         os,
             os << "      + Temporary-allocated address" << std::endl;
          }
 
+         // ------ Corresponding MAC address --------------------------------
+         char macAddressString[32];
+         snprintf((char*)&macAddressString, sizeof(macAddressString),
+                  "33:33:%02x:%02x:%02x:%02x",
+                  ipv6address.s6_addr[12],
+                  ipv6address.s6_addr[13],
+                  ipv6address.s6_addr[14],
+                  ipv6address.s6_addr[15]);
+         os << "      + Corresponding multicast MAC address: " << macAddressString << std::endl;
+
          // ------ Source-specific multicast --------------------------------
          if( ((a & 0xfff0) == 0xff30) && (b == 0x0000) ) {
             // FF0x:0::/32
@@ -592,7 +614,7 @@ void printAddressProperties(std::ostream&         os,
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
                      ntohs(ipv6address.s6_addr16[6]) >> 8,
                      ntohs(ipv6address.s6_addr16[7]));
-            os << "      + Solicited node multicast address for addresses "
+            os << "      + Address is solicited node multicast address for "
                << nodeAddressString << std::endl;
          }
       }
