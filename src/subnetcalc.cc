@@ -30,6 +30,12 @@
 #include "tools.h"
 
 
+#ifdef __FreeBSD__
+#define s6_addr16 __u6_addr.__u6_addr16
+#define s6_addr32 __u6_addr.__u6_addr32
+#endif
+
+
 // ###### Is given address an IPv4 address? #################################
 inline bool isIPv4(const sockaddr_union& address)
 {
