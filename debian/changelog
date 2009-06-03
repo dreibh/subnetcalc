@@ -1,5 +1,6 @@
-subnetcalc (2.0.0-1ubuntu1) karmic; urgency=low
+subnetcalc (2.0.1-1ubuntu1) karmic; urgency=low
 
+  * Initial Debian package. Closes ITP #xxxxxx.
   * Initial Ubuntu package (LP: #325653).
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 03 Jun 2009 09:00:32 +0200
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 03 Jun 2009 14:00:32 +0200

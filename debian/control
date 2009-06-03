@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh
 Build-Depends: debhelper (>= 5), autotools-dev
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 
 Package: subnetcalc
 Architecture: any
