@@ -1,4 +1,116 @@
 ------------------------------------------------------------------------
+r245 | dreibh | 2009-06-02 15:33:37 +0200 (Tue, 02 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   A /trunk/subnetcalc/src/t1.cc
+
+Added computation of multicast MAC addresses.
+
+------------------------------------------------------------------------
+r244 | dreibh | 2009-06-02 14:57:21 +0200 (Tue, 02 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/src/Makefile.am
+   D /trunk/subnetcalc/src/ext_socket.h
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+   M /trunk/subnetcalc/src/tools.h
+
+Cleaned up tools.h/tools.cc and removed dependency on ext_socket.h/SCTP files
+
+------------------------------------------------------------------------
+r243 | dreibh | 2009-06-02 14:46:41 +0200 (Tue, 02 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+#defines for FreeBSD.
+
+------------------------------------------------------------------------
+r240 | dreibh | 2009-06-02 11:52:32 +0200 (Tue, 02 Jun 2009) | 1 line
+Changed paths:
+   A /trunk/subnetcalc/src/tools.cc
+   A /trunk/subnetcalc/src/tools.h
+
+
+------------------------------------------------------------------------
+r238 | dreibh | 2009-06-01 20:12:16 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/test1
+
+Added more IPv4 and IPv6 address properties.
+
+------------------------------------------------------------------------
+r237 | dreibh | 2009-06-01 18:10:36 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian/rules
+
+Updated Debian files.
+
+------------------------------------------------------------------------
+r236 | dreibh | 2009-06-01 17:56:41 +0200 (Mon, 01 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/debian/control
+
+
+------------------------------------------------------------------------
+r234 | dreibh | 2009-06-01 17:54:49 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/Makefile.am
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   A /trunk/subnetcalc/src/test1
+
+Added IPv4 prefix special case for Point-to-Point links.
+
+------------------------------------------------------------------------
+r232 | dreibh | 2009-06-01 17:24:43 +0200 (Mon, 01 Jun 2009) | 4 lines
+Changed paths:
+   M /trunk/subnetcalc/Makefile.am
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   A /trunk/subnetcalc/make-ppa
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+- Improved IPv6 properties.
+- Updated Debian files.
+- Updated manpage.
+
+------------------------------------------------------------------------
+r231 | dreibh | 2009-06-01 16:43:14 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Added IPv6 properties.
+
+------------------------------------------------------------------------
+r230 | dreibh | 2009-06-01 15:38:51 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Properties improvements.
+
+------------------------------------------------------------------------
+r229 | dreibh | 2009-06-01 15:03:22 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Added IPv4 address properties.
+
+------------------------------------------------------------------------
+r228 | dreibh | 2009-06-01 13:52:26 +0200 (Mon, 01 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/Makefile.am
+   A /trunk/subnetcalc/src/ext_socket.h
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Started implementing the support for IPv6.
+
+------------------------------------------------------------------------
 r181 | dreibh | 2009-04-30 11:24:57 +0200 (Thu, 30 Apr 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
