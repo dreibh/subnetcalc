@@ -9,7 +9,7 @@ Standards-Version: 3.8.1
 Package: subnetcalc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: traceroute, iputils-tracepath, inetutils-ping, rsplib-tools, whois
+Recommends: traceroute, iputils-tracepath, iputils-ping, rsplib-tools, whois
 Description: IPv4/IPv6 Subnet Calculator
  SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or
  IPv6 address and netmask or prefix length, it calculates network address,
