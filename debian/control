@@ -3,13 +3,13 @@ Section: net
 Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh
-Build-Depends: debhelper (>= 5), autotools-dev, libsctp-dev (>= 1.0.5)
+Build-Depends: debhelper (>= 5), autotools-dev
 Standards-Version: 3.8.0
 
 Package: subnetcalc
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Recommends: rsplib-tools
+Recommends: traceroute, iputils-tracepath, inetutils-ping, rsplib-tools, whois
 Description: IPv4/IPv6 Subnet Calculator
  SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or
  IPv6 address and netmask or prefix length, it calculates network address,

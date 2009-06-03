@@ -1,0 +1,16 @@
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6
+address and netmask or prefix length, it calculates network address, broadcast
+address, maximum number of hosts and host address range. Also, it prints the
+addresses in binary format for better understandability. Furthermore, it prints
+useful information on specific address types (e.g. type, scope, interface ID,
+etc.).
+
+See the manpage of subnetcalc for details!
+
+Usage examples:
+subnetcalc 172.31.255.254 255.255.255.0
+subnetcalc 172.31.255.254 24
+subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
+subnetcalc www.iem.uni-due.de 24
+subnetcalc fd00:: 64 -uniquelocal
+subnetcalc fd00::9876:256:7bff:fe1b:3255 56 -uniquelocalhq

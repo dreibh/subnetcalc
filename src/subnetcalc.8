@@ -19,7 +19,7 @@
 .\" Contact: dreibh@iem.uni-due.de
 .\"
 .\" ###### Setup ############################################################
-.Dd February 15, 2009
+.Dd June 3, 2009
 .Dt subnetcalc 8
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -49,7 +49,7 @@ The netmask or prefix length (0-32 for IPv4; 0-128 for IPv6).
 .It Fl uniquelocal
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux, /dev/urandom is used for random number generation.
 .It Fl uniquelocalhq
-Like -uniquelocal, but using /dev/random instead on Linux systems for highest-quality random number generation. On other systems, this option is equal to -uniquelocal.
+Like -uniquelocal, but using /dev/random instead on Linux systems for highest-quality random number generation. On other systems, this option is equal to -uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
 .El
 .\" ###### Arguments ########################################################
 .Sh EXAMPLES
@@ -59,7 +59,7 @@ Like -uniquelocal, but using /dev/random instead on Linux systems for highest-qu
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
 .It subnetcalc www.iem.uni-due.de 24
 .It subnetcalc fd00:: 64 -uniquelocal
-.It subnetcalc fd00:9876:256:7bff:fe1b:3255 56 -uniquelocalhq
+.It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 -uniquelocalhq
 .El
 .\" ###### Authors ##########################################################
 .Sh AUTHORS

@@ -556,6 +556,12 @@ void printAddressProperties(std::ostream&         os,
       else if(IN6_IS_ADDR_UNSPECIFIED(&ipv6address)) {
          os << "   - Unspecified address" << std::endl;
       }
+      else if(IN6_IS_ADDR_V4COMPAT(&ipv6address)) {
+         os << "   - IPv4-compatible IPv6 address" << std::endl;
+      }
+      else if(IN6_IS_ADDR_V4MAPPED(&ipv6address)) {
+         os << "   - IPv4-mapped IPv6 address" << std::endl;
+      }
 
       // ------ Multicast addresses -----------------------------------------
       else if(IN6_IS_ADDR_MULTICAST(&ipv6address)) {
@@ -620,9 +626,15 @@ void printAddressProperties(std::ostream&         os,
       }
 
       // ------ Link-local Unicast ------------------------------------------
-      else if((a & 0xffc0) == 0xfe80) {
+      else if(IN6_IS_ADDR_LINKLOCAL(&ipv6address)) {
          os << "   - Link-Local Unicast Properties:" << std::endl;
          printUnicastProperties(std::cout, ipv6address, false, false);
+      }
+
+      // ------ Site-Local Unicast ------------------------------------------
+      else if(IN6_IS_ADDR_SITELOCAL(&ipv6address)) {
+         os << "   - Site-Local Unicast Properties:" << std::endl;
+         printUnicastProperties(std::cout, ipv6address, true, false);
       }
 
       // ------ Unique Local Unicast ----------------------------------------
@@ -635,12 +647,6 @@ void printAddressProperties(std::ostream&         os,
             os << "      + Assigned by global instance" << std::endl;
          }
          printUnicastProperties(std::cout, ipv6address, true, true);
-      }
-
-      // ------ Site-Local Unicast ------------------------------------------
-      else if((a & 0xfc00) == 0xfc00) {
-         os << "   - Site-Local Unicast Properties:" << std::endl;
-         printUnicastProperties(std::cout, ipv6address, true, false);
       }
 
       // ------ Global Unicast ----------------------------------------------
@@ -656,6 +662,7 @@ void printAddressProperties(std::ostream&         os,
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
+   int            options;
    int            prefix;
    unsigned int   hostBits;
    unsigned int   reservedHosts;
@@ -670,19 +677,31 @@ int main(int argc, char** argv)
 
 
    // ====== Get address and netmask ========================================
-   if(argc < 3) {
-      printf("Usage: %s [Address] [Netmask|Prefix] [-uniquelocal|-uniquelocalhq]\n", argv[0]);
+   if(argc < 2) {
+      printf("Usage: %s [Address] {Netmask|Prefix} [-uniquelocal|-uniquelocalhq]\n", argv[0]);
       exit(1);
    }
    if(string2address(argv[1], &address) == false) {
       printf("ERROR: Bad address %s!\n", argv[1]);
       exit(1);
    }
-   if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
-      if(string2address(argv[2], &netmask) == false) {
-         printf("ERROR: Bad netmask %s!\n", argv[2]);
-         exit(1);
+   if(argc > 2) {
+      options = 3;
+      // ------ Get netmask or prefix ---------------------------------------
+      if(argv[2][0] != '-') {
+         if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
+            if(string2address(argv[2], &netmask) == false) {
+               printf("ERROR: Bad netmask %s!\n", argv[2]);
+               exit(1);
+            }
+         }
       }
+   }
+   else {
+      // ------ No netmask or prefix => use default for convenience ------
+      options = 2;
+      prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
+      assert(prefix >= 0);
    }
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
@@ -700,7 +719,7 @@ int main(int argc, char** argv)
 
 
    // ====== Handle optional parameters =====================================
-   for(int i = 3;i < argc;i++) {
+   for(int i = options;i < argc;i++) {
       if(strcmp(argv[i], "-uniquelocal") == 0) {
          generateUniqueLocal(address);
       }
