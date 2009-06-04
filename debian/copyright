@@ -1,5 +1,5 @@
 This package was debianized by Thomas Dreibholz <dreibh@iem.uni-due.de>
-on Wed, 3 Jun 2009 14:08:18 +0200.
+on Wed, 4 Jun 2009 21:55:18 +0200.
 
 The original source can be found at:
 http://www.iem.uni-due.de/~dreibh/subnetcalc/
@@ -15,16 +15,8 @@ License:
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL-3'.
+  On Debian systems, the complete text of the GNU General
+  Public License can be found in `/usr/share/common-licenses/GPL-3'.
 
 The Debian/Ubuntu packaging is
 
@@ -37,13 +29,5 @@ License:
   the Free Software Foundation, either version 3 of the License, or
   (at your option) any later version.
 
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program.  If not, see <http://www.gnu.org/licenses/>.
-
-On Debian systems, the complete text of the GNU General
-Public License can be found in `/usr/share/common-licenses/GPL-3'.
+  On Debian systems, the complete text of the GNU General
+  Public License can be found in `/usr/share/common-licenses/GPL-3'.
