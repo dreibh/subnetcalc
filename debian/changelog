@@ -1,6 +1,27 @@
+subnetcalc (2.0.2-1ubuntu1) karmic; urgency=low
+
+  * Closes Debian ITP bug with wnpp (Closes: #531710).
+  * Initial Ubuntu package (LP: #325653).
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 06 Jun 2009 15:13:32 +0200
+
 subnetcalc (2.0.1-3ubuntu1) karmic; urgency=low
 
   * Closes Debian ITP bug with wnpp (Closes: #531710).
   * Initial Ubuntu package (LP: #325653).
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 04 Jun 2009 21:55:32 +0200
+
+subnetcalc (2.0.1-2ubuntu1) karmic; urgency=low
+
+  * Initial Debian package. Closes ITP #531710.
+  * Initial Ubuntu package (LP: #325653).
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 04 Jun 2009 11:03:32 +0200
+
+subnetcalc (2.0.1-1ubuntu1) karmic; urgency=low
+
+  * Initial Debian package. Closes ITP #531710.
+  * Initial Ubuntu package (LP: #325653).
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 03 Jun 2009 15:03:32 +0200

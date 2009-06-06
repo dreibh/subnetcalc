@@ -30,13 +30,17 @@
 #include "tools.h"
 
 
-#ifdef __FreeBSD__
+#ifdef __FreeBSD__   // FreeBSD
 #define s6_addr16 __u6_addr.__u6_addr16
 #define s6_addr32 __u6_addr.__u6_addr32
 #endif
-#ifdef __APPLE__
+#ifdef __APPLE__   // MacOS X
 #define s6_addr16 __u6_addr.__u6_addr16
 #define s6_addr32 __u6_addr.__u6_addr32
+#endif
+#ifdef __sun   // SunOS and Solaris
+#define s6_addr16 _S6_un._S6_u16
+#define s6_addr32 _S6_un._S6_u32
 #endif
 
 
@@ -135,6 +139,7 @@ void generateUniqueLocal(sockaddr_union& address,
       exit(1);
    }
 
+#if defined(__LINUX__) || defined(__linux__) || defined(__linux)
    // ====== Read random number from random device ==========================
    const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
    FILE* fh = fopen(randomFile, "r");
@@ -151,6 +156,13 @@ void generateUniqueLocal(sockaddr_union& address,
       std::cerr << "ERROR: Unable to open " << randomFile << "!" << std::endl;
       exit(1);
    }
+#else
+#warning Using default random number generator on non-Linux system!
+   srandom((unsigned int)getMicroTime());
+   for(size_t i = 0;i < sizeof(buffer);i++) {
+      buffer[i] = (uint8_t)(random() % 0xff);
+   }
+#endif
 
    // ====== Create IPv6 Unique Local address ===============================
    address.in6.sin6_addr.s6_addr[0] = 0xfd;
@@ -678,7 +690,7 @@ int main(int argc, char** argv)
 
    // ====== Get address and netmask ========================================
    if(argc < 2) {
-      printf("Usage: %s [Address] {Netmask|Prefix} [-uniquelocal|-uniquelocalhq]\n", argv[0]);
+      printf("Usage: %s [Address] {Netmask|Prefix} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
       exit(1);
    }
    if(string2address(argv[1], &address) == false) {
