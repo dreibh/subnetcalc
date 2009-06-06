@@ -157,6 +157,7 @@ void generateUniqueLocal(sockaddr_union& address,
       exit(1);
    }
 #else
+   // ====== Get random number using random() function ======================
 #warning Using default random number generator on non-Linux system!
    srandom((unsigned int)getMicroTime());
    for(size_t i = 0;i < sizeof(buffer);i++) {
