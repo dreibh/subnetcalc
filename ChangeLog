@@ -1,4 +1,65 @@
 ------------------------------------------------------------------------
+r259 | dreibh | 2009-06-04 12:01:30 +0200 (Thu, 04 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+
+Fixed "Recommends" entry in Debian control file.
+
+------------------------------------------------------------------------
+r257 | dreibh | 2009-06-03 16:17:59 +0200 (Wed, 03 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/control
+
+
+------------------------------------------------------------------------
+r255 | dreibh | 2009-06-03 15:03:28 +0200 (Wed, 03 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+
+Added Debian ITP.
+
+------------------------------------------------------------------------
+r254 | dreibh | 2009-06-03 14:30:10 +0200 (Wed, 03 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian/copyright
+   M /trunk/subnetcalc/debian/rules
+   M /trunk/subnetcalc/src/subnetcalc.8
+
+Fixed Debian problems.
+
+------------------------------------------------------------------------
+r249 | dreibh | 2009-06-03 11:30:07 +0200 (Wed, 03 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+
+------------------------------------------------------------------------
+r248 | dreibh | 2009-06-03 11:29:52 +0200 (Wed, 03 Jun 2009) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/Makefile.am
+   M /trunk/subnetcalc/README
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian.conf
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   A /trunk/subnetcalc/subnetcalc.lsm
+
+- Improved IPv6 address type handling.
+- Updated Debian files.
+
+------------------------------------------------------------------------
+r246 | dreibh | 2009-06-02 15:40:58 +0200 (Tue, 02 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+
+
+------------------------------------------------------------------------
 r245 | dreibh | 2009-06-02 15:33:37 +0200 (Tue, 02 Jun 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
