@@ -1,7 +1,6 @@
 Source: subnetcalc
 Section: net
 Priority: optional
-Closes: 531710
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh
 Build-Depends: debhelper (>= 5), autotools-dev
