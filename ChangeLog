@@ -1,4 +1,60 @@
 ------------------------------------------------------------------------
+r269 | dreibh | 2009-06-08 23:15:49 +0200 (Mon, 08 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian/rules
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Updated Debian files and LSM entry.
+
+------------------------------------------------------------------------
+r268 | dreibh | 2009-06-07 21:21:28 +0200 (Sun, 07 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+
+Updated Debian files.
+
+------------------------------------------------------------------------
+r267 | dreibh | 2009-06-07 21:19:20 +0200 (Sun, 07 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/control
+
+
+------------------------------------------------------------------------
+r264 | dreibh | 2009-06-06 15:46:11 +0200 (Sat, 06 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
+r263 | dreibh | 2009-06-06 15:37:08 +0200 (Sat, 06 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+
+------------------------------------------------------------------------
+r262 | dreibh | 2009-06-06 15:32:51 +0200 (Sat, 06 Jun 2009) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+- Fixed unique-local IPv6 address generation for non-Linux systems.
+- Should also compile on Solaris now.
+
+------------------------------------------------------------------------
+r261 | dreibh | 2009-06-04 22:07:50 +0200 (Thu, 04 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian/copyright
+
+Updated Debian scripts.
+
+------------------------------------------------------------------------
 r259 | dreibh | 2009-06-04 12:01:30 +0200 (Thu, 04 Jun 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog

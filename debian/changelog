@@ -1,3 +1,10 @@
+subnetcalc (2.0.4-1ubuntu1) karmic; urgency=low
+
+  * Turned off DH_VERBOSE.
+  * Updated Homepage to homepage of SubNetCalc.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 10 Jun 2009 22:29:32 +0200
+
 subnetcalc (2.0.3-1ubuntu1) karmic; urgency=low
 
   * Initial Debian release (Closes: #531710).
