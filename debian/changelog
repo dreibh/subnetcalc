@@ -1,3 +1,9 @@
+subnetcalc (2.0.4-2ubuntu1) karmic; urgency=low
+
+  * Version update.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 08 Nov 2009 10:27:31 +0200
+
 subnetcalc (2.0.4-1ubuntu1) karmic; urgency=low
 
   * Turned off DH_VERBOSE.
