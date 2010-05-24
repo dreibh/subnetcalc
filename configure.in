@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.0.4], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.1.0~beta1], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
@@ -8,12 +8,29 @@ AC_CONFIG_HEADERS([config.h:config.in])
 AC_CONFIG_SRCDIR([src/subnetcalc.cc])
 
 LT_INIT
+AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_CXX
 
 
+# ###### Operating system checks ############################################
+case $host_os in
+freebsd*)
+    ;;
+linux*)
+    ;;
+openbsd*)
+    ;;
+solaris*)
+    LDFLAGS="$LDFLAGS -lsocket -lnsl -lrt -lresolv"
+    ;;
+darwin*)
+    ;;
+esac
+
+
 # ###### Networking declarations ############################################
-AC_CHECK_HEADERS(sys/types.h sys/socket.h netinet/in.h netinet/sctp.h)
+AC_CHECK_HEADERS(sys/types.h sys/socket.h netinet/in.h)
 
 AC_MSG_CHECKING(for socklen_t)
 AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
@@ -46,9 +63,8 @@ AC_CHECK_MEMBER(struct sockaddr_in6.sin6_len,
                  #endif
                  #include <netinet/in.h>])
 
-AC_CHECK_FUNCS(socket, , AC_CHECK_LIB(socket, socket))
-
 
 # ###### Makefiles ##########################################################
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
+

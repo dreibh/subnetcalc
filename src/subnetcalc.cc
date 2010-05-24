@@ -205,7 +205,7 @@ void printAddressBinary(std::ostream&         os,
    else {
       int p = 0;
       for(int j = 0;j < 8;j++) {
-         uint16_t a = ntohs(getIPv6Address(address).s6_addr16[j]);
+         uint16_t a = ntohs(((const uint16_t*)&getIPv6Address(address).s6_addr)[j]);
          char str[16];
          snprintf((char*)&str, sizeof(str), "%04x", a);
          os << indent << str << " = ";
@@ -237,7 +237,7 @@ void printAddressBinary(std::ostream&         os,
 
 
 // ###### Is given netmask valid? ###########################################
-unsigned int getPrefixLength(const sockaddr_union& netmask)
+int getPrefixLength(const sockaddr_union& netmask)
 {
    int  prefixLength;
    bool belongsToNetwork = true;
@@ -402,28 +402,28 @@ void printUnicastProperties(std::ostream&   os,
    // ====== Global ID ======================================================
    if(hasGlobalID) {
       char           globalIDString[16];
-      const uint16_t globalID = ntohs(ipv6address.s6_addr16[3]);
+      const uint16_t globalID = ntohs(((const uint16_t*)&ipv6address.s6_addr)[3]);
       snprintf((char*)&globalIDString, sizeof(globalIDString), "%02x%04x%04x",
                ipv6address.s6_addr[1],
-               ntohs(ipv6address.s6_addr16[1]),
-               ntohs(ipv6address.s6_addr16[2]));
+               ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]),
+               ntohs(((const uint16_t*)&ipv6address.s6_addr)[2]));
       os << "      + Global ID    = " << globalIDString << std::endl;
    }
 
    // ====== Subnet ID ======================================================
    if(hasSubnetID) {
       char           subnetIDString[16];
-      const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
+      const uint16_t subnetID = ntohs(((const uint16_t*)&ipv6address.s6_addr)[3]);
       snprintf((char*)&subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
       os << "      + Subnet ID    = " << subnetIDString << std::endl;
    }
 
    // ====== Interface ID ===================================================
    char           interfaceIDString[128];
-   const uint16_t interfaceID[4] = { ntohs(ipv6address.s6_addr16[4]),
-                                     ntohs(ipv6address.s6_addr16[5]),
-                                     ntohs(ipv6address.s6_addr16[6]),
-                                     ntohs(ipv6address.s6_addr16[7]) };
+   const uint16_t interfaceID[4] = { ntohs(((const uint16_t*)&ipv6address.s6_addr)[4]),
+                                     ntohs(((const uint16_t*)&ipv6address.s6_addr)[5]),
+                                     ntohs(((const uint16_t*)&ipv6address.s6_addr)[6]),
+                                     ntohs(((const uint16_t*)&ipv6address.s6_addr)[7]) };
    snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m",
             interfaceID[0],
             (interfaceID[1] & 0xff00) >> 8, (interfaceID[1] & 0x00ff),
@@ -447,8 +447,8 @@ void printUnicastProperties(std::ostream&   os,
    char snmcAddressString[32];
    snprintf((char*)&snmcAddressString, sizeof(snmcAddressString),
             "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m",
-            ntohs(ipv6address.s6_addr16[6]) & 0xff,
-            ntohs(ipv6address.s6_addr16[7]));
+            ntohs(((const uint16_t*)&ipv6address.s6_addr)[6]) & 0xff,
+            ntohs(((const uint16_t*)&ipv6address.s6_addr)[7]));
    os << "      + Sol. Node MC = " << snmcAddressString << std::endl;
 }
 
@@ -559,8 +559,8 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv6 properties ================================================
    else {
-      const uint16_t a = ntohs(ipv6address.s6_addr16[0]);
-      const uint16_t b = ntohs(ipv6address.s6_addr16[1]);
+      const uint16_t a = ntohs(((const uint16_t*)&ipv6address.s6_addr)[0]);
+      const uint16_t b = ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]);
 
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
@@ -626,13 +626,13 @@ void printAddressProperties(std::ostream&         os,
          // ------ Solicited node multicast address -------------------------
          // FF02::1:FF00:0/104
          if((a == 0xff02) &&
-            (ntohs(ipv6address.s6_addr16[5]) == 0x0001) &&
-            (ntohs(ipv6address.s6_addr16[6]) & 0xff00) == 0xff00) {
+            (ntohs(((const uint16_t*)&ipv6address.s6_addr)[5]) == 0x0001) &&
+            (ntohs(((const uint16_t*)&ipv6address.s6_addr)[6]) & 0xff00) == 0xff00) {
             char nodeAddressString[64];
             snprintf((char*)&nodeAddressString, sizeof(nodeAddressString),
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
-                     ntohs(ipv6address.s6_addr16[6]) >> 8,
-                     ntohs(ipv6address.s6_addr16[7]));
+                     ntohs(((const uint16_t*)&ipv6address.s6_addr)[6]) >> 8,
+                     ntohs(((const uint16_t*)&ipv6address.s6_addr)[7]));
             os << "      + Address is solicited node multicast address for "
                << nodeAddressString << std::endl;
          }

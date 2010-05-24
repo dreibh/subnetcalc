@@ -1,23 +1,5 @@
 #! /bin/sh
 # $Id$
-#
-# Bootstrap Script
-# Copyright (C) 2002-2009 by Thomas Dreibholz
-#
-# This program is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
-# Contact: dreibh@iem.uni-due.de
 
 set -x
 
@@ -35,11 +17,37 @@ else
    exit 1
 fi
 
+ACLOCALDIR=
 if [ -e /usr/local/share/aclocal ] ; then
-   aclocal -I /usr/local/share/aclocal
+   ACLOCALDIR=/usr/local/share/aclocal
+elif [ -e /usr/share/aclocal ] ; then
+   ACLOCALDIR=/usr/share/aclocal
 else
-   aclocal -I /usr/share/aclocal
+   echo >&2 "ERROR: No aclocal directory found!"
+   exit 1
 fi
+
+if [ -e /usr/bin/aclocal ] ; then
+   /usr/bin/aclocal -I $ACLOCALDIR
+elif [ -e /usr/local/bin/aclocal ] ; then
+   /usr/local/bin/aclocal -I $ACLOCALDIR
+elif [ -e /usr/bin/aclocal-1.10 ] ; then
+   /usr/bin/aclocal-1.10 -I $ACLOCALDIR
+else
+   echo >&2 "ERROR: No aclocal installation found!"
+   exit 1
+fi
+
 autoheader
-automake --gnu --add-missing --copy
+if [ -e /usr/bin/automake ] ; then
+   /usr/bin/automake --gnu --add-missing --copy
+elif [ -e /usr/local/bin/automake ] ; then
+   /usr/local/bin/automake --gnu --add-missing --copy
+elif [ -e /usr/bin/automake-1.10 ] ; then
+   /usr/bin/automake-1.10 --gnu --add-missing --copy
+else
+   echo >&2 "ERROR: No automake installation found!"
+   exit 1
+fi
 autoconf
+
