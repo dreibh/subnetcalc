@@ -17,6 +17,7 @@ config.status: configure
 	cp /usr/share/misc/config.sub config.sub
 	cp /usr/share/misc/config.guess config.guess
 	./configure --host=$(DEB_HOST_GNU_TYPE) \
+	       --with-geoip \
                --build=$(DEB_BUILD_GNU_TYPE) \
                --prefix=/usr --mandir=\$${prefix}/share/man \
                --infodir=\$${prefix}/share/info \

@@ -1,7 +1,7 @@
 /* $Id$
  *
  * Network Performance Meter
- * Copyright (C) 2009 by Thomas Dreibholz
+ * Copyright (C) 2009-2010 by Thomas Dreibholz
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -285,7 +285,6 @@ bool string2address(const char*           string,
 
    memset((char*)&hints,0,sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
-   hints.ai_family   = AF_UNSPEC;
 
    for(i = 0;i < hostLength;i++) {
       if(host[i] == ':') {
@@ -305,8 +304,14 @@ bool string2address(const char*           string,
       hints.ai_flags = AI_NUMERICHOST;
    }
 
+   // First try IPv6 ...
+   hints.ai_family = AF_INET6;
    if(getaddrinfo(host, NULL, &hints, &res) != 0) {
-      return(false);
+      // ... then (if there is no AAAA record), try also IPv4
+      hints.ai_family = AF_UNSPEC;
+      if(getaddrinfo(host, NULL, &hints, &res) != 0) {
+         return(false);
+      }
    }
 
    memset((char*)address,0,sizeof(union sockaddr_union));

@@ -1,7 +1,7 @@
 /* $Id$
  *
  * IPv4/IPv6 Subnet Calculator
- * Copyright (C) 2002-2009 by Thomas Dreibholz
+ * Copyright (C) 2002-2010 by Thomas Dreibholz
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -19,6 +19,8 @@
  * Contact: dreibh@iem.uni-due.de
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -26,8 +28,12 @@
 #include <math.h>
 #include <assert.h>
 #include <iostream>
+#ifdef HAVE_GEOIP
+#include <GeoIP.h>
+#endif
 
 #include "tools.h"
+
 
 
 #ifdef __FreeBSD__   // FreeBSD
@@ -689,33 +695,58 @@ int main(int argc, char** argv)
    sockaddr_union host2;
 
 
-   // ====== Get address and netmask ========================================
+   // ====== Print usage ====================================================
    if(argc < 2) {
-      printf("Usage: %s [Address] {Netmask|Prefix} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
+      printf("Usage: %s [Address{/{Netmask|Prefix}}] "
+             "{Netmask|Prefix} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
       exit(1);
    }
-   if(string2address(argv[1], &address) == false) {
-      printf("ERROR: Bad address %s!\n", argv[1]);
-      exit(1);
+
+   // ====== Get address and netmask from one parameter =====================
+   char* slash = index(argv[1], '/');
+   if(slash) {
+      slash[0] = 0x00;
+      if(string2address(argv[1], &address) == false) {
+         printf("ERROR: Bad address %s!\n", argv[1]);
+         exit(1);
+      }
+      if( (prefix = readPrefix((const char*)&slash[1], address, netmask)) < 0 ) {
+         if(string2address((const char*)&slash[1], &netmask) == false) {
+            printf("ERROR: Bad netmask %s!\n", (const char*)&slash[1]);
+            exit(1);
+         }
+      }
+      options = 2;
    }
-   if(argc > 2) {
-      options = 3;
-      // ------ Get netmask or prefix ---------------------------------------
-      if(argv[2][0] != '-') {
-         if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
-            if(string2address(argv[2], &netmask) == false) {
-               printf("ERROR: Bad netmask %s!\n", argv[2]);
-               exit(1);
+
+   // ====== Get address and netmask from separate parameters ===============
+   else if(slash == NULL) {
+      if(string2address(argv[1], &address) == false) {
+         printf("ERROR: Bad address %s!\n", argv[1]);
+         exit(1);
+      }
+      if(argc > 2) {
+         options = 3;
+         // ------ Get netmask or prefix ---------------------------------------
+         if(argv[2][0] != '-') {
+            if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
+               if(string2address(argv[2], &netmask) == false) {
+                  printf("ERROR: Bad netmask %s!\n", argv[2]);
+                  exit(1);
+               }
             }
          }
       }
+      else {
+         // ------ No netmask or prefix => use default for convenience ------
+         options = 2;
+         prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
+         assert(prefix >= 0);
+      }
    }
-   else {
-      // ------ No netmask or prefix => use default for convenience ------
-      options = 2;
-      prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
-      assert(prefix >= 0);
-   }
+
+
+   // ====== Get prefix length ==============================================
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
       std::cerr << "ERROR: Invalid netmask ";
@@ -792,5 +823,37 @@ int main(int argc, char** argv)
       std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
       std::cout << "Host Range    = { " << host1 << " - " << host2 << " }" << std::endl;
    }
+
+
+   // ====== GeoIP ==========================================================
+#ifdef HAVE_GEOIP
+   const char* country = NULL;
+   const char* code    = NULL;
+   if(address.sa.sa_family == AF_INET) {
+      GeoIP* geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION, GEOIP_STANDARD);
+      if(geoIP) {
+         country = GeoIP_country_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
+         code    = GeoIP_country_code_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
+         std::cout << "GeoIP Country = "
+                   << ((country != NULL) ? country: "Unknown")
+                   << " (" << ((code != NULL) ? code : "??") << ")" << std::endl;
+         GeoIP_delete(geoIP);
+      }
+   }
+   else if(address.sa.sa_family == AF_INET6) {
+      GeoIP* geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION_V6, GEOIP_STANDARD);
+      if(geoIP) {
+         country = GeoIP_country_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
+         code    = GeoIP_country_code_by_ipnum_v6(geoIP, address.in6.sin6_addr);
+         std::cout << "GeoIP Country = "
+                   << ((country != NULL) ? country: "Unknown")
+                   << " (" << ((code != NULL) ? code : "??") << ")" << std::endl;
+         GeoIP_delete(geoIP);
+      }
+   }
+#endif
+
+
+   // ====== Properties =====================================================
    printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
 }

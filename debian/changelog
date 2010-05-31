@@ -1,17 +1,17 @@
-subnetcalc (2.0.4-2ubuntu1) karmic; urgency=low
+subnetcalc (2.1.0~beta2-1ubuntu1) maverick; urgency=low
 
   * Version update.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 08 Nov 2009 10:27:31 +0200
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Mon, 31 May 2010 08:44:59 +0200
 
-subnetcalc (2.0.4-1ubuntu1) karmic; urgency=low
+subnetcalc (2.0.4-1) unstable; urgency=low
 
   * Turned off DH_VERBOSE.
   * Updated Homepage to homepage of SubNetCalc.
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 10 Jun 2009 22:29:32 +0200
 
-subnetcalc (2.0.3-1ubuntu1) karmic; urgency=low
+subnetcalc (2.0.3-1) unstable; urgency=low
 
   * Initial Debian release (Closes: #531710).
   * Initial Ubuntu release (LP: #325653).

@@ -1,12 +1,12 @@
 This package was debianized by Thomas Dreibholz <dreibh@iem.uni-due.de>
-on Wed, 4 Jun 2009 21:55:18 +0200.
+on Mon, 31 May 2010 08:55:18 +0200.
 
 The original source can be found at:
 http://www.iem.uni-due.de/~dreibh/subnetcalc/
 
 SubNetCalc is
 
-  Copyright (C) 2005-2009 Thomas Dreibholz
+  Copyright (C) 2005-2010 Thomas Dreibholz
 
 License:
 
@@ -20,7 +20,7 @@ License:
 
 The Debian/Ubuntu packaging is
 
-  Copyright (C) 2009 Thomas Dreibholz
+  Copyright (C) 2009-2010 Thomas Dreibholz
 
 License:
 
