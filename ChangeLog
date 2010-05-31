@@ -1,4 +1,35 @@
 ------------------------------------------------------------------------
+r546 | dreibh | 2010-05-24 20:43:15 +0200 (Mon, 24 May 2010) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/bootstrap
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Update to work under OpenSolaris.
+------------------------------------------------------------------------
+r513 | dreibh | 2009-11-08 11:01:15 +0100 (Sun, 08 Nov 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/make-ppa
+
+
+------------------------------------------------------------------------
+r280 | dreibh | 2009-06-10 22:38:30 +0200 (Wed, 10 Jun 2009) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/rules
+
+Turned DH_VERBOSE off: line must be commented out; setting to 0 does not work!
+
+------------------------------------------------------------------------
+r279 | dreibh | 2009-06-10 12:15:18 +0200 (Wed, 10 Jun 2009) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/debian/control
+
+
+------------------------------------------------------------------------
 r269 | dreibh | 2009-06-08 23:15:49 +0200 (Mon, 08 Jun 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
