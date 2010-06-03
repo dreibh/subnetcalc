@@ -27,6 +27,8 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
+#include <locale.h>
+#include <netdb.h>
 #include <iostream>
 #ifdef HAVE_GEOIP
 #include <GeoIP.h>
@@ -681,6 +683,7 @@ void printAddressProperties(std::ostream&         os,
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
+   bool           noReverseLookup = false;
    int            options;
    int            prefix;
    unsigned int   hostBits;
@@ -695,10 +698,13 @@ int main(int argc, char** argv)
    sockaddr_union host2;
 
 
+   // ====== Initialize locale ==============================================
+   setlocale(LC_ALL, "");   // Necessary to work with IDN names!
+
    // ====== Print usage ====================================================
    if(argc < 2) {
       printf("Usage: %s [Address{/{Netmask|Prefix}}] "
-             "{Netmask|Prefix} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
+             "{Netmask|Prefix} {-n} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
       exit(1);
    }
 
@@ -727,7 +733,7 @@ int main(int argc, char** argv)
       }
       if(argc > 2) {
          options = 3;
-         // ------ Get netmask or prefix ---------------------------------------
+         // ------ Get netmask or prefix ------------------------------------
          if(argv[2][0] != '-') {
             if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
                if(string2address(argv[2], &netmask) == false) {
@@ -735,6 +741,12 @@ int main(int argc, char** argv)
                   exit(1);
                }
             }
+         }
+         else {
+            // ------ No netmask or prefix => use default for convenience ---
+            options = 2;
+            prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
+            assert(prefix >= 0);
          }
       }
       else {
@@ -769,6 +781,9 @@ int main(int argc, char** argv)
       }
       else if(strcmp(argv[i], "-uniquelocalhq") == 0) {
          generateUniqueLocal(address, true);
+      }
+      else if(strcmp(argv[i], "-n") == 0) {
+         noReverseLookup = true;
       }
       else {
          std::cerr << "ERROR: Bad argument " << argv[i] << "!" << std::endl;
@@ -825,6 +840,10 @@ int main(int argc, char** argv)
    }
 
 
+   // ====== Properties =====================================================
+   printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
+
+
    // ====== GeoIP ==========================================================
 #ifdef HAVE_GEOIP
    const char* country = NULL;
@@ -854,6 +873,23 @@ int main(int argc, char** argv)
 #endif
 
 
-   // ====== Properties =====================================================
-   printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
+   // ====== Reverse lookup =================================================
+   if(noReverseLookup == false) {
+      std::cout << "Performing reverse DNS lookup ..."; std::cout.flush();
+      char hostname[NI_MAXHOST];
+      int error = getnameinfo(&address.sa,
+                              (address.sa.sa_family == AF_INET6) ?
+                                 sizeof(sockaddr_in6) : sizeof(sockaddr_in),
+                              (char*)&hostname, sizeof(hostname),
+                              NULL, 0,
+                              NI_NAMEREQD|NI_IDN);
+      std::cout << "\r\x1b[K";
+      std::cout << "DNS Hostname  = "; std::cout.flush();
+      if(error == 0) {
+         std::cout << hostname << std::endl;
+      }
+      else {
+         std::cout << "(" << gai_strerror(error) << ")" << std::endl;
+      }
+   }
 }

@@ -283,8 +283,9 @@ bool string2address(const char*           string,
    isIPv6     = false;
    hostLength = strlen(host);
 
-   memset((char*)&hints,0,sizeof(hints));
+   memset((char*)&hints, 0, sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
+   hints.ai_flags    = AI_IDN;
 
    for(i = 0;i < hostLength;i++) {
       if(host[i] == ':') {
@@ -301,7 +302,7 @@ bool string2address(const char*           string,
        }
    }
    if(isNumeric) {
-      hints.ai_flags = AI_NUMERICHOST;
+      hints.ai_flags |= AI_NUMERICHOST;
    }
 
    // First try IPv6 ...

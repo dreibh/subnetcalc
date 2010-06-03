@@ -19,7 +19,7 @@
 .\" Contact: dreibh@iem.uni-due.de
 .\"
 .\" ###### Setup ############################################################
-.Dd May 31, 2010
+.Dd June 3, 2010
 .Dt subnetcalc 8
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -31,6 +31,7 @@
 .Nm subnetcalc
 .Op Address
 .Op Netmask/Prefix
+.Op Fl n
 .Op Fl uniquelocal
 .Op Fl uniquelocalhq
 .\" ###### Description ######################################################
@@ -43,9 +44,11 @@ is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and ne
 The following arguments have to be provided:
 .Bl -tag -width indent
 .It Address
-The IP address. If a hostname is provided here, it is tried to resolve the address by a DNS server and the first returned address is used.
+The IP address. If a hostname is provided here, it is tried to resolve the address by a DNS server and the first returned address is used. Internationalized Domain Names (IDN) are supported.
 .It Netmask/Prefix
 The netmask or prefix length (0-32 for IPv4; 0-128 for IPv6).
+.It Fl n
+Skip trying a reverse DNS lookup.
 .It Fl uniquelocal
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux, /dev/urandom is used for random number generation.
 .It Fl uniquelocalhq
@@ -61,10 +64,14 @@ Like \-uniquelocal, but using /dev/random instead on Linux systems for highest-q
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
 .It subnetcalc 2a00:1450:8007::69 64
 .It subnetcalc ff08::1:2:3
+.It subnetcalc 131.220.6.5/24
+.It subnetcalc 132.252.181.87 -n
 .It subnetcalc www.iem.uni-due.de 24
 .It subnetcalc www.six.heise.de
 .It subnetcalc fd00:: 64 \-uniquelocal
 .It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-uniquelocalhq
+.It subnetcalc www.köln.de
+.It subnetcalc räksmörgås.josefsson.org
 .El
 .\" ###### Authors ##########################################################
 .Sh AUTHORS
