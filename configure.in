@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.1.0~beta3.2], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.1.0~beta3.3], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
@@ -89,6 +89,13 @@ else
                 [ GEOIP_LIBS=-lGeoIP
                   AC_DEFINE(HAVE_GEOIP, 1, [Define to use GeoIP library]) ],
                 [ AC_ERROR([GeoIP not found!]) ],)
+   AC_MSG_CHECKING(whether GeoIP supports IPv6)
+   AC_TRY_COMPILE([#include <GeoIP.h>],
+                  [GeoIPDBTypes test1 = GEOIP_COUNTRY_EDITION_V6;
+                   int          test2 = GeoIP_id_by_addr(NULL, NULL);],
+                  [AC_MSG_RESULT(yes)
+                   AC_DEFINE(HAVE_GEOIP_IPV6, 1, "Define to 1 if GeoIP supports IPv6.")],
+                  AC_MSG_RESULT(no))
 fi
 AC_SUBST(GEOIP_LIBS)
 

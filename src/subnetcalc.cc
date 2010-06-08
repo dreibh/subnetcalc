@@ -859,6 +859,7 @@ int main(int argc, char** argv)
          GeoIP_delete(geoIP);
       }
    }
+#ifdef HAVE_GEOIP_IPV6
    else if(address.sa.sa_family == AF_INET6) {
       GeoIP* geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION_V6, GEOIP_STANDARD);
       if(geoIP) {
@@ -870,6 +871,9 @@ int main(int argc, char** argv)
          GeoIP_delete(geoIP);
       }
    }
+#else
+#warning This used version of GeoIP does not yet support IPv6!
+#endif
 #endif
 
 
