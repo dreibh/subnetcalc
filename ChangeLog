@@ -1,4 +1,96 @@
 ------------------------------------------------------------------------
+r570 | dreibh | 2010-06-17 12:09:56 +0200 (Thu, 17 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+
+FreeBSD does not support AI_IDN and NI_IDN -> added #ifdefs
+
+------------------------------------------------------------------------
+r569 | dreibh | 2010-06-08 11:42:28 +0200 (Tue, 08 Jun 2010) | 2 lines
+Changed paths:
+   A /trunk/subnetcalc/autogen.sh
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Added detection of GeoIP IPv6 support to configure.in. Older versions do not support it.
+
+------------------------------------------------------------------------
+r568 | dreibh | 2010-06-07 12:23:41 +0200 (Mon, 07 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian.conf
+
+Debian script update.
+
+------------------------------------------------------------------------
+r567 | dreibh | 2010-06-03 21:14:25 +0200 (Thu, 03 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.8
+
+Updated examples.
+
+------------------------------------------------------------------------
+r566 | dreibh | 2010-06-03 20:43:44 +0200 (Thu, 03 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.8
+
+Fixed "\" in manpage.
+
+------------------------------------------------------------------------
+r565 | dreibh | 2010-06-03 20:38:14 +0200 (Thu, 03 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+
+Version update.
+
+------------------------------------------------------------------------
+r564 | dreibh | 2010-06-03 20:38:06 +0200 (Thu, 03 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.8
+
+Added some more IDN examples to manpage.
+
+------------------------------------------------------------------------
+r563 | dreibh | 2010-06-03 20:29:56 +0200 (Thu, 03 Jun 2010) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+
+- Added support for reverse DNS lookup.
+- Added support for Internationalized Domain Names (IDN).
+
+------------------------------------------------------------------------
+r560 | dreibh | 2010-05-31 11:53:09 +0200 (Mon, 31 May 2010) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+
+------------------------------------------------------------------------
+r556 | dreibh | 2010-05-31 11:49:10 +0200 (Mon, 31 May 2010) | 4 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian/copyright
+   M /trunk/subnetcalc/debian/rules
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/subnetcalc/src/Makefile.am
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+   M /trunk/subnetcalc/src/tools.h
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+- Added support for GeoIP.
+- Version update.
+
+
+------------------------------------------------------------------------
 r546 | dreibh | 2010-05-24 20:43:15 +0200 (Mon, 24 May 2010) | 1 line
 Changed paths:
    M /trunk/subnetcalc/bootstrap
