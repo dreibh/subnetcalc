@@ -886,7 +886,13 @@ int main(int argc, char** argv)
                                  sizeof(sockaddr_in6) : sizeof(sockaddr_in),
                               (char*)&hostname, sizeof(hostname),
                               NULL, 0,
-                              NI_NAMEREQD|NI_IDN);
+#ifdef NI_IDN
+                              NI_NAMEREQD|NI_IDN
+#else
+#warning No IDN support for getnameinfo()!
+                              NI_NAMEREQD
+#endif
+                              );
       std::cout << "\r\x1b[K";
       std::cout << "DNS Hostname  = "; std::cout.flush();
       if(error == 0) {

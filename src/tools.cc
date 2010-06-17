@@ -285,7 +285,12 @@ bool string2address(const char*           string,
 
    memset((char*)&hints, 0, sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
+#ifdef AI_IDN
    hints.ai_flags    = AI_IDN;
+#else
+#warning No IDN support for getaddrinfo()!
+   hints.ai_flags    = 0;
+#endif
 
    for(i = 0;i < hostLength;i++) {
       if(host[i] == ':') {
