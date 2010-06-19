@@ -2,7 +2,7 @@ subnetcalc (2.1.0-1ubuntu1) maverick; urgency=low
 
   * Version update.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  The, 17 Jun 2010 12:23:59 +0200
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 19 Jun 2010 11:11:11 +0200
 
 subnetcalc (2.0.4-1) unstable; urgency=low
 

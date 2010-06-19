@@ -103,4 +103,3 @@ AC_SUBST(GEOIP_LIBS)
 # ###### Makefiles ##########################################################
 AC_CONFIG_FILES([Makefile src/Makefile])
 AC_OUTPUT
-
