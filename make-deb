@@ -2,7 +2,7 @@
 # $Id$
 #
 # Debian Packaging Scripts
-# Copyright (C) 2002-2009 by Thomas Dreibholz
+# Copyright (C) 2002-2010 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -111,7 +111,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    # Including signature!
    # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>'
-   debuild -sa -S "-k$MAINTAINER"
+   debuild -sa -S "-k$MAINTAINER" -i   # -i to ignore .svn files!
 
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!

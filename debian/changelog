@@ -1,8 +1,12 @@
-subnetcalc (2.1.0-1ubuntu1) maverick; urgency=low
+subnetcalc (2.1.0-2ubuntu1) maverick; urgency=low
 
+  [ Thomas Dreibholz ]
   * Version update.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 19 Jun 2010 11:11:11 +0200
+  [ Thomas Dreibholz ]
+  * Switch to dpkg-source 3.0 (quilt) format
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 19 Jun 2010 12:29:53 +0200
 
 subnetcalc (2.0.4-1) unstable; urgency=low
 
