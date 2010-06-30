@@ -1,4 +1,54 @@
 ------------------------------------------------------------------------
+r593 | dreibh | 2010-06-29 22:48:45 +0200 (Tue, 29 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Using strings.h instead of string.h to work under Solaris.
+
+------------------------------------------------------------------------
+r577 | dreibh | 2010-06-19 13:03:22 +0200 (Sat, 19 Jun 2010) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/make-ppa
+
+
+------------------------------------------------------------------------
+r574 | dreibh | 2010-06-19 12:38:17 +0200 (Sat, 19 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   A /trunk/subnetcalc/debian/source
+   A /trunk/subnetcalc/debian/source/format
+   M /trunk/subnetcalc/make-deb
+   M /trunk/subnetcalc/make-ppa
+
+Converted to debian source format 3.0.
+
+------------------------------------------------------------------------
+r573 | dreibh | 2010-06-19 11:03:29 +0200 (Sat, 19 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.8
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Scripts update.
+
+------------------------------------------------------------------------
+r572 | dreibh | 2010-06-17 12:36:54 +0200 (Thu, 17 Jun 2010) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+
+------------------------------------------------------------------------
+r571 | dreibh | 2010-06-17 12:36:43 +0200 (Thu, 17 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/make-ppa
+
+Version update.
+
+------------------------------------------------------------------------
 r570 | dreibh | 2010-06-17 12:09:56 +0200 (Thu, 17 Jun 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
