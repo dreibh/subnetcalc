@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh/subnetcalc/
 Build-Depends: debhelper (>= 5), autotools-dev, libgeoip-dev
-Standards-Version: 3.8.4
+Standards-Version: 3.9.0
 
 Package: subnetcalc
 Architecture: any
