@@ -1,4 +1,78 @@
 ------------------------------------------------------------------------
+r665 | dreibh | 2010-07-27 13:33:13 +0200 (Tue, 27 Jul 2010) | 2 lines
+Changed paths:
+   D /trunk/subnetcalc/freebsd/Makefile
+   D /trunk/subnetcalc/freebsd/distinfo
+   D /trunk/subnetcalc/freebsd/make-shar
+   D /trunk/subnetcalc/freebsd/pkg-descr
+   D /trunk/subnetcalc/freebsd/pkg-plist
+   A /trunk/subnetcalc/freebsd/subnetcalc
+   A /trunk/subnetcalc/freebsd/subnetcalc/Makefile (from /trunk/subnetcalc/freebsd/Makefile:664)
+   A /trunk/subnetcalc/freebsd/subnetcalc/distinfo (from /trunk/subnetcalc/freebsd/distinfo:664)
+   A /trunk/subnetcalc/freebsd/subnetcalc/make-shar (from /trunk/subnetcalc/freebsd/make-shar:664)
+   A /trunk/subnetcalc/freebsd/subnetcalc/pkg-descr (from /trunk/subnetcalc/freebsd/pkg-descr:663)
+   A /trunk/subnetcalc/freebsd/subnetcalc/pkg-plist (from /trunk/subnetcalc/freebsd/pkg-plist:663)
+   A /trunk/subnetcalc/freebsd/subnetcalc/test-packaging (from /trunk/subnetcalc/freebsd/test-packaging:663)
+   D /trunk/subnetcalc/freebsd/test-packaging
+
+Updated FreeBSD ports scripts: directory has to be named like the package.
+
+------------------------------------------------------------------------
+r664 | dreibh | 2010-07-27 13:21:45 +0200 (Tue, 27 Jul 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/freebsd/Makefile
+   M /trunk/subnetcalc/freebsd/distinfo
+   M /trunk/subnetcalc/freebsd/make-shar
+
+Updated FreeBSD ports files.
+
+------------------------------------------------------------------------
+r663 | dreibh | 2010-07-27 13:06:44 +0200 (Tue, 27 Jul 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/Makefile.am
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   A /trunk/subnetcalc/freebsd
+   A /trunk/subnetcalc/freebsd/Makefile
+   A /trunk/subnetcalc/freebsd/distinfo
+   A /trunk/subnetcalc/freebsd/make-shar
+   A /trunk/subnetcalc/freebsd/pkg-descr
+   A /trunk/subnetcalc/freebsd/pkg-plist
+   A /trunk/subnetcalc/freebsd/test-packaging
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Added FreeBSD ports files.
+
+------------------------------------------------------------------------
+r631 | dreibh | 2010-07-16 15:20:04 +0200 (Fri, 16 Jul 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/control
+
+Updated control version.
+
+------------------------------------------------------------------------
+r597 | dreibh | 2010-06-30 22:45:10 +0200 (Wed, 30 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Updated LSM entry.
+
+------------------------------------------------------------------------
+r595 | dreibh | 2010-06-30 17:24:45 +0200 (Wed, 30 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog from SVN.
+
+------------------------------------------------------------------------
+r594 | dreibh | 2010-06-30 17:24:27 +0200 (Wed, 30 Jun 2010) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+
+Version update.
+
+------------------------------------------------------------------------
 r593 | dreibh | 2010-06-29 22:48:45 +0200 (Tue, 29 Jun 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc

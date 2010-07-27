@@ -2,7 +2,7 @@ subnetcalc (2.1.2-1ubuntu1) maverick; urgency=low
 
   * New upstream version with fixes for FreeBSD build scripts.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Tue, 27 Jun 2010 13:04:05 +0200
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Tue, 27 Jul 2010 13:04:05 +0200
 
 subnetcalc (2.1.1-2ubuntu1) maverick; urgency=low
 
