@@ -1,0 +1,26 @@
+#!/bin/sh
+
+if [ -e work ] ; then
+   rm -rf work
+fi
+find . -name "*.tbz" | xargs rm
+
+
+echo "1. ###### make deinstall ##############################################" && \
+make deinstall && \
+echo "2. ###### make install ################################################" && \
+make install && \
+echo "3. ###### make package ################################################" && \
+make package && \
+echo "4. ###### make deinstall ##############################################" && \
+make deinstall && \
+echo "5. ###### pkg_add #####################################################" && \
+pkg_add subnetcalc-*.tbz && \
+echo "6. ###### make deinstall ##############################################" && \
+make deinstall && \
+echo "7. ###### make reinstall ##############################################" && \
+make reinstall && \
+echo "8. ###### make package ################################################" && \
+make package && \
+echo "9. ###### tar tzvf *.tbz ##############################################" && \
+tar tzvf *.tbz

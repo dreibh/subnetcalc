@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.1.1], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.1.2], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
@@ -78,6 +78,8 @@ AC_ARG_WITH(geoip,
                         want_geoip=yes
                      elif test -d "$withval"; then
                         want_geoip=yes
+                        CFLAGS="$CFLAGS -I${withval}/include"
+                        CXXFLAGS="$CXXFLAGS -I${withval}/include"
                         LDFLAGS="$LDFLAGS -L${withval}/lib"
                      fi
                   ])

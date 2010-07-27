@@ -1,0 +1,3 @@
+#!/bin/sh
+
+shar Makefile distinfo pkg-descr pkg-plist >netperfmeter.shar
