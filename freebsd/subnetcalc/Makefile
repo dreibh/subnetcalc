@@ -14,11 +14,11 @@ DISTNAME=	${PORTNAME}-${PORTVERSION}
 MAINTAINER=     dreibh@iem.uni-due.de
 COMMENT=        IPv4/IPv6 Subnet Calculator
 
-RUN_DEPENDS=
+# RUN_DEPENDS=
 LIB_DEPENDS=    GeoIP.5:${PORTSDIR}/net/GeoIP
 
 GNU_CONFIGURE=  yes
-CONFIGURE_ARGS=	"--with-geoip=/usr/local"
+CONFIGURE_ARGS=	"--with-geoip=${LOCALBASE}"
 USE_GMAKE=      yes
 
 LICENSE=        GPLv3
