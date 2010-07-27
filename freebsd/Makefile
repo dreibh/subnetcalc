@@ -1,4 +1,4 @@
-# New ports collection makefile for: netperfmeter
+# New ports collection makefile for: subnetcalc
 # Date created:                      27 July 2010
 # Whom:                              Thomas Dreibholz <dreibh@iem.uni-due.de>
 #
