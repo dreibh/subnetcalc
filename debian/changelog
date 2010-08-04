@@ -1,3 +1,10 @@
+subnetcalc (2.1.2-2ubuntu1) maverick; urgency=low
+
+  * Updated standards version.
+  * New upstream version bug closed (Closes: #591381).
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Aug, 05 Jul 2010 16:31:08 +0200
+
 subnetcalc (2.1.2-1ubuntu1) maverick; urgency=low
 
   * New upstream version with fixes for FreeBSD build scripts.
