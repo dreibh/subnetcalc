@@ -1,4 +1,4 @@
-subnetcalc (2.1.2-4ubuntu1) natty; urgency=low
+subnetcalc (2.1.2-5ubuntu1) natty; urgency=low
 
   * Switch to dpkg-source 3.0 (quilt) format
 
