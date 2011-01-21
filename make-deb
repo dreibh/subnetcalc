@@ -88,6 +88,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    success=1
    cp $UPSTREAM_PACKAGE $PACKAGE\_$OUTPUT_VERSION.orig.tar.gz && \
+   cp $UPSTREAM_PACKAGE $PACKAGE\_$UPSTREAM_VERSION.orig.tar.gz && \
    rm -rf $PACKAGE-$UPSTREAM_VERSION && \
    tar xzf $UPSTREAM_PACKAGE && \
    cp -r debian $PACKAGE-$UPSTREAM_VERSION && \
