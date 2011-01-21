@@ -1,1 +1,1 @@
-debian/tmp/usr/bin/subnetcalc
+src/subnetcalc	/usr/bin

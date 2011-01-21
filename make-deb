@@ -2,7 +2,7 @@
 # $Id$
 #
 # Debian Packaging Scripts
-# Copyright (C) 2002-2010 by Thomas Dreibholz
+# Copyright (C) 2002-2011 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -19,21 +19,16 @@
 #
 # Contact: dreibh@iem.uni-due.de
 
-
 . ./debian.conf
 
 
 # ---------------------------------------------------------------------------
-# ATTENTION:
-# debian/changelog MUST be like package (version-0ubuntu1); $INPUT_DISTRIBUTION
-# "ubuntu" and "$INPUT_DISTRIBUTION" are exchanged by this script
-#
 # USAGE:
 # ./make-deb default            => for Ubuntu REVU
-#    Note: Replaces "Maintainer" by MOTU and writes original maintainer entry
-#          to "XSBC-Original-Maintainer"
+#    Note: Replaces "Maintainer" by Ubuntu Developers and
+#          writes original maintainer entry to "XSBC-Original-Maintainer"
 # ./make-deb unstable           => for Debian Mentors
-# ./make-deb intrepid|hardy|... => for Launchpad PPA
+# ./make-deb natty|maverick|... => for Launchpad PPA
 # ---------------------------------------------------------------------------
 
 
@@ -49,11 +44,26 @@ if [ "$DISTRIBUTIONS" == "" ] ; then
 fi
 
 
+CHANGELOG_HEADER="`head -n1 debian/changelog`"
+
+PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
+OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g"`
+UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/-[^ ]*$//g"`
+INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
+
+echo "######################################################################"
+echo "CHANGELOG_HEADER:   $CHANGELOG_HEADER"
+echo "PACKAGE:            $PACKAGE"
+echo "UPSTREAM_VERSION:   $UPSTREAM_VERSION"
+echo "OUTPUT_VERSION:     $OUTPUT_VERSION"
+echo "INPUT_DISTRIBUTION: $INPUT_DISTRIBUTION"
+echo "######################################################################"
+
+
 echo ""
 echo "====== Creating upstream package ======================================"
 echo ""
-UPSTREAM_PACKAGE="`find . -name $PACKAGE-*.gz`"
-UPSTREAM_PACKAGES=`find . -name $PACKAGE-*.gz | wc --lines`
+UPSTREAM_PACKAGE="`find . -name $PACKAGE-$UPSTREAM_VERSION.tar.gz`"
 if [ "$UPSTREAM_PACKAGE" == "" ]; then
    rm -f $PACKAGE-*.gz $PACKAGE"_"*.gz
    echo Running "$MAKE_DIST" ...
@@ -66,10 +76,6 @@ if [ "$UPSTREAM_PACKAGE" == "" ]; then
       echo "ERROR: No upstrem package found!"
       exit 1
    fi
-elif [ $UPSTREAM_PACKAGES -ne 1 ] ; then
-   echo "ERROR: There are multiple upstream packages (from \"make dist\")!" >&2
-   echo "       Remove all except the actual version!" >&2
-   exit 1
 fi
 
 
@@ -80,14 +86,18 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo ""
    echo "------ Creating package for $DISTRIBUTION ------"
 
-   VERSION=`ls $PACKAGE-*.gz|sed -e "s/$PACKAGE-//g" -e "s/.tar.gz//g"` && \
-   rm -rf $PACKAGE-$VERSION $PACKAGE-$VERSION.orig && \
-   tar xzf $INPUT/$PACKAGE-$VERSION.tar.gz && \
-   cp -r $PACKAGE-$VERSION $PACKAGE-$VERSION.orig && \
-   cd $PACKAGE-$VERSION && \
-   cp -r $INPUT/debian . && \
-   rm -rf debian/.svn || exit
+   success=1
+   cp $UPSTREAM_PACKAGE $PACKAGE\_$OUTPUT_VERSION.orig.tar.gz && \
+   rm -rf $PACKAGE-$UPSTREAM_VERSION && \
+   tar xzf $UPSTREAM_PACKAGE && \
+   cp -r debian $PACKAGE-$UPSTREAM_VERSION && \
+   find $PACKAGE-$UPSTREAM_VERSION -name .svn | xargs --no-run-if-empty rm -rf && \
+   cd $PACKAGE-$UPSTREAM_VERSION && \
+   success=0
 
+   if [ $success -ne 0 ] ; then
+      exit 1
+   fi
 
    if [ "$DISTRIBUTION" != "default" ] ; then
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
@@ -96,8 +106,14 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
          sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/ubuntu-$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
       fi
       mv debian/changelog.new debian/changelog
+
+      # ------ Old distributions not supporting new Debian format -----------
+      if [ "$DISTRIBUTION" = "dapper" -o "$DISTRIBUTION" = "edgy" -o "$DISTRIBUTION" = "hardy" -o "$DISTRIBUTION" = "intrepid" -o "$DISTRIBUTION" = "jaunty" ] ; then
+         rm -rf debian/source
+      fi
+      # -----------------------------------------------------------------....
    else
-      sed -e "s/^Maintainer:/Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
+      sed -e "s/^Maintainer:/Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
       mv debian/control.new debian/control
    fi
 
@@ -108,10 +124,11 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    # debuild -S
    # For binaries:
    # debuild -b
+   # Use -i to ignore .svn files!
 
    # Including signature!
-   # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>'
-   debuild -sa -S "-k$MAINTAINER" -i   # -i to ignore .svn files!
+   # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>' -i
+   debuild -sa -S "-k$MAINTAINER" -i || exit 1
 
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
@@ -119,12 +136,19 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    # sudo pbuilder update --override-config
 
    cd ..
+
+   DSC_FILE="`find . -name $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION*.dsc`"
+   if [ ! -e $DSC_FILE ] ; then
+      echo "ERROR: No $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION*.dsc file has been generated -> Aborting!"
+      exit 1
+   fi
+
 done
 
 
 
 echo ""
-echo "====== Signing upstream package ======================================="
+echo "====== Sign upstream package =========================================="
 echo ""
 if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
    rm -f "$UPSTREAM_PACKAGE.asc"

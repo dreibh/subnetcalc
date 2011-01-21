@@ -21,5 +21,8 @@
 
 . ./debian.conf
 
+CHANGELOG_HEADER="`head -n1 debian/changelog`"
+PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
+
 rm -f *.deb *.dsc *.asc *.changes *.build *.upload *.tar.gz stamp-h* svn-commit* *~
 rm -rf $PACKAGE-* $PACKAGE"_"*
