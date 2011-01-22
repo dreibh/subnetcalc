@@ -47,8 +47,8 @@ fi
 CHANGELOG_HEADER="`head -n1 debian/changelog`"
 
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
-OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g"`
-UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/-[^ ]*$//g"`
+OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://"`
+UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/[-|~][^ ]*$//g"`
 INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
 
 echo "######################################################################"
