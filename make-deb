@@ -48,7 +48,7 @@ CHANGELOG_HEADER="`head -n1 debian/changelog`"
 
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
 OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://"`
-UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/[-|~][^ ]*$//g"`
+UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/-[^ ]*$//g"`
 INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
 
 echo "######################################################################"
@@ -87,8 +87,8 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo "------ Creating package for $DISTRIBUTION ------"
 
    success=1
-   cp $UPSTREAM_PACKAGE $PACKAGE\_$OUTPUT_VERSION.orig.tar.gz && \
    cp $UPSTREAM_PACKAGE $PACKAGE\_$UPSTREAM_VERSION.orig.tar.gz && \
+   cp $UPSTREAM_PACKAGE $PACKAGE\_$OUTPUT_VERSION.orig.tar.gz && \
    rm -rf $PACKAGE-$UPSTREAM_VERSION && \
    tar xzf $UPSTREAM_PACKAGE && \
    cp -r debian $PACKAGE-$UPSTREAM_VERSION && \
@@ -165,18 +165,24 @@ echo ""
 
 echo "Upload to PPA:"
 for DISTRIBUTION in $DISTRIBUTIONS ; do
-   if [ $DISTRIBUTION != "unstable" -a $DISTRIBUTION != "testing" -a $DISTRIBUTION != "stable" -a $DISTRIBUTION != "default" ] ; then
-      echo "   dput ppa `ls $PACKAGE*$DISTRIBUTION*.changes`"
+   if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" -o "$DISTRIBUTION" = "default" ] ; then
+      ppa="mentors"
+      if [ "$DISTRIBUTION" = "default" ] ; then
+         ppa="revu"
+      fi
+      echo "   dput $ppa `ls $PACKAGE\_$UPSTREAM_VERSION-[0-9]*_source.changes`"
+   else
+      echo "   dput ppa `ls $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION[0-9]_source.changes`"
    fi
 done
 echo ""
 
 echo "Build test:"
 for DISTRIBUTION in $DISTRIBUTIONS ; do
-   if [ $DISTRIBUTION = "unstable" -o $DISTRIBUTION = "testing" -o $DISTRIBUTION = "stable" ] ; then
-      echo "   sudo pbuilder build `ls $PACKAGE*-[0-9].dsc`"
+   if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" -o "$DISTRIBUTION" = "default" ] ; then
+      echo "   sudo pbuilder build `ls $PACKAGE\_$UPSTREAM_VERSION-[0-9]*.dsc`"
    else
-      echo "   sudo pbuilder build `ls $PACKAGE*$DISTRIBUTION[0-9].dsc`"
+      echo "   sudo pbuilder build `ls $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION[0-9].dsc`"
    fi
 done
 echo ""
