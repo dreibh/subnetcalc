@@ -145,7 +145,6 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
       sed -e "s/^Maintainer:/Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
       mv debian/control.new debian/control
    fi
-exit 1
 
    echo ""
    echo "------ Creating diff file $PACKAGE-$PACKAGE_VERSION.diff.gz ------"
