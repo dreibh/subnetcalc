@@ -65,7 +65,7 @@ echo "######################################################################"
 echo ""
 echo "====== Calling wrap-and-sort =========================================="
 echo ""
-wrap-and-sort -a -v || exit1
+wrap-and-sort -a -v || exit 1
 
 
 echo ""
@@ -112,18 +112,20 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    if [ "$DISTRIBUTION" != "default" ] ; then
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
+         # Debian: Also remove Launchpad Bug IDs.
          sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" \
              -e "s/ubuntu[0-9]//1" \
              -e "/(LP: #/D" \
              <debian/changelog >debian/changelog.new
-         # Debian: Remove Launchpad Bug IDs.
       else
+         # Ubuntu PPA
          # Naming example: 2.7.7-0ubuntu1~natty1~ppa0
+         # Ubuntu: Also remove Debian Bug IDs.
          sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" \
              -e "s/$PACKAGE_VERSION/$PACKAGE_VERSION~${DISTRIBUTION}1~ppa0/1" \
              -e "/(Closes: #/D" \
              <debian/changelog >debian/changelog.new
-         # Ubuntu: Remove Debian Bug IDs.
+         find debian/ -maxdepth 1 -name "*.symbols" | xargs --no-run-if-empty rm -f
       fi
       mv debian/changelog.new debian/changelog
 
@@ -159,7 +161,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo ""
    echo "------ Building source package ------"
 
-   # Without signature!
+   # Without signature:
    # debuild -us -uc
    # For sources:
    # debuild -S
@@ -167,9 +169,11 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    # debuild -b
    # Use -i to ignore .svn files!
 
-   # Including signature!
+   # Build source package including signature:
    # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>' -i
    debuild -sa -S "-k$MAINTAINER" -i || exit 1
+   # Build source package without signature:
+   # debuild -us -uc -S "-k$MAINTAINER" -i || exit 1
 
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
