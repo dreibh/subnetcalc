@@ -2,3 +2,7 @@
 
 %:
 	dh $@
+
+# Use upstream ChangeLog for installation
+override_dh_installchangelogs:
+	dh_installchangelogs -k ChangeLog
