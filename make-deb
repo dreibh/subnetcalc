@@ -47,6 +47,7 @@ fi
 CHANGELOG_HEADER="`head -n1 debian/changelog`"
 
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
+PACKAGE_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/ //g" -e "s/^[0-9]*://"`
 OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://"`
 UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/-[^ ]*$//g"`
 INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
@@ -54,10 +55,17 @@ INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -
 echo "######################################################################"
 echo "CHANGELOG_HEADER:   $CHANGELOG_HEADER"
 echo "PACKAGE:            $PACKAGE"
-echo "UPSTREAM_VERSION:   $UPSTREAM_VERSION"
-echo "OUTPUT_VERSION:     $OUTPUT_VERSION"
 echo "INPUT_DISTRIBUTION: $INPUT_DISTRIBUTION"
+echo "UPSTREAM_VERSION:   $UPSTREAM_VERSION"
+echo "PACKAGE_VERSION     $PACKAGE_VERSION"
+echo "OUTPUT_VERSION:     $OUTPUT_VERSION"
 echo "######################################################################"
+
+
+echo ""
+echo "====== Calling wrap-and-sort =========================================="
+echo ""
+wrap-and-sort -a -v || exit1
 
 
 echo ""
@@ -87,13 +95,15 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo "------ Creating package for $DISTRIBUTION ------"
 
    success=1
-   cp $UPSTREAM_PACKAGE $PACKAGE\_$UPSTREAM_VERSION.orig.tar.gz && \
-   cp $UPSTREAM_PACKAGE $PACKAGE\_$OUTPUT_VERSION.orig.tar.gz && \
-   rm -rf $PACKAGE-$UPSTREAM_VERSION && \
-   tar xzf $UPSTREAM_PACKAGE && \
-   cp -r debian $PACKAGE-$UPSTREAM_VERSION && \
-   find $PACKAGE-$UPSTREAM_VERSION -name .svn | xargs --no-run-if-empty rm -rf && \
-   cd $PACKAGE-$UPSTREAM_VERSION && \
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.gz && \
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$OUTPUT_VERSION.orig.tar.gz && \
+   rm -rf ${PACKAGE}-${UPSTREAM_VERSION} && \
+   rm -rf ${PACKAGE}-${UPSTREAM_VERSION}.orig && \
+   tar xzf ${UPSTREAM_PACKAGE} && \
+   cp -r ${PACKAGE}-${UPSTREAM_VERSION} ${PACKAGE}-${UPSTREAM_VERSION}.orig && \
+   cp -r debian ${PACKAGE}-${UPSTREAM_VERSION} && \
+   find ${PACKAGE}-${UPSTREAM_VERSION} -name .svn | xargs --no-run-if-empty rm -rf && \
+   cd ${PACKAGE}-${UPSTREAM_VERSION} && \
    success=0
 
    if [ $success -ne 0 ] ; then
@@ -102,22 +112,53 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    if [ "$DISTRIBUTION" != "default" ] ; then
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
-         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu[0-9]//1" <debian/changelog >debian/changelog.new
+         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" \
+             -e "s/ubuntu[0-9]//1" \
+             -e "/(LP: #/D" \
+             <debian/changelog >debian/changelog.new
+         # Debian: Remove Launchpad Bug IDs.
       else
-         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" -e "s/ubuntu/ubuntu-$DISTRIBUTION/1" <debian/changelog >debian/changelog.new
+         # Naming example: 2.7.7-0ubuntu1~natty1~ppa0
+         sed -e "s/$INPUT_DISTRIBUTION;/$DISTRIBUTION;/1" \
+             -e "s/$PACKAGE_VERSION/$PACKAGE_VERSION~${DISTRIBUTION}1~ppa0/1" \
+             -e "/(Closes: #/D" \
+             <debian/changelog >debian/changelog.new
+         # Ubuntu: Remove Debian Bug IDs.
       fi
       mv debian/changelog.new debian/changelog
 
       # ------ Old distributions not supporting new Debian format -----------
-      if [ "$DISTRIBUTION" = "dapper" -o "$DISTRIBUTION" = "edgy" -o "$DISTRIBUTION" = "hardy" -o "$DISTRIBUTION" = "intrepid" -o "$DISTRIBUTION" = "jaunty" ] ; then
+      if [ "$DISTRIBUTION" = "dapper"   -o \
+           "$DISTRIBUTION" = "edgy"     -o \
+           "$DISTRIBUTION" = "feisty"   -o \
+           "$DISTRIBUTION" = "hardy"    -o \
+           "$DISTRIBUTION" = "intrepid" -o \
+           "$DISTRIBUTION" = "jaunty" ] ; then
          rm -rf debian/source
       fi
-      # -----------------------------------------------------------------....
+      # ---------------------------------------------------------------------
    else
+      # Ubuntu: Remove Debian Bug IDs.
+      sed -e "/(Closes: #/D" \
+             <debian/changelog >debian/changelog.new
+      mv debian/changelog.new debian/changelog
       sed -e "s/^Maintainer:/Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
       mv debian/control.new debian/control
    fi
+exit 1
 
+   echo ""
+   echo "------ Creating diff file $PACKAGE-$PACKAGE_VERSION.diff.gz ------"
+   (
+      cd ..
+      diff -urN "--exclude=*~" "--exclude=.svn" "--exclude=.git" \
+         $PACKAGE-$UPSTREAM_VERSION.orig $PACKAGE-$UPSTREAM_VERSION \
+         | gzip -c >$PACKAGE-$PACKAGE_VERSION.diff.gz
+   )
+
+
+   echo ""
+   echo "------ Building source package ------"
 
    # Without signature!
    # debuild -us -uc
@@ -138,9 +179,16 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
    cd ..
 
-   DSC_FILE="`find . -name $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION*.dsc`"
-   if [ ! -e $DSC_FILE ] ; then
-      echo "ERROR: No $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION*.dsc file has been generated -> Aborting!"
+   if [ "$DISTRIBUTION" = "unstable" -o \
+        "$DISTRIBUTION" = "testing"  -o \
+        "$DISTRIBUTION" = "stable"   -o \
+        "$DISTRIBUTION" = "default" ] ; then
+      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}.dsc | tail -n1`
+   else
+      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9].dsc | tail -n1`
+   fi
+   if [ ! -e $dscFile ] ; then
+      echo "ERROR: $dscFile has not been generated successfully -> Aborting!"
       exit 1
    fi
 
@@ -165,24 +213,45 @@ echo ""
 
 echo "Upload to PPA:"
 for DISTRIBUTION in $DISTRIBUTIONS ; do
-   if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" -o "$DISTRIBUTION" = "default" ] ; then
-      ppa="mentors"
+   if [ "$DISTRIBUTION" = "unstable" -o \
+        "$DISTRIBUTION" = "testing"  -o \
+        "$DISTRIBUTION" = "stable"   -o \
+        "$DISTRIBUTION" = "default" ] ; then
       if [ "$DISTRIBUTION" = "default" ] ; then
          ppa="revu"
+      else
+         ppa="mentors"
       fi
-      echo "   dput $ppa `ls $PACKAGE\_$UPSTREAM_VERSION-[0-9]*_source.changes`"
+      changesFile=`ls ${PACKAGE}_${PACKAGE_VERSION}_source.changes | tail -n1`
    else
-      echo "   dput ppa `ls $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION[0-9]_source.changes`"
+      ppa="ppa"
+      changesFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9]_source.changes | tail -n1`
    fi
+   echo "   dput $ppa $changesFile"
 done
 echo ""
 
-echo "Build test:"
+
+
+if [ -e make-symbols ] ; then
+   echo "################################################################"
+   echo "Do not forget to run make-symbols after library version changes!"
+   echo "################################################################"
+   echo ""
+fi
+
+echo "Build Test Commands:"
 for DISTRIBUTION in $DISTRIBUTIONS ; do
-   if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" -o "$DISTRIBUTION" = "default" ] ; then
-      echo "   sudo pbuilder build `ls $PACKAGE\_$UPSTREAM_VERSION-[0-9]*.dsc`"
+   if [ "$DISTRIBUTION" = "unstable" -o \
+        "$DISTRIBUTION" = "testing"  -o \
+        "$DISTRIBUTION" = "stable"   -o \
+        "$DISTRIBUTION" = "default" ] ; then
+      changesFilesPattern="${PACKAGE}_${PACKAGE_VERSION}_*.changes"
+      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}.dsc | tail -n1`
    else
-      echo "   sudo pbuilder build `ls $PACKAGE\_$OUTPUT_VERSION-$DISTRIBUTION[0-9].dsc`"
+      changesFilesPattern="${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9]_*.changes"
+      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9].dsc | tail -n1`
    fi
+   echo "   sudo pbuilder build $dscFile && lintian -iIEv --pedantic /var/cache/pbuilder/result/$changesFilesPattern"
 done
 echo ""
