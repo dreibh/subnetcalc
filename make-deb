@@ -48,9 +48,11 @@ CHANGELOG_HEADER="`head -n1 debian/changelog`"
 
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
 PACKAGE_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/ //g" -e "s/^[0-9]*://"`
-OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://"`
-UPSTREAM_VERSION=`echo $OUTPUT_VERSION | sed -e "s/-[^ ]*$//g"`
 INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
+UPSTREAM_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://" -e "s/-[^ ]*$//g"`
+OUTPUT_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/[0-9]*$//" -e "s/ //g" -e "s/^[0-9]*://"`
+DEBIAN_VERSION=`echo $PACKAGE_VERSION | sed -e "s/ubuntu[0-9]//1"`
+
 
 echo "######################################################################"
 echo "CHANGELOG_HEADER:   $CHANGELOG_HEADER"
@@ -59,6 +61,7 @@ echo "INPUT_DISTRIBUTION: $INPUT_DISTRIBUTION"
 echo "UPSTREAM_VERSION:   $UPSTREAM_VERSION"
 echo "PACKAGE_VERSION     $PACKAGE_VERSION"
 echo "OUTPUT_VERSION:     $OUTPUT_VERSION"
+echo "DEBIAN_VERSION:     $DEBIAN_VERSION"
 echo "######################################################################"
 
 
@@ -97,6 +100,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    success=1
    cp ${UPSTREAM_PACKAGE} ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.gz && \
    cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$OUTPUT_VERSION.orig.tar.gz && \
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$DEBIAN_VERSION.orig.tar.gz && \
    rm -rf ${PACKAGE}-${UPSTREAM_VERSION} && \
    rm -rf ${PACKAGE}-${UPSTREAM_VERSION}.orig && \
    tar xzf ${UPSTREAM_PACKAGE} && \
@@ -186,7 +190,12 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
         "$DISTRIBUTION" = "testing"  -o \
         "$DISTRIBUTION" = "stable"   -o \
         "$DISTRIBUTION" = "default" ] ; then
-      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}.dsc | tail -n1`
+      if [ "$DISTRIBUTION" = "default" ] ; then
+         version=${PACKAGE_VERSION}
+      else
+         version=${DEBIAN_VERSION}
+      fi
+      dscFile=`ls ${PACKAGE}_${version}.dsc | tail -n1`
    else
       dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9].dsc | tail -n1`
    fi
@@ -222,10 +231,12 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
         "$DISTRIBUTION" = "default" ] ; then
       if [ "$DISTRIBUTION" = "default" ] ; then
          ppa="revu"
+         version=${PACKAGE_VERSION}
       else
          ppa="mentors"
+         version=${DEBIAN_VERSION}
       fi
-      changesFile=`ls ${PACKAGE}_${PACKAGE_VERSION}_source.changes | tail -n1`
+      changesFile=`ls ${PACKAGE}_${version}_source.changes | tail -n1`
    else
       ppa="ppa"
       changesFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9]_source.changes | tail -n1`
@@ -249,8 +260,13 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
         "$DISTRIBUTION" = "testing"  -o \
         "$DISTRIBUTION" = "stable"   -o \
         "$DISTRIBUTION" = "default" ] ; then
-      changesFilesPattern="${PACKAGE}_${PACKAGE_VERSION}_*.changes"
-      dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}.dsc | tail -n1`
+      if [ "$DISTRIBUTION" = "default" ] ; then
+         version=${PACKAGE_VERSION}
+      else
+         version=${DEBIAN_VERSION}
+      fi
+      changesFilesPattern="${PACKAGE}_${version}_*.changes"
+      dscFile=`ls ${PACKAGE}_${version}.dsc | tail -n1`
    else
       changesFilesPattern="${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9]_*.changes"
       dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9].dsc | tail -n1`
