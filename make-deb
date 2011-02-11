@@ -129,7 +129,19 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
              -e "s/$PACKAGE_VERSION/$PACKAGE_VERSION~${DISTRIBUTION}1~ppa0/1" \
              -e "/(Closes: #/D" \
              <debian/changelog >debian/changelog.new
-         find debian/ -maxdepth 1 -name "*.symbols" | xargs --no-run-if-empty rm -f
+
+         # ------ Old distributions not supporting c++/regex style symbols --
+         if [ "$DISTRIBUTION" = "dapper"   -o \
+              "$DISTRIBUTION" = "edgy"     -o \
+              "$DISTRIBUTION" = "feisty"   -o \
+              "$DISTRIBUTION" = "hardy"    -o \
+              "$DISTRIBUTION" = "intrepid" -o \
+              "$DISTRIBUTION" = "jaunty"   -o \
+              "$DISTRIBUTION" = "karmic"   -o \
+              "$DISTRIBUTION" = "lucid" ] ; then
+            # Just skip the symbols ...
+            find debian/ -maxdepth 1 -name "*.symbols" | xargs --no-run-if-empty rm -f
+         fi
       fi
       mv debian/changelog.new debian/changelog
 
