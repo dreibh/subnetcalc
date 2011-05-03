@@ -211,9 +211,10 @@ void printAddressBinary(std::ostream&         os,
       os << std::endl;
    }
    else {
-      int p = 0;
+      int      p           = 0;
+      in6_addr ipv6Address = getIPv6Address(address);
       for(int j = 0;j < 8;j++) {
-         uint16_t a = ntohs(((const uint16_t*)&getIPv6Address(address).s6_addr)[j]);
+         uint16_t a = ntohs(((const uint16_t*)&ipv6Address.s6_addr)[j]);
          char str[16];
          snprintf((char*)&str, sizeof(str), "%04x", a);
          os << indent << str << " = ";
