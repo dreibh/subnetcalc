@@ -49,19 +49,35 @@ AC_TRY_COMPILE([#include <stdio.h>],
                 AC_MSG_RESULT(yes)],
                [AC_MSG_RESULT(no)])
 
-AC_CHECK_MEMBER(struct sockaddr_in.sin_len,
-                AC_DEFINE(HAVE_SIN_LEN, 1, [Define this if your IPv4 has sin_len in sockaddr_in struct.]),,
-                [#ifdef HAVE_SYS_TYPES_H
-                 #include <sys/types.h>
-                 #endif
-                 #include <netinet/in.h>])
+AC_MSG_CHECKING([whether 'struct sockaddr' has sa_len])
+AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+                #include <sys/types.h>
+                #endif
+                #include <sys/socket.h>],
+               [static struct sockaddr sa; int i = sizeof(sa.sa_len);],
+               [AC_MSG_RESULT(yes)
+                AC_DEFINE(HAVE_SA_LEN,1,"Define this if you have sa_len in sockaddr struct.")],
+                AC_MSG_RESULT(no))
 
-AC_CHECK_MEMBER(struct sockaddr_in6.sin6_len,
-                AC_DEFINE(HAVE_SIN6_LEN, 1, [Define this if your IPv6 has sin6_len in sockaddr_in6 struct.]),,
-                [#ifdef HAVE_SYS_TYPES_H
-                 #include <sys/types.h>
-                 #endif
-                 #include <netinet/in.h>])
+AC_MSG_CHECKING([whether 'struct sockaddr_in' has sin_len])
+AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+                #include <sys/types.h>
+                #endif
+                #include <netinet/in.h>],
+               [static struct sockaddr_in in; int i = sizeof(in.sin_len);],
+               [AC_MSG_RESULT(yes)
+                AC_DEFINE(HAVE_SIN_LEN,1,"Define this if your IPv4 has sin_len in sockaddr_in struct.")],
+                AC_MSG_RESULT(no))
+
+AC_MSG_CHECKING([whether 'struct sockaddr_in6' has sin6_len])
+AC_TRY_COMPILE([#ifdef HAVE_SYS_TYPES_H
+                #include <sys/types.h>
+                #endif
+                #include <netinet/in.h>],
+               [static struct sockaddr_in6 in; int i = sizeof(in.sin6_len);],
+               [AC_MSG_RESULT(yes)
+                AC_DEFINE(HAVE_SIN6_LEN,1,"Define this if your IPv6 has sin6_len in sockaddr_in6 struct.")],
+                AC_MSG_RESULT(no))
 
 
 # ###### GeoIP ##############################################################
