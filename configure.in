@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.1.4~rc1], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.1.4~rc1.1], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
@@ -11,6 +11,16 @@ LT_INIT
 AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_CXX
+
+
+# ###### colorgcc ###########################################################
+AC_CHECK_PROG([COLORGCC], [colorgcc], [yes], [no])
+if test "$COLORGCC" == "yes"
+then
+   AC_MSG_NOTICE([Compiling using colorgcc])
+   CC=colorgcc
+   CXX=colorgcc
+fi
 
 
 # ###### Operating system checks ############################################

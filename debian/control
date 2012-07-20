@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: http://www.iem.uni-due.de/~dreibh/subnetcalc/
 Build-Depends: autotools-dev,
+               colorgcc,
                debhelper (>= 7.0.50~),
                libgeoip-dev
 Standards-Version: 3.9.2
