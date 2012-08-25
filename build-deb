@@ -21,8 +21,25 @@
 
 . ./debian.conf
 
-CHANGELOG_HEADER="`head -n1 debian/changelog`"
-PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
 
-rm -f *.deb *.dsc *.asc *.changes *.build *.upload *.tar.gz stamp-h* svn-commit* *~
-rm -rf $PACKAGE-* $PACKAGE"_"*
+CHANGELOG_HEADER="`head -n1 debian/changelog`"
+
+PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
+PACKAGE_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/[a-Z0-9 ]*(//" -e "s/).*//" -e "s/ //g" -e "s/^[0-9]*://"`
+INPUT_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
+
+
+echo "######################################################################"
+echo "CHANGELOG_HEADER:   $CHANGELOG_HEADER"
+echo "PACKAGE:            $PACKAGE"
+echo "INPUT_DISTRIBUTION: $INPUT_DISTRIBUTION"
+echo "######################################################################"
+
+sudo echo ""
+
+./clean-deb && \
+./make-deb ${INPUT_DISTRIBUTION} && \
+DSC_FILE=${PACKAGE}_${PACKAGE_VERSION}~${INPUT_DISTRIBUTION}1~ppa0.dsc && \
+sudo pbuilder build $DSC_FILE && \
+CHANGES_FILE=/var/cache/pbuilder/result/${PACKAGE}_${PACKAGE_VERSION}~${INPUT_DISTRIBUTION}1~ppa0_*.changes && \
+lintian -iIEv --pedantic $CHANGES_FILE

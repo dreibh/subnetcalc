@@ -2,7 +2,7 @@
 # $Id$
 #
 # Debian Packaging Scripts
-# Copyright (C) 2002-2011 by Thomas Dreibholz
+# Copyright (C) 2002-2012 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -185,12 +185,14 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    # debuild -b
    # Use -i to ignore .svn files!
 
-   # Build source package including signature:
-   # debuild -sa -S -k'Thomas Dreibholz <dreibh@iem.uni-due.de>' -i
-   debuild -sa -S "-k$MAINTAINER" -i || exit 1
-   # Build source package without signature:
-   # debuild -us -uc -S "-k$MAINTAINER" -i || exit 1
 
+   if [ "$SKIP_PACKAGE_SIGNING" != "" -a $SKIP_PACKAGE_SIGNING -eq 1 ] ; then
+      # Build source package without signature:
+      debuild -us -uc -S "-k$MAINTAINER" -i || exit 1
+   else
+      # Build source package including signature:
+      debuild -sa -S "-k$MAINTAINER" -i || exit 1
+   fi
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
    # Important: After that, update with option "--override-config"!
@@ -220,14 +222,16 @@ done
 
 
 
-echo ""
-echo "====== Sign upstream package =========================================="
-echo ""
 if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
    rm -f "$UPSTREAM_PACKAGE.asc"
 fi
-echo "Signing upstream package $UPSTREAM_PACKAGE ..."
-gpg -sab "$UPSTREAM_PACKAGE"
+if [ "$SKIP_PACKAGE_SIGNING" != "" -a ! $SKIP_PACKAGE_SIGNING -eq 1 ] ; then
+   echo ""
+   echo "====== Sign upstream package =========================================="
+   echo ""
+   echo "Signing upstream package $UPSTREAM_PACKAGE ..."
+   gpg -sab "$UPSTREAM_PACKAGE"
+fi
 
 
 
