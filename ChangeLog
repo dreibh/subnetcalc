@@ -1,4 +1,111 @@
 ------------------------------------------------------------------------
+r1525 | dreibh | 2012-10-20 23:50:30 +0200 (Sat, 20 Oct 2012) | 1 line
+Changed paths:
+   M /trunk/bibtexconv/make-ppa
+   M /trunk/dia-experimental/make-ppa
+   M /trunk/fractgen2/make-ppa
+   M /trunk/netperfmeter/configure.in
+   M /trunk/netperfmeter/debian/changelog
+   M /trunk/netperfmeter/make-ppa
+   M /trunk/slideshow/make-ppa
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/wireshark-experimental/make-ppa
+
+Build script updates.
+------------------------------------------------------------------------
+r1505 | dreibh | 2012-08-25 23:52:30 +0200 (Sat, 25 Aug 2012) | 1 line
+Changed paths:
+   A /trunk/subnetcalc/build-deb (from /trunk/bibtexconv/build-deb:1498)
+   M /trunk/subnetcalc/clean-deb
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/debian.conf
+   M /trunk/subnetcalc/make-deb
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Build script updates.
+------------------------------------------------------------------------
+r1492 | dreibh | 2012-07-20 18:09:09 +0200 (Fri, 20 Jul 2012) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/src/Makefile.am
+
+Now using colorgcc.
+------------------------------------------------------------------------
+r1231 | dreibh | 2011-12-14 15:00:30 +0100 (Wed, 14 Dec 2011) | 1 line
+Changed paths:
+   M /trunk/netperfmeter/configure.in
+   M /trunk/rtpaudio2/rtpaudio/internetaddress.cc
+   M /trunk/subnetcalc/configure.in
+
+Fixed detection code for sa_len, sin_len and sin6_len.
+------------------------------------------------------------------------
+r1135 | dreibh | 2011-11-22 15:14:01 +0100 (Tue, 22 Nov 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/subnetcalc.manpages
+   M /trunk/subnetcalc/src/Makefile.am
+   A /trunk/subnetcalc/src/subnetcalc.1 (from /trunk/subnetcalc/src/subnetcalc.8:1132)
+   D /trunk/subnetcalc/src/subnetcalc.8
+
+Changed manpage category from 8 to 1.
+
+------------------------------------------------------------------------
+r1113 | dreibh | 2011-11-20 19:21:36 +0100 (Sun, 20 Nov 2011) | 2 lines
+Changed paths:
+   D /trunk/subnetcalc/freebsd/subnetcalc/pkg-plist
+
+pkg-plist is not needed.
+
+------------------------------------------------------------------------
+r1077 | dreibh | 2011-10-20 18:09:00 +0200 (Thu, 20 Oct 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian.conf
+   A /trunk/subnetcalc/filter-empty-entries
+   M /trunk/subnetcalc/make-deb
+   M /trunk/subnetcalc/make-ppa
+
+Script updates for Precise Pangolin.
+
+------------------------------------------------------------------------
+r1031 | dreibh | 2011-05-04 07:43:59 +0200 (Wed, 04 May 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+
+Fixed Debian version.
+
+------------------------------------------------------------------------
+r1030 | dreibh | 2011-05-04 07:40:46 +0200 (Wed, 04 May 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+
+Added missing entries to debian/changelog.
+
+------------------------------------------------------------------------
+r1025 | dreibh | 2011-05-03 19:15:05 +0200 (Tue, 03 May 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
+r1024 | dreibh | 2011-05-03 19:13:14 +0200 (Tue, 03 May 2011) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Version update.
+
+------------------------------------------------------------------------
 r1023 | dreibh | 2011-05-03 19:07:41 +0200 (Tue, 03 May 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
