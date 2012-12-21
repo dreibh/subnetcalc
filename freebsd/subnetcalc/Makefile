@@ -6,7 +6,7 @@
 #
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.1.2
+PORTVERSION=	2.1.4
 CATEGORIES=	net
 MASTER_SITES=	http://www.iem.uni-due.de/~dreibh/subnetcalc/download/ \
 		http://www.exp-math.uni-essen.de/~dreibh/subnetcalc/download/
@@ -24,6 +24,6 @@ LICENSE=	GPLv3
 LICENSE_FILE=	${WRKSRC}/COPYING
 
 PLIST_FILES=	bin/subnetcalc
-MAN8=		subnetcalc.8
+MAN1=		subnetcalc.1
 
 .include <bsd.port.mk>
