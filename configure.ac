@@ -1,8 +1,4 @@
-<<<<<<< HEAD:configure.ac
 AC_INIT([SubNetCalc], [2.1.4], [dreib@iem.uni-due.de])
-=======
-AC_INIT([SubNetCalc], [2.1.4~rc1.1], [dreib@iem.uni-due.de])
->>>>>>> Now using colorgcc.:configure.in
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
