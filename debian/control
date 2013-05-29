@@ -7,7 +7,7 @@ Build-Depends: autotools-dev,
                colorgcc,
                debhelper (>= 7.0.50~),
                libgeoip-dev
-Standards-Version: 3.9.3
+Standards-Version: 3.9.4
 
 Package: subnetcalc
 Architecture: any
