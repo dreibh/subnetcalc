@@ -94,8 +94,7 @@ int readPrefix(const char*           parameter,
                const sockaddr_union& forAddress,
                sockaddr_union&       netmask)
 {
-   bool isNumber = false;
-   for(int i = 0;i < strlen(parameter);i++) {
+   for(size_t i = 0;i < strlen(parameter);i++) {
       if(!isdigit(parameter[i])) {
          return(-1);
       }
@@ -471,15 +470,6 @@ void printAddressProperties(std::ostream&         os,
                             const sockaddr_union& network,
                             const sockaddr_union& broadcast)
 {
-   in_addr_t ipv4address;
-   in6_addr  ipv6address;
-   if(isIPv4(address)) {
-      ipv4address = ntohl(getIPv4Address(address));
-   }
-   else {
-      ipv6address = getIPv6Address(address);
-   }
-
    // ====== Common properties ==============================================
    os << "Properties    =" << std::endl;
    if(isMulticast(address)) {
@@ -500,8 +490,10 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv4 properties ================================================
    if(isIPv4(address)) {
-      const unsigned int a = ipv4address >> 24;
-      const unsigned int b = (ipv4address & 0x00ff0000) >> 16;
+      const in_addr_t    ipv4address = ntohl(getIPv4Address(address));
+      const unsigned int a           = ipv4address >> 24;
+      const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
+
       if(IN_CLASSA(ipv4address)) {
          os << "   - Class A" << std::endl;
          if(ipv4address == INADDR_LOOPBACK) {
@@ -569,8 +561,9 @@ void printAddressProperties(std::ostream&         os,
 
    // ====== IPv6 properties ================================================
    else {
-      const uint16_t a = ntohs((ipv6address.s6_addr)[0]);
-      const uint16_t b = ntohs((ipv6address.s6_addr)[1]);
+      const in6_addr ipv6address = getIPv6Address(address);
+      const uint16_t a           = ntohs((ipv6address.s6_addr)[0]);
+      const uint16_t b           = ntohs((ipv6address.s6_addr)[1]);
 
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
