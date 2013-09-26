@@ -848,6 +848,13 @@ int main(int argc, char** argv)
 
    // ====== GeoIP ==========================================================
 #ifdef HAVE_GEOIP
+   // libGeoIP prints an error message each time it cannot open a database.
+   // Unfortunately, packaging of these databases is very confusing: some
+   // distributions include some of them, etc.. Just avoid annoying the user
+   // by printing these errors to /dev/null. The error condition of a
+   // non-existing database is handled by subnetcalc anyway.
+   if(freopen("/dev/null", "w", stderr) == NULL) { }
+
    const char* country = NULL;
    const char* code    = NULL;
    if(address.sa.sa_family == AF_INET) {
