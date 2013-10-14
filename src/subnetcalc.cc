@@ -30,6 +30,7 @@
 #include <locale.h>
 #include <netdb.h>
 #include <iostream>
+#include <cstring>
 #ifdef HAVE_GEOIP
 #include <GeoIP.h>
 #include <GeoIPCity.h>
