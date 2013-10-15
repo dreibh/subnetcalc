@@ -6,6 +6,7 @@ Homepage: http://www.iem.uni-due.de/~dreibh/subnetcalc/
 Build-Depends: autotools-dev,
                colorgcc,
                debhelper (>= 7.0.50~),
+               libfile-fcntllock-perl,
                libgeoip-dev
 Standards-Version: 3.9.4
 

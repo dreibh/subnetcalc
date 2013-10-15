@@ -3,6 +3,8 @@ subnetcalc (2.2.0~rc1-1ubuntu1) saucy; urgency=low
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/subnetcalc.manpages: Changed manpage category from 8 to 1.
   * debian/control: now compiling with colorgcc.
+  * debian/control: added libfile-fcntllock-perl dependency to get rid of
+                    NFS lock warning.
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 26 Sep 2013 15:15:15 +0100
 
