@@ -1,4 +1,139 @@
 ------------------------------------------------------------------------
+r1665 | dreibh | 2013-10-15 10:02:22 +0200 (Tue, 15 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+
+Added libfile-fcntllock-perl dependency.
+
+------------------------------------------------------------------------
+r1664 | dreibh | 2013-10-14 19:20:41 +0200 (Mon, 14 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Fixed a compile problem under OpenSuSE 12.3 by applying suggested patch by Maximilian Decker.
+
+------------------------------------------------------------------------
+r1663 | dreibh | 2013-09-26 16:33:31 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   A /trunk/subnetcalc/rpm
+   A /trunk/subnetcalc/rpm/subnetcalc.spec
+
+Added RPM packaging file.
+
+------------------------------------------------------------------------
+r1662 | dreibh | 2013-09-26 16:26:13 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+
+Updated packaging files.
+
+------------------------------------------------------------------------
+r1661 | dreibh | 2013-09-26 16:23:54 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Fixed the IPv6 handling, after previous change broke it.
+
+------------------------------------------------------------------------
+r1660 | dreibh | 2013-09-26 16:00:43 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Fixed warnings.
+
+------------------------------------------------------------------------
+r1659 | dreibh | 2013-09-26 15:52:39 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Now handling GeoIP error messages (database not found) properly.
+
+------------------------------------------------------------------------
+r1658 | dreibh | 2013-09-26 15:43:13 +0200 (Thu, 26 Sep 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/subnetcalc.1
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+   M /trunk/subnetcalc/src/tools.h
+
+Improved GeoIP output.
+
+------------------------------------------------------------------------
+r1648 | dreibh | 2013-05-29 18:01:03 +0200 (Wed, 29 May 2013) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/build-deb
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/make-deb
+   M /trunk/subnetcalc/make-ppa
+
+Build system updates.
+------------------------------------------------------------------------
+r1647 | dreibh | 2013-05-29 18:00:55 +0200 (Wed, 29 May 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/Makefile.am
+
+libm is required to build on latest Ubuntu systems.
+
+------------------------------------------------------------------------
+r1611 | dreibh | 2012-12-22 10:10:47 +0100 (Sat, 22 Dec 2012) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+
+Now using colorgcc.
+------------------------------------------------------------------------
+r1610 | dreibh | 2012-12-22 10:08:54 +0100 (Sat, 22 Dec 2012) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+
+Fixed conflicts.
+------------------------------------------------------------------------
+r1609 | dreibh | 2012-12-22 10:06:17 +0100 (Sat, 22 Dec 2012) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+
+Now using colorgcc.
+------------------------------------------------------------------------
+r1597 | dreibh | 2012-12-21 18:33:36 +0100 (Fri, 21 Dec 2012) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/freebsd/subnetcalc/make-shar
+
+A small fix.
+
+
+------------------------------------------------------------------------
+r1596 | dreibh | 2012-12-21 18:33:09 +0100 (Fri, 21 Dec 2012) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
+   M /trunk/subnetcalc/freebsd/subnetcalc/distinfo
+   M /trunk/subnetcalc/freebsd/subnetcalc/test-packaging
+
+Updated FreeBSD packaging files.
+
+
+------------------------------------------------------------------------
+r1590 | dreibh | 2012-12-21 18:01:13 +0100 (Fri, 21 Dec 2012) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
+r1589 | dreibh | 2012-12-21 18:00:54 +0100 (Fri, 21 Dec 2012) | 2 lines
+Changed paths:
+   A /trunk/subnetcalc/configure.ac (from /trunk/subnetcalc/configure.in:1587)
+   D /trunk/subnetcalc/configure.in
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Renamed configure.in to configure.ac, according to latest Automake conventions.
+
+------------------------------------------------------------------------
 r1525 | dreibh | 2012-10-20 23:50:30 +0200 (Sat, 20 Oct 2012) | 1 line
 Changed paths:
    M /trunk/bibtexconv/make-ppa
