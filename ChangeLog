@@ -1,4 +1,14 @@
 ------------------------------------------------------------------------
+r1679 | dreibh | 2013-10-23 13:29:47 +0200 (Wed, 23 Oct 2013) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/Makefile.am
+   M /trunk/subnetcalc/subnetcalc.lsm
+   A /trunk/subnetcalc/update-changelog
+
+Packaging file updates.
+------------------------------------------------------------------------
 r1671 | dreibh | 2013-10-18 23:52:07 +0200 (Fri, 18 Oct 2013) | 2 lines
 Changed paths:
    M /trunk/bibtexconv/make-ppa
