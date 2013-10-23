@@ -1,0 +1,4 @@
+#!/bin/sh -e
+
+LANG=C
+svn log -v . >ChangeLog.new && mv ChangeLog.new ChangeLog

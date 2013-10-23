@@ -1,4 +1,4 @@
-subnetcalc (2.2.0~rc2-1ubuntu1) saucy; urgency=low
+subnetcalc (2.2.0~rc2-1ubuntu1) trusty; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/subnetcalc.manpages: Changed manpage category from 8 to 1.

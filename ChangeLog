@@ -1,4 +1,29 @@
 ------------------------------------------------------------------------
+r1671 | dreibh | 2013-10-18 23:52:07 +0200 (Fri, 18 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/make-ppa
+   M /trunk/dia-experimental/make-ppa
+   M /trunk/fractgen2/make-ppa
+   M /trunk/netperfmeter/make-ppa
+   M /trunk/rtpaudio2/make-ppa
+   M /trunk/slideshow/make-ppa
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/tsctp/make-ppa
+   M /trunk/wireshark-experimental/make-ppa
+
+Updated make-ppa.
+
+------------------------------------------------------------------------
+r1666 | dreibh | 2013-10-15 23:00:59 +0200 (Tue, 15 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Packaging file updates.
+
+------------------------------------------------------------------------
 r1665 | dreibh | 2013-10-15 10:02:22 +0200 (Tue, 15 Oct 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
