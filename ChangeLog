@@ -1,4 +1,28 @@
 ------------------------------------------------------------------------
+r1704 | dreibh | 2013-10-25 12:42:53 +0200 (Fri, 25 Oct 2013) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/make-ppa
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Version update.
+------------------------------------------------------------------------
+r1694 | dreibh | 2013-10-23 20:23:21 +0200 (Wed, 23 Oct 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+
+Removed libfile-fcntllock-perl dependency again. It breaks build under Lucid Lynx.
+
+------------------------------------------------------------------------
+r1686 | dreibh | 2013-10-23 13:32:48 +0200 (Wed, 23 Oct 2013) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+------------------------------------------------------------------------
 r1679 | dreibh | 2013-10-23 13:29:47 +0200 (Wed, 23 Oct 2013) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
