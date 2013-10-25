@@ -1,10 +1,10 @@
-subnetcalc (2.2.0~rc2.2-1ubuntu1) trusty; urgency=low
+subnetcalc (2.2.0-1ubuntu1) trusty; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/subnetcalc.manpages: Changed manpage category from 8 to 1.
   * debian/control: now compiling with colorgcc.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 23 Oct 2013 08:08:08 +0800
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Fri, 25 Oct 2013 08:08:08 +0800
 
 subnetcalc (2.1.3-1ubuntu1) oneiric; urgency=high
 
