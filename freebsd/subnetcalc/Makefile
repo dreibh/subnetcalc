@@ -6,7 +6,7 @@
 #
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.1.4
+PORTVERSION=	2.2.0
 CATEGORIES=	net
 MASTER_SITES=	http://www.iem.uni-due.de/~dreibh/subnetcalc/download/ \
 		http://www.exp-math.uni-essen.de/~dreibh/subnetcalc/download/

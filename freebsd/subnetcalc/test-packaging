@@ -33,8 +33,8 @@ echo "######################################################################"
 if [ -e work ] ; then
    rm -rf work
 fi
-rm -f ${PACKAGE}-${UPSTREAM_VERSION}.tbz
-find /usr/ports/packages -name "${PACKAGE}*.tbz" | xargs rm -f
+rm -f ${PACKAGE}-${UPSTREAM_VERSION}.txz
+find /usr/ports/packages -name "${PACKAGE}*.txz" | xargs rm -f
 
 
 echo "1. ###### make deinstall ##############################################" && \
@@ -45,17 +45,18 @@ echo "3. ###### make package ################################################" &
 make package && \
 echo "4. ###### make deinstall ##############################################" && \
 make deinstall && \
-echo "5. ###### pkg_add #####################################################" && \
-if [ -e ${PACKAGE}-${UPSTREAM_VERSION}.tbz ] ; then
+echo "5. ###### pkg add #####################################################" && \
+if [ -e ${PACKAGE}-${UPSTREAM_VERSION}.txz ] ; then
    mkdir /usr/ports/packages /usr/ports/packages/All
-   cp ${PACKAGE}-${UPSTREAM_VERSION}.tbz /usr/ports/packages/All
+   cp ${PACKAGE}-${UPSTREAM_VERSION}.txz /usr/ports/packages/All
 fi
-pkg_add /usr/ports/packages/All/${PACKAGE}-${UPSTREAM_VERSION}.tbz && \
+pkg add /usr/ports/packages/All/${PACKAGE}-${UPSTREAM_VERSION}.txz && \
 echo "6. ###### make deinstall ##############################################" && \
 make deinstall && \
 echo "7. ###### make reinstall ##############################################" && \
 make reinstall && \
 echo "8. ###### make package ################################################" && \
 make package && \
-echo "9. ###### tar tzvf *.tbz ##############################################" && \
-tar tzvf /usr/ports/packages/All/${PACKAGE}-${UPSTREAM_VERSION}.tbz
+echo "9. ###### tar tzvf *.txz ##############################################" && \
+tar tzvf /usr/ports/packages/All/${PACKAGE}-${UPSTREAM_VERSION}.txz && \
+echo "====== Successfully completed! ======"
