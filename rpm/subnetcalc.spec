@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.2.0~rc1
+Version: 2.2.0
 Release: 1%{?dist}
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Converted/net
