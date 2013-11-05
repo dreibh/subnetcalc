@@ -64,7 +64,7 @@ DEBIAN_VERSION=`echo $DEBIAN_OUTPUT_VERSION    | sed -e "s/ubuntu$//1"`
 DEBIAN_UPSTREAM_VERSION=`echo $DEBIAN_VERSION  | sed -e "s/-[0-9]*$//"`
 
 if [ "$PACKAGE-$PACKAGE_VERSION" != "$DEBIAN_PACKAGE-$DEBIAN_UPSTREAM_VERSION" ] ; then
-   echo >&2 "ERROR: RPM version and Debian version do not match -> $PACKAGE-$PACKAGE_VERSION vs. $DEBIAN_PACKAGE-DEBIAN_UPSTREAM_VERSION!"
+   echo >&2 "ERROR: RPM version and Debian version do not match -> $PACKAGE-$PACKAGE_VERSION vs. $DEBIAN_PACKAGE-$DEBIAN_UPSTREAM_VERSION!"
    exit 1
 fi
 
@@ -132,13 +132,17 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo -e ""
    echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating binary RPM for $DISTRIBUTION ==========\x1b[0m"
    echo -e ""
-   ARCH=`echo "$DISTRIBUTION" | sed -e "s/.*-//g"`
+
+   # Remove old files
+   find /var/lib/mock/$DISTRIBUTION/result -name "$PACKAGE-$PACKAGE_VERSION-$PACKAGE_RELEASE.*.rpm" | xargs --no-run-if-empty rm -f
+
+   # Build the binary RPM
    mock -r $DISTRIBUTION --rebuild $PACKAGE_SRPM
-   PACKAGE_RPM=`find /var/lib/mock/$DISTRIBUTION/result -name "$PACKAGE-$PACKAGE_VERSION-$PACKAGE_RELEASE.*.rpm" | grep -v "$PACKAGE-$PACKAGE_VERSION-$PACKAGE_RELEASE.src.rpm"`
-   if [ ! -e "$PACKAGE_RPM" ] ; then
-      echo >&2 "ERROR: Cannot find RPM $PACKAGE_RPM!"
+
+   # Check whether files are at the right location
+   PACKAGE_RPMS=`find /var/lib/mock/$DISTRIBUTION/result -name "$PACKAGE-$PACKAGE_VERSION-$PACKAGE_RELEASE.*.rpm" | grep -v "$PACKAGE-$PACKAGE_VERSION-$PACKAGE_RELEASE.src.rpm" || true`
+   if [ ! -e "$PACKAGE_RPMS" ] ; then
+      echo >&2 "ERROR: Cannot find RPMs!"
       exit 1
    fi
 done
-
-exit 1
