@@ -1,6 +1,6 @@
 Name: subnetcalc
 Version: 2.2.0
-Release: 1%{?dist}
+Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
 License: GPLv3
@@ -28,8 +28,8 @@ make %{?_smp_mflags}
 make DESTDIR=%{buildroot} install
 
 %files
-${_bindir}/subnetcalc
-${_datadir}/man/man1/subnetcalc.1.gz
+%{_bindir}/subnetcalc
+%{_datadir}/man/man1/subnetcalc.1.gz
 
 %doc
 
