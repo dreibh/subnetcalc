@@ -40,9 +40,9 @@ if [ "$DISTRIBUTIONS" == "" ] ; then
    DISTRIBUTIONS="fedora-18-x86_64"
 fi
 
-PACKAGE=`grep "^Name: " rpm/*.spec | head -n1 | sed -e "s/Name: //g"`
-PACKAGE_VERSION=`grep "^Version: " rpm/*.spec | head -n1 | sed -e "s/Version: //g" -e "s/[ \t]*//g"`
-PACKAGE_RELEASE=`grep "^Release: " rpm/*.spec | head -n1 | sed -e "s/Release: //g" -e "s/[ \t]*//g"`
+PACKAGE=`grep "^Name:" rpm/*.spec | head -n1 | sed -e "s/Name://g" -e "s/[ \t]*//g"`
+PACKAGE_VERSION=`grep "^Version:" rpm/*.spec | head -n1 | sed -e "s/Version://g" -e "s/[ \t]*//g"`
+PACKAGE_RELEASE=`grep "^Release:" rpm/*.spec | head -n1 | sed -e "s/Release://g" -e "s/[ \t]*//g"`
 
 echo -e "\x1b[34m###########################################\x1b[0m"
 echo -e "\x1b[34mPACKAGE:           $PACKAGE\x1b[0m"
