@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.2.0], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.2.1], [dreib@iem.uni-due.de])
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
 AC_CONFIG_MACRO_DIR([m4])
