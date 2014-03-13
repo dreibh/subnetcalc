@@ -1,5 +1,219 @@
 ------------------------------------------------------------------------
-r1704 | dreibh | 2013-10-25 12:42:53 +0200 (Fri, 25 Oct 2013) | 1 line
+r1777 | dreibh | 2014-03-13 10:06:18 +0100 (to., 13 mars 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Fixed IPv6 output bug.
+
+------------------------------------------------------------------------
+r1744 | dreibh | 2013-11-11 09:56:43 +0100 (ma., 11 nov. 2013) | 2 lines
+Changed paths:
+   D /trunk/mktcp-kernel
+   A /trunk/mptcp-kernel (from /trunk/mktcp-kernel:1743)
+   M /trunk/subnetcalc/make-rpm
+
+Minor updates.
+
+------------------------------------------------------------------------
+r1743 | dreibh | 2013-11-11 09:44:44 +0100 (ma., 11 nov. 2013) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/make-rpm
+   M /trunk/fractgen2/make-rpm
+   M /trunk/netperfmeter/make-rpm
+   M /trunk/subnetcalc/make-rpm
+   M /trunk/tsctp/make-rpm
+
+Updated make-rpm.
+
+------------------------------------------------------------------------
+r1736 | dreibh | 2013-11-05 16:48:22 +0100 (ti., 05 nov. 2013) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/src/grammar.h
+   M /trunk/bibtexconv/src/t1.cc
+   M /trunk/cmt-rp-patches/new/sctp.h
+   M /trunk/cmt-rp-patches/new/sctp_cc_functions.c
+   M /trunk/cmt-rp-patches/new/sctp_structs.h
+   M /trunk/cmt-rp-patches/new/sctp_sysctl.c
+   M /trunk/cmt-rp-patches/new/sctp_sysctl.h
+   M /trunk/cmt-rp-patches/new/sctp_usrreq.c
+   M /trunk/cmt-rp-patches/new/sctputil.c
+   M /trunk/datacoll/correlator_impl.cc
+   M /trunk/datacoll/correlator_impl.h
+   M /trunk/datacoll/dccc.cc
+   M /trunk/datacoll/loglevel.cc
+   M /trunk/datacoll/loglevel.h
+   M /trunk/datacoll/nacstatistics.cc
+   M /trunk/datacoll/nacstatistics.h
+   M /trunk/datacoll/nacstatisticsmanager.cc
+   M /trunk/datacoll/nacstatisticsmanager.h
+   M /trunk/datacoll/rcastatistics.cc
+   M /trunk/datacoll/rcastatistics.h
+   M /trunk/datacoll/rcastatisticsmanager.cc
+   M /trunk/datacoll/rcastatisticsmanager.h
+   M /trunk/datacoll/statistics.cc
+   M /trunk/datacoll/statistics.h
+   M /trunk/datacoll/statisticsmanager.cc
+   M /trunk/datacoll/statisticsmanager.h
+   M /trunk/datacoll/statisticsset.cc
+   M /trunk/datacoll/statisticsset.h
+   M /trunk/datacoll/t1.cc
+   M /trunk/datacoll/t2.cc
+   M /trunk/datacoll/test-client.cc
+   M /trunk/datacoll/test-server.cc
+   M /trunk/datacoll/tools.cc
+   M /trunk/datacoll/tools.h
+   M /trunk/fractalgen1/fractalgenerator/colorschemeinterface.h
+   M /trunk/fractalgen1/fractalgenerator/configentry.h
+   M /trunk/fractalgen1/fractalgenerator/doubleconfigentry.h
+   M /trunk/fractalgen1/fractalgenerator/fractalalgorithminterface.h
+   M /trunk/fractalgen1/fractalgenerator/fractalbuffer.h
+   M /trunk/fractalgen1/fractalgenerator/fractalcalculationthread.h
+   M /trunk/fractalgen1/fractalgenerator/fractaldisplay.h
+   M /trunk/fractalgen1/fractalgenerator/fractalgenerator.h
+   M /trunk/fractalgen1/fractalgenerator/fractalgeneratordoc.h
+   M /trunk/fractalgen1/fractalgenerator/fractalgeneratorview.h
+   M /trunk/fractalgen1/fractalgenerator/mandelbrot.h
+   M /trunk/fractalgen1/fractalgenerator/mandelbrotn.h
+   M /trunk/fractalgen1/fractalgenerator/mylistviewitem.h
+   M /trunk/fractalgen1/fractalgenerator/optionsdialog.h
+   M /trunk/fractalgen1/fractalgenerator/simplehsv.h
+   M /trunk/fractalgen1/fractalgenerator/uintconfigentry.h
+   M /trunk/lksctp-patches/debug-bug/associola.c
+   M /trunk/lksctp-patches/rtx-bug/output.c
+   M /trunk/lksctp-patches/rtx-bug/outqueue.c
+   M /trunk/lws2003-beispiele/tree.cc
+   M /trunk/progtest/loglevel.cc
+   M /trunk/progtest/loglevel.h
+   M /trunk/progtest/progclient.cc
+   M /trunk/progtest/progpacket.h
+   M /trunk/progtest/progserver.cc
+   M /trunk/progtest/progserver.h
+   M /trunk/progtest/progviewer.cc
+   M /trunk/progtest/progviewer.h
+   M /trunk/progtest/t1.cc
+   M /trunk/progtest/t2.cc
+   M /trunk/progtest/tools.cc
+   M /trunk/progtest/tools.h
+   M /trunk/rtpaudio2/libmpegsound/bitwindow.cc
+   M /trunk/rtpaudio2/libmpegsound/cyclicbuffer.cc
+   M /trunk/rtpaudio2/libmpegsound/esdplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/fileinput.cc
+   M /trunk/rtpaudio2/libmpegsound/fileplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/filter.cc
+   M /trunk/rtpaudio2/libmpegsound/filter_2.cc
+   M /trunk/rtpaudio2/libmpegsound/httpinput.cc
+   M /trunk/rtpaudio2/libmpegsound/huffmantable.cc
+   M /trunk/rtpaudio2/libmpegsound/mpeglayer1.cc
+   M /trunk/rtpaudio2/libmpegsound/mpeglayer2.cc
+   M /trunk/rtpaudio2/libmpegsound/mpeglayer3.cc
+   M /trunk/rtpaudio2/libmpegsound/mpegtable.cc
+   M /trunk/rtpaudio2/libmpegsound/mpegtoraw.cc
+   M /trunk/rtpaudio2/libmpegsound/nasplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/oggplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/rawplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/rawtofile.cc
+   M /trunk/rtpaudio2/libmpegsound/sdlplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/sidplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/soundinputstream.cc
+   M /trunk/rtpaudio2/libmpegsound/soundplayer.cc
+   M /trunk/rtpaudio2/libmpegsound/wavetoraw.cc
+   M /trunk/rtpaudio2/libmpegsound/xingheader.cc
+   M /trunk/snmptest/breakdetector.c
+   M /trunk/snmptest/breakdetector.h
+   M /trunk/snmptest/snmptest.cc
+   M /trunk/snmptest/t1.cc
+   M /trunk/snmptest/t2.cc
+   M /trunk/subnetcalc/src/t1.cc
+   M /trunk/tao-test/test-client.cc
+   M /trunk/tao-test/test-server.cc
+   M /trunk/tded/dblringlist.h
+   M /trunk/tded/pkt_sched.h
+   M /trunk/tded/q_tded.c
+   M /trunk/tded/sch_tded.c
+   M /trunk/tded/skbuff.c
+   M /trunk/tded/startpacket.h
+   M /trunk/tded/t1.c
+   M /trunk/tded/t2.c
+   M /trunk/tded/tdedsp.h
+   M /trunk/tded/testsuite.c
+   M /trunk/tded/testsuite.h
+
+Using SVN keywords:Id property.
+
+------------------------------------------------------------------------
+r1735 | dreibh | 2013-11-05 16:42:50 +0100 (ti., 05 nov. 2013) | 1 line
+Changed paths:
+   A /trunk/bibtexconv/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
+   M /trunk/bibtexconv/rpm/bibtexconv.spec
+   A /trunk/fractgen2/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
+   M /trunk/fractgen2/rpm/fractgen.spec
+   A /trunk/netperfmeter/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
+   M /trunk/netperfmeter/rpm/netperfmeter.spec
+   M /trunk/progtest/loglevel.h
+   M /trunk/progtest/progclient.cc
+   M /trunk/progtest/progpacket.h
+   M /trunk/progtest/progserver.cc
+   M /trunk/progtest/progviewer.cc
+   M /trunk/progtest/progviewer.h
+   M /trunk/progtest/progviewer.moc
+   M /trunk/progtest/tools.cc
+   M /trunk/progtest/tools.h
+   M /trunk/subnetcalc/make-rpm
+
+Improved RPM packaging.
+------------------------------------------------------------------------
+r1734 | dreibh | 2013-11-05 15:21:24 +0100 (ti., 05 nov. 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/make-rpm
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+
+Updated RPM packaging script.
+
+------------------------------------------------------------------------
+r1733 | dreibh | 2013-11-05 14:37:32 +0100 (ti., 05 nov. 2013) | 2 lines
+Changed paths:
+   A /trunk/subnetcalc/make-rpm
+
+Started to write RPM build script.
+
+------------------------------------------------------------------------
+r1732 | dreibh | 2013-11-05 14:10:38 +0100 (ti., 05 nov. 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+
+Updated spec file.
+
+------------------------------------------------------------------------
+r1723 | dreibh | 2013-11-04 12:54:19 +0100 (ma., 04 nov. 2013) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+
+Updated RPM sepc file.
+
+------------------------------------------------------------------------
+r1712 | dreibh | 2013-11-03 11:06:20 +0100 | 3 lines
+Changed paths:
+   M /trunk/bibtexconv/freebsd/bibtexconv/Makefile
+   M /trunk/bibtexconv/freebsd/bibtexconv/distinfo
+   M /trunk/bibtexconv/freebsd/bibtexconv/test-packaging
+   M /trunk/netperfmeter/freebsd/netperfmeter/test-packaging
+   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
+   M /trunk/subnetcalc/freebsd/subnetcalc/distinfo
+   M /trunk/subnetcalc/freebsd/subnetcalc/test-packaging
+
+FreeBSD packaging file updates.
+
+
+------------------------------------------------------------------------
+r1705 | dreibh | 2013-10-25 12:45:15 +0200 (fr., 25 okt. 2013) | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+------------------------------------------------------------------------
+r1704 | dreibh | 2013-10-25 12:42:53 +0200 (fr., 25 okt. 2013) | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.ac
    M /trunk/subnetcalc/debian/changelog
@@ -8,7 +222,7 @@ Changed paths:
 
 Version update.
 ------------------------------------------------------------------------
-r1694 | dreibh | 2013-10-23 20:23:21 +0200 (Wed, 23 Oct 2013) | 2 lines
+r1694 | dreibh | 2013-10-23 20:23:21 +0200 (on., 23 okt. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.ac
    M /trunk/subnetcalc/debian/changelog
@@ -17,13 +231,13 @@ Changed paths:
 Removed libfile-fcntllock-perl dependency again. It breaks build under Lucid Lynx.
 
 ------------------------------------------------------------------------
-r1686 | dreibh | 2013-10-23 13:32:48 +0200 (Wed, 23 Oct 2013) | 1 line
+r1686 | dreibh | 2013-10-23 13:32:48 +0200 (on., 23 okt. 2013) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 Updated ChangeLog.
 ------------------------------------------------------------------------
-r1679 | dreibh | 2013-10-23 13:29:47 +0200 (Wed, 23 Oct 2013) | 1 line
+r1679 | dreibh | 2013-10-23 13:29:47 +0200 (on., 23 okt. 2013) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/debian/changelog
@@ -33,7 +247,7 @@ Changed paths:
 
 Packaging file updates.
 ------------------------------------------------------------------------
-r1671 | dreibh | 2013-10-18 23:52:07 +0200 (Fri, 18 Oct 2013) | 2 lines
+r1671 | dreibh | 2013-10-18 23:52:07 +0200 (fr., 18 okt. 2013) | 2 lines
 Changed paths:
    M /trunk/bibtexconv/make-ppa
    M /trunk/dia-experimental/make-ppa
@@ -48,7 +262,7 @@ Changed paths:
 Updated make-ppa.
 
 ------------------------------------------------------------------------
-r1666 | dreibh | 2013-10-15 23:00:59 +0200 (Tue, 15 Oct 2013) | 2 lines
+r1666 | dreibh | 2013-10-15 23:00:59 +0200 (ti., 15 okt. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/configure.ac
@@ -58,7 +272,7 @@ Changed paths:
 Packaging file updates.
 
 ------------------------------------------------------------------------
-r1665 | dreibh | 2013-10-15 10:02:22 +0200 (Tue, 15 Oct 2013) | 2 lines
+r1665 | dreibh | 2013-10-15 10:02:22 +0200 (ti., 15 okt. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -66,14 +280,14 @@ Changed paths:
 Added libfile-fcntllock-perl dependency.
 
 ------------------------------------------------------------------------
-r1664 | dreibh | 2013-10-14 19:20:41 +0200 (Mon, 14 Oct 2013) | 2 lines
+r1664 | dreibh | 2013-10-14 19:20:41 +0200 (ma., 14 okt. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Fixed a compile problem under OpenSuSE 12.3 by applying suggested patch by Maximilian Decker.
 
 ------------------------------------------------------------------------
-r1663 | dreibh | 2013-09-26 16:33:31 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1663 | dreibh | 2013-09-26 16:33:31 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    A /trunk/subnetcalc/rpm
    A /trunk/subnetcalc/rpm/subnetcalc.spec
@@ -81,7 +295,7 @@ Changed paths:
 Added RPM packaging file.
 
 ------------------------------------------------------------------------
-r1662 | dreibh | 2013-09-26 16:26:13 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1662 | dreibh | 2013-09-26 16:26:13 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.ac
    M /trunk/subnetcalc/debian/changelog
@@ -89,28 +303,28 @@ Changed paths:
 Updated packaging files.
 
 ------------------------------------------------------------------------
-r1661 | dreibh | 2013-09-26 16:23:54 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1661 | dreibh | 2013-09-26 16:23:54 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Fixed the IPv6 handling, after previous change broke it.
 
 ------------------------------------------------------------------------
-r1660 | dreibh | 2013-09-26 16:00:43 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1660 | dreibh | 2013-09-26 16:00:43 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Fixed warnings.
 
 ------------------------------------------------------------------------
-r1659 | dreibh | 2013-09-26 15:52:39 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1659 | dreibh | 2013-09-26 15:52:39 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Now handling GeoIP error messages (database not found) properly.
 
 ------------------------------------------------------------------------
-r1658 | dreibh | 2013-09-26 15:43:13 +0200 (Thu, 26 Sep 2013) | 2 lines
+r1658 | dreibh | 2013-09-26 15:43:13 +0200 (to., 26 sep. 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.1
    M /trunk/subnetcalc/src/subnetcalc.cc
@@ -120,7 +334,7 @@ Changed paths:
 Improved GeoIP output.
 
 ------------------------------------------------------------------------
-r1648 | dreibh | 2013-05-29 18:01:03 +0200 (Wed, 29 May 2013) | 1 line
+r1648 | dreibh | 2013-05-29 18:01:03 +0200 (on., 29 mai 2013) | 1 line
 Changed paths:
    M /trunk/subnetcalc/build-deb
    M /trunk/subnetcalc/configure.ac
@@ -131,34 +345,34 @@ Changed paths:
 
 Build system updates.
 ------------------------------------------------------------------------
-r1647 | dreibh | 2013-05-29 18:00:55 +0200 (Wed, 29 May 2013) | 2 lines
+r1647 | dreibh | 2013-05-29 18:00:55 +0200 (on., 29 mai 2013) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/Makefile.am
 
 libm is required to build on latest Ubuntu systems.
 
 ------------------------------------------------------------------------
-r1611 | dreibh | 2012-12-22 10:10:47 +0100 (Sat, 22 Dec 2012) | 1 line
+r1611 | dreibh | 2012-12-22 10:10:47 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.ac
 
 Now using colorgcc.
 ------------------------------------------------------------------------
-r1610 | dreibh | 2012-12-22 10:08:54 +0100 (Sat, 22 Dec 2012) | 1 line
+r1610 | dreibh | 2012-12-22 10:08:54 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.ac
    M /trunk/subnetcalc/debian/changelog
 
 Fixed conflicts.
 ------------------------------------------------------------------------
-r1609 | dreibh | 2012-12-22 10:06:17 +0100 (Sat, 22 Dec 2012) | 1 line
+r1609 | dreibh | 2012-12-22 10:06:17 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.ac
    M /trunk/subnetcalc/debian/changelog
 
 Now using colorgcc.
 ------------------------------------------------------------------------
-r1597 | dreibh | 2012-12-21 18:33:36 +0100 (Fri, 21 Dec 2012) | 3 lines
+r1597 | dreibh | 2012-12-21 18:33:36 +0100 (fr., 21 des. 2012) | 3 lines
 Changed paths:
    M /trunk/subnetcalc/freebsd/subnetcalc/make-shar
 
@@ -166,7 +380,7 @@ A small fix.
 
 
 ------------------------------------------------------------------------
-r1596 | dreibh | 2012-12-21 18:33:09 +0100 (Fri, 21 Dec 2012) | 3 lines
+r1596 | dreibh | 2012-12-21 18:33:09 +0100 (fr., 21 des. 2012) | 3 lines
 Changed paths:
    M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
    M /trunk/subnetcalc/freebsd/subnetcalc/distinfo
@@ -176,14 +390,14 @@ Updated FreeBSD packaging files.
 
 
 ------------------------------------------------------------------------
-r1590 | dreibh | 2012-12-21 18:01:13 +0100 (Fri, 21 Dec 2012) | 2 lines
+r1590 | dreibh | 2012-12-21 18:01:13 +0100 (fr., 21 des. 2012) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 Updated ChangeLog.
 
 ------------------------------------------------------------------------
-r1589 | dreibh | 2012-12-21 18:00:54 +0100 (Fri, 21 Dec 2012) | 2 lines
+r1589 | dreibh | 2012-12-21 18:00:54 +0100 (fr., 21 des. 2012) | 2 lines
 Changed paths:
    A /trunk/subnetcalc/configure.ac (from /trunk/subnetcalc/configure.in:1587)
    D /trunk/subnetcalc/configure.in
@@ -193,7 +407,7 @@ Changed paths:
 Renamed configure.in to configure.ac, according to latest Automake conventions.
 
 ------------------------------------------------------------------------
-r1525 | dreibh | 2012-10-20 23:50:30 +0200 (Sat, 20 Oct 2012) | 1 line
+r1525 | dreibh | 2012-10-20 23:50:30 +0200 | 1 line
 Changed paths:
    M /trunk/bibtexconv/make-ppa
    M /trunk/dia-experimental/make-ppa
@@ -207,7 +421,7 @@ Changed paths:
 
 Build script updates.
 ------------------------------------------------------------------------
-r1505 | dreibh | 2012-08-25 23:52:30 +0200 (Sat, 25 Aug 2012) | 1 line
+r1505 | dreibh | 2012-08-25 23:52:30 +0200 | 1 line
 Changed paths:
    A /trunk/subnetcalc/build-deb (from /trunk/bibtexconv/build-deb:1498)
    M /trunk/subnetcalc/clean-deb
@@ -221,7 +435,7 @@ Changed paths:
 
 Build script updates.
 ------------------------------------------------------------------------
-r1492 | dreibh | 2012-07-20 18:09:09 +0200 (Fri, 20 Jul 2012) | 1 line
+r1492 | dreibh | 2012-07-20 18:09:09 +0200 (fr., 20 juli 2012) | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -230,7 +444,7 @@ Changed paths:
 
 Now using colorgcc.
 ------------------------------------------------------------------------
-r1231 | dreibh | 2011-12-14 15:00:30 +0100 (Wed, 14 Dec 2011) | 1 line
+r1231 | dreibh | 2011-12-14 15:00:30 +0100 (on., 14 des. 2011) | 1 line
 Changed paths:
    M /trunk/netperfmeter/configure.in
    M /trunk/rtpaudio2/rtpaudio/internetaddress.cc
@@ -238,7 +452,7 @@ Changed paths:
 
 Fixed detection code for sa_len, sin_len and sin6_len.
 ------------------------------------------------------------------------
-r1135 | dreibh | 2011-11-22 15:14:01 +0100 (Tue, 22 Nov 2011) | 2 lines
+r1135 | dreibh | 2011-11-22 15:14:01 +0100 (ti., 22 nov. 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -250,14 +464,14 @@ Changed paths:
 Changed manpage category from 8 to 1.
 
 ------------------------------------------------------------------------
-r1113 | dreibh | 2011-11-20 19:21:36 +0100 (Sun, 20 Nov 2011) | 2 lines
+r1113 | dreibh | 2011-11-20 19:21:36 +0100 | 2 lines
 Changed paths:
    D /trunk/subnetcalc/freebsd/subnetcalc/pkg-plist
 
 pkg-plist is not needed.
 
 ------------------------------------------------------------------------
-r1077 | dreibh | 2011-10-20 18:09:00 +0200 (Thu, 20 Oct 2011) | 2 lines
+r1077 | dreibh | 2011-10-20 18:09:00 +0200 (to., 20 okt. 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian.conf
@@ -268,14 +482,14 @@ Changed paths:
 Script updates for Precise Pangolin.
 
 ------------------------------------------------------------------------
-r1031 | dreibh | 2011-05-04 07:43:59 +0200 (Wed, 04 May 2011) | 2 lines
+r1031 | dreibh | 2011-05-04 07:43:59 +0200 (on., 04 mai 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 Fixed Debian version.
 
 ------------------------------------------------------------------------
-r1030 | dreibh | 2011-05-04 07:40:46 +0200 (Wed, 04 May 2011) | 2 lines
+r1030 | dreibh | 2011-05-04 07:40:46 +0200 (on., 04 mai 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -283,14 +497,14 @@ Changed paths:
 Added missing entries to debian/changelog.
 
 ------------------------------------------------------------------------
-r1025 | dreibh | 2011-05-03 19:15:05 +0200 (Tue, 03 May 2011) | 2 lines
+r1025 | dreibh | 2011-05-03 19:15:05 +0200 (ti., 03 mai 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 Updated ChangeLog.
 
 ------------------------------------------------------------------------
-r1024 | dreibh | 2011-05-03 19:13:14 +0200 (Tue, 03 May 2011) | 2 lines
+r1024 | dreibh | 2011-05-03 19:13:14 +0200 (ti., 03 mai 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -300,14 +514,14 @@ Changed paths:
 Version update.
 
 ------------------------------------------------------------------------
-r1023 | dreibh | 2011-05-03 19:07:41 +0200 (Tue, 03 May 2011) | 2 lines
+r1023 | dreibh | 2011-05-03 19:07:41 +0200 (ti., 03 mai 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Fixed bug under Debian Wheezy (closes #625081) and Ubuntu Oneiric.
 
 ------------------------------------------------------------------------
-r989 | dreibh | 2011-02-11 23:34:41 +0100 (Fri, 11 Feb 2011) | 2 lines
+r989 | dreibh | 2011-02-11 23:34:41 +0100 (fr., 11 feb. 2011) | 2 lines
 Changed paths:
    M /trunk/bibtexconv/debian/changelog
    M /trunk/bibtexconv/make-deb
@@ -320,20 +534,20 @@ Changed paths:
 Updated packaging files.
 
 ------------------------------------------------------------------------
-r984 | dreibh | 2011-02-02 15:18:54 +0100 (Wed, 02 Feb 2011) | 1 line
+r984 | dreibh | 2011-02-02 15:18:54 +0100 (on., 02 feb. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
 
 make-deb update.
 ------------------------------------------------------------------------
-r978 | dreibh | 2011-02-01 15:25:10 +0100 (Tue, 01 Feb 2011) | 1 line
+r978 | dreibh | 2011-02-01 15:25:10 +0100 (ti., 01 feb. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
    M /trunk/subnetcalc/make-ppa
 
 Packaging update.
 ------------------------------------------------------------------------
-r961 | dreibh | 2011-02-01 08:46:44 +0100 (Tue, 01 Feb 2011) | 1 line
+r961 | dreibh | 2011-02-01 08:46:44 +0100 (ti., 01 feb. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -341,19 +555,19 @@ Changed paths:
 
 Debian packaging update.
 ------------------------------------------------------------------------
-r955 | dreibh | 2011-02-01 08:27:03 +0100 (Tue, 01 Feb 2011) | 1 line
+r955 | dreibh | 2011-02-01 08:27:03 +0100 (ti., 01 feb. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
 
 Updated make-deb script.
 ------------------------------------------------------------------------
-r952 | dreibh | 2011-02-01 08:24:54 +0100 (Tue, 01 Feb 2011) | 1 line
+r952 | dreibh | 2011-02-01 08:24:54 +0100 (ti., 01 feb. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
 
 Updated make-deb script.
 ------------------------------------------------------------------------
-r928 | dreibh | 2011-01-22 15:30:12 +0100 (Sat, 22 Jan 2011) | 2 lines
+r928 | dreibh | 2011-01-22 15:30:12 +0100 | 2 lines
 Changed paths:
    M /trunk/bibtexconv/debian/changelog
    M /trunk/bibtexconv/make-deb
@@ -370,25 +584,25 @@ Changed paths:
 make-deb updates.
 
 ------------------------------------------------------------------------
-r920 | dreibh | 2011-01-22 11:40:17 +0100 (Sat, 22 Jan 2011) | 1 line
+r920 | dreibh | 2011-01-22 11:40:17 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
 
 Packaging script update.
 ------------------------------------------------------------------------
-r917 | dreibh | 2011-01-22 00:40:38 +0100 (Sat, 22 Jan 2011) | 1 line
+r917 | dreibh | 2011-01-22 00:40:38 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/clean-deb
 
 Updated clean-deb.
 ------------------------------------------------------------------------
-r910 | dreibh | 2011-01-22 00:06:51 +0100 (Sat, 22 Jan 2011) | 1 line
+r910 | dreibh | 2011-01-22 00:06:51 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-deb
 
 Fix for building unstable/default distribution packages.
 ------------------------------------------------------------------------
-r901 | dreibh | 2011-01-21 22:26:50 +0100 (Fri, 21 Jan 2011) | 2 lines
+r901 | dreibh | 2011-01-21 22:26:50 +0100 (fr., 21 jan. 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/debian/changelog
@@ -396,13 +610,13 @@ Changed paths:
 ChangeLog update.
 
 ------------------------------------------------------------------------
-r896 | dreibh | 2011-01-21 21:54:54 +0100 (Fri, 21 Jan 2011) | 1 line
+r896 | dreibh | 2011-01-21 21:54:54 +0100 (fr., 21 jan. 2011) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/rules
 
 
 ------------------------------------------------------------------------
-r895 | dreibh | 2011-01-21 21:45:24 +0100 (Fri, 21 Jan 2011) | 2 lines
+r895 | dreibh | 2011-01-21 21:45:24 +0100 (fr., 21 jan. 2011) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/clean-deb
    M /trunk/subnetcalc/debian/changelog
@@ -420,34 +634,34 @@ Changed paths:
 Made Debian packaging compatible to format "3.0 (quilt)".
 
 ------------------------------------------------------------------------
-r879 | dreibh | 2011-01-12 11:26:44 +0100 (Wed, 12 Jan 2011) | 2 lines
+r879 | dreibh | 2011-01-12 11:26:44 +0100 (on., 12 jan. 2011) | 2 lines
 Changed paths:
    D /trunk/subnetcalc/debian/source
 
 Removed debian/source -> packaging is working again.
 
 ------------------------------------------------------------------------
-r675 | dreibh | 2010-08-05 21:46:26 +0200 (Thu, 05 Aug 2010) | 1 line
+r675 | dreibh | 2010-08-05 21:46:26 +0200 (to., 05 aug. 2010) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 
 ------------------------------------------------------------------------
-r674 | dreibh | 2010-08-05 21:39:24 +0200 (Thu, 05 Aug 2010) | 2 lines
+r674 | dreibh | 2010-08-05 21:39:24 +0200 (to., 05 aug. 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 Fixed debian/changelog.
 
 ------------------------------------------------------------------------
-r673 | dreibh | 2010-08-05 16:07:05 +0200 (Thu, 05 Aug 2010) | 2 lines
+r673 | dreibh | 2010-08-05 16:07:05 +0200 (to., 05 aug. 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
 
 Updated FreeBSD ports Makefile by version of FreeBSD uploader.
 
 ------------------------------------------------------------------------
-r672 | dreibh | 2010-08-04 16:32:53 +0200 (Wed, 04 Aug 2010) | 2 lines
+r672 | dreibh | 2010-08-04 16:32:53 +0200 (on., 04 aug. 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -455,14 +669,14 @@ Changed paths:
 Updated Debian files.
 
 ------------------------------------------------------------------------
-r669 | dreibh | 2010-07-27 13:42:26 +0200 (Tue, 27 Jul 2010) | 2 lines
+r669 | dreibh | 2010-07-27 13:42:26 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
 
 Updated FreeBSD ports Makefile.
 
 ------------------------------------------------------------------------
-r668 | dreibh | 2010-07-27 13:35:15 +0200 (Tue, 27 Jul 2010) | 2 lines
+r668 | dreibh | 2010-07-27 13:35:15 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/debian/changelog
@@ -470,14 +684,14 @@ Changed paths:
 Updated ChangeLog.
 
 ------------------------------------------------------------------------
-r667 | dreibh | 2010-07-27 13:33:58 +0200 (Tue, 27 Jul 2010) | 2 lines
+r667 | dreibh | 2010-07-27 13:33:58 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
 
 Removed Japanese IDN example from manpage, since this causes lintian warnings.
 
 ------------------------------------------------------------------------
-r665 | dreibh | 2010-07-27 13:33:13 +0200 (Tue, 27 Jul 2010) | 2 lines
+r665 | dreibh | 2010-07-27 13:33:13 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    D /trunk/subnetcalc/freebsd/Makefile
    D /trunk/subnetcalc/freebsd/distinfo
@@ -496,7 +710,7 @@ Changed paths:
 Updated FreeBSD ports scripts: directory has to be named like the package.
 
 ------------------------------------------------------------------------
-r664 | dreibh | 2010-07-27 13:21:45 +0200 (Tue, 27 Jul 2010) | 2 lines
+r664 | dreibh | 2010-07-27 13:21:45 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/freebsd/Makefile
    M /trunk/subnetcalc/freebsd/distinfo
@@ -505,7 +719,7 @@ Changed paths:
 Updated FreeBSD ports files.
 
 ------------------------------------------------------------------------
-r663 | dreibh | 2010-07-27 13:06:44 +0200 (Tue, 27 Jul 2010) | 2 lines
+r663 | dreibh | 2010-07-27 13:06:44 +0200 (ti., 27 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/Makefile.am
    M /trunk/subnetcalc/configure.in
@@ -522,28 +736,28 @@ Changed paths:
 Added FreeBSD ports files.
 
 ------------------------------------------------------------------------
-r631 | dreibh | 2010-07-16 15:20:04 +0200 (Fri, 16 Jul 2010) | 2 lines
+r631 | dreibh | 2010-07-16 15:20:04 +0200 (fr., 16 juli 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/control
 
 Updated control version.
 
 ------------------------------------------------------------------------
-r597 | dreibh | 2010-06-30 22:45:10 +0200 (Wed, 30 Jun 2010) | 2 lines
+r597 | dreibh | 2010-06-30 22:45:10 +0200 (on., 30 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/subnetcalc.lsm
 
 Updated LSM entry.
 
 ------------------------------------------------------------------------
-r595 | dreibh | 2010-06-30 17:24:45 +0200 (Wed, 30 Jun 2010) | 2 lines
+r595 | dreibh | 2010-06-30 17:24:45 +0200 (on., 30 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 Updated ChangeLog from SVN.
 
 ------------------------------------------------------------------------
-r594 | dreibh | 2010-06-30 17:24:27 +0200 (Wed, 30 Jun 2010) | 2 lines
+r594 | dreibh | 2010-06-30 17:24:27 +0200 (on., 30 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -551,20 +765,20 @@ Changed paths:
 Version update.
 
 ------------------------------------------------------------------------
-r593 | dreibh | 2010-06-29 22:48:45 +0200 (Tue, 29 Jun 2010) | 2 lines
+r593 | dreibh | 2010-06-29 22:48:45 +0200 (ti., 29 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Using strings.h instead of string.h to work under Solaris.
 
 ------------------------------------------------------------------------
-r577 | dreibh | 2010-06-19 13:03:22 +0200 (Sat, 19 Jun 2010) | 1 line
+r577 | dreibh | 2010-06-19 13:03:22 +0200 | 1 line
 Changed paths:
    M /trunk/subnetcalc/make-ppa
 
 
 ------------------------------------------------------------------------
-r574 | dreibh | 2010-06-19 12:38:17 +0200 (Sat, 19 Jun 2010) | 2 lines
+r574 | dreibh | 2010-06-19 12:38:17 +0200 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -576,7 +790,7 @@ Changed paths:
 Converted to debian source format 3.0.
 
 ------------------------------------------------------------------------
-r573 | dreibh | 2010-06-19 11:03:29 +0200 (Sat, 19 Jun 2010) | 2 lines
+r573 | dreibh | 2010-06-19 11:03:29 +0200 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -586,13 +800,13 @@ Changed paths:
 Scripts update.
 
 ------------------------------------------------------------------------
-r572 | dreibh | 2010-06-17 12:36:54 +0200 (Thu, 17 Jun 2010) | 1 line
+r572 | dreibh | 2010-06-17 12:36:54 +0200 (to., 17 juni 2010) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 
 ------------------------------------------------------------------------
-r571 | dreibh | 2010-06-17 12:36:43 +0200 (Thu, 17 Jun 2010) | 2 lines
+r571 | dreibh | 2010-06-17 12:36:43 +0200 (to., 17 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -601,7 +815,7 @@ Changed paths:
 Version update.
 
 ------------------------------------------------------------------------
-r570 | dreibh | 2010-06-17 12:09:56 +0200 (Thu, 17 Jun 2010) | 2 lines
+r570 | dreibh | 2010-06-17 12:09:56 +0200 (to., 17 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
    M /trunk/subnetcalc/src/tools.cc
@@ -609,7 +823,7 @@ Changed paths:
 FreeBSD does not support AI_IDN and NI_IDN -> added #ifdefs
 
 ------------------------------------------------------------------------
-r569 | dreibh | 2010-06-08 11:42:28 +0200 (Tue, 08 Jun 2010) | 2 lines
+r569 | dreibh | 2010-06-08 11:42:28 +0200 (ti., 08 juni 2010) | 2 lines
 Changed paths:
    A /trunk/subnetcalc/autogen.sh
    M /trunk/subnetcalc/configure.in
@@ -619,7 +833,7 @@ Changed paths:
 Added detection of GeoIP IPv6 support to configure.in. Older versions do not support it.
 
 ------------------------------------------------------------------------
-r568 | dreibh | 2010-06-07 12:23:41 +0200 (Mon, 07 Jun 2010) | 2 lines
+r568 | dreibh | 2010-06-07 12:23:41 +0200 (ma., 07 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -628,21 +842,21 @@ Changed paths:
 Debian script update.
 
 ------------------------------------------------------------------------
-r567 | dreibh | 2010-06-03 21:14:25 +0200 (Thu, 03 Jun 2010) | 2 lines
+r567 | dreibh | 2010-06-03 21:14:25 +0200 (to., 03 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
 
 Updated examples.
 
 ------------------------------------------------------------------------
-r566 | dreibh | 2010-06-03 20:43:44 +0200 (Thu, 03 Jun 2010) | 2 lines
+r566 | dreibh | 2010-06-03 20:43:44 +0200 (to., 03 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
 
 Fixed "\" in manpage.
 
 ------------------------------------------------------------------------
-r565 | dreibh | 2010-06-03 20:38:14 +0200 (Thu, 03 Jun 2010) | 2 lines
+r565 | dreibh | 2010-06-03 20:38:14 +0200 (to., 03 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -650,14 +864,14 @@ Changed paths:
 Version update.
 
 ------------------------------------------------------------------------
-r564 | dreibh | 2010-06-03 20:38:06 +0200 (Thu, 03 Jun 2010) | 2 lines
+r564 | dreibh | 2010-06-03 20:38:06 +0200 (to., 03 juni 2010) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
 
 Added some more IDN examples to manpage.
 
 ------------------------------------------------------------------------
-r563 | dreibh | 2010-06-03 20:29:56 +0200 (Thu, 03 Jun 2010) | 3 lines
+r563 | dreibh | 2010-06-03 20:29:56 +0200 (to., 03 juni 2010) | 3 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
    M /trunk/subnetcalc/src/subnetcalc.cc
@@ -667,13 +881,13 @@ Changed paths:
 - Added support for Internationalized Domain Names (IDN).
 
 ------------------------------------------------------------------------
-r560 | dreibh | 2010-05-31 11:53:09 +0200 (Mon, 31 May 2010) | 1 line
+r560 | dreibh | 2010-05-31 11:53:09 +0200 (ma., 31 mai 2010) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 
 ------------------------------------------------------------------------
-r556 | dreibh | 2010-05-31 11:49:10 +0200 (Mon, 31 May 2010) | 4 lines
+r556 | dreibh | 2010-05-31 11:49:10 +0200 (ma., 31 mai 2010) | 4 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -693,7 +907,7 @@ Changed paths:
 
 
 ------------------------------------------------------------------------
-r546 | dreibh | 2010-05-24 20:43:15 +0200 (Mon, 24 May 2010) | 1 line
+r546 | dreibh | 2010-05-24 20:43:15 +0200 (ma., 24 mai 2010) | 1 line
 Changed paths:
    M /trunk/subnetcalc/bootstrap
    M /trunk/subnetcalc/configure.in
@@ -701,14 +915,14 @@ Changed paths:
 
 Update to work under OpenSolaris.
 ------------------------------------------------------------------------
-r513 | dreibh | 2009-11-08 11:01:15 +0100 (Sun, 08 Nov 2009) | 1 line
+r513 | dreibh | 2009-11-08 11:01:15 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/make-ppa
 
 
 ------------------------------------------------------------------------
-r280 | dreibh | 2009-06-10 22:38:30 +0200 (Wed, 10 Jun 2009) | 2 lines
+r280 | dreibh | 2009-06-10 22:38:30 +0200 (on., 10 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/configure.in
@@ -718,13 +932,13 @@ Changed paths:
 Turned DH_VERBOSE off: line must be commented out; setting to 0 does not work!
 
 ------------------------------------------------------------------------
-r279 | dreibh | 2009-06-10 12:15:18 +0200 (Wed, 10 Jun 2009) | 1 line
+r279 | dreibh | 2009-06-10 12:15:18 +0200 (on., 10 juni 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/control
 
 
 ------------------------------------------------------------------------
-r269 | dreibh | 2009-06-08 23:15:49 +0200 (Mon, 08 Jun 2009) | 2 lines
+r269 | dreibh | 2009-06-08 23:15:49 +0200 (ma., 08 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -735,33 +949,33 @@ Changed paths:
 Updated Debian files and LSM entry.
 
 ------------------------------------------------------------------------
-r268 | dreibh | 2009-06-07 21:21:28 +0200 (Sun, 07 Jun 2009) | 2 lines
+r268 | dreibh | 2009-06-07 21:21:28 +0200 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 Updated Debian files.
 
 ------------------------------------------------------------------------
-r267 | dreibh | 2009-06-07 21:19:20 +0200 (Sun, 07 Jun 2009) | 1 line
+r267 | dreibh | 2009-06-07 21:19:20 +0200 | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/control
 
 
 ------------------------------------------------------------------------
-r264 | dreibh | 2009-06-06 15:46:11 +0200 (Sat, 06 Jun 2009) | 2 lines
+r264 | dreibh | 2009-06-06 15:46:11 +0200 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 Updated ChangeLog.
 
 ------------------------------------------------------------------------
-r263 | dreibh | 2009-06-06 15:37:08 +0200 (Sat, 06 Jun 2009) | 1 line
+r263 | dreibh | 2009-06-06 15:37:08 +0200 | 1 line
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 
 ------------------------------------------------------------------------
-r262 | dreibh | 2009-06-06 15:32:51 +0200 (Sat, 06 Jun 2009) | 3 lines
+r262 | dreibh | 2009-06-06 15:32:51 +0200 | 3 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -771,7 +985,7 @@ Changed paths:
 - Should also compile on Solaris now.
 
 ------------------------------------------------------------------------
-r261 | dreibh | 2009-06-04 22:07:50 +0200 (Thu, 04 Jun 2009) | 2 lines
+r261 | dreibh | 2009-06-04 22:07:50 +0200 (to., 04 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -780,27 +994,27 @@ Changed paths:
 Updated Debian scripts.
 
 ------------------------------------------------------------------------
-r259 | dreibh | 2009-06-04 12:01:30 +0200 (Thu, 04 Jun 2009) | 2 lines
+r259 | dreibh | 2009-06-04 12:01:30 +0200 (to., 04 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 Fixed "Recommends" entry in Debian control file.
 
 ------------------------------------------------------------------------
-r257 | dreibh | 2009-06-03 16:17:59 +0200 (Wed, 03 Jun 2009) | 1 line
+r257 | dreibh | 2009-06-03 16:17:59 +0200 (on., 03 juni 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/control
 
 
 ------------------------------------------------------------------------
-r255 | dreibh | 2009-06-03 15:03:28 +0200 (Wed, 03 Jun 2009) | 2 lines
+r255 | dreibh | 2009-06-03 15:03:28 +0200 (on., 03 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
 
 Added Debian ITP.
 
 ------------------------------------------------------------------------
-r254 | dreibh | 2009-06-03 14:30:10 +0200 (Wed, 03 Jun 2009) | 2 lines
+r254 | dreibh | 2009-06-03 14:30:10 +0200 (on., 03 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -812,13 +1026,13 @@ Changed paths:
 Fixed Debian problems.
 
 ------------------------------------------------------------------------
-r249 | dreibh | 2009-06-03 11:30:07 +0200 (Wed, 03 Jun 2009) | 1 line
+r249 | dreibh | 2009-06-03 11:30:07 +0200 (on., 03 juni 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 
 ------------------------------------------------------------------------
-r248 | dreibh | 2009-06-03 11:29:52 +0200 (Wed, 03 Jun 2009) | 3 lines
+r248 | dreibh | 2009-06-03 11:29:52 +0200 (on., 03 juni 2009) | 3 lines
 Changed paths:
    M /trunk/subnetcalc/Makefile.am
    M /trunk/subnetcalc/README
@@ -834,14 +1048,14 @@ Changed paths:
 - Updated Debian files.
 
 ------------------------------------------------------------------------
-r246 | dreibh | 2009-06-02 15:40:58 +0200 (Tue, 02 Jun 2009) | 1 line
+r246 | dreibh | 2009-06-02 15:40:58 +0200 (ti., 02 juni 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
 
 
 ------------------------------------------------------------------------
-r245 | dreibh | 2009-06-02 15:33:37 +0200 (Tue, 02 Jun 2009) | 2 lines
+r245 | dreibh | 2009-06-02 15:33:37 +0200 (ti., 02 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.8
    M /trunk/subnetcalc/src/subnetcalc.cc
@@ -850,7 +1064,7 @@ Changed paths:
 Added computation of multicast MAC addresses.
 
 ------------------------------------------------------------------------
-r244 | dreibh | 2009-06-02 14:57:21 +0200 (Tue, 02 Jun 2009) | 2 lines
+r244 | dreibh | 2009-06-02 14:57:21 +0200 (ti., 02 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/src/Makefile.am
@@ -862,21 +1076,21 @@ Changed paths:
 Cleaned up tools.h/tools.cc and removed dependency on ext_socket.h/SCTP files
 
 ------------------------------------------------------------------------
-r243 | dreibh | 2009-06-02 14:46:41 +0200 (Tue, 02 Jun 2009) | 2 lines
+r243 | dreibh | 2009-06-02 14:46:41 +0200 (ti., 02 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 #defines for FreeBSD.
 
 ------------------------------------------------------------------------
-r240 | dreibh | 2009-06-02 11:52:32 +0200 (Tue, 02 Jun 2009) | 1 line
+r240 | dreibh | 2009-06-02 11:52:32 +0200 (ti., 02 juni 2009) | 1 line
 Changed paths:
    A /trunk/subnetcalc/src/tools.cc
    A /trunk/subnetcalc/src/tools.h
 
 
 ------------------------------------------------------------------------
-r238 | dreibh | 2009-06-01 20:12:16 +0200 (Mon, 01 Jun 2009) | 2 lines
+r238 | dreibh | 2009-06-01 20:12:16 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
    M /trunk/subnetcalc/src/test1
@@ -884,7 +1098,7 @@ Changed paths:
 Added more IPv4 and IPv6 address properties.
 
 ------------------------------------------------------------------------
-r237 | dreibh | 2009-06-01 18:10:36 +0200 (Mon, 01 Jun 2009) | 2 lines
+r237 | dreibh | 2009-06-01 18:10:36 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/control
    M /trunk/subnetcalc/debian/rules
@@ -892,14 +1106,14 @@ Changed paths:
 Updated Debian files.
 
 ------------------------------------------------------------------------
-r236 | dreibh | 2009-06-01 17:56:41 +0200 (Mon, 01 Jun 2009) | 1 line
+r236 | dreibh | 2009-06-01 17:56:41 +0200 (ma., 01 juni 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/debian/control
 
 
 ------------------------------------------------------------------------
-r234 | dreibh | 2009-06-01 17:54:49 +0200 (Mon, 01 Jun 2009) | 2 lines
+r234 | dreibh | 2009-06-01 17:54:49 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/Makefile.am
    M /trunk/subnetcalc/src/subnetcalc.cc
@@ -908,7 +1122,7 @@ Changed paths:
 Added IPv4 prefix special case for Point-to-Point links.
 
 ------------------------------------------------------------------------
-r232 | dreibh | 2009-06-01 17:24:43 +0200 (Mon, 01 Jun 2009) | 4 lines
+r232 | dreibh | 2009-06-01 17:24:43 +0200 (ma., 01 juni 2009) | 4 lines
 Changed paths:
    M /trunk/subnetcalc/Makefile.am
    M /trunk/subnetcalc/configure.in
@@ -923,28 +1137,28 @@ Changed paths:
 - Updated manpage.
 
 ------------------------------------------------------------------------
-r231 | dreibh | 2009-06-01 16:43:14 +0200 (Mon, 01 Jun 2009) | 2 lines
+r231 | dreibh | 2009-06-01 16:43:14 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Added IPv6 properties.
 
 ------------------------------------------------------------------------
-r230 | dreibh | 2009-06-01 15:38:51 +0200 (Mon, 01 Jun 2009) | 2 lines
+r230 | dreibh | 2009-06-01 15:38:51 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Properties improvements.
 
 ------------------------------------------------------------------------
-r229 | dreibh | 2009-06-01 15:03:22 +0200 (Mon, 01 Jun 2009) | 2 lines
+r229 | dreibh | 2009-06-01 15:03:22 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/subnetcalc.cc
 
 Added IPv4 address properties.
 
 ------------------------------------------------------------------------
-r228 | dreibh | 2009-06-01 13:52:26 +0200 (Mon, 01 Jun 2009) | 2 lines
+r228 | dreibh | 2009-06-01 13:52:26 +0200 (ma., 01 juni 2009) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/src/Makefile.am
    A /trunk/subnetcalc/src/ext_socket.h
@@ -953,7 +1167,7 @@ Changed paths:
 Started implementing the support for IPv6.
 
 ------------------------------------------------------------------------
-r181 | dreibh | 2009-04-30 11:24:57 +0200 (Thu, 30 Apr 2009) | 1 line
+r181 | dreibh | 2009-04-30 11:24:57 +0200 (to., 30 april 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
    M /trunk/subnetcalc/configure.in
@@ -961,7 +1175,7 @@ Changed paths:
 
 
 ------------------------------------------------------------------------
-r171 | dreibh | 2009-02-21 14:40:08 +0100 (Sat, 21 Feb 2009) | 2 lines
+r171 | dreibh | 2009-02-21 14:40:08 +0100 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/control
@@ -969,7 +1183,7 @@ Changed paths:
 Updated Debian scripts.
 
 ------------------------------------------------------------------------
-r168 | dreibh | 2009-02-15 20:25:12 +0100 (Sun, 15 Feb 2009) | 1 line
+r168 | dreibh | 2009-02-15 20:25:12 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -977,21 +1191,21 @@ Changed paths:
 
 
 ------------------------------------------------------------------------
-r166 | dreibh | 2009-02-15 20:04:21 +0100 (Sun, 15 Feb 2009) | 1 line
+r166 | dreibh | 2009-02-15 20:04:21 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian.conf
    M /trunk/subnetcalc/make-deb
 
 
 ------------------------------------------------------------------------
-r165 | dreibh | 2009-02-15 19:54:04 +0100 (Sun, 15 Feb 2009) | 1 line
+r165 | dreibh | 2009-02-15 19:54:04 +0100 | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
 
 
 ------------------------------------------------------------------------
-r153 | dreibh | 2009-02-06 09:33:21 +0100 (Fri, 06 Feb 2009) | 1 line
+r153 | dreibh | 2009-02-06 09:33:21 +0100 (fr., 06 feb. 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/configure.in
    M /trunk/subnetcalc/debian/changelog
@@ -1000,7 +1214,7 @@ Changed paths:
 
 
 ------------------------------------------------------------------------
-r152 | dreibh | 2009-02-05 15:56:09 +0100 (Thu, 05 Feb 2009) | 1 line
+r152 | dreibh | 2009-02-05 15:56:09 +0100 (to., 05 feb. 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian/watch
@@ -1012,20 +1226,20 @@ Changed paths:
 
 
 ------------------------------------------------------------------------
-r151 | dreibh | 2009-02-04 14:38:00 +0100 (Wed, 04 Feb 2009) | 1 line
+r151 | dreibh | 2009-02-04 14:38:00 +0100 (on., 04 feb. 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
    M /trunk/subnetcalc/debian.conf
 
 
 ------------------------------------------------------------------------
-r149 | dreibh | 2009-01-30 09:34:07 +0100 (Fri, 30 Jan 2009) | 1 line
+r149 | dreibh | 2009-01-30 09:34:07 +0100 (fr., 30 jan. 2009) | 1 line
 Changed paths:
    M /trunk/subnetcalc/ChangeLog
 
 
 ------------------------------------------------------------------------
-r148 | dreibh | 2009-01-30 09:25:43 +0100 (Fri, 30 Jan 2009) | 2 lines
+r148 | dreibh | 2009-01-30 09:25:43 +0100 (fr., 30 jan. 2009) | 2 lines
 Changed paths:
    A /trunk/subnetcalc
    A /trunk/subnetcalc/AUTHORS
