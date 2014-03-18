@@ -1,5 +1,3 @@
 SUBDIRS = src
 
 EXTRA_DIST = AUTHORS BUGS COPYING ChangeLog INSTALL NEWS README bootstrap subnetcalc.lsm
-
-ACLOCAL_AMFLAGS = -I m4
