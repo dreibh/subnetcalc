@@ -21,6 +21,8 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 %setup -q
 
 %build
+autoreconf -if
+
 %configure
 make %{?_smp_mflags}
 

@@ -1,7 +1,8 @@
 AC_INIT([SubNetCalc], [2.2.1], [dreib@iem.uni-due.de])
+
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
-AC_CONFIG_MACRO_DIR([m4])
+
 AC_CONFIG_HEADERS([config.h:config.in])
 AC_CONFIG_SRCDIR([src/subnetcalc.cc])
 
