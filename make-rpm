@@ -75,9 +75,7 @@ if [ -e debian/changelog ] ; then
 fi
 
 if [ -e rpm.conf ] ; then
-   echo "v=$PACKAGE_VERSION"
    . ./rpm.conf
-   echo "U=$UPSTREAM_PACKAGE"
 fi
 
 # ====== Create upstream package ============================================
@@ -131,7 +129,9 @@ find $HOME/rpmbuild/RPMS  -name "$PACKAGE*.rpm" | xargs --no-run-if-empty rm -f
 # Copy upstream sources
 cp $UPSTREAM_PACKAGE $HOME/rpmbuild/SOURCES/
 # Patches
-find original -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" $HOME/rpmbuild/SOURCES/
+if [ -e original ] ; then
+   find original -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" $HOME/rpmbuild/SOURCES/
+fi
 # Further patches
 find rpm -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" $HOME/rpmbuild/SOURCES/
 # The .spec file
