@@ -10,6 +10,7 @@ Source: http://www.iem.uni-due.de/~dreibh/subnetcalc/download/%{name}-%{version}
 AutoReqProv: on
 BuildRequires: autoconf
 BuildRequires: automake
+BuildRequires: libtool
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
