@@ -8,6 +8,8 @@ URL: http://www.iem.uni-due.de/~dreibh/subnetcalc/
 Source: http://www.iem.uni-due.de/~dreibh/subnetcalc/download/%{name}-%{version}.tar.gz
 
 AutoReqProv: on
+BuildRequires: autoconf
+BuildRequires: automake
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
