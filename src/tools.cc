@@ -46,7 +46,7 @@
 #include <iostream>
 
 
-/* ###### Get current timer ############################################## */
+/* ###### Get current time ############################################### */
 unsigned long long getMicroTime()
 {
   struct timeval tv;
@@ -56,7 +56,7 @@ unsigned long long getMicroTime()
 }
 
 
-/* ###### Length-checking strcpy() ###################################### */
+/* ###### Length-checking strcpy() ####################################### */
 int safestrcpy(char* dest, const char* src, const size_t size)
 {
    assert(size > 0);
@@ -66,7 +66,7 @@ int safestrcpy(char* dest, const char* src, const size_t size)
 }
 
 
-/* ###### Length-checking strcat() ###################################### */
+/* ###### Length-checking strcat() ####################################### */
 int safestrcat(char* dest, const char* src, const size_t size)
 {
    const size_t l1 = strlen(dest);
@@ -79,7 +79,7 @@ int safestrcat(char* dest, const char* src, const size_t size)
 }
 
 
-/* ###### Find first occurrence of character in string ################### */
+/* ###### Find first occurrence of character in string #################### */
 char* strindex(char* string, const char character)
 {
    if(string != NULL) {
