@@ -184,18 +184,21 @@ void generateUniqueLocal(sockaddr_union& address,
 void printAddressBinary(std::ostream&         os,
                         const sockaddr_union& address,
                         const unsigned int    prefix,
-                        const char*           indent = "")
+                        const bool            colourMode = true,
+                        const char*           indent     = "")
 {
    if(address.sa.sa_family == AF_INET) {
       os << indent;
       uint32_t a = ntohl(getIPv4Address(address));
       for(int i = 31;i >= 0;i--) {
          const uint32_t v = (uint32_t)1 << i;
-         if(32 - i > (int)prefix) {   // Colourize output
-            os << "\x1b[33m";
-         }
-         else {
-            os << "\x1b[34m";
+         if(colourMode) {
+            if(32 - i > (int)prefix) {   // Colourize output
+               os << "\x1b[33m";
+            }
+            else {
+               os << "\x1b[34m";
+            }
          }
          if(a >= v) {
             os << "1";
@@ -204,7 +207,9 @@ void printAddressBinary(std::ostream&         os,
          else {
             os << "0";
          }
-         os << "\x1b[0m";   // Turn off colour printing
+         if(colourMode) {
+            os << "\x1b[0m";   // Turn off colour printing
+         }
          if( ((i % 8) == 0) && (i > 0) ) {
             os << " . ";
          }
@@ -221,11 +226,13 @@ void printAddressBinary(std::ostream&         os,
          os << indent << str << " = ";
          for(int i = 15;i >= 0;i--) {
             const uint32_t v = (uint32_t)1 << i;
-            if(p < (int)prefix) {   // Colourize output
-               os << "\x1b[33m";
-            }
-            else {
-               os << "\x1b[34m";
+            if(colourMode) {
+               if(p < (int)prefix) {   // Colourize output
+                  os << "\x1b[33m";
+               }
+               else {
+                  os << "\x1b[34m";
+               }
             }
             if(a >= v) {
                os << "1";
@@ -234,7 +241,9 @@ void printAddressBinary(std::ostream&         os,
             else {
                os << "0";
             }
-            os << "\x1b[0m";   // Turn off colour printing
+            if(colourMode) {
+               os << "\x1b[0m";   // Turn off colour printing
+            }
             if( ((i % 8) == 0) && (i > 0) ) {
                os << " ";
             }
@@ -406,6 +415,7 @@ int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
 // ###### Print IPv6 unicast properties of given address ####################
 void printUnicastProperties(std::ostream&   os,
                             const in6_addr& ipv6address,
+                            const bool      colourMode  = true,
                             const bool      hasSubnetID = true,
                             const bool      hasGlobalID = false)
 {
@@ -433,7 +443,9 @@ void printUnicastProperties(std::ostream&   os,
                                      ntohs(ipv6address.s6_addr16[5]),
                                      ntohs(ipv6address.s6_addr16[6]),
                                      ntohs(ipv6address.s6_addr16[7]) };
-   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m",
+   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString),
+            ((colourMode == true) ? "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m" :
+                                    "%04x:%02x%02x:%02x%02x:%04x"),
             interfaceID[0],
             (interfaceID[1] & 0xff00) >> 8, (interfaceID[1] & 0x00ff),
             (interfaceID[2] & 0xff00) >> 8, (interfaceID[2] & 0x00ff),
@@ -442,7 +454,9 @@ void printUnicastProperties(std::ostream&   os,
 
    if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
        ((interfaceID[2] & 0xff00) == 0xfe00) ) {
-      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString), "\x1b[36m%02x:%02x:%02x\x1b[0m:\x1b[38m%02x:%02x:%02x\x1b[0m",
+      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString),
+               ((colourMode == true) ? "\x1b[36m%02x:%02x:%02x\x1b[0m:\x1b[38m%02x:%02x:%02x\x1b[0m" :
+                                       "%02x:%02x:%02x:%02x:%02x:%02x"),
                ipv6address.s6_addr[8] ^ 0x02,
                ipv6address.s6_addr[9],
                ipv6address.s6_addr[10],
@@ -455,7 +469,8 @@ void printUnicastProperties(std::ostream&   os,
    // ====== Solicited Node Multicast Address ===============================
    char snmcAddressString[32];
    snprintf((char*)&snmcAddressString, sizeof(snmcAddressString),
-            "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m",
+            ((colourMode == true) ? "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m" :
+                                    "ff02::1:ff%02x:%04x"),
             ntohs(ipv6address.s6_addr16[6]) & 0xff,
             ntohs(ipv6address.s6_addr16[7]));
    os << "      + Sol. Node MC = " << snmcAddressString << std::endl;
@@ -468,7 +483,8 @@ void printAddressProperties(std::ostream&         os,
                             const sockaddr_union& netmask,
                             const unsigned int    prefix,
                             const sockaddr_union& network,
-                            const sockaddr_union& broadcast)
+                            const sockaddr_union& broadcast,
+                            const bool            colourMode)
 {
    // ====== Common properties ==============================================
    os << "Properties    =" << std::endl;
@@ -644,13 +660,13 @@ void printAddressProperties(std::ostream&         os,
       // ------ Link-local Unicast ------------------------------------------
       else if(IN6_IS_ADDR_LINKLOCAL(&ipv6address)) {
          os << "   - Link-Local Unicast Properties:" << std::endl;
-         printUnicastProperties(std::cout, ipv6address, false, false);
+         printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
       }
 
       // ------ Site-Local Unicast ------------------------------------------
       else if(IN6_IS_ADDR_SITELOCAL(&ipv6address)) {
          os << "   - Site-Local Unicast Properties:" << std::endl;
-         printUnicastProperties(std::cout, ipv6address, true, false);
+         printUnicastProperties(std::cout, ipv6address, colourMode, true, false);
       }
 
       // ------ Unique Local Unicast ----------------------------------------
@@ -662,13 +678,13 @@ void printAddressProperties(std::ostream&         os,
          else {
             os << "      + Assigned by global instance" << std::endl;
          }
-         printUnicastProperties(std::cout, ipv6address, true, true);
+         printUnicastProperties(std::cout, ipv6address, colourMode, true, true);
       }
 
       // ------ Global Unicast ----------------------------------------------
       else if((a & 0xe000) == 0x2000) {
          os << "   - Global Unicast Properties:" << std::endl;
-         printUnicastProperties(std::cout, ipv6address, false, false);
+         printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
       }
    }
 }
@@ -678,6 +694,7 @@ void printAddressProperties(std::ostream&         os,
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
+   bool           colourMode      = true;
    bool           noReverseLookup = false;
    int            options;
    int            prefix;
@@ -777,6 +794,9 @@ int main(int argc, char** argv)
       else if(strcmp(argv[i], "-uniquelocalhq") == 0) {
          generateUniqueLocal(address, true);
       }
+      else if( (strcmp(argv[i], "-nocolour") == 0) || (strcmp(argv[i], "-nocolor") == 0) ) {
+         colourMode = false;
+      }
       else if(strcmp(argv[i], "-n") == 0) {
          noReverseLookup = true;
       }
@@ -813,7 +833,7 @@ int main(int argc, char** argv)
 
    // ====== Print results ==================================================
    std::cout << "Address       = " << address << std::endl;
-   printAddressBinary(std::cout, address, prefix, "                   ");
+   printAddressBinary(std::cout, address, prefix, colourMode, "                   ");
    std::cout << "Network       = " << network << " / " << prefix << std::endl;
    std::cout << "Netmask       = " << netmask << std::endl;
    if(isIPv4(address)) {
@@ -836,7 +856,7 @@ int main(int argc, char** argv)
 
 
    // ====== Properties =====================================================
-   printAddressProperties(std::cout, address, netmask, prefix, network, broadcast);
+   printAddressProperties(std::cout, address, netmask, prefix, network, broadcast, colourMode);
 
 
    // ====== GeoIP ==========================================================
@@ -953,7 +973,9 @@ int main(int argc, char** argv)
                               NI_NAMEREQD
 #endif
                               );
-      std::cout << "\r\x1b[K";
+      if(colourMode) {
+         std::cout << "\r\x1b[K";
+      }
       std::cout << "DNS Hostname  = "; std::cout.flush();
       if(error == 0) {
          std::cout << hostname << std::endl;

@@ -1,3 +1,9 @@
+subnetcalc (2.3.0-1ubuntu1) utopic; urgency=low
+
+  * New upstream version bug closed (Closes: #xxxxxx).
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 24 Jul 2014 08:08:08 +0800
+
 subnetcalc (2.2.1-1ubuntu1) trusty; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
