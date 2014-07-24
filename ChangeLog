@@ -1,4 +1,114 @@
 ------------------------------------------------------------------------
+r1895 | dreibh | 2014-07-24 16:00:44 +0200 (to., 24 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/src/subnetcalc.1
+
+Updated manpage.
+
+------------------------------------------------------------------------
+r1894 | dreibh | 2014-07-24 15:54:06 +0200 (to., 24 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Added non-colour mode.
+
+------------------------------------------------------------------------
+r1881 | dreibh | 2014-07-11 13:52:57 +0200 (fr., 11 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/src/tools.cc
+
+Typo fix.
+
+------------------------------------------------------------------------
+r1867 | dreibh | 2014-07-04 18:38:55 +0200 (fr., 04 juli 2014) | 2 lines
+Changed paths:
+   A /trunk/fractgen2/rpm.conf
+   M /trunk/netperfmeter/rpm/netperfmeter.spec
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   A /trunk/tsctp/rpm.conf
+
+F20 build script updates.
+
+------------------------------------------------------------------------
+r1866 | dreibh | 2014-07-04 17:05:55 +0200 (fr., 04 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/rpm/bibtexconv.spec
+   M /trunk/netperfmeter/rpm/netperfmeter.spec
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/tsctp/rpm/tsctp.spec
+
+Updated BuildRequires in RPM spec file.
+
+------------------------------------------------------------------------
+r1849 | dreibh | 2014-06-24 11:54:13 +0200 (ti., 24 juni 2014) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/make-rpm
+   M /trunk/fractgen2/make-rpm
+   M /trunk/mptcp-kernel/make-rpm
+   M /trunk/netperfmeter/make-rpm
+   M /trunk/subnetcalc/make-rpm
+   M /trunk/tsctp/make-rpm
+
+Removed debug output.
+
+------------------------------------------------------------------------
+r1790 | dreibh | 2014-03-18 14:01:13 +0100 (ti., 18 mars 2014) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/Makefile.am
+   M /trunk/netperfmeter/Makefile.am
+   M /trunk/rtpaudio2/Makefile.am
+   M /trunk/subnetcalc/Makefile.am
+
+Makefile fix.
+
+------------------------------------------------------------------------
+r1788 | dreibh | 2014-03-18 13:28:16 +0100 (ti., 18 mars 2014) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/configure.ac
+   M /trunk/bibtexconv/rpm/bibtexconv.spec
+   D /trunk/netperfmeter/m4
+   M /trunk/rtpaudio2/configure.ac
+   M /trunk/slideshow/configure.ac
+   M /trunk/slideshow/debian/changelog
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/tsctp/configure.ac
+
+Removed separate "m4" directory from build process.
+
+------------------------------------------------------------------------
+r1781 | dreibh | 2014-03-14 18:58:21 +0100 (fr., 14 mars 2014) | 2 lines
+Changed paths:
+   A /trunk/bibtexconv/rpm.conf (from /trunk/bibtexconv/debian.conf:1780)
+   M /trunk/mptcp-kernel/rpm/kernel.spec
+   A /trunk/netperfmeter/rpm.conf
+   A /trunk/subnetcalc/rpm.conf (from /trunk/bibtexconv/debian.conf:1780)
+
+Added config files.
+
+------------------------------------------------------------------------
+r1779 | dreibh | 2014-03-14 18:33:35 +0100 (fr., 14 mars 2014) | 2 lines
+Changed paths:
+   M /trunk/bibtexconv/rpm/bibtexconv.spec
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+
+Version updates.
+
+------------------------------------------------------------------------
+r1778 | dreibh | 2014-03-13 10:21:22 +0100 (to., 13 mars 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/subnetcalc.lsm
+   M /trunk/subnetcalc/update-changelog
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
 r1777 | dreibh | 2014-03-13 10:06:18 +0100 (to., 13 mars 2014) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.ac
