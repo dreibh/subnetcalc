@@ -1,6 +1,7 @@
 subnetcalc (2.3.0-1ubuntu1) utopic; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
+  * debian/control: updated standards version.
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 24 Jul 2014 08:08:08 +0800
 

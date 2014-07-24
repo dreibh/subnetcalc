@@ -19,7 +19,7 @@
 .\" Contact: dreibh@iem.uni-due.de
 .\"
 .\" ###### Setup ############################################################
-.Dd November 22, 2011
+.Dd July 24, 2014
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -34,6 +34,7 @@
 .Op Fl n
 .Op Fl uniquelocal
 .Op Fl uniquelocalhq
+.Op Fl nocolour|\-nocolor
 .\" ###### Description ######################################################
 .Sh DESCRIPTION
 .Nm subnetcalc
@@ -53,14 +54,16 @@ Skip trying a reverse DNS lookup.
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux, /dev/urandom is used for random number generation.
 .It Fl uniquelocalhq
 Like \-uniquelocal, but using /dev/random instead on Linux systems for highest-quality random number generation. On other systems, this option is equal to \-uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
+.It Fl nocolour|\-nocolor
+Turns colourised output off.
 .El
 .\" ###### Arguments ########################################################
 .Sh EXAMPLES
 .Bl -tag -width indent
 .It subnetcalc 132.252.250.0 255.255.255.0
-.It subnetcalc 132.252.250.0/255.255.255.0
+.It subnetcalc 132.252.250.0/255.255.255.0 -nocolor
 .It subnetcalc 132.252.250.0 24
-.It subnetcalc 132.252.250.0/24
+.It subnetcalc 132.252.250.0/24 -nocolour
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
 .It subnetcalc 2a00:1450:8007::69 64
 .It subnetcalc ff08::1:2:3
