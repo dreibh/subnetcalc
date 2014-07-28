@@ -716,7 +716,7 @@ int main(int argc, char** argv)
    // ====== Print usage ====================================================
    if(argc < 2) {
       printf("Usage: %s [Address{/{Netmask|Prefix}}] "
-             "{Netmask|Prefix} {-n} {-uniquelocal|-uniquelocalhq}\n", argv[0]);
+             "{Netmask|Prefix} {-n} {-uniquelocal|-uniquelocalhq} {-nocolour|-nocolor}\n", argv[0]);
       exit(1);
    }
 
@@ -973,9 +973,7 @@ int main(int argc, char** argv)
                               NI_NAMEREQD
 #endif
                               );
-      if(colourMode) {
-         std::cout << "\r\x1b[K";
-      }
+      std::cout << ((colourMode == true) ? "\r\x1b[K" : "\r");
       std::cout << "DNS Hostname  = "; std::cout.flush();
       if(error == 0) {
          std::cout << hostname << std::endl;

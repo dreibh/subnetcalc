@@ -1,7 +1,7 @@
 Begin4
 Title:          subnetcalc
-Version:        2.3.0
-Entered-date:   2014-07-24
+Version:        2.3.1
+Entered-date:   2014-07-28
 Description:    SubNetCalc is an IPv4/IPv6 subnet address calculator. For
                 given IPv4 or IPv6 address and netmask or prefix length, it
                 calculates network address, broadcast address, maximum
