@@ -1,4 +1,24 @@
 ------------------------------------------------------------------------
+r1901 | dreibh | 2014-07-28 14:18:43 +0200 (ma., 28 juli 2014) | 3 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+- A small fix for non-colour mode.
+- Updated "usage" message.
+
+------------------------------------------------------------------------
+r1896 | dreibh | 2014-07-24 16:02:24 +0200 (to., 24 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
 r1895 | dreibh | 2014-07-24 16:00:44 +0200 (to., 24 juli 2014) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/changelog
