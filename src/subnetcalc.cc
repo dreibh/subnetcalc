@@ -685,6 +685,19 @@ void printAddressProperties(std::ostream&         os,
       else if((a & 0xe000) == 0x2000) {
          os << "   - Global Unicast Properties:" << std::endl;
          printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
+         
+         // ------ 6to4 Address ---------------------------------------------
+         if((a & 0x2002) == 0x2002) {
+            os << "      + 6to4 address = ";
+            sockaddr_union sixToFour;
+            sixToFour.sa.sa_family       = AF_INET;
+            const uint32_t u = ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]);
+            const uint32_t l = ntohs(((const uint16_t*)&ipv6address.s6_addr)[2]);
+            sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
+            printAddress(std::cerr, &sixToFour.sa, false);
+            os << std::endl;
+         }
+
       }
    }
 }
