@@ -1,4 +1,22 @@
 ------------------------------------------------------------------------
+r1937 | dreibh | 2014-11-20 22:06:52 +0100 (to., 20 nov. 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/control
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/subnetcalc/src/subnetcalc.cc
+
+Added support for 6to4 addresses.
+
+------------------------------------------------------------------------
+r1902 | dreibh | 2014-07-28 14:18:55 +0200 (ma., 28 juli 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+
+------------------------------------------------------------------------
 r1901 | dreibh | 2014-07-28 14:18:43 +0200 (ma., 28 juli 2014) | 3 lines
 Changed paths:
    M /trunk/subnetcalc/configure.ac
