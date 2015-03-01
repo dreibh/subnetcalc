@@ -1,4 +1,52 @@
 ------------------------------------------------------------------------
+r1968 | dreibh | 2015-03-01 11:54:00 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/copyright
+
+Minor update.
+
+------------------------------------------------------------------------
+r1967 | dreibh | 2015-03-01 11:46:56 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
+
+Fixed old URL.
+
+------------------------------------------------------------------------
+r1966 | dreibh | 2015-03-01 11:42:18 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/debian/copyright
+   M /trunk/subnetcalc/src/subnetcalc.1
+   M /trunk/subnetcalc/src/subnetcalc.cc
+   M /trunk/subnetcalc/src/tools.cc
+   M /trunk/subnetcalc/src/tools.h
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+Updated debian/copyright to machine-readable format.
+
+------------------------------------------------------------------------
+r1965 | dreibh | 2015-03-01 11:30:04 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   A /trunk/subnetcalc/debian/upstream
+   A /trunk/subnetcalc/debian/upstream/signing-key.asc
+   M /trunk/subnetcalc/debian/watch
+   M /trunk/subnetcalc/make-ppa
+
+Updated watch file with signature configuration.
+
+------------------------------------------------------------------------
+r1938 | dreibh | 2014-11-20 22:07:23 +0100 (to., 20 nov. 2014) | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/make-ppa
+
+Version update.
+
+------------------------------------------------------------------------
 r1937 | dreibh | 2014-11-20 22:06:52 +0100 (to., 20 nov. 2014) | 2 lines
 Changed paths:
    M /trunk/subnetcalc/configure.ac
