@@ -6,10 +6,9 @@
 #
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.2.0
+PORTVERSION=	2.4.0
 CATEGORIES=	net
-MASTER_SITES=	http://www.iem.uni-due.de/~dreibh/subnetcalc/download/ \
-		http://www.exp-math.uni-essen.de/~dreibh/subnetcalc/download/
+MASTER_SITES=	http://www.iem.uni-due.de/~dreibh/subnetcalc/download/
 
 MAINTAINER=	dreibh@iem.uni-due.de
 COMMENT=	IPv4/IPv6 Subnet Calculator
