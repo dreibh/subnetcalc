@@ -1,4 +1,4 @@
-subnetcalc (2.4.0-1ubuntu1) vivid; urgency=low
+subnetcalc (2.4.1-1ubuntu1) vivid; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/copyright: changed to machine-readable format.
