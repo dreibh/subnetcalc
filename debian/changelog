@@ -1,6 +1,7 @@
 subnetcalc (2.4.0~rc1.1-1ubuntu1) vivid; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
+  * debian/copyright: changed to machine-readable format.
   * debian/control: updated standards version.
   * debian/watch: added pgpsigurlmangle option.
   * debian/upstream/signing-key.asc: added upstream public key.
