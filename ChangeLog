@@ -1,4 +1,29 @@
 ------------------------------------------------------------------------
+r1976 | dreibh | 2015-03-01 12:45:09 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+   M /trunk/subnetcalc/subnetcalc.lsm
+
+A small fix.
+
+------------------------------------------------------------------------
+r1975 | dreibh | 2015-03-01 12:37:58 +0100 | 2 lines
+Changed paths:
+   M /trunk/subnetcalc/configure.ac
+   M /trunk/subnetcalc/debian/changelog
+   M /trunk/subnetcalc/rpm/subnetcalc.spec
+
+A small fix.
+
+------------------------------------------------------------------------
+r1973 | dreibh | 2015-03-01 12:05:36 +0100 | 1 line
+Changed paths:
+   M /trunk/subnetcalc/ChangeLog
+
+Updated ChangeLog.
+------------------------------------------------------------------------
 r1968 | dreibh | 2015-03-01 11:54:00 +0100 | 2 lines
 Changed paths:
    M /trunk/subnetcalc/debian/copyright
