@@ -1,4 +1,4 @@
-subnetcalc (2.4.0~rc1.1-1ubuntu1) vivid; urgency=low
+subnetcalc (2.4.0-1ubuntu1) vivid; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/copyright: changed to machine-readable format.
@@ -8,7 +8,7 @@ subnetcalc (2.4.0~rc1.1-1ubuntu1) vivid; urgency=low
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 01 Mar 2015 08:08:08 +0800
 
- subnetcalc (2.3.1-1ubuntu1) utopic; urgency=low
+subnetcalc (2.3.1-1ubuntu1) utopic; urgency=low
 
   * New upstream version bug closed (Closes: #xxxxxx).
   * debian/control: updated standards version.
