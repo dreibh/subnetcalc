@@ -1,6 +1,6 @@
-subnetcalc (2.4.2~rc1-1ubuntu1) vivid; urgency=low
+subnetcalc (2.4.2~rc1-1ubuntu1) wily; urgency=low
 
-  * New upstream version bug closed (Closes: #xxxxxx).
+  * New upstream version.
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 07 May 2015 08:08:08 +0800
 
