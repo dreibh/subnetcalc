@@ -14,8 +14,8 @@ AC_PROG_CXX
 
 # ###### colorgcc ###########################################################
 AC_ARG_ENABLE([colorgcc],
-              [  --enable-colorgcc       enable colorgcc support ][default=yes]],
-              enable_colorgcc=$enableval, enable_colorgcc=yes)
+              [  --enable-colorgcc       enable colorgcc support ][default=no]],
+              enable_colorgcc=$enableval, enable_colorgcc=no)
 if test "${enable_colorgcc}" = "yes"; then
    AC_CHECK_PROG([COLORGCC], [colorgcc], [yes], [no])
    if test "$COLORGCC" == "yes"
