@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.4.1], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.4.2~rc1], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
@@ -106,6 +106,9 @@ AC_ARG_WITH(geoip,
                         want_geoip=no
                      elif test "x$withval" = "xyes"; then
                         want_geoip=yes
+                        CFLAGS="$CFLAGS -I/usr/local/include"
+                        CXXFLAGS="$CXXFLAGS -I/usr/local/include"
+                        LDFLAGS="$LDFLAGS -L/usr/local/lib"
                      elif test -d "$withval"; then
                         want_geoip=yes
                         CFLAGS="$CFLAGS -I${withval}/include"
@@ -117,7 +120,7 @@ if test "x$want_geoip" = "xno"; then
    AC_MSG_RESULT(no)
 else
    AC_MSG_RESULT(yes)
-   AC_CHECK_LIB(GeoIP, GeoIP_new,
+   AC_CHECK_LIB(GeoIP, GeoIP_open_type,
                 [ GEOIP_LIBS=-lGeoIP
                   AC_DEFINE(HAVE_GEOIP, 1, [Define to use GeoIP library]) ],
                 [ AC_ERROR([GeoIP not found!]) ],)

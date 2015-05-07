@@ -1,5 +1,5 @@
 #!/bin/sh
 
 ./bootstrap && \
-env CC=g++ ./configure --with-geoip $@ && \
+./configure --with-geoip $@ && \
 ( gmake || make )
