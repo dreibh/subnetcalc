@@ -6,10 +6,12 @@ set -x
 rm -rf admin
 mkdir admin
 
-if glibtoolize --version >/dev/null; then
-    LIBTOOLIZE=glibtoolize
-elif libtoolize --version >/dev/null; then
-    LIBTOOLIZE=libtoolize
+if [ -e /usr/bin/glibtoolize ] ; then
+    glibtoolize --force
+elif [ -e /usr/bin/libtoolize ] ; then
+    libtoolize --force
+elif [ -e /usr/local/bin/libtoolize ] ; then
+    libtoolize --force
 else
    echo "ERROR: I cannot find libtoolize or glibtoolize!"
    exit 1
@@ -25,13 +27,27 @@ else
    exit 1
 fi
 
-ACLOCAL=${ACLOCAL:-aclocal}
-AUTOHEADER=${AUTOHEADER:-autoheader}
-AUTOMAKE=${AUTOMAKE:-automake}
-AUTOCONF=${AUTOCONF:-autoconf}
+if [ -e /usr/bin/aclocal ] ; then
+   /usr/bin/aclocal -I $ACLOCALDIR
+elif [ -e /usr/local/bin/aclocal ] ; then
+   /usr/local/bin/aclocal -I $ACLOCALDIR
+elif [ -e /usr/bin/aclocal-1.10 ] ; then
+   /usr/bin/aclocal-1.10 -I $ACLOCALDIR
+else
+   echo >&2 "ERROR: No aclocal installation found!"
+   exit 1
+fi
 
-"$LIBTOOLIZE" --force
-"$ACLOCAL" -I "$ACLOCALDIR"
-"$AUTOHEADER"
-"$AUTOMAKE" --gnu --add-missing --copy
-"$AUTOCONF"
+autoheader
+if [ -e /usr/bin/automake ] ; then
+   /usr/bin/automake --gnu --add-missing --copy
+elif [ -e /usr/local/bin/automake ] ; then
+   /usr/local/bin/automake --gnu --add-missing --copy
+elif [ -e /usr/bin/automake-1.10 ] ; then
+   /usr/bin/automake-1.10 --gnu --add-missing --copy
+else
+   echo >&2 "ERROR: No automake installation found!"
+   exit 1
+fi
+autoconf
+
