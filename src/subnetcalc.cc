@@ -685,7 +685,7 @@ void printAddressProperties(std::ostream&         os,
       else if((a & 0xe000) == 0x2000) {
          os << "   - Global Unicast Properties:" << std::endl;
          printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
-         
+
          // ------ 6to4 Address ---------------------------------------------
          if((a & 0x2002) == 0x2002) {
             os << "      + 6to4 address = ";
@@ -707,20 +707,20 @@ void printAddressProperties(std::ostream&         os,
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-   bool           colourMode      = true;
-   bool           noReverseLookup = false;
-   int            options;
-   int            prefix;
-   unsigned int   hostBits;
-   unsigned int   reservedHosts;
-   double         maxHosts;
-   sockaddr_union network;
-   sockaddr_union address;
-   sockaddr_union netmask;
-   sockaddr_union broadcast;
-   sockaddr_union wildcard;
-   sockaddr_union host1;
-   sockaddr_union host2;
+   bool               colourMode      = true;
+   bool               noReverseLookup = false;
+   int                options;
+   int                prefix;
+   unsigned int       hostBits;
+   unsigned int       reservedHosts;
+   unsigned long long maxHosts;
+   sockaddr_union     network;
+   sockaddr_union     address;
+   sockaddr_union     netmask;
+   sockaddr_union     broadcast;
+   sockaddr_union     wildcard;
+   sockaddr_union     host1;
+   sockaddr_union     host2;
 
 
    // ====== Initialize locale ==============================================
@@ -841,7 +841,12 @@ int main(int argc, char** argv)
       host1         = network + 1;
       host2         = broadcast;   // There is no broadcast address for IPv6!
    }
-   maxHosts = pow(2.0, (double)hostBits) - reservedHosts;
+   if(hostBits <= 64) {
+      maxHosts = (unsigned long long)pow(2.0, (double)hostBits) - reservedHosts;
+   }
+   else {
+      maxHosts = 0;   // Not enough accuracy for such a large number!
+   }
 
 
    // ====== Print results ==================================================
@@ -861,8 +866,14 @@ int main(int argc, char** argv)
    std::cout << "Hosts Bits    = " << hostBits << std::endl;
    if(!isMulticast(address)) {
       char maxHostsString[128];
-      snprintf((char*)&maxHostsString, sizeof(maxHostsString),
-               "%1.0f   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
+      if(maxHosts > 0) {
+         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+                  "%llu   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
+      }
+      else {
+         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+                  "2^%u - %u", hostBits, reservedHosts);
+      }
       std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
       std::cout << "Host Range    = { " << host1 << " - " << host2 << " }" << std::endl;
    }
