@@ -1,3 +1,9 @@
+subnetcalc (2.4.3-1ubuntu1) xenial; urgency=low
+
+  * New upstream version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Tue, 27 Oct 2015 08:08:08 +0800
+
 subnetcalc (2.4.2-1ubuntu1) wily; urgency=low
 
   * New upstream version.
