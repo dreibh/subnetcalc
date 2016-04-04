@@ -1,4 +1,4 @@
-AC_INIT([SubNetCalc], [2.4.4~rc1], [dreib@iem.uni-due.de])
+AC_INIT([SubNetCalc], [2.4.4], [dreib@iem.uni-due.de])
 
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.60)
