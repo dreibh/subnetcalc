@@ -1,4 +1,4 @@
-subnetcalc (2.4.4~rc1-1ubuntu1) xenial; urgency=low
+subnetcalc (2.4.4-1ubuntu1) xenial; urgency=low
 
   * New upstream version.
   * debian/control: Updated standards version.
