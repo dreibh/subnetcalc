@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -e /usr/bin/dpkg-buildflags ] ; then
    export CPPFLAGS=`dpkg-buildflags --get CPPFLAGS`
