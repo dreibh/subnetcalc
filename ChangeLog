@@ -1,1562 +1,2197 @@
-------------------------------------------------------------------------
-r2035 | dreibh | 2015-10-27 09:22:01 +0100 (Tue, 27 Oct 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed accuracy problem for number of possible hosts.
-
-------------------------------------------------------------------------
-r2008 | dreibh | 2015-06-04 16:32:56 +0200 (Thu, 04 Jun 2015) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/bootstrap
-
-Merge pull request #2 from dunn/master
-
-Merged. Thank you!
-------------------------------------------------------------------------
-r2005 | dreibh | 2015-05-11 15:32:10 +0200 (Mon, 11 May 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-New release.
-
-------------------------------------------------------------------------
-r1999 | dreibh | 2015-05-07 15:45:29 +0200 (Thu, 07 May 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/make-ppa
-
-Script update.
-
-------------------------------------------------------------------------
-r1998 | dreibh | 2015-05-07 15:44:05 +0200 (Thu, 07 May 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-deb
-
-Script update.
-
-------------------------------------------------------------------------
-r1997 | dreibh | 2015-05-07 15:29:01 +0200 (Thu, 07 May 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/autogen.sh
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-
-GeoIP fixes for FreeBSD: add /usr/local/... to include and library search paths.
-
-------------------------------------------------------------------------
-r1996 | dreibh | 2015-05-07 15:08:19 +0200 (Thu, 07 May 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-
-No colorgcc by default.
-
-------------------------------------------------------------------------
-r1977 | dreibh | 2015-03-01 12:45:27 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1976 | dreibh | 2015-03-01 12:45:09 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-A small fix.
-
-------------------------------------------------------------------------
-r1975 | dreibh | 2015-03-01 12:37:58 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-
-A small fix.
-
-------------------------------------------------------------------------
-r1973 | dreibh | 2015-03-01 12:05:36 +0100 (Sun, 01 Mar 2015) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-------------------------------------------------------------------------
-r1968 | dreibh | 2015-03-01 11:54:00 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/copyright
-
-Minor update.
-
-------------------------------------------------------------------------
-r1967 | dreibh | 2015-03-01 11:46:56 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
-
-Fixed old URL.
-
-------------------------------------------------------------------------
-r1966 | dreibh | 2015-03-01 11:42:18 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/copyright
-   M /trunk/subnetcalc/src/subnetcalc.1
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-   M /trunk/subnetcalc/src/tools.h
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Updated debian/copyright to machine-readable format.
-
-------------------------------------------------------------------------
-r1965 | dreibh | 2015-03-01 11:30:04 +0100 (Sun, 01 Mar 2015) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   A /trunk/subnetcalc/debian/upstream
-   A /trunk/subnetcalc/debian/upstream/signing-key.asc
-   M /trunk/subnetcalc/debian/watch
-   M /trunk/subnetcalc/make-ppa
-
-Updated watch file with signature configuration.
-
-------------------------------------------------------------------------
-r1938 | dreibh | 2014-11-20 22:07:23 +0100 (Thu, 20 Nov 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-
-Version update.
-
-------------------------------------------------------------------------
-r1937 | dreibh | 2014-11-20 22:06:52 +0100 (Thu, 20 Nov 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Added support for 6to4 addresses.
-
-------------------------------------------------------------------------
-r1902 | dreibh | 2014-07-28 14:18:55 +0200 (Mon, 28 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1901 | dreibh | 2014-07-28 14:18:43 +0200 (Mon, 28 Jul 2014) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-- A small fix for non-colour mode.
-- Updated "usage" message.
-
-------------------------------------------------------------------------
-r1896 | dreibh | 2014-07-24 16:02:24 +0200 (Thu, 24 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1895 | dreibh | 2014-07-24 16:00:44 +0200 (Thu, 24 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/src/subnetcalc.1
-
-Updated manpage.
-
-------------------------------------------------------------------------
-r1894 | dreibh | 2014-07-24 15:54:06 +0200 (Thu, 24 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Added non-colour mode.
-
-------------------------------------------------------------------------
-r1881 | dreibh | 2014-07-11 13:52:57 +0200 (Fri, 11 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/tools.cc
-
-Typo fix.
-
-------------------------------------------------------------------------
-r1867 | dreibh | 2014-07-04 18:38:55 +0200 (Fri, 04 Jul 2014) | 2 lines
-Changed paths:
-   A /trunk/fractgen2/rpm.conf
-   M /trunk/netperfmeter/rpm/netperfmeter.spec
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   A /trunk/tsctp/rpm.conf
-
-F20 build script updates.
-
-------------------------------------------------------------------------
-r1866 | dreibh | 2014-07-04 17:05:55 +0200 (Fri, 04 Jul 2014) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/rpm/bibtexconv.spec
-   M /trunk/netperfmeter/rpm/netperfmeter.spec
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/tsctp/rpm/tsctp.spec
-
-Updated BuildRequires in RPM spec file.
-
-------------------------------------------------------------------------
-r1849 | dreibh | 2014-06-24 11:54:13 +0200 (Tue, 24 Jun 2014) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/make-rpm
-   M /trunk/fractgen2/make-rpm
-   M /trunk/mptcp-kernel/make-rpm
-   M /trunk/netperfmeter/make-rpm
-   M /trunk/subnetcalc/make-rpm
-   M /trunk/tsctp/make-rpm
-
-Removed debug output.
-
-------------------------------------------------------------------------
-r1790 | dreibh | 2014-03-18 14:01:13 +0100 (Tue, 18 Mar 2014) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/Makefile.am
-   M /trunk/netperfmeter/Makefile.am
-   M /trunk/rtpaudio2/Makefile.am
-   M /trunk/subnetcalc/Makefile.am
-
-Makefile fix.
-
-------------------------------------------------------------------------
-r1788 | dreibh | 2014-03-18 13:28:16 +0100 (Tue, 18 Mar 2014) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/configure.ac
-   M /trunk/bibtexconv/rpm/bibtexconv.spec
-   D /trunk/netperfmeter/m4
-   M /trunk/rtpaudio2/configure.ac
-   M /trunk/slideshow/configure.ac
-   M /trunk/slideshow/debian/changelog
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-   M /trunk/tsctp/configure.ac
-
-Removed separate "m4" directory from build process.
-
-------------------------------------------------------------------------
-r1781 | dreibh | 2014-03-14 18:58:21 +0100 (Fri, 14 Mar 2014) | 2 lines
-Changed paths:
-   A /trunk/bibtexconv/rpm.conf (from /trunk/bibtexconv/debian.conf:1780)
-   M /trunk/mptcp-kernel/rpm/kernel.spec
-   A /trunk/netperfmeter/rpm.conf
-   A /trunk/subnetcalc/rpm.conf (from /trunk/bibtexconv/debian.conf:1780)
-
-Added config files.
-
-------------------------------------------------------------------------
-r1779 | dreibh | 2014-03-14 18:33:35 +0100 (Fri, 14 Mar 2014) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/rpm/bibtexconv.spec
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-
-Version updates.
-
-------------------------------------------------------------------------
-r1778 | dreibh | 2014-03-13 10:21:22 +0100 (Thu, 13 Mar 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/subnetcalc.lsm
-   M /trunk/subnetcalc/update-changelog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1777 | dreibh | 2014-03-13 10:06:18 +0100 (Thu, 13 Mar 2014) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed IPv6 output bug.
-
-------------------------------------------------------------------------
-r1744 | dreibh | 2013-11-11 09:56:43 +0100 (Mon, 11 Nov 2013) | 2 lines
-Changed paths:
-   D /trunk/mktcp-kernel
-   A /trunk/mptcp-kernel (from /trunk/mktcp-kernel:1743)
-   M /trunk/subnetcalc/make-rpm
-
-Minor updates.
-
-------------------------------------------------------------------------
-r1743 | dreibh | 2013-11-11 09:44:44 +0100 (Mon, 11 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/make-rpm
-   M /trunk/fractgen2/make-rpm
-   M /trunk/netperfmeter/make-rpm
-   M /trunk/subnetcalc/make-rpm
-   M /trunk/tsctp/make-rpm
-
-Updated make-rpm.
-
-------------------------------------------------------------------------
-r1736 | dreibh | 2013-11-05 16:48:22 +0100 (Tue, 05 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/src/grammar.h
-   M /trunk/bibtexconv/src/t1.cc
-   M /trunk/cmt-rp-patches/new/sctp.h
-   M /trunk/cmt-rp-patches/new/sctp_cc_functions.c
-   M /trunk/cmt-rp-patches/new/sctp_structs.h
-   M /trunk/cmt-rp-patches/new/sctp_sysctl.c
-   M /trunk/cmt-rp-patches/new/sctp_sysctl.h
-   M /trunk/cmt-rp-patches/new/sctp_usrreq.c
-   M /trunk/cmt-rp-patches/new/sctputil.c
-   M /trunk/datacoll/correlator_impl.cc
-   M /trunk/datacoll/correlator_impl.h
-   M /trunk/datacoll/dccc.cc
-   M /trunk/datacoll/loglevel.cc
-   M /trunk/datacoll/loglevel.h
-   M /trunk/datacoll/nacstatistics.cc
-   M /trunk/datacoll/nacstatistics.h
-   M /trunk/datacoll/nacstatisticsmanager.cc
-   M /trunk/datacoll/nacstatisticsmanager.h
-   M /trunk/datacoll/rcastatistics.cc
-   M /trunk/datacoll/rcastatistics.h
-   M /trunk/datacoll/rcastatisticsmanager.cc
-   M /trunk/datacoll/rcastatisticsmanager.h
-   M /trunk/datacoll/statistics.cc
-   M /trunk/datacoll/statistics.h
-   M /trunk/datacoll/statisticsmanager.cc
-   M /trunk/datacoll/statisticsmanager.h
-   M /trunk/datacoll/statisticsset.cc
-   M /trunk/datacoll/statisticsset.h
-   M /trunk/datacoll/t1.cc
-   M /trunk/datacoll/t2.cc
-   M /trunk/datacoll/test-client.cc
-   M /trunk/datacoll/test-server.cc
-   M /trunk/datacoll/tools.cc
-   M /trunk/datacoll/tools.h
-   M /trunk/fractalgen1/fractalgenerator/colorschemeinterface.h
-   M /trunk/fractalgen1/fractalgenerator/configentry.h
-   M /trunk/fractalgen1/fractalgenerator/doubleconfigentry.h
-   M /trunk/fractalgen1/fractalgenerator/fractalalgorithminterface.h
-   M /trunk/fractalgen1/fractalgenerator/fractalbuffer.h
-   M /trunk/fractalgen1/fractalgenerator/fractalcalculationthread.h
-   M /trunk/fractalgen1/fractalgenerator/fractaldisplay.h
-   M /trunk/fractalgen1/fractalgenerator/fractalgenerator.h
-   M /trunk/fractalgen1/fractalgenerator/fractalgeneratordoc.h
-   M /trunk/fractalgen1/fractalgenerator/fractalgeneratorview.h
-   M /trunk/fractalgen1/fractalgenerator/mandelbrot.h
-   M /trunk/fractalgen1/fractalgenerator/mandelbrotn.h
-   M /trunk/fractalgen1/fractalgenerator/mylistviewitem.h
-   M /trunk/fractalgen1/fractalgenerator/optionsdialog.h
-   M /trunk/fractalgen1/fractalgenerator/simplehsv.h
-   M /trunk/fractalgen1/fractalgenerator/uintconfigentry.h
-   M /trunk/lksctp-patches/debug-bug/associola.c
-   M /trunk/lksctp-patches/rtx-bug/output.c
-   M /trunk/lksctp-patches/rtx-bug/outqueue.c
-   M /trunk/lws2003-beispiele/tree.cc
-   M /trunk/progtest/loglevel.cc
-   M /trunk/progtest/loglevel.h
-   M /trunk/progtest/progclient.cc
-   M /trunk/progtest/progpacket.h
-   M /trunk/progtest/progserver.cc
-   M /trunk/progtest/progserver.h
-   M /trunk/progtest/progviewer.cc
-   M /trunk/progtest/progviewer.h
-   M /trunk/progtest/t1.cc
-   M /trunk/progtest/t2.cc
-   M /trunk/progtest/tools.cc
-   M /trunk/progtest/tools.h
-   M /trunk/rtpaudio2/libmpegsound/bitwindow.cc
-   M /trunk/rtpaudio2/libmpegsound/cyclicbuffer.cc
-   M /trunk/rtpaudio2/libmpegsound/esdplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/fileinput.cc
-   M /trunk/rtpaudio2/libmpegsound/fileplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/filter.cc
-   M /trunk/rtpaudio2/libmpegsound/filter_2.cc
-   M /trunk/rtpaudio2/libmpegsound/httpinput.cc
-   M /trunk/rtpaudio2/libmpegsound/huffmantable.cc
-   M /trunk/rtpaudio2/libmpegsound/mpeglayer1.cc
-   M /trunk/rtpaudio2/libmpegsound/mpeglayer2.cc
-   M /trunk/rtpaudio2/libmpegsound/mpeglayer3.cc
-   M /trunk/rtpaudio2/libmpegsound/mpegtable.cc
-   M /trunk/rtpaudio2/libmpegsound/mpegtoraw.cc
-   M /trunk/rtpaudio2/libmpegsound/nasplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/oggplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/rawplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/rawtofile.cc
-   M /trunk/rtpaudio2/libmpegsound/sdlplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/sidplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/soundinputstream.cc
-   M /trunk/rtpaudio2/libmpegsound/soundplayer.cc
-   M /trunk/rtpaudio2/libmpegsound/wavetoraw.cc
-   M /trunk/rtpaudio2/libmpegsound/xingheader.cc
-   M /trunk/snmptest/breakdetector.c
-   M /trunk/snmptest/breakdetector.h
-   M /trunk/snmptest/snmptest.cc
-   M /trunk/snmptest/t1.cc
-   M /trunk/snmptest/t2.cc
-   M /trunk/subnetcalc/src/t1.cc
-   M /trunk/tao-test/test-client.cc
-   M /trunk/tao-test/test-server.cc
-   M /trunk/tded/dblringlist.h
-   M /trunk/tded/pkt_sched.h
-   M /trunk/tded/q_tded.c
-   M /trunk/tded/sch_tded.c
-   M /trunk/tded/skbuff.c
-   M /trunk/tded/startpacket.h
-   M /trunk/tded/t1.c
-   M /trunk/tded/t2.c
-   M /trunk/tded/tdedsp.h
-   M /trunk/tded/testsuite.c
-   M /trunk/tded/testsuite.h
-
-Using SVN keywords:Id property.
-
-------------------------------------------------------------------------
-r1735 | dreibh | 2013-11-05 16:42:50 +0100 (Tue, 05 Nov 2013) | 1 line
-Changed paths:
-   A /trunk/bibtexconv/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
-   M /trunk/bibtexconv/rpm/bibtexconv.spec
-   A /trunk/fractgen2/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
-   M /trunk/fractgen2/rpm/fractgen.spec
-   A /trunk/netperfmeter/make-rpm (from /trunk/subnetcalc/make-rpm:1734)
-   M /trunk/netperfmeter/rpm/netperfmeter.spec
-   M /trunk/progtest/loglevel.h
-   M /trunk/progtest/progclient.cc
-   M /trunk/progtest/progpacket.h
-   M /trunk/progtest/progserver.cc
-   M /trunk/progtest/progviewer.cc
-   M /trunk/progtest/progviewer.h
-   M /trunk/progtest/progviewer.moc
-   M /trunk/progtest/tools.cc
-   M /trunk/progtest/tools.h
-   M /trunk/subnetcalc/make-rpm
-
-Improved RPM packaging.
-------------------------------------------------------------------------
-r1734 | dreibh | 2013-11-05 15:21:24 +0100 (Tue, 05 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/make-rpm
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-
-Updated RPM packaging script.
-
-------------------------------------------------------------------------
-r1733 | dreibh | 2013-11-05 14:37:32 +0100 (Tue, 05 Nov 2013) | 2 lines
-Changed paths:
-   A /trunk/subnetcalc/make-rpm
-
-Started to write RPM build script.
-
-------------------------------------------------------------------------
-r1732 | dreibh | 2013-11-05 14:10:38 +0100 (Tue, 05 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-
-Updated spec file.
-
-------------------------------------------------------------------------
-r1723 | dreibh | 2013-11-04 12:54:19 +0100 (Mon, 04 Nov 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/rpm/subnetcalc.spec
-
-Updated RPM sepc file.
-
-------------------------------------------------------------------------
-r1712 | dreibh | 2013-11-03 11:06:20 +0100 (Sun, 03 Nov 2013) | 3 lines
-Changed paths:
-   M /trunk/bibtexconv/freebsd/bibtexconv/Makefile
-   M /trunk/bibtexconv/freebsd/bibtexconv/distinfo
-   M /trunk/bibtexconv/freebsd/bibtexconv/test-packaging
-   M /trunk/netperfmeter/freebsd/netperfmeter/test-packaging
-   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
-   M /trunk/subnetcalc/freebsd/subnetcalc/distinfo
-   M /trunk/subnetcalc/freebsd/subnetcalc/test-packaging
-
-FreeBSD packaging file updates.
-
-
-------------------------------------------------------------------------
-r1705 | dreibh | 2013-10-25 12:45:15 +0200 (Fri, 25 Oct 2013) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-------------------------------------------------------------------------
-r1704 | dreibh | 2013-10-25 12:42:53 +0200 (Fri, 25 Oct 2013) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Version update.
-------------------------------------------------------------------------
-r1694 | dreibh | 2013-10-23 20:23:21 +0200 (Wed, 23 Oct 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-
-Removed libfile-fcntllock-perl dependency again. It breaks build under Lucid Lynx.
-
-------------------------------------------------------------------------
-r1686 | dreibh | 2013-10-23 13:32:48 +0200 (Wed, 23 Oct 2013) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-------------------------------------------------------------------------
-r1679 | dreibh | 2013-10-23 13:29:47 +0200 (Wed, 23 Oct 2013) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/Makefile.am
-   M /trunk/subnetcalc/subnetcalc.lsm
-   A /trunk/subnetcalc/update-changelog
-
-Packaging file updates.
-------------------------------------------------------------------------
-r1671 | dreibh | 2013-10-18 23:52:07 +0200 (Fri, 18 Oct 2013) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/make-ppa
-   M /trunk/dia-experimental/make-ppa
-   M /trunk/fractgen2/make-ppa
-   M /trunk/netperfmeter/make-ppa
-   M /trunk/rtpaudio2/make-ppa
-   M /trunk/slideshow/make-ppa
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/tsctp/make-ppa
-   M /trunk/wireshark-experimental/make-ppa
-
-Updated make-ppa.
-
-------------------------------------------------------------------------
-r1666 | dreibh | 2013-10-15 23:00:59 +0200 (Tue, 15 Oct 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Packaging file updates.
-
-------------------------------------------------------------------------
-r1665 | dreibh | 2013-10-15 10:02:22 +0200 (Tue, 15 Oct 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-
-Added libfile-fcntllock-perl dependency.
-
-------------------------------------------------------------------------
-r1664 | dreibh | 2013-10-14 19:20:41 +0200 (Mon, 14 Oct 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed a compile problem under OpenSuSE 12.3 by applying suggested patch by Maximilian Decker.
-
-------------------------------------------------------------------------
-r1663 | dreibh | 2013-09-26 16:33:31 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   A /trunk/subnetcalc/rpm
-   A /trunk/subnetcalc/rpm/subnetcalc.spec
-
-Added RPM packaging file.
-
-------------------------------------------------------------------------
-r1662 | dreibh | 2013-09-26 16:26:13 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-
-Updated packaging files.
-
-------------------------------------------------------------------------
-r1661 | dreibh | 2013-09-26 16:23:54 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed the IPv6 handling, after previous change broke it.
-
-------------------------------------------------------------------------
-r1660 | dreibh | 2013-09-26 16:00:43 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed warnings.
-
-------------------------------------------------------------------------
-r1659 | dreibh | 2013-09-26 15:52:39 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Now handling GeoIP error messages (database not found) properly.
-
-------------------------------------------------------------------------
-r1658 | dreibh | 2013-09-26 15:43:13 +0200 (Thu, 26 Sep 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.1
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-   M /trunk/subnetcalc/src/tools.h
-
-Improved GeoIP output.
-
-------------------------------------------------------------------------
-r1648 | dreibh | 2013-05-29 18:01:03 +0200 (Wed, 29 May 2013) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/build-deb
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-
-Build system updates.
-------------------------------------------------------------------------
-r1647 | dreibh | 2013-05-29 18:00:55 +0200 (Wed, 29 May 2013) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/Makefile.am
-
-libm is required to build on latest Ubuntu systems.
-
-------------------------------------------------------------------------
-r1611 | dreibh | 2012-12-22 10:10:47 +0100 (Sat, 22 Dec 2012) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-
-Now using colorgcc.
-------------------------------------------------------------------------
-r1610 | dreibh | 2012-12-22 10:08:54 +0100 (Sat, 22 Dec 2012) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-
-Fixed conflicts.
-------------------------------------------------------------------------
-r1609 | dreibh | 2012-12-22 10:06:17 +0100 (Sat, 22 Dec 2012) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.ac
-   M /trunk/subnetcalc/debian/changelog
-
-Now using colorgcc.
-------------------------------------------------------------------------
-r1597 | dreibh | 2012-12-21 18:33:36 +0100 (Fri, 21 Dec 2012) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/subnetcalc/make-shar
-
-A small fix.
-
-
-------------------------------------------------------------------------
-r1596 | dreibh | 2012-12-21 18:33:09 +0100 (Fri, 21 Dec 2012) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
-   M /trunk/subnetcalc/freebsd/subnetcalc/distinfo
-   M /trunk/subnetcalc/freebsd/subnetcalc/test-packaging
-
-Updated FreeBSD packaging files.
-
-
-------------------------------------------------------------------------
-r1590 | dreibh | 2012-12-21 18:01:13 +0100 (Fri, 21 Dec 2012) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1589 | dreibh | 2012-12-21 18:00:54 +0100 (Fri, 21 Dec 2012) | 2 lines
-Changed paths:
-   A /trunk/subnetcalc/configure.ac (from /trunk/subnetcalc/configure.in:1587)
-   D /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Renamed configure.in to configure.ac, according to latest Automake conventions.
-
-------------------------------------------------------------------------
-r1525 | dreibh | 2012-10-20 23:50:30 +0200 (Sat, 20 Oct 2012) | 1 line
-Changed paths:
-   M /trunk/bibtexconv/make-ppa
-   M /trunk/dia-experimental/make-ppa
-   M /trunk/fractgen2/make-ppa
-   M /trunk/netperfmeter/configure.in
-   M /trunk/netperfmeter/debian/changelog
-   M /trunk/netperfmeter/make-ppa
-   M /trunk/slideshow/make-ppa
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/wireshark-experimental/make-ppa
-
-Build script updates.
-------------------------------------------------------------------------
-r1505 | dreibh | 2012-08-25 23:52:30 +0200 (Sat, 25 Aug 2012) | 1 line
-Changed paths:
-   A /trunk/subnetcalc/build-deb (from /trunk/bibtexconv/build-deb:1498)
-   M /trunk/subnetcalc/clean-deb
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian.conf
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Build script updates.
-------------------------------------------------------------------------
-r1492 | dreibh | 2012-07-20 18:09:09 +0200 (Fri, 20 Jul 2012) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/src/Makefile.am
-
-Now using colorgcc.
-------------------------------------------------------------------------
-r1231 | dreibh | 2011-12-14 15:00:30 +0100 (Wed, 14 Dec 2011) | 1 line
-Changed paths:
-   M /trunk/netperfmeter/configure.in
-   M /trunk/rtpaudio2/rtpaudio/internetaddress.cc
-   M /trunk/subnetcalc/configure.in
-
-Fixed detection code for sa_len, sin_len and sin6_len.
-------------------------------------------------------------------------
-r1135 | dreibh | 2011-11-22 15:14:01 +0100 (Tue, 22 Nov 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/subnetcalc.manpages
-   M /trunk/subnetcalc/src/Makefile.am
-   A /trunk/subnetcalc/src/subnetcalc.1 (from /trunk/subnetcalc/src/subnetcalc.8:1132)
-   D /trunk/subnetcalc/src/subnetcalc.8
-
-Changed manpage category from 8 to 1.
-
-------------------------------------------------------------------------
-r1113 | dreibh | 2011-11-20 19:21:36 +0100 (Sun, 20 Nov 2011) | 2 lines
-Changed paths:
-   D /trunk/subnetcalc/freebsd/subnetcalc/pkg-plist
-
-pkg-plist is not needed.
-
-------------------------------------------------------------------------
-r1077 | dreibh | 2011-10-20 18:09:00 +0200 (Thu, 20 Oct 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian.conf
-   A /trunk/subnetcalc/filter-empty-entries
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-
-Script updates for Precise Pangolin.
-
-------------------------------------------------------------------------
-r1031 | dreibh | 2011-05-04 07:43:59 +0200 (Wed, 04 May 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-Fixed Debian version.
-
-------------------------------------------------------------------------
-r1030 | dreibh | 2011-05-04 07:40:46 +0200 (Wed, 04 May 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-
-Added missing entries to debian/changelog.
-
-------------------------------------------------------------------------
-r1025 | dreibh | 2011-05-03 19:15:05 +0200 (Tue, 03 May 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r1024 | dreibh | 2011-05-03 19:13:14 +0200 (Tue, 03 May 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Version update.
-
-------------------------------------------------------------------------
-r1023 | dreibh | 2011-05-03 19:07:41 +0200 (Tue, 03 May 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Fixed bug under Debian Wheezy (closes #625081) and Ubuntu Oneiric.
-
-------------------------------------------------------------------------
-r989 | dreibh | 2011-02-11 23:34:41 +0100 (Fri, 11 Feb 2011) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/debian/changelog
-   M /trunk/bibtexconv/make-deb
-   M /trunk/dia-experimental/make-deb
-   M /trunk/fractgen2/make-deb
-   M /trunk/slideshow/make-deb
-   M /trunk/subnetcalc/make-deb
-   M /trunk/wireshark-experimental/make-deb
-
-Updated packaging files.
-
-------------------------------------------------------------------------
-r984 | dreibh | 2011-02-02 15:18:54 +0100 (Wed, 02 Feb 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-
-make-deb update.
-------------------------------------------------------------------------
-r978 | dreibh | 2011-02-01 15:25:10 +0100 (Tue, 01 Feb 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-
-Packaging update.
-------------------------------------------------------------------------
-r961 | dreibh | 2011-02-01 08:46:44 +0100 (Tue, 01 Feb 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/rules
-
-Debian packaging update.
-------------------------------------------------------------------------
-r955 | dreibh | 2011-02-01 08:27:03 +0100 (Tue, 01 Feb 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-
-Updated make-deb script.
-------------------------------------------------------------------------
-r952 | dreibh | 2011-02-01 08:24:54 +0100 (Tue, 01 Feb 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-
-Updated make-deb script.
-------------------------------------------------------------------------
-r928 | dreibh | 2011-01-22 15:30:12 +0100 (Sat, 22 Jan 2011) | 2 lines
-Changed paths:
-   M /trunk/bibtexconv/debian/changelog
-   M /trunk/bibtexconv/make-deb
-   M /trunk/fractgen2/debian/changelog
-   M /trunk/fractgen2/make-deb
-   M /trunk/netperfmeter/debian/changelog
-   M /trunk/netperfmeter/make-deb
-   M /trunk/slideshow/debian/changelog
-   M /trunk/slideshow/make-deb
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-deb
-   M /trunk/wireshark-experimental/copy-to-wireshark-directory
-
-make-deb updates.
-
-------------------------------------------------------------------------
-r920 | dreibh | 2011-01-22 11:40:17 +0100 (Sat, 22 Jan 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-
-Packaging script update.
-------------------------------------------------------------------------
-r917 | dreibh | 2011-01-22 00:40:38 +0100 (Sat, 22 Jan 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/clean-deb
-
-Updated clean-deb.
-------------------------------------------------------------------------
-r910 | dreibh | 2011-01-22 00:06:51 +0100 (Sat, 22 Jan 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-deb
-
-Fix for building unstable/default distribution packages.
-------------------------------------------------------------------------
-r901 | dreibh | 2011-01-21 22:26:50 +0100 (Fri, 21 Jan 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/debian/changelog
-
-ChangeLog update.
-
-------------------------------------------------------------------------
-r896 | dreibh | 2011-01-21 21:54:54 +0100 (Fri, 21 Jan 2011) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/rules
-
-
-------------------------------------------------------------------------
-r895 | dreibh | 2011-01-21 21:45:24 +0100 (Fri, 21 Jan 2011) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/clean-deb
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/compat
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/rules
-   A /trunk/subnetcalc/debian/source
-   A /trunk/subnetcalc/debian/source/format
-   M /trunk/subnetcalc/debian/subnetcalc.install
-   M /trunk/subnetcalc/debian/subnetcalc.manpages
-   M /trunk/subnetcalc/debian.conf
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-
-Made Debian packaging compatible to format "3.0 (quilt)".
-
-------------------------------------------------------------------------
-r879 | dreibh | 2011-01-12 11:26:44 +0100 (Wed, 12 Jan 2011) | 2 lines
-Changed paths:
-   D /trunk/subnetcalc/debian/source
-
-Removed debian/source -> packaging is working again.
-
-------------------------------------------------------------------------
-r675 | dreibh | 2010-08-05 21:46:26 +0200 (Thu, 05 Aug 2010) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-
-------------------------------------------------------------------------
-r674 | dreibh | 2010-08-05 21:39:24 +0200 (Thu, 05 Aug 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-Fixed debian/changelog.
-
-------------------------------------------------------------------------
-r673 | dreibh | 2010-08-05 16:07:05 +0200 (Thu, 05 Aug 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
-
-Updated FreeBSD ports Makefile by version of FreeBSD uploader.
-
-------------------------------------------------------------------------
-r672 | dreibh | 2010-08-04 16:32:53 +0200 (Wed, 04 Aug 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-
-Updated Debian files.
-
-------------------------------------------------------------------------
-r669 | dreibh | 2010-07-27 13:42:26 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/subnetcalc/Makefile
-
-Updated FreeBSD ports Makefile.
-
-------------------------------------------------------------------------
-r668 | dreibh | 2010-07-27 13:35:15 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/debian/changelog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r667 | dreibh | 2010-07-27 13:33:58 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-Removed Japanese IDN example from manpage, since this causes lintian warnings.
-
-------------------------------------------------------------------------
-r665 | dreibh | 2010-07-27 13:33:13 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   D /trunk/subnetcalc/freebsd/Makefile
-   D /trunk/subnetcalc/freebsd/distinfo
-   D /trunk/subnetcalc/freebsd/make-shar
-   D /trunk/subnetcalc/freebsd/pkg-descr
-   D /trunk/subnetcalc/freebsd/pkg-plist
-   A /trunk/subnetcalc/freebsd/subnetcalc
-   A /trunk/subnetcalc/freebsd/subnetcalc/Makefile (from /trunk/subnetcalc/freebsd/Makefile:664)
-   A /trunk/subnetcalc/freebsd/subnetcalc/distinfo (from /trunk/subnetcalc/freebsd/distinfo:664)
-   A /trunk/subnetcalc/freebsd/subnetcalc/make-shar (from /trunk/subnetcalc/freebsd/make-shar:664)
-   A /trunk/subnetcalc/freebsd/subnetcalc/pkg-descr (from /trunk/subnetcalc/freebsd/pkg-descr:663)
-   A /trunk/subnetcalc/freebsd/subnetcalc/pkg-plist (from /trunk/subnetcalc/freebsd/pkg-plist:663)
-   A /trunk/subnetcalc/freebsd/subnetcalc/test-packaging (from /trunk/subnetcalc/freebsd/test-packaging:663)
-   D /trunk/subnetcalc/freebsd/test-packaging
-
-Updated FreeBSD ports scripts: directory has to be named like the package.
-
-------------------------------------------------------------------------
-r664 | dreibh | 2010-07-27 13:21:45 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/freebsd/Makefile
-   M /trunk/subnetcalc/freebsd/distinfo
-   M /trunk/subnetcalc/freebsd/make-shar
-
-Updated FreeBSD ports files.
-
-------------------------------------------------------------------------
-r663 | dreibh | 2010-07-27 13:06:44 +0200 (Tue, 27 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/Makefile.am
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   A /trunk/subnetcalc/freebsd
-   A /trunk/subnetcalc/freebsd/Makefile
-   A /trunk/subnetcalc/freebsd/distinfo
-   A /trunk/subnetcalc/freebsd/make-shar
-   A /trunk/subnetcalc/freebsd/pkg-descr
-   A /trunk/subnetcalc/freebsd/pkg-plist
-   A /trunk/subnetcalc/freebsd/test-packaging
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Added FreeBSD ports files.
-
-------------------------------------------------------------------------
-r631 | dreibh | 2010-07-16 15:20:04 +0200 (Fri, 16 Jul 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/control
-
-Updated control version.
-
-------------------------------------------------------------------------
-r597 | dreibh | 2010-06-30 22:45:10 +0200 (Wed, 30 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Updated LSM entry.
-
-------------------------------------------------------------------------
-r595 | dreibh | 2010-06-30 17:24:45 +0200 (Wed, 30 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog from SVN.
-
-------------------------------------------------------------------------
-r594 | dreibh | 2010-06-30 17:24:27 +0200 (Wed, 30 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-
-Version update.
-
-------------------------------------------------------------------------
-r593 | dreibh | 2010-06-29 22:48:45 +0200 (Tue, 29 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Using strings.h instead of string.h to work under Solaris.
-
-------------------------------------------------------------------------
-r577 | dreibh | 2010-06-19 13:03:22 +0200 (Sat, 19 Jun 2010) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/make-ppa
-
-
-------------------------------------------------------------------------
-r574 | dreibh | 2010-06-19 12:38:17 +0200 (Sat, 19 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   A /trunk/subnetcalc/debian/source
-   A /trunk/subnetcalc/debian/source/format
-   M /trunk/subnetcalc/make-deb
-   M /trunk/subnetcalc/make-ppa
-
-Converted to debian source format 3.0.
-
-------------------------------------------------------------------------
-r573 | dreibh | 2010-06-19 11:03:29 +0200 (Sat, 19 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Scripts update.
-
-------------------------------------------------------------------------
-r572 | dreibh | 2010-06-17 12:36:54 +0200 (Thu, 17 Jun 2010) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-
-------------------------------------------------------------------------
-r571 | dreibh | 2010-06-17 12:36:43 +0200 (Thu, 17 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-
-Version update.
-
-------------------------------------------------------------------------
-r570 | dreibh | 2010-06-17 12:09:56 +0200 (Thu, 17 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-
-FreeBSD does not support AI_IDN and NI_IDN -> added #ifdefs
-
-------------------------------------------------------------------------
-r569 | dreibh | 2010-06-08 11:42:28 +0200 (Tue, 08 Jun 2010) | 2 lines
-Changed paths:
-   A /trunk/subnetcalc/autogen.sh
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Added detection of GeoIP IPv6 support to configure.in. Older versions do not support it.
-
-------------------------------------------------------------------------
-r568 | dreibh | 2010-06-07 12:23:41 +0200 (Mon, 07 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian.conf
-
-Debian script update.
-
-------------------------------------------------------------------------
-r567 | dreibh | 2010-06-03 21:14:25 +0200 (Thu, 03 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-Updated examples.
-
-------------------------------------------------------------------------
-r566 | dreibh | 2010-06-03 20:43:44 +0200 (Thu, 03 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-Fixed "\" in manpage.
-
-------------------------------------------------------------------------
-r565 | dreibh | 2010-06-03 20:38:14 +0200 (Thu, 03 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-
-Version update.
-
-------------------------------------------------------------------------
-r564 | dreibh | 2010-06-03 20:38:06 +0200 (Thu, 03 Jun 2010) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-Added some more IDN examples to manpage.
-
-------------------------------------------------------------------------
-r563 | dreibh | 2010-06-03 20:29:56 +0200 (Thu, 03 Jun 2010) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-
-- Added support for reverse DNS lookup.
-- Added support for Internationalized Domain Names (IDN).
-
-------------------------------------------------------------------------
-r560 | dreibh | 2010-05-31 11:53:09 +0200 (Mon, 31 May 2010) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-
-------------------------------------------------------------------------
-r556 | dreibh | 2010-05-31 11:49:10 +0200 (Mon, 31 May 2010) | 4 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/copyright
-   M /trunk/subnetcalc/debian/rules
-   M /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/src/Makefile.am
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-   M /trunk/subnetcalc/src/tools.h
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-- Added support for GeoIP.
-- Version update.
-
-
-------------------------------------------------------------------------
-r546 | dreibh | 2010-05-24 20:43:15 +0200 (Mon, 24 May 2010) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/bootstrap
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Update to work under OpenSolaris.
-------------------------------------------------------------------------
-r513 | dreibh | 2009-11-08 11:01:15 +0100 (Sun, 08 Nov 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/make-ppa
-
-
-------------------------------------------------------------------------
-r280 | dreibh | 2009-06-10 22:38:30 +0200 (Wed, 10 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/rules
-
-Turned DH_VERBOSE off: line must be commented out; setting to 0 does not work!
-
-------------------------------------------------------------------------
-r279 | dreibh | 2009-06-10 12:15:18 +0200 (Wed, 10 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/control
-
-
-------------------------------------------------------------------------
-r269 | dreibh | 2009-06-08 23:15:49 +0200 (Mon, 08 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/rules
-   M /trunk/subnetcalc/subnetcalc.lsm
-
-Updated Debian files and LSM entry.
-
-------------------------------------------------------------------------
-r268 | dreibh | 2009-06-07 21:21:28 +0200 (Sun, 07 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-Updated Debian files.
-
-------------------------------------------------------------------------
-r267 | dreibh | 2009-06-07 21:19:20 +0200 (Sun, 07 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/control
-
-
-------------------------------------------------------------------------
-r264 | dreibh | 2009-06-06 15:46:11 +0200 (Sat, 06 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-Updated ChangeLog.
-
-------------------------------------------------------------------------
-r263 | dreibh | 2009-06-06 15:37:08 +0200 (Sat, 06 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-
-------------------------------------------------------------------------
-r262 | dreibh | 2009-06-06 15:32:51 +0200 (Sat, 06 Jun 2009) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-- Fixed unique-local IPv6 address generation for non-Linux systems.
-- Should also compile on Solaris now.
-
-------------------------------------------------------------------------
-r261 | dreibh | 2009-06-04 22:07:50 +0200 (Thu, 04 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/copyright
-
-Updated Debian scripts.
-
-------------------------------------------------------------------------
-r259 | dreibh | 2009-06-04 12:01:30 +0200 (Thu, 04 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-Fixed "Recommends" entry in Debian control file.
-
-------------------------------------------------------------------------
-r257 | dreibh | 2009-06-03 16:17:59 +0200 (Wed, 03 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/control
-
-
-------------------------------------------------------------------------
-r255 | dreibh | 2009-06-03 15:03:28 +0200 (Wed, 03 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-
-Added Debian ITP.
-
-------------------------------------------------------------------------
-r254 | dreibh | 2009-06-03 14:30:10 +0200 (Wed, 03 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/copyright
-   M /trunk/subnetcalc/debian/rules
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-Fixed Debian problems.
-
-------------------------------------------------------------------------
-r249 | dreibh | 2009-06-03 11:30:07 +0200 (Wed, 03 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-
-------------------------------------------------------------------------
-r248 | dreibh | 2009-06-03 11:29:52 +0200 (Wed, 03 Jun 2009) | 3 lines
-Changed paths:
-   M /trunk/subnetcalc/Makefile.am
-   M /trunk/subnetcalc/README
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian.conf
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   A /trunk/subnetcalc/subnetcalc.lsm
-
-- Improved IPv6 address type handling.
-- Updated Debian files.
-
-------------------------------------------------------------------------
-r246 | dreibh | 2009-06-02 15:40:58 +0200 (Tue, 02 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-
-
-------------------------------------------------------------------------
-r245 | dreibh | 2009-06-02 15:33:37 +0200 (Tue, 02 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   A /trunk/subnetcalc/src/t1.cc
-
-Added computation of multicast MAC addresses.
-
-------------------------------------------------------------------------
-r244 | dreibh | 2009-06-02 14:57:21 +0200 (Tue, 02 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/src/Makefile.am
-   D /trunk/subnetcalc/src/ext_socket.h
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/tools.cc
-   M /trunk/subnetcalc/src/tools.h
-
-Cleaned up tools.h/tools.cc and removed dependency on ext_socket.h/SCTP files
-
-------------------------------------------------------------------------
-r243 | dreibh | 2009-06-02 14:46:41 +0200 (Tue, 02 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-#defines for FreeBSD.
-
-------------------------------------------------------------------------
-r240 | dreibh | 2009-06-02 11:52:32 +0200 (Tue, 02 Jun 2009) | 1 line
-Changed paths:
-   A /trunk/subnetcalc/src/tools.cc
-   A /trunk/subnetcalc/src/tools.h
-
-
-------------------------------------------------------------------------
-r238 | dreibh | 2009-06-01 20:12:16 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   M /trunk/subnetcalc/src/test1
-
-Added more IPv4 and IPv6 address properties.
-
-------------------------------------------------------------------------
-r237 | dreibh | 2009-06-01 18:10:36 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/control
-   M /trunk/subnetcalc/debian/rules
-
-Updated Debian files.
-
-------------------------------------------------------------------------
-r236 | dreibh | 2009-06-01 17:56:41 +0200 (Mon, 01 Jun 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/debian/control
-
-
-------------------------------------------------------------------------
-r234 | dreibh | 2009-06-01 17:54:49 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/Makefile.am
-   M /trunk/subnetcalc/src/subnetcalc.cc
-   A /trunk/subnetcalc/src/test1
-
-Added IPv4 prefix special case for Point-to-Point links.
-
-------------------------------------------------------------------------
-r232 | dreibh | 2009-06-01 17:24:43 +0200 (Mon, 01 Jun 2009) | 4 lines
-Changed paths:
-   M /trunk/subnetcalc/Makefile.am
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-   A /trunk/subnetcalc/make-ppa
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-- Improved IPv6 properties.
-- Updated Debian files.
-- Updated manpage.
-
-------------------------------------------------------------------------
-r231 | dreibh | 2009-06-01 16:43:14 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Added IPv6 properties.
-
-------------------------------------------------------------------------
-r230 | dreibh | 2009-06-01 15:38:51 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Properties improvements.
-
-------------------------------------------------------------------------
-r229 | dreibh | 2009-06-01 15:03:22 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Added IPv4 address properties.
-
-------------------------------------------------------------------------
-r228 | dreibh | 2009-06-01 13:52:26 +0200 (Mon, 01 Jun 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/src/Makefile.am
-   A /trunk/subnetcalc/src/ext_socket.h
-   M /trunk/subnetcalc/src/subnetcalc.cc
-
-Started implementing the support for IPv6.
-
-------------------------------------------------------------------------
-r181 | dreibh | 2009-04-30 11:24:57 +0200 (Thu, 30 Apr 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-
-
-------------------------------------------------------------------------
-r171 | dreibh | 2009-02-21 14:40:08 +0100 (Sat, 21 Feb 2009) | 2 lines
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/control
-
-Updated Debian scripts.
-
-------------------------------------------------------------------------
-r168 | dreibh | 2009-02-15 20:25:12 +0100 (Sun, 15 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.8
-
-
-------------------------------------------------------------------------
-r166 | dreibh | 2009-02-15 20:04:21 +0100 (Sun, 15 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian.conf
-   M /trunk/subnetcalc/make-deb
-
-
-------------------------------------------------------------------------
-r165 | dreibh | 2009-02-15 19:54:04 +0100 (Sun, 15 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-
-
-------------------------------------------------------------------------
-r153 | dreibh | 2009-02-06 09:33:21 +0100 (Fri, 06 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/configure.in
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/src/subnetcalc.8
-   M /trunk/wireshark-experimental/renew-debian-changelog
-
-
-------------------------------------------------------------------------
-r152 | dreibh | 2009-02-05 15:56:09 +0100 (Thu, 05 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian/watch
-   A /trunk/wireshark-experimental
-   A /trunk/wireshark-experimental/clean-deb
-   A /trunk/wireshark-experimental/debian.conf
-   A /trunk/wireshark-experimental/make-deb
-   A /trunk/wireshark-experimental/renew-debian-changelog
-
-
-------------------------------------------------------------------------
-r151 | dreibh | 2009-02-04 14:38:00 +0100 (Wed, 04 Feb 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/debian/changelog
-   M /trunk/subnetcalc/debian.conf
-
-
-------------------------------------------------------------------------
-r149 | dreibh | 2009-01-30 09:34:07 +0100 (Fri, 30 Jan 2009) | 1 line
-Changed paths:
-   M /trunk/subnetcalc/ChangeLog
-
-
-------------------------------------------------------------------------
-r148 | dreibh | 2009-01-30 09:25:43 +0100 (Fri, 30 Jan 2009) | 2 lines
-Changed paths:
-   A /trunk/subnetcalc
-   A /trunk/subnetcalc/AUTHORS
-   A /trunk/subnetcalc/BUGS
-   A /trunk/subnetcalc/COPYING
-   A /trunk/subnetcalc/ChangeLog
-   A /trunk/subnetcalc/INSTALL
-   A /trunk/subnetcalc/Makefile.am
-   A /trunk/subnetcalc/NEWS
-   A /trunk/subnetcalc/README
-   A /trunk/subnetcalc/bootstrap
-   A /trunk/subnetcalc/clean-deb
-   A /trunk/subnetcalc/configure.in
-   A /trunk/subnetcalc/debian
-   A /trunk/subnetcalc/debian/changelog
-   A /trunk/subnetcalc/debian/compat
-   A /trunk/subnetcalc/debian/control
-   A /trunk/subnetcalc/debian/copyright
-   A /trunk/subnetcalc/debian/rules
-   A /trunk/subnetcalc/debian/subnetcalc.install
-   A /trunk/subnetcalc/debian/subnetcalc.manpages
-   A /trunk/subnetcalc/debian/watch
-   A /trunk/subnetcalc/debian.conf
-   A /trunk/subnetcalc/make-deb
-   A /trunk/subnetcalc/src
-   A /trunk/subnetcalc/src/Makefile.am
-   A /trunk/subnetcalc/src/subnetcalc.8
-   A /trunk/subnetcalc/src/subnetcalc.cc
-
-Added subnetcalc.
-
-------------------------------------------------------------------------
+commit 601ff12add87e6d7901c7091309df002dd9fc8e9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 4 10:03:06 2016 +0100
+
+    Updated packaging files.
+
+ configure.ac        | 2 +-
+ debian/changelog    | 4 ++--
+ rpm/subnetcalc.spec | 2 +-
+ subnetcalc.lsm      | 6 +++---
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 50bacd3d806fca06e187c1567b1b727effb32821
+Author: Thomas Dreibholy <dreibh@simula.no>
+Date:   Thu Nov 3 16:42:43 2016 +0100
+
+    A small fix.
+
+ autogen.sh | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 11e9472798687987f111ed9285402b2da5e1fc19
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Nov 3 16:21:38 2016 +0100
+
+    Updated build scripts.
+
+ configure.ac     | 2 +-
+ debian/changelog | 6 ++++++
+ make-ppa         | 2 +-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+commit 2b79d4718181d9aff2deae30dfea2ca42e9110e8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 4 15:54:21 2016 +0200
+
+    Updated LSM entry.
+
+ configure.ac     | 2 +-
+ debian/changelog | 2 +-
+ subnetcalc.lsm   | 6 +++---
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 67dccda14569a311f2f42bfb8a69b52030534a2e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 4 15:36:33 2016 +0200
+
+    Packaging updates. Now working with Debian hardening options.
+
+ autogen.sh                        |  7 +++++++
+ build-deb                         |  2 +-
+ clean-deb                         |  2 +-
+ configure.ac                      |  2 +-
+ debian/changelog                  | 10 ++++++++++
+ debian/compat                     |  2 +-
+ debian/control                    |  6 ++++--
+ debian/copyright                  | 21 +--------------------
+ debian/rules                      |  5 +++++
+ filter-empty-entries              |  2 +-
+ freebsd/subnetcalc/test-packaging |  2 +-
+ make-deb                          |  2 +-
+ make-rpm                          |  2 +-
+ rpm/subnetcalc.spec               |  4 ++--
+ src/subnetcalc.1                  |  2 +-
+ src/subnetcalc.cc                 |  2 +-
+ src/tools.cc                      |  2 +-
+ src/tools.h                       |  2 +-
+ 18 files changed, 41 insertions(+), 36 deletions(-)
+
+commit f8f6f61e84a4981ee946f3128cbd7601e2c5cf97
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Oct 27 08:23:02 2015 +0000
+
+    New release.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2036 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog      | 375 ++++++++++++++++++++++++++++++++++-----------------------
+ subnetcalc.lsm |   6 +-
+ 2 files changed, 224 insertions(+), 157 deletions(-)
+
+commit 4bf28cbb9f77888f080a9566e723661e72f0eeaf
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Oct 27 08:22:01 2015 +0000
+
+    Fixed accuracy problem for number of possible hosts.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2035 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        |  2 +-
+ debian/changelog    |  6 ++++++
+ make-ppa            |  2 +-
+ rpm/subnetcalc.spec |  2 +-
+ src/subnetcalc.cc   | 47 +++++++++++++++++++++++++++++------------------
+ 5 files changed, 38 insertions(+), 21 deletions(-)
+
+commit 69eb4e18248f7e56fb79f312a6243035221ad225
+Merge: 9b6750d a115512
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 4 14:32:56 2015 +0000
+
+    Merge pull request #2 from dunn/master
+    
+    Merged. Thank you!
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2008 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+commit a115512296efe5c0bc17b82e35f36355546bd049
+Author: Alex Dunn <dunn.alex@gmail.com>
+Date:   Wed May 13 17:06:52 2015 -0700
+
+    bootstrap: allow autotools from anywhere
+
+ bootstrap | 42 +++++++++++++-----------------------------
+ 1 file changed, 13 insertions(+), 29 deletions(-)
+
+commit 9b6750d2418f2a6cd9b8de205f95f5d9098fc205
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon May 11 13:32:10 2015 +0000
+
+    New release.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2005 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        | 2 +-
+ debian/changelog    | 4 ++--
+ rpm/subnetcalc.spec | 2 +-
+ subnetcalc.lsm      | 6 +++---
+ 4 files changed, 7 insertions(+), 7 deletions(-)
+
+commit 97ff204bccaa8e7f0e191fab56dcc6c394c750f8
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu May 7 13:45:29 2015 +0000
+
+    Script update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1999 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-ppa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 98fe38637cb2584c00b5b7623f6cff0f1d5e204a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu May 7 13:44:05 2015 +0000
+
+    Script update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1998 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 4 ++--
+ make-deb         | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 2f035606307d2a640f24c589965eb2406bb600b9
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu May 7 13:29:01 2015 +0000
+
+    GeoIP fixes for FreeBSD: add /usr/local/... to include and library search paths.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1997 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ autogen.sh       | 2 +-
+ configure.ac     | 7 +++++--
+ debian/changelog | 6 ++++++
+ 3 files changed, 12 insertions(+), 3 deletions(-)
+
+commit a9db734154e3985eeae621cd9a6f4913a2b511e6
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu May 7 13:08:19 2015 +0000
+
+    No colorgcc by default.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1996 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 869f71497848c4734a4e5fad20c5c2aa44261075
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 11:45:27 2015 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1977 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 25 +++++++++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+commit 4b5fe706d04308090ea2b1d3312ecdab9edff907
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 11:45:09 2015 +0000
+
+    A small fix.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1976 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        | 2 +-
+ debian/changelog    | 2 +-
+ rpm/subnetcalc.spec | 2 +-
+ subnetcalc.lsm      | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
+
+commit b02db994682322167ee4fe8d5a210f616e7c033c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 11:37:58 2015 +0000
+
+    A small fix.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1975 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        | 2 +-
+ debian/changelog    | 4 ++--
+ rpm/subnetcalc.spec | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 0d874fb6b6b85a181882ed46885147320423388d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 11:05:36 2015 +0000
+
+    Updated ChangeLog.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1973 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 48 insertions(+)
+
+commit 0a3b10ed070079fa9cfbff2c74bf37595d617e8c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 10:54:00 2015 +0000
+
+    Minor update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1968 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/copyright | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+commit cfb5c0418dfe9e7c844e7eef5fefd0f2756a066f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 10:46:56 2015 +0000
+
+    Fixed old URL.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1967 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/Makefile | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+commit 46fd97302a122714fa0f4a045c0ae735d219a7fc
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 10:42:18 2015 +0000
+
+    Updated debian/copyright to machine-readable format.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1966 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog  |  1 +
+ debian/copyright  | 68 ++++++++++++++++++++++++++++---------------------------
+ src/subnetcalc.1  |  2 +-
+ src/subnetcalc.cc |  2 +-
+ src/tools.cc      |  4 ++--
+ src/tools.h       |  4 ++--
+ subnetcalc.lsm    |  6 ++---
+ 7 files changed, 45 insertions(+), 42 deletions(-)
+
+commit df7cb345e251bc495c51e87ee166619257446f33
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Mar 1 10:30:04 2015 +0000
+
+    Updated watch file with signature configuration.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1965 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac                    |   2 +-
+ debian/changelog                |   6 +-
+ debian/upstream/signing-key.asc | 405 ++++++++++++++++++++++++++++++++++++++++
+ debian/watch                    |   1 +
+ make-ppa                        |   2 +-
+ 5 files changed, 412 insertions(+), 4 deletions(-)
+
+commit e5de6dd09b8fc3c3db96ab46487f1d727519a597
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Nov 20 21:07:23 2014 +0000
+
+    Version update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1938 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 18 ++++++++++++++++++
+ debian/changelog |  2 +-
+ make-ppa         |  2 +-
+ 3 files changed, 20 insertions(+), 2 deletions(-)
+
+commit df2762cfd6ecc76ce78758458643210bd912940a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Nov 20 21:06:52 2014 +0000
+
+    Added support for 6to4 addresses.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1937 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        |  2 +-
+ debian/changelog    |  9 ++++++++-
+ debian/control      |  2 +-
+ rpm/subnetcalc.spec |  2 +-
+ src/subnetcalc.cc   | 13 +++++++++++++
+ 5 files changed, 24 insertions(+), 4 deletions(-)
+
+commit a51a387f435132bfe4b06254ffa8bafd8f60d180
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jul 28 12:18:55 2014 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1902 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 20 ++++++++++++++++++++
+ 1 file changed, 20 insertions(+)
+
+commit 9c9cff1461f8a0c2ec989c8ec35acf7fd3ad2bf3
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jul 28 12:18:43 2014 +0000
+
+    - A small fix for non-colour mode.
+    - Updated "usage" message.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1901 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        | 2 +-
+ debian/changelog    | 4 ++--
+ rpm/subnetcalc.spec | 2 +-
+ src/subnetcalc.cc   | 6 ++----
+ subnetcalc.lsm      | 4 ++--
+ 5 files changed, 8 insertions(+), 10 deletions(-)
+
+commit 16a358b072a616a0ed9f79b7463ed7ace37a8ecb
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jul 24 14:02:24 2014 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1896 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog      | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ subnetcalc.lsm |   6 ++--
+ 2 files changed, 113 insertions(+), 3 deletions(-)
+
+commit 39bf181387cd4883a250f470f197b6d9d37e8e8f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jul 24 14:00:44 2014 +0000
+
+    Updated manpage.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1895 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 1 +
+ debian/control   | 2 +-
+ src/subnetcalc.1 | 9 ++++++---
+ 3 files changed, 8 insertions(+), 4 deletions(-)
+
+commit 3eebe82e6ecfe06ed6427a9906a321dc66ea015d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jul 24 13:54:06 2014 +0000
+
+    Added non-colour mode.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1894 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        |  2 +-
+ debian/changelog    |  6 +++++
+ rpm/subnetcalc.spec |  2 +-
+ src/subnetcalc.cc   | 70 +++++++++++++++++++++++++++++++++++------------------
+ 4 files changed, 54 insertions(+), 26 deletions(-)
+
+commit a3364cebdcaa751595bd3b7c9a98987d4d2d9189
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jul 11 11:52:57 2014 +0000
+
+    Typo fix.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1881 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/tools.cc | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+commit 5aea10e12b0ea4e6e1106a31257cf85885b8c68a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jul 4 16:38:55 2014 +0000
+
+    F20 build script updates.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1867 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit a1ae61e7445ed4c15d948d76d12ce23c1542cd93
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jul 4 15:05:55 2014 +0000
+
+    Updated BuildRequires in RPM spec file.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1866 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit d0034bcdb453fb12cd1502a1bed355b89811096e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 24 09:54:13 2014 +0000
+
+    Removed debug output.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1849 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit ac52cf7532e2e3e18d68b9547fa361537ec9f364
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Mar 18 13:01:13 2014 +0000
+
+    Makefile fix.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1790 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ Makefile.am | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 4d0efc927f9c811aa44731a30a37d2714b18d906
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Mar 18 12:28:16 2014 +0000
+
+    Removed separate "m4" directory from build process.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1788 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac        | 3 ++-
+ rpm/subnetcalc.spec | 2 ++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+commit 26fa8fc073bf0771db9aa4a63710b65bcdc162cc
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Mar 14 17:58:21 2014 +0000
+
+    Added config files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1781 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm.conf | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 9fc95c3b647bdb02d1102962636f15353513924e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Mar 14 17:33:35 2014 +0000
+
+    Version updates.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1779 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 535252acce3791ab9fd6f527c2fb7fb7999e91db
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Mar 13 09:21:22 2014 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1778 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 454 ++++++++++++++++++++++++++++++++++++++++---------------
+ subnetcalc.lsm   |   6 +-
+ update-changelog |   2 +-
+ 3 files changed, 338 insertions(+), 124 deletions(-)
+
+commit 47fbe76dfc283f44fe1c8589b0d51ea37aedbda8
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Mar 13 09:06:18 2014 +0000
+
+    Fixed IPv6 output bug.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1777 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac      | 2 +-
+ debian/changelog  | 4 ++--
+ src/subnetcalc.cc | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 7908fc398afaa3e3e54688ce418603141a93bad7
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Nov 11 08:56:43 2013 +0000
+
+    Minor updates.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1744 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 7e549429c015848a0503da14bded4b306a9cb454
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Nov 11 08:44:44 2013 +0000
+
+    Updated make-rpm.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1743 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm | 109 +++++++++++++++++++++++++++++++++++++--------------------------
+ 1 file changed, 65 insertions(+), 44 deletions(-)
+
+commit 4e0fd03db739c870106837040b7ba197c60c237e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Nov 5 15:42:50 2013 +0000
+
+    Improved RPM packaging.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1735 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm | 18 +++++++++++-------
+ 1 file changed, 11 insertions(+), 7 deletions(-)
+
+commit 0ab42ab07987fb62e2bc0a2cb51d23a5981a0253
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Nov 5 14:21:24 2013 +0000
+
+    Updated RPM packaging script.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1734 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm            | 359 +++++++---------------------------------------------
+ rpm/subnetcalc.spec |   6 +-
+ 2 files changed, 51 insertions(+), 314 deletions(-)
+
+commit 70126df8ed3490926f02d406851b9d7ba892a0d1
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Nov 5 13:37:32 2013 +0000
+
+    Started to write RPM build script.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1733 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-rpm | 407 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 407 insertions(+)
+
+commit c3950afefe9f5a7536ae3a3627f6a090ec7a82df
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Nov 5 13:10:38 2013 +0000
+
+    Updated spec file.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1732 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
+
+commit 9775816f58da20d12ad981cc682f1594a279ea62
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Nov 4 11:54:19 2013 +0000
+
+    Updated RPM sepc file.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1723 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 604f9eb3e69d314fd101b75d2352756e6f676282
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Nov 3 10:06:20 2013 +0000
+
+    FreeBSD packaging file updates.
+    
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1712 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/Makefile       |  2 +-
+ freebsd/subnetcalc/distinfo       |  4 ++--
+ freebsd/subnetcalc/test-packaging | 17 +++++++++--------
+ 3 files changed, 12 insertions(+), 11 deletions(-)
+
+commit 369ae324f02d5e27c02d0eb78565148235490e57
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Oct 25 10:45:15 2013 +0000
+
+    Updated ChangeLog.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1705 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 24 ++++++++++++++++++++++++
+ 1 file changed, 24 insertions(+)
+
+commit 4faf5dbd65774e90e47d19a1e4606488eb4066ed
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Oct 25 10:42:53 2013 +0000
+
+    Version update.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1704 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 2 +-
+ debian/changelog | 4 ++--
+ make-ppa         | 2 +-
+ subnetcalc.lsm   | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+
+commit 2cbea30a2f318a267b9717fa3f0f00a3bc161b20
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Oct 23 18:23:21 2013 +0000
+
+    Removed libfile-fcntllock-perl dependency again. It breaks build under Lucid Lynx.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1694 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 20 ++++++++++++--------
+ debian/changelog |  6 ++----
+ debian/control   |  1 -
+ 3 files changed, 14 insertions(+), 13 deletions(-)
+
+commit 78178c488cf0cdceb5889ab1f566350a9811968d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Oct 23 11:32:48 2013 +0000
+
+    Updated ChangeLog.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1686 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+commit 4ba86d300509f19e8de460b96561add2da4cc198
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Oct 23 11:29:47 2013 +0000
+
+    Packaging file updates.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1679 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 25 +++++++++++++++++++++++++
+ debian/changelog |  2 +-
+ src/Makefile.am  |  2 +-
+ subnetcalc.lsm   |  2 +-
+ update-changelog |  4 ++++
+ 5 files changed, 32 insertions(+), 3 deletions(-)
+
+commit 358d86594b0dd1c3e65ae8d7074f12218a2d2991
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Oct 18 21:52:07 2013 +0000
+
+    Updated make-ppa.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1671 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-ppa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit f8bfaf90b122e6ecd25964e79ef077cdf49f23a8
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Oct 15 21:00:59 2013 +0000
+
+    Packaging file updates.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1666 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac     |   2 +-
+ debian/changelog |   4 +-
+ subnetcalc.lsm   |   6 +--
+ 4 files changed, 141 insertions(+), 6 deletions(-)
+
+commit 18d9b5a7479c1bc7dcfc46389f2b6a9d2162b1bc
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Oct 15 08:02:22 2013 +0000
+
+    Added libfile-fcntllock-perl dependency.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1665 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 2 ++
+ debian/control   | 1 +
+ 2 files changed, 3 insertions(+)
+
+commit d9d2c12eb5403e1e0251c83a9e64eac91d3cdbdd
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Oct 14 17:20:41 2013 +0000
+
+    Fixed a compile problem under OpenSuSE 12.3 by applying suggested patch by Maximilian Decker.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1664 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit e78da7b8bf5376f664a38fa44f74c4f7a6034e11
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 14:33:31 2013 +0000
+
+    Added RPM packaging file.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1663 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ rpm/subnetcalc.spec | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 45 insertions(+)
+
+commit 717ca776f8f5290e79b377a01127c43a06e18173
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 14:26:13 2013 +0000
+
+    Updated packaging files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1662 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 2 +-
+ debian/changelog | 5 +++--
+ 2 files changed, 4 insertions(+), 3 deletions(-)
+
+commit 66c0e3e0c5a245200b7effe42895417aca4cfe0c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 14:23:54 2013 +0000
+
+    Fixed the IPv6 handling, after previous change broke it.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1661 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 35 +++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
+
+commit e4e7689890d90ce776ccfece788ca12a36379921
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 14:00:43 2013 +0000
+
+    Fixed warnings.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1660 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 23 ++++++++---------------
+ 1 file changed, 8 insertions(+), 15 deletions(-)
+
+commit d0f74e6033c4e53a55dcc4dd6fc1a0236d261687
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 13:52:39 2013 +0000
+
+    Now handling GeoIP error messages (database not found) properly.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1659 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+commit cae79ce7b32bee126c6a142ceec551ef60392d26
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Sep 26 13:43:13 2013 +0000
+
+    Improved GeoIP output.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1658 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.1  |  2 +-
+ src/subnetcalc.cc | 99 ++++++++++++++++++++++++++++++++++++++++++++-----------
+ src/tools.cc      |  2 +-
+ src/tools.h       |  2 +-
+ 4 files changed, 82 insertions(+), 23 deletions(-)
+
+commit 7c37f67e8ea50ebaccfe7ae4322224953c226c48
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed May 29 16:01:03 2013 +0000
+
+    Build system updates.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1648 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ build-deb        |  99 +++++++++++++++++++++++-----
+ configure.ac     |   2 +-
+ debian/changelog |   4 +-
+ debian/control   |   2 +-
+ make-deb         | 195 +++++++++++++++++++++++++++++++++----------------------
+ make-ppa         |   2 +-
+ 6 files changed, 205 insertions(+), 99 deletions(-)
+
+commit b0ca05e92d6f67c33da370aad8a7d17cdaaeaf32
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed May 29 16:00:55 2013 +0000
+
+    libm is required to build on latest Ubuntu systems.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1647 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/Makefile.am | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 10bde0ba23667ae507fb84c087b91ba7856c4c73
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Dec 22 09:10:47 2012 +0000
+
+    Now using colorgcc.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1611 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 7a2789d637c0dd9524b5b45935939108d2fa9adc
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Dec 22 09:08:54 2012 +0000
+
+    Fixed conflicts.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1610 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 4 ----
+ debian/changelog | 8 --------
+ 2 files changed, 12 deletions(-)
+
+commit 901c9f369c787394a595116e49588ab604094963
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Dec 22 09:06:17 2012 +0000
+
+    Now using colorgcc.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1609 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 4 ++++
+ debian/changelog | 8 ++++++++
+ 2 files changed, 12 insertions(+)
+
+commit 63394ba60fde72bf360a11267c395e554ea9cacb
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Dec 21 17:33:36 2012 +0000
+
+    A small fix.
+    
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1597 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/make-shar | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6d2be77912fe466f670272bb7965e9a9cf91981f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Dec 21 17:33:09 2012 +0000
+
+    Updated FreeBSD packaging files.
+    
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1596 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/Makefile       |  4 ++--
+ freebsd/subnetcalc/distinfo       |  5 ++---
+ freebsd/subnetcalc/test-packaging | 41 ++++++++++++++++++++++++++++++++++++---
+ 3 files changed, 42 insertions(+), 8 deletions(-)
+
+commit b455260316cde26ad8704b3d371d2773f85b1485
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Dec 21 17:01:13 2012 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1590 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 107 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 107 insertions(+)
+
+commit 027d76753a15bee664cef29f1801ebd1dc7a92c3
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Dec 21 17:00:54 2012 +0000
+
+    Renamed configure.in to configure.ac, according to latest Automake conventions.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1589 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.ac     | 133 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.in     | 133 -------------------------------------------------------
+ debian/changelog |   4 +-
+ subnetcalc.lsm   |   4 +-
+ 4 files changed, 137 insertions(+), 137 deletions(-)
+
+commit 986f5773dbdd08c3d8c07031ce9ad1f9e7988b7d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Oct 20 21:50:30 2012 +0000
+
+    Build script updates.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1525 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-ppa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 25f5d9ad1d5805797772c5b54c5d784877d7044a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Aug 25 21:52:30 2012 +0000
+
+    Build script updates.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1505 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ build-deb        | 45 +++++++++++++++++++++++++++++++++++++++++++++
+ clean-deb        |  2 +-
+ configure.in     |  2 +-
+ debian.conf      |  1 +
+ debian/changelog |  4 ++--
+ debian/control   |  2 +-
+ make-deb         | 26 +++++++++++++++-----------
+ make-ppa         |  2 +-
+ subnetcalc.lsm   |  6 +++---
+ 9 files changed, 70 insertions(+), 20 deletions(-)
+
+commit 777913a89cc6cc010c1e0cecbcec46ac834b9eb1
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jul 20 16:09:09 2012 +0000
+
+    Now using colorgcc.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1492 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 12 +++++++++++-
+ debian/changelog |  7 ++++---
+ debian/control   |  1 +
+ src/Makefile.am  |  2 +-
+ 4 files changed, 17 insertions(+), 5 deletions(-)
+
+commit 919035e21b8ffc7f7d2afe2e95249c14ef93146c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Dec 14 14:00:30 2011 +0000
+
+    Fixed detection code for sa_len, sin_len and sin6_len.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1231 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in | 42 +++++++++++++++++++++++++++++-------------
+ 1 file changed, 29 insertions(+), 13 deletions(-)
+
+commit dc780c76c5085c67aa0f53413492e9aa7e58e145
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Nov 22 14:14:01 2011 +0000
+
+    Changed manpage category from 8 to 1.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1135 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in               |  2 +-
+ debian/changelog           |  6 ++--
+ debian/subnetcalc.manpages |  2 +-
+ src/Makefile.am            |  2 +-
+ src/subnetcalc.1           | 84 ++++++++++++++++++++++++++++++++++++++++++++++
+ src/subnetcalc.8           | 84 ----------------------------------------------
+ 6 files changed, 90 insertions(+), 90 deletions(-)
+
+commit 0b46d82d07264ebde26ef2471bf0285afc48ae1c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Nov 20 18:21:36 2011 +0000
+
+    pkg-plist is not needed.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1113 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/pkg-plist | 2 --
+ 1 file changed, 2 deletions(-)
+
+commit 9339572fdc74cc829719a84a6b1c4fa37c087be2
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Oct 20 16:09:00 2011 +0000
+
+    Script updates for Precise Pangolin.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1077 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian.conf          |  2 ++
+ debian/changelog     |  6 ++++++
+ filter-empty-entries | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++
+ make-deb             |  4 ++--
+ make-ppa             |  2 +-
+ 5 files changed, 72 insertions(+), 3 deletions(-)
+
+commit 1f6ec5369f6940a4d20e152386f177f7fc0215cd
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed May 4 05:43:59 2011 +0000
+
+    Fixed Debian version.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1031 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e25f033b0f7741538aea3bee5ccf98b3a5d95f42
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed May 4 05:40:46 2011 +0000
+
+    Added missing entries to debian/changelog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1030 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 9 +++++++--
+ debian/control   | 2 +-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
+
+commit 1873540ab0bc86964f31b3ec6bd5e0d0fed2338f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue May 3 17:15:05 2011 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1025 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 404 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 404 insertions(+)
+
+commit 60129571c94d0cd4d65ccd332d52f72d51170e7d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue May 3 17:13:14 2011 +0000
+
+    Version update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1024 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 6 +++---
+ make-ppa         | 2 +-
+ subnetcalc.lsm   | 6 +++---
+ 4 files changed, 8 insertions(+), 8 deletions(-)
+
+commit f2b7dfa7565aaa13340034d581dca57c875ba852
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue May 3 17:07:41 2011 +0000
+
+    Fixed bug under Debian Wheezy (closes #625081) and Ubuntu Oneiric.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1023 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+commit 24c5c52280d39dfbbd05281a243b8b5fe2f401cb
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Feb 11 22:34:41 2011 +0000
+
+    Updated packaging files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@989 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 14 +++++++++++++-
+ 1 file changed, 13 insertions(+), 1 deletion(-)
+
+commit 86f46e4f03622ca5a5c4e2101d289454954ab92d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Feb 2 14:18:54 2011 +0000
+
+    make-deb update.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@984 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 28 ++++++++++++++++++++++------
+ 1 file changed, 22 insertions(+), 6 deletions(-)
+
+commit 0c8d5be25c0245866b3b512b69a393c1a1e34d6c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Feb 1 14:25:10 2011 +0000
+
+    Packaging update.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@978 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 14 +++++++++-----
+ make-ppa |  2 +-
+ 2 files changed, 10 insertions(+), 6 deletions(-)
+
+commit 687ccc658e58ed3e98491142f777feb20ae3aa88
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Feb 1 07:46:44 2011 +0000
+
+    Debian packaging update.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@961 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog |  4 ++--
+ debian/control   | 13 ++++++++++---
+ debian/rules     |  4 ++++
+ 3 files changed, 16 insertions(+), 5 deletions(-)
+
+commit 4913b8b18a8a7d80fef7f0b8f38fe899bc3c2bbb
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Feb 1 07:27:03 2011 +0000
+
+    Updated make-deb script.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@955 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 9bc64ee91d4092cec43b53d9cb9c2d13f5aa9f84
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Feb 1 07:24:54 2011 +0000
+
+    Updated make-deb script.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@952 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 115 ++++++++++++++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 92 insertions(+), 23 deletions(-)
+
+commit 6e5cb1461f060484b3581996fd1741e7a10183b7
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jan 22 14:30:12 2011 +0000
+
+    make-deb updates.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@928 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog |  4 ++--
+ make-deb         | 20 +++++++++++++-------
+ 2 files changed, 15 insertions(+), 9 deletions(-)
+
+commit 40f253d919f6334416f354f3ceea3654c6d645e3
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jan 22 10:40:17 2011 +0000
+
+    Packaging script update.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@920 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 75381d7b4aede390a60d2944875b0be123414a61
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 21 23:40:38 2011 +0000
+
+    Updated clean-deb.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@917 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ clean-deb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 1f96c3bcd13976a577b528829e81a65c94afe6fa
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 21 23:06:51 2011 +0000
+
+    Fix for building unstable/default distribution packages.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@910 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-deb | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit e00099f7c6851cc946cfcf42660d0965013f4330
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 21 21:26:50 2011 +0000
+
+    ChangeLog update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@901 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 323 +++++++++----------------------------------------------
+ debian/changelog |   2 +-
+ 2 files changed, 49 insertions(+), 276 deletions(-)
+
+commit e1008aea3df2a3406a4746f8d14b6c22ce241321
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 21 20:54:54 2011 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@896 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/rules | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+commit 5c4178c78e2c63deca21ea11acc96385e1205f4f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 21 20:45:24 2011 +0000
+
+    Made Debian packaging compatible to format "3.0 (quilt)".
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@895 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ clean-deb                  |  3 ++
+ debian.conf                |  3 --
+ debian/changelog           |  6 ++++
+ debian/compat              |  2 +-
+ debian/control             |  2 +-
+ debian/rules               | 90 ++--------------------------------------------
+ debian/source/format       |  1 +
+ debian/subnetcalc.install  |  2 +-
+ debian/subnetcalc.manpages |  2 +-
+ make-deb                   | 76 +++++++++++++++++++++++++--------------
+ make-ppa                   |  2 +-
+ 11 files changed, 67 insertions(+), 122 deletions(-)
+
+commit 4bfd8aaa2fe0196a85560921898d88c3df82c70c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jan 12 10:26:44 2011 +0000
+
+    Removed debian/source -> packaging is working again.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@879 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/source/format | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 0aee32c92ad24cdf4365466ff31e0adffdd59ef3
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Aug 5 19:46:26 2010 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@675 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit d62530649f40ff03ada9ed4d8760d61babd20e39
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Aug 5 19:39:24 2010 +0000
+
+    Fixed debian/changelog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@674 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
+
+commit e656c3462988bd5f9c5afa9a036859ee712eface
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Aug 5 14:07:05 2010 +0000
+
+    Updated FreeBSD ports Makefile by version of FreeBSD uploader.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@673 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/Makefile | 28 ++++++++++++----------------
+ 1 file changed, 12 insertions(+), 16 deletions(-)
+
+commit 86b0b1eabe1ddd71ee7113a2a67066962e034b38
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Aug 4 14:32:53 2010 +0000
+
+    Updated Debian files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@672 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 7 +++++++
+ debian/control   | 2 +-
+ 2 files changed, 8 insertions(+), 1 deletion(-)
+
+commit 84649fe082cf3faec32532dc655c4fbed9541a26
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:42:26 2010 +0000
+
+    Updated FreeBSD ports Makefile.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@669 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/subnetcalc/Makefile | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit abbe77118e58a59ef163d45fbf92f4e49477078f
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:35:15 2010 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@668 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ debian/changelog |  2 +-
+ 2 files changed, 75 insertions(+), 1 deletion(-)
+
+commit 68c6604bcf81a52fee74b97860550713ef69b09e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:33:58 2010 +0000
+
+    Removed Japanese IDN example from manpage, since this causes lintian warnings.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@667 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8 | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 91a943322c69ec96ec654dd18bc072bab4b17dc9
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:33:13 2010 +0000
+
+    Updated FreeBSD ports scripts: directory has to be named like the package.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@665 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/Makefile                  | 33 ---------------------------------
+ freebsd/distinfo                  |  3 ---
+ freebsd/make-shar                 |  3 ---
+ freebsd/pkg-descr                 | 12 ------------
+ freebsd/pkg-plist                 |  2 --
+ freebsd/subnetcalc/Makefile       | 33 +++++++++++++++++++++++++++++++++
+ freebsd/subnetcalc/distinfo       |  3 +++
+ freebsd/subnetcalc/make-shar      |  3 +++
+ freebsd/subnetcalc/pkg-descr      | 12 ++++++++++++
+ freebsd/subnetcalc/pkg-plist      |  2 ++
+ freebsd/subnetcalc/test-packaging | 26 ++++++++++++++++++++++++++
+ freebsd/test-packaging            | 26 --------------------------
+ 12 files changed, 79 insertions(+), 79 deletions(-)
+
+commit f435ae608c825ee7aa637c23080af7b5fcaac725
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:21:45 2010 +0000
+
+    Updated FreeBSD ports files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@664 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ freebsd/Makefile  | 2 +-
+ freebsd/distinfo  | 6 +++---
+ freebsd/make-shar | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 5715dbaaae87f604b1d432ba2ba0ac8b68cc3404
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jul 27 11:06:44 2010 +0000
+
+    Added FreeBSD ports files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@663 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ Makefile.am            |  2 ++
+ configure.in           |  4 +++-
+ debian/changelog       |  6 ++++++
+ freebsd/Makefile       | 33 +++++++++++++++++++++++++++++++++
+ freebsd/distinfo       |  3 +++
+ freebsd/make-shar      |  3 +++
+ freebsd/pkg-descr      | 12 ++++++++++++
+ freebsd/pkg-plist      |  2 ++
+ freebsd/test-packaging | 26 ++++++++++++++++++++++++++
+ subnetcalc.lsm         |  6 +++---
+ 10 files changed, 93 insertions(+), 4 deletions(-)
+
+commit 56eb6d307ea88e7f1f135668eec38f9ccd603dc5
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jul 16 13:20:04 2010 +0000
+
+    Updated control version.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@631 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/control | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 85ae6cdbdcff661b3ff3c6bc9295fd8ed2c30e71
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 30 20:45:10 2010 +0000
+
+    Updated LSM entry.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@597 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ subnetcalc.lsm | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 0e54ff552867a09a8f4ec0c27fe5df8055b37a97
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 30 15:24:45 2010 +0000
+
+    Updated ChangeLog from SVN.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@595 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 50 insertions(+)
+
+commit 71be74566c69cc322acba69a002f6973fb454a6e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 30 15:24:27 2010 +0000
+
+    Version update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@594 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 9 +++------
+ 2 files changed, 4 insertions(+), 7 deletions(-)
+
+commit d79dce735e931b16852d8df034c3d63cbb1d53af
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 29 20:48:45 2010 +0000
+
+    Using strings.h instead of string.h to work under Solaris.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@593 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 801e9c41a0f972a4531745168636ffd91883752d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 19 11:03:22 2010 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@577 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ make-ppa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 53191ea916c2127211cf5ec403bfa7e8225ee25c
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 19 10:38:17 2010 +0000
+
+    Converted to debian source format 3.0.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@574 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog     | 8 ++++++--
+ debian/control       | 2 +-
+ debian/source/format | 1 +
+ make-deb             | 4 ++--
+ make-ppa             | 2 +-
+ 5 files changed, 11 insertions(+), 6 deletions(-)
+
+commit 18d60c4334023772c404c6c48cc7944080db016e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 19 09:03:29 2010 +0000
+
+    Scripts update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@573 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 1 -
+ debian/changelog | 2 +-
+ src/subnetcalc.8 | 2 +-
+ subnetcalc.lsm   | 4 ++--
+ 4 files changed, 4 insertions(+), 5 deletions(-)
+
+commit b57de9cca750a64d3ec6c516012584db4387343a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 17 10:36:54 2010 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@572 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 92 insertions(+)
+
+commit 4d32eee73f3cd420820626428b4712382c574a76
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 17 10:36:43 2010 +0000
+
+    Version update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@571 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 4 ++--
+ make-ppa         | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+commit 31c64965b5370db494802668010db6a9d644f763
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 17 10:09:56 2010 +0000
+
+    FreeBSD does not support AI_IDN and NI_IDN -> added #ifdefs
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@570 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 8 +++++++-
+ src/tools.cc      | 5 +++++
+ 2 files changed, 12 insertions(+), 1 deletion(-)
+
+commit 633940345c1c2661d4553e185696c87bfde92031
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 8 09:42:28 2010 +0000
+
+    Added detection of GeoIP IPv6 support to configure.in. Older versions do not support it.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@569 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ autogen.sh        | 5 +++++
+ configure.in      | 9 ++++++++-
+ debian/changelog  | 4 ++--
+ src/subnetcalc.cc | 4 ++++
+ 4 files changed, 19 insertions(+), 3 deletions(-)
+
+commit 405cfe9bba22443bb79969fc3b9ba638acf0d832
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 7 10:23:41 2010 +0000
+
+    Debian script update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@568 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian.conf      | 2 +-
+ debian/changelog | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 1cdf48eac8ca70b8f023c07e6cfd9d7471fb16ea
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 3 19:14:25 2010 +0000
+
+    Updated examples.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@567 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8 | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit 77d20e78603650873d916ec140ef2f91d6f1d4a6
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 3 18:43:44 2010 +0000
+
+    Fixed "\" in manpage.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@566 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8 | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 8a24970907b22d247d18828099adf63afe631d3e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 3 18:38:14 2010 +0000
+
+    Version update.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@565 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit fa90e2952a1b1f5b7078466277dea9fa7734ea82
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 3 18:38:06 2010 +0000
+
+    Added some more IDN examples to manpage.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@564 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8 | 2 ++
+ 1 file changed, 2 insertions(+)
+
+commit 7d7bf7b332b7810edd8dbaca4213f5b04ff7bd2a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 3 18:29:56 2010 +0000
+
+    - Added support for reverse DNS lookup.
+    - Added support for Internationalized Domain Names (IDN).
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@563 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8  | 11 +++++++++--
+ src/subnetcalc.cc | 44 ++++++++++++++++++++++++++++++++++++++++----
+ src/tools.cc      |  5 +++--
+ 3 files changed, 52 insertions(+), 8 deletions(-)
+
+commit 2f73693f36c3d0d7c79b670337a3209cdd2197ef
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon May 31 09:53:09 2010 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@560 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
+
+commit d524dfb2172032060a86895fef388fc16203e6d4
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon May 31 09:49:10 2010 +0000
+
+    - Added support for GeoIP.
+    - Version update.
+    
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@556 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in      |  31 +++++++++++++++-
+ debian/changelog  |   8 ++---
+ debian/control    |   2 +-
+ debian/copyright  |   6 ++--
+ debian/rules      |   1 +
+ make-ppa          |   2 +-
+ src/Makefile.am   |   2 +-
+ src/subnetcalc.8  |  13 ++++---
+ src/subnetcalc.cc | 103 +++++++++++++++++++++++++++++++++++++++++++-----------
+ src/tools.cc      |  11 ++++--
+ src/tools.h       |   2 +-
+ subnetcalc.lsm    |   6 ++--
+ 12 files changed, 145 insertions(+), 42 deletions(-)
+
+commit 9f02830f2d815ffd7760b57160d9f39cce065688
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon May 24 18:43:15 2010 +0000
+
+    Update to work under OpenSolaris.
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@546 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ bootstrap         | 50 +++++++++++++++++++++++++++++---------------------
+ configure.in      | 24 ++++++++++++++++++++----
+ src/subnetcalc.cc | 36 ++++++++++++++++++------------------
+ 3 files changed, 67 insertions(+), 43 deletions(-)
+
+commit d3ad998a55ca091c9be3a985f0458ed4cdd81094
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Nov 8 10:01:15 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@513 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 6 ++++++
+ make-ppa         | 2 +-
+ 2 files changed, 7 insertions(+), 1 deletion(-)
+
+commit 9dc609e30b2a24671d68581b4eaabb24f67ab437
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 10 20:38:30 2009 +0000
+
+    Turned DH_VERBOSE off: line must be commented out; setting to 0 does not work!
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@280 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.in     |  2 +-
+ debian/changelog |  7 +++++++
+ debian/rules     |  2 +-
+ 4 files changed, 65 insertions(+), 2 deletions(-)
+
+commit 480a04e69f0da569adb286209085ec1c3b3e5ae2
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 10 10:15:18 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@279 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/control | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit c9b4d8cbe9be1c0d993ed039ece46155d7a93f76
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 8 21:15:49 2009 +0000
+
+    Updated Debian files and LSM entry.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@269 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     |  2 +-
+ debian/changelog | 14 ++++----------
+ debian/control   | 11 +++++++----
+ debian/rules     |  2 +-
+ subnetcalc.lsm   | 18 +++++++++++-------
+ 5 files changed, 24 insertions(+), 23 deletions(-)
+
+commit c7d077e07ed30338a73a6473acae246977ef93de
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Jun 7 19:21:28 2009 +0000
+
+    Updated Debian files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@268 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 25 +++++--------------------
+ 1 file changed, 5 insertions(+), 20 deletions(-)
+
+commit ad041ba3aa942321ab20b6ba49d4feb5e874382b
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Jun 7 19:19:20 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@267 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/control | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit 6c52d1b915dd7b26b038965a38ed2bee0c6ec7ec
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 6 13:46:11 2009 +0000
+
+    Updated ChangeLog.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@264 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 61 insertions(+)
+
+commit d3bc5386d6a4b426a256da9b15dd2e41d6f998e5
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 6 13:37:08 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@263 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 1 +
+ 1 file changed, 1 insertion(+)
+
+commit 0470b1f52f101f9ce596ffb7a3cf870ecd5a54bc
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Jun 6 13:32:51 2009 +0000
+
+    - Fixed unique-local IPv6 address generation for non-Linux systems.
+    - Should also compile on Solaris now.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@262 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in      |  2 +-
+ debian/changelog  | 21 +++++++++++++++++++++
+ src/subnetcalc.cc | 18 +++++++++++++++---
+ 3 files changed, 37 insertions(+), 4 deletions(-)
+
+commit e9c02835f55aa32999122fc3e30b9fb670b41363
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 4 20:07:50 2009 +0000
+
+    Updated Debian scripts.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@261 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog |  6 +++---
+ debian/control   |  1 +
+ debian/copyright | 26 +++++---------------------
+ 3 files changed, 9 insertions(+), 24 deletions(-)
+
+commit 1bc7c86dca515a9d370a2bc9b027e4b3287b1de8
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Jun 4 10:01:30 2009 +0000
+
+    Fixed "Recommends" entry in Debian control file.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@259 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 10758993922830307f47eee6801cba537d2b5bff
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 3 14:17:59 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@257 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/control | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit e90bcceb13c5871827780d1042b16ff4ed1071a0
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 3 13:03:28 2009 +0000
+
+    Added Debian ITP.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@255 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+commit 19b268eb85e6364b45e133cbd0f52aee95ec82a7
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 3 12:30:10 2009 +0000
+
+    Fixed Debian problems.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@254 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     |  2 +-
+ debian/changelog |  5 +++--
+ debian/control   |  2 +-
+ debian/copyright | 28 +++++++++++++++++++++++++---
+ debian/rules     | 12 ++++++++----
+ src/subnetcalc.8 |  6 +++---
+ 6 files changed, 41 insertions(+), 14 deletions(-)
+
+commit 026d17e8af607147b20bcf0bd7bb10a44be38705
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 3 09:30:07 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@249 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 112 insertions(+)
+
+commit f061afcb29af918ee23e7403955b6a99f4e8595a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Jun 3 09:29:52 2009 +0000
+
+    - Improved IPv6 address type handling.
+    - Updated Debian files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@248 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ Makefile.am       |  2 +-
+ README            | 16 ++++++++++++++++
+ configure.in      |  2 +-
+ debian.conf       |  2 +-
+ debian/changelog  |  4 ++--
+ debian/control    |  4 ++--
+ src/subnetcalc.8  |  6 +++---
+ src/subnetcalc.cc | 47 +++++++++++++++++++++++++++++++++--------------
+ subnetcalc.lsm    | 20 ++++++++++++++++++++
+ 9 files changed, 79 insertions(+), 24 deletions(-)
+
+commit d4db5c42b60fedd3178f1a107443185abd6457c6
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 2 13:40:58 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@246 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 70489bc134467fbf3ecc36a6270f888d26723a15
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 2 13:33:37 2009 +0000
+
+    Added computation of multicast MAC addresses.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@245 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.8  |  2 +-
+ src/subnetcalc.cc | 32 +++++++++++++++++++++++++++-----
+ src/t1.cc         | 16 ++++++++++++++++
+ 3 files changed, 44 insertions(+), 6 deletions(-)
+
+commit 1c1ce6817af4ba945a9587f4d2b946a55de9d7da
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 2 12:57:21 2009 +0000
+
+    Cleaned up tools.h/tools.cc and removed dependency on ext_socket.h/SCTP files
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@244 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in      |  74 -------
+ src/Makefile.am   |   2 +-
+ src/ext_socket.h  | 596 ------------------------------------------------------
+ src/subnetcalc.cc |   4 +
+ src/tools.cc      | 549 -------------------------------------------------
+ src/tools.h       |  40 ----
+ 6 files changed, 5 insertions(+), 1260 deletions(-)
+
+commit 6dbdc339b6fd3f6a11937e19072458cd5e32bd9e
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 2 12:46:41 2009 +0000
+
+    #defines for FreeBSD.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@243 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 997dbed05887408325f5f0f40a65f6e977f8c191
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Tue Jun 2 09:52:32 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@240 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/tools.cc | 901 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/tools.h  | 114 ++++++++
+ 2 files changed, 1015 insertions(+)
+
+commit f6c65538b76bf8d71b9d4b05f006c8be0d0686c2
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 18:12:16 2009 +0000
+
+    Added more IPv4 and IPv6 address properties.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@238 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 71 ++++++++++++++++++++++++++++++++++++++++++++++++-------
+ src/test1         |  3 +++
+ 2 files changed, 66 insertions(+), 8 deletions(-)
+
+commit a30746f18aedb22e02dda086c3862a48d3c27b54
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 16:10:36 2009 +0000
+
+    Updated Debian files.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@237 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/control | 3 ++-
+ debian/rules   | 2 +-
+ 2 files changed, 3 insertions(+), 2 deletions(-)
+
+commit bca30974d70c6e7297fd375ef21f99684b435d44
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 15:56:41 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@236 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog      | 8 ++++++++
+ debian/control | 2 +-
+ 2 files changed, 9 insertions(+), 1 deletion(-)
+
+commit 0d21d6590cf9488fd30d7ce0b1dc2017053d2508
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 15:54:49 2009 +0000
+
+    Added IPv4 prefix special case for Point-to-Point links.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@234 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/Makefile.am   |  2 +-
+ src/subnetcalc.cc | 45 +++++++++++++++++++--------------------------
+ src/test1         | 18 ++++++++++++++++++
+ 3 files changed, 38 insertions(+), 27 deletions(-)
+
+commit c9bda049a150833e5473b0d92ea41b2b1ed6d807
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 15:24:43 2009 +0000
+
+    - Improved IPv6 properties.
+    - Updated Debian files.
+    - Updated manpage.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@232 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ Makefile.am       |   2 -
+ configure.in      | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
+ debian/changelog  |   4 +-
+ debian/control    |  10 +++--
+ make-ppa          |   6 +++
+ src/subnetcalc.8  |  30 ++++++++++----
+ src/subnetcalc.cc |  71 ++++++++++++++++++++++++++++-----
+ 7 files changed, 212 insertions(+), 26 deletions(-)
+
+commit 19482c3c7687a343453f44e5cbff3eedabe357e0
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 14:43:14 2009 +0000
+
+    Added IPv6 properties.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@231 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 152 ++++++++++++++++++++++++++++++++++++++++++++++++++----
+ 1 file changed, 142 insertions(+), 10 deletions(-)
+
+commit 49444aedcae2d8a80c246e81087dbe3daabf9191
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 13:38:51 2009 +0000
+
+    Properties improvements.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@230 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 94 ++++++++++++++++++++++++++++++++++++++++++++++---------
+ 1 file changed, 80 insertions(+), 14 deletions(-)
+
+commit bddd14ea88f4bbbe50892e2398b8eae7205bcda7
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 13:03:22 2009 +0000
+
+    Added IPv4 address properties.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@229 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/subnetcalc.cc | 329 ++++++++++++++++++++++++++++++++++++------------------
+ 1 file changed, 221 insertions(+), 108 deletions(-)
+
+commit 88fcedb6b27040024985e3fc927e7684bfc65178
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Mon Jun 1 11:52:26 2009 +0000
+
+    Started implementing the support for IPv6.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@228 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ src/Makefile.am   |   2 +-
+ src/ext_socket.h  | 596 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ src/subnetcalc.cc | 326 ++++++++++++++++++++---------
+ 3 files changed, 824 insertions(+), 100 deletions(-)
+
+commit a690fdd1f1cc9de0622c76398bf9d4a5d010252b
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Apr 30 09:24:57 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@181 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog        | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.in     |  2 +-
+ debian/changelog |  4 +--
+ 3 files changed, 95 insertions(+), 3 deletions(-)
+
+commit c98da27fe1fceed3625c0c5960d2650c3583423d
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sat Feb 21 13:40:08 2009 +0000
+
+    Updated Debian scripts.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@171 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 4 ++--
+ debian/control   | 2 --
+ 2 files changed, 2 insertions(+), 4 deletions(-)
+
+commit 647f8055d54cecd9750adac2694990d4f5bb609a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Feb 15 19:25:12 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@168 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 4 ++--
+ src/subnetcalc.8 | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+commit f3408fd41284c7faa26c0add04f71c15dfb9bf28
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Feb 15 19:04:21 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@166 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian.conf |  2 ++
+ make-deb    | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
+ 2 files changed, 50 insertions(+), 3 deletions(-)
+
+commit d3035cd75ff814f715efe409d73ce51cb17508c4
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Sun Feb 15 18:54:04 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@165 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+
+commit d4e0aefe3e41aafec31915aab659bad05317b07a
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Feb 6 08:33:21 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@153 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ configure.in     | 2 +-
+ debian/changelog | 4 ++--
+ src/subnetcalc.8 | 6 +++---
+ 3 files changed, 6 insertions(+), 6 deletions(-)
+
+commit f91a0ccad44f7e8dc6e45d7121e5e84aae174478
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Thu Feb 5 14:56:09 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@152 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian/changelog | 4 ++--
+ debian/watch     | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+commit e5ca97e2bb155f7328858f39c0033ac4866be713
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Wed Feb 4 13:38:00 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@151 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ debian.conf      | 2 +-
+ debian/changelog | 4 ++--
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+
+commit ee0a4969c51a03dabca8821d8b36d9f5a05beee7
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 30 08:34:07 2009 +0000
+
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@149 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ ChangeLog | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+commit 81ea324f3a8eab467da8b8fbc67ad3e92f0021ac
+Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
+Date:   Fri Jan 30 08:25:43 2009 +0000
+
+    Added subnetcalc.
+    
+    
+    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@148 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
+
+ AUTHORS                    |   1 +
+ BUGS                       |   0
+ COPYING                    | 674 +++++++++++++++++++++++++++++++++++++++++++++
+ ChangeLog                  |   0
+ INSTALL                    | 237 ++++++++++++++++
+ Makefile.am                |   5 +
+ NEWS                       |   0
+ README                     |   0
+ bootstrap                  |  45 +++
+ clean-deb                  |  25 ++
+ configure.in               |  15 +
+ debian.conf                |   8 +
+ debian/changelog           |   5 +
+ debian/compat              |   1 +
+ debian/control             |  18 ++
+ debian/copyright           |  27 ++
+ debian/rules               |  84 ++++++
+ debian/subnetcalc.install  |   1 +
+ debian/subnetcalc.manpages |   1 +
+ debian/watch               |   3 +
+ make-deb                   | 112 ++++++++
+ src/Makefile.am            |   6 +
+ src/subnetcalc.8           |  55 ++++
+ src/subnetcalc.cc          | 194 +++++++++++++
+ 24 files changed, 1517 insertions(+)
