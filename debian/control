@@ -2,7 +2,7 @@ Source: subnetcalc
 Section: net
 Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
-Homepage: http://www.iem.uni-due.de/~dreibh/subnetcalc/
+Homepage: https://www.uni-due.de/~be0001/subnetcalc/
 Build-Depends: autotools-dev,
                colorgcc,
                debhelper (>= 9),

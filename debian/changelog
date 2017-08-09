@@ -1,8 +1,10 @@
-subnetcalc (2.4.6~rc2-1ubuntu1) zesty; urgency=low
+subnetcalc (2.4.6-1ubuntu1) artful; urgency=low
 
   * New upstream version.
+  * debian/watch: URL update
+  * debian/control: URL update
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Mon, 01 May 2017 08:08:08 +0800
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 09 Aug 2017 08:08:08 +0800
 
 subnetcalc (2.4.5-1ubuntu1) xenial; urgency=low
 
