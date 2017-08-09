@@ -1,3 +1,66 @@
+commit a89961ee72f8f3029451cfff5d3bcbb4bc614563
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 9 11:47:27 2017 +0200
+
+    Fixed URL. Version bump.
+
+ UpdateDoc1.sed               |  3 +++
+ UpdateDocFiles               | 25 +++++++++++++++++++++++++
+ configure.ac                 |  2 +-
+ debian/changelog             |  6 ++++--
+ debian/control               |  2 +-
+ debian/copyright             |  2 +-
+ debian/watch                 |  2 +-
+ freebsd/subnetcalc/Makefile  |  2 +-
+ freebsd/subnetcalc/pkg-descr |  2 +-
+ make-ppa                     |  2 +-
+ rpm/subnetcalc.spec          |  6 +++---
+ src/subnetcalc.1             |  2 +-
+ subnetcalc.lsm               | 10 +++++-----
+ 13 files changed, 48 insertions(+), 18 deletions(-)
+
+commit c3d3f98fe9bf3f59ee1620d40a231fdf3a4b34a8
+Author: Thomas Dreibholz <dreibh@iem.uni-due.de>
+Date:   Mon May 1 09:35:53 2017 +0200
+
+    Script update.
+
+ configure.ac        | 2 +-
+ debian/changelog    | 4 ++--
+ make-ppa            | 2 +-
+ rpm/subnetcalc.spec | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+
+commit 5a562e279bd83a0ac1c2af1f10e1f70d5b9d11da
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Mar 21 10:20:39 2017 +0100
+
+    Version bump.
+
+ configure.ac        | 2 +-
+ debian/changelog    | 6 ++++++
+ rpm/subnetcalc.spec | 2 +-
+ 3 files changed, 8 insertions(+), 2 deletions(-)
+
+commit 234907a27457d59b3fe2d66aaf16123f4838961f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 4 10:05:56 2016 +0100
+
+    A fix.
+
+ subnetcalc.lsm | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit 6395ea20abc76b4a82445138c1f51a463328dd30
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 4 10:03:33 2016 +0100
+
+    Updated ChangeLog.
+
+ ChangeLog        | 3759 +++++++++++++++++++++++++++++++-----------------------
+ update-changelog |    2 +-
+ 2 files changed, 2198 insertions(+), 1563 deletions(-)
+
 commit 601ff12add87e6d7901c7091309df002dd9fc8e9
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:03:06 2016 +0100

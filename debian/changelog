@@ -1,3 +1,9 @@
+subnetcalc (2.4.7-1ubuntu1) artful; urgency=low
+
+  * New upstream version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 09 Aug 2017 08:08:08 +0800
+
 subnetcalc (2.4.6-1ubuntu1) artful; urgency=low
 
   * New upstream version.
