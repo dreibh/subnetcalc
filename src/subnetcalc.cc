@@ -1,5 +1,4 @@
-/* $Id$
- *
+/*
  * IPv4/IPv6 Subnet Calculator
  * Copyright (C) 2002-2018 by Thomas Dreibholz
  *
