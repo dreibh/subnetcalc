@@ -1,4 +1,4 @@
-subnetcalc (2.4.8~rc1-1ubuntu1) bionic; urgency=low
+subnetcalc (2.4.8-1ubuntu1) bionic; urgency=low
 
   * New upstream version.
 
