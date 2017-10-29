@@ -2,5 +2,5 @@
 
 ./bootstrap && \
 ./clean-deb && \
-./make-deb precise trusty vivid xenial yakkety zesty artful && \
+./make-deb precise trusty xenial zesty artful bionic && \
 dput ppa *.changes
