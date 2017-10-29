@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.7
+Version: 2.4.8~rc1
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -39,5 +39,5 @@ make DESTDIR=%{buildroot} install
 %doc
 
 %changelog
-* Tue Nov 05 2016 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
+* Tue Nov 05 2018 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
 - Created RPM package.
