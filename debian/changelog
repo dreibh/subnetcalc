@@ -1,3 +1,29 @@
+subnetcalc (2.4.8-1ubuntu1) bionic; urgency=low
+
+  * New upstream version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 29 Oct 2017 08:08:08 +0800
+
+subnetcalc (2.4.7-1ubuntu1) artful; urgency=low
+
+  * New upstream version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 09 Aug 2017 08:08:08 +0800
+
+subnetcalc (2.4.6-1ubuntu1) artful; urgency=low
+
+  * New upstream version.
+  * debian/watch: URL update
+  * debian/control: URL update
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 09 Aug 2017 08:08:08 +0800
+
+subnetcalc (2.4.5-1ubuntu1) xenial; urgency=low
+
+  * New upstream version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 04 Nov 2016 08:08:08 +0800
+
 subnetcalc (2.4.4-1ubuntu1) xenial; urgency=low
 
   * New upstream version.

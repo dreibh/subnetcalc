@@ -1,7 +1,7 @@
-#!/bin/bash
+#!/bin/sh
 #
-# Debian Packaging Scripts
-# Copyright (C) 2002-2018 by Thomas Dreibholz
+# SED Script
+# Copyright (C) 2002-2017 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -18,10 +18,7 @@
 #
 # Contact: dreibh@iem.uni-due.de
 
-. ./debian.conf
-
-CHANGELOG_HEADER="`head -n1 debian/changelog`"
-PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
-
-rm -f *.deb *.dsc *.asc *.changes *.build *.upload *.tar.gz stamp-h* svn-commit* *~
-rm -rf $PACKAGE-* $PACKAGE"_"*
+while [ "$1" != "" ] ; do
+   sed -f UpdateDoc1.sed $1 >/tmp/sedtemp && cp /tmp/sedtemp $1 && rm -f /tmp/sedtemp
+   shift
+done

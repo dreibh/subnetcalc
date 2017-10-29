@@ -1,11 +1,11 @@
 Name: subnetcalc
-Version: 2.4.4
+Version: 2.4.8
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
 License: GPLv3
-URL: http://www.iem.uni-due.de/~dreibh/subnetcalc/
-Source: http://www.iem.uni-due.de/~dreibh/subnetcalc/download/%{name}-%{version}.tar.gz
+URL: https://www.uni-due.de/~be0001/subnetcalc/
+Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.gz
 
 AutoReqProv: on
 BuildRequires: autoconf
@@ -39,5 +39,5 @@ make DESTDIR=%{buildroot} install
 %doc
 
 %changelog
-* Tue Nov 05 2016 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
+* Tue Nov 05 2018 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
 - Created RPM package.
