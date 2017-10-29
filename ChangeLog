@@ -1,3 +1,69 @@
+commit 3ad414d0c4ba1ca4e0a4e920f7bad17a49e61c69
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 11:15:05 2017 +0100
+
+    Removed old SVN Id tag, since it is obsolete after transition to Git.
+
+ UpdateDocFiles                    | 1 -
+ bootstrap                         | 1 -
+ build-deb                         | 1 -
+ clean-deb                         | 1 -
+ filter-empty-entries              | 1 -
+ freebsd/subnetcalc/test-packaging | 1 -
+ make-deb                          | 1 -
+ make-rpm                          | 1 -
+ src/subnetcalc.1                  | 2 --
+ src/subnetcalc.cc                 | 3 +--
+ src/tools.cc                      | 3 +--
+ src/tools.h                       | 3 +--
+ 12 files changed, 3 insertions(+), 16 deletions(-)
+
+commit 4f403c1c5a808ab5555feb5129d63a500b17ac7c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 11:11:39 2017 +0100
+
+    Header updates.
+
+ UpdateDoc1.sed                    | 4 ++--
+ build-deb                         | 2 +-
+ clean-deb                         | 2 +-
+ configure.ac                      | 2 +-
+ debian/changelog                  | 6 ++++++
+ debian/copyright                  | 2 +-
+ filter-empty-entries              | 2 +-
+ freebsd/subnetcalc/test-packaging | 2 +-
+ make-deb                          | 2 +-
+ make-rpm                          | 2 +-
+ rpm/subnetcalc.spec               | 4 ++--
+ src/subnetcalc.1                  | 2 +-
+ src/subnetcalc.cc                 | 2 +-
+ src/tools.cc                      | 2 +-
+ src/tools.h                       | 2 +-
+ 15 files changed, 22 insertions(+), 16 deletions(-)
+
+commit 41b50d0702f99965b692444038d42ef0c8449a67
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 11:11:27 2017 +0100
+
+    Script update.
+
+ make-ppa | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit a466737d2041a394e640f3ebc0761b18efbfaec7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 9 11:50:20 2017 +0200
+
+    Fixed dependency.
+
+ ChangeLog           | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac        |  2 +-
+ debian/changelog    |  6 +++++
+ debian/control      |  1 -
+ rpm/subnetcalc.spec |  2 +-
+ subnetcalc.lsm      |  4 ++--
+ 6 files changed, 73 insertions(+), 5 deletions(-)
+
 commit a89961ee72f8f3029451cfff5d3bcbb4bc614563
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 9 11:47:27 2017 +0200
