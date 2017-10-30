@@ -1,6 +1,13 @@
 #!/bin/bash
 
-./bootstrap && \
-./clean-deb && \
-./make-deb precise trusty xenial zesty artful bionic && \
-dput ppa *.changes
+./bootstrap
+./clean-deb
+./make-deb precise trusty xenial zesty artful bionic
+changeFiles=`ls *.changes`
+for changeFile in $changeFiles ; do
+   if [[ $changeFile =~ .*[0-9](ppa|ubuntu)[0-9].* ]] ; then
+      dput ppa $changeFile
+   else
+      dput mentors $changeFile
+   fi
+done
