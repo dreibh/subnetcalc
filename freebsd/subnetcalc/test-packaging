@@ -19,10 +19,16 @@
 #
 # Contact: dreibh@iem.uni-due.de
 
-PACKAGE=`cat Makefile | grep PORTNAME= | sed -e "s/PORTNAME=//g" | tr -d "\t"`
-UPSTREAM_VERSION=`cat Makefile | grep PORTVERSION= | sed -e "s/PORTVERSION=//g" | tr -d "\t"`
-PACKAGE_VERSION="${UPSTREAM_VERSION}_`cat Makefile | grep PORTREVISION= | sed -e "s/PORTREVISION=//g" | tr -d "\t"`"
-CATEGORY=`cat Makefile | grep CATEGORIES= | sed -e "s/CATEGORIES=//g" | tr -d "\t"`
+PACKAGE=`cat Makefile | grep PORTNAME= | sed -e "s/^PORTNAME=//g" | tr -d " \t"`
+UPSTREAM_VERSION=`cat Makefile | grep PORTVERSION= | sed -e "s/^PORTVERSION=//g" | tr -d " \t"`
+PORTREVISION=`cat Makefile | grep PORTREVISION= | sed -e "s/^PORTREVISION=//g" | tr -d " \t"`
+CATEGORY=`cat Makefile | grep CATEGORIES= | sed -e "s/^CATEGORIES=//g" | tr -d " \t"`
+
+PACKAGE_VERSION="${UPSTREAM_VERSION}"
+if [ "$PORTREVISION" != "" ] ; then
+   PACKAGE_VERSION="${UPSTREAM_VERSION}_${PORTREVISION}"
+fi
+
 
 echo "######################################################################"
 echo "PACKAGE:          $PACKAGE"
