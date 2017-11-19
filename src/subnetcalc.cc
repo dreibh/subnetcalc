@@ -18,8 +18,6 @@
  * Contact: dreibh@iem.uni-due.de
  */
 
-#include "config.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
