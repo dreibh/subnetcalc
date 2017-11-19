@@ -1,3 +1,10 @@
+subnetcalc (2.4.9~b1-1ubuntu1) bionic; urgency=low
+
+  * New upstream version.
+  * debian/rules: Change from autoconf/automake to cmake.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 29 Oct 2017 08:08:08 +0800
+
 subnetcalc (2.4.8-1ubuntu1) bionic; urgency=low
 
   * New upstream version.

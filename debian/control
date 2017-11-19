@@ -3,11 +3,11 @@ Section: net
 Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: https://www.uni-due.de/~be0001/subnetcalc/
-Build-Depends: autotools-dev,
+Build-Depends: cmake,
                debhelper (>= 9),
-               dpkg-dev (>= 1.16.1~),
                libfile-fcntllock-perl,
-               libgeoip-dev
+               libgeoip-dev,
+               pkg-config
 Standards-Version: 3.9.7
 
 Package: subnetcalc
