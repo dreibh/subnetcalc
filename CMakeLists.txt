@@ -1,15 +1,15 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
 PROJECT(subnetcalc)
 
-set(BUILD_MAJOR "2")
-set(BUILD_MINOR "4")
-set(BUILD_PATCH "9~b1")
-set(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
+SET(BUILD_MAJOR "2")
+SET(BUILD_MINOR "4")
+SET(BUILD_PATCH "9~b1")
+SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
 
 
-#################################################
+#############################################################################
 # INSTALLATION_DIRECTORIES
-#################################################
+#############################################################################
 
 SET(CMAKE_INSTALL_BINDIR_DOC        "user executables [PREFIX/bin]")
 SET(CMAKE_INSTALL_SBINDIR_DOC       "system admin executables [EPREFIX/sbin]")
@@ -38,34 +38,33 @@ SET(CMAKE_INSTALL_MANDIR "share/man"
     CACHE PATH ${CMAKE_INSTALL_MANDIR_DOC})
 
 
-#################################################
+#############################################################################
 # PACKAGING
-#################################################
+#############################################################################
 
-set(CPACK_SOURCE_GENERATOR "TGZ")
-set(CPACK_SOURCE_PACKAGE_FILE_NAME
+SET(CPACK_SOURCE_GENERATOR "TGZ")
+SET(CPACK_SOURCE_PACKAGE_FILE_NAME
    "${CMAKE_PROJECT_NAME}-${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH}")
-set(CPACK_SOURCE_IGNORE_FILES
+SET(CPACK_SOURCE_IGNORE_FILES
    "${PROJECT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}-*;${PROJECT_SOURCE_DIR}/${CMAKE_PROJECT_NAME}_*;/build/;/.git/;/config.log;/CMakeFiles/;CMakeCache.txt$;.cmake$;.tar.gz$;/_CPack_Packages;/Makefile$;~$;/build-deb;/clean-deb;/filter-empty-entries;/make-symbols;/make-ppa;/make-deb;/debian.conf;/make-rpm;/rpm.conf;${CPACK_SOURCE_IGNORE_FILES}")
-include(CPack)
+INCLUDE(CPack)
 
-add_custom_target(dist COMMAND ${CMAKE_MAKE_PROGRAM} clean package_source)
+ADD_CUSTOM_TARGET(dist COMMAND ${CMAKE_MAKE_PROGRAM} clean package_source)
 
 
 INCLUDE(CheckIncludeFile)
 INCLUDE(CheckStructHasMember)
 
 
-#################################################
+#############################################################################
 # OS DEPENDENT
-#################################################
+#############################################################################
 
 SET(CMAKE_MACOSX_RPATH 1)
 
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
-    ADD_DEFINITIONS("-D_DEFAULT_SOURCE -DLINUX")
-    ADD_DEFINITIONS("-DHAVE_MPTCP")   # Any better solution for this?
+    ADD_DEFINITIONS("-DLINUX")
     FIND_LIBRARY(SCTP_LIB sctp)
 
 ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
@@ -100,12 +99,12 @@ ELSE()
 
 ENDIF()
 
-find_package(Threads REQUIRED)
+FIND_PACKAGE(Threads REQUIRED)
 
 
-#################################################
+#############################################################################
 # CHECK STRUCT MEMBERS
-#################################################
+#############################################################################
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr" "sa_len" "sys/types.h;sys/socket.h" HAVE_SA_LEN)
 IF (HAVE_SA_LEN)
@@ -132,33 +131,32 @@ IF (HAVE_SS_LEN)
 ENDIF()
 
 
-#################################################
+#############################################################################
 # CHECK OPTIONS
-#################################################
+#############################################################################
 
 # Debug build type as default
 IF (NOT CMAKE_BUILD_TYPE)
-    MESSAGE(STATUS "No build type selected, using DEBUG")
-    SET(CMAKE_BUILD_TYPE "DEBUG")
+    message(STATUS "No build type selected, using DEBUG")
+    set(CMAKE_BUILD_TYPE "DEBUG")
     # _FORTIFY_SOURCE requires compiling with optimization
     SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O")
 ENDIF()
 
 
-#################################################
+#############################################################################
 # REQUIREMENTS
-#################################################
+#############################################################################
 
 # ###### GeoIP ##############################################################
-find_package(PkgConfig)
-pkg_search_module(GEOIP geoip)
+FIND_PACKAGE(PkgConfig)
+PKG_SEARCH_MODULE(GEOIP geoip)
 
 FIND_PATH(GEOIP_INCLUDE_DIR GeoIP.h
   HINTS
     "${GEOIP_INCLUDEDIR}"
     "${GEOIP_HINTS}/include"
 )
-
 FIND_LIBRARY(GEOIP_LIBRARY NAMES GeoIP
   HINTS
     "${GEOIP_LIBDIR}"
@@ -171,12 +169,12 @@ IF (GEOIP_FOUND)
 ENDIF()
 
 
-#################################################
+#############################################################################
 # COMPILER FLAGS
-#################################################
+#############################################################################
 
-SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wall -D_FORTIFY_SOURCE=2 -O2 -Wformat -Wformat-security")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -D_FORTIFY_SOURCE=2 -O2 -Wformat -Wformat-security")
+SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -std=c14   -Wall")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall")
 
 IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
     MESSAGE(STATUS "Building in DEBUG mode")
@@ -185,8 +183,8 @@ IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
 ENDIF()
 
 
-#################################################
+#############################################################################
 # SUBDIRECTORIES
-#################################################
+#############################################################################
 
 ADD_SUBDIRECTORY(src)
