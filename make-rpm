@@ -1,7 +1,7 @@
 #!/bin/bash -e
 #
 # Packaging Scripts
-# Copyright (C) 2018 by Thomas Dreibholz
+# Copyright (C) 2017-2018 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 # USAGE:
 # ./make-rpm default            => for default distribution (F18, amd64)
-# ./make-rpm fedora-18-x86_64   => F18, amd64
-# ./make-rpm fedora-18-i386     => F18, i386
+# ./make-rpm fedora-27-x86_64   => F27, amd64
+# ./make-rpm fedora-27-i386     => F27, i386
 # ...
 # ---------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ while [ x$1 != "x" ] ; do \
 done \
 ) | sort -u`
 if [ "$DISTRIBUTIONS" == "" ] ; then
-   DISTRIBUTIONS="fedora-18-x86_64"
+   DISTRIBUTIONS="fedora-27-x86_64"
 fi
 
 PACKAGE=`grep "^Name:" rpm/*.spec | head -n1 | sed -e "s/Name://g" -e "s/[ \t]*//g"`

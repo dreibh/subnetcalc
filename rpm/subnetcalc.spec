@@ -8,9 +8,7 @@ URL: https://www.uni-due.de/~be0001/subnetcalc/
 Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.gz
 
 AutoReqProv: on
-BuildRequires: autoconf
-BuildRequires: automake
-BuildRequires: libtool
+BuildRequires: cmake
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
@@ -24,9 +22,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 %setup -q
 
 %build
-autoreconf -if
-
-%configure
+%cmake -DCMAKE_INSTALL_PREFIX=/usr .
 make %{?_smp_mflags}
 
 %install
@@ -39,5 +35,5 @@ make DESTDIR=%{buildroot} install
 %doc
 
 %changelog
-* Tue Nov 05 2018 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
+* Wed Nov 22 2017 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
 - Created RPM package.
