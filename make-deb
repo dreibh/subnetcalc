@@ -51,9 +51,9 @@ PACKAGE_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g"
 # The package's version, e.g. 1.2.3-1ubuntu1
 PACKAGE_VERSION=`echo $CHANGELOG_HEADER | sed -e "s/.*(//" -e "s/).*//" -e "s/ //g" -e "s/ //g" -e "s/^[0-9]://g"`
 # The package's output version, e.g. 1.2.3-1ubuntu
-OUTPUT_VERSION=`echo $PACKAGE_VERSION   | sed -e "s/\(ubuntu\)[0-9]*$/\1/"`
+OUTPUT_VERSION=`echo $PACKAGE_VERSION   | sed -e "s/\(ubuntu\|ppa\)[0-9]*$/\1/"`
 # The package's Debian version, e.g. 1.2.3-1
-DEBIAN_VERSION=`echo $OUTPUT_VERSION    | sed -e "s/ubuntu$//1"`
+DEBIAN_VERSION=`echo $OUTPUT_VERSION    | sed -e "s/\(ubuntu\|ppa\)$//1"`
 # The package's upstream version, e.g. 1.2.3
 UPSTREAM_VERSION=`echo $DEBIAN_VERSION  | sed -e "s/-[0-9]*$//"`
 # The package's plain upstream version, e.g. 1.2.3 (without e.g. ~svn<xxxx>)
@@ -151,7 +151,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
          # Debian: Also remove Launchpad Bug IDs.
          sed -e "s/$PACKAGE_DISTRIBUTION;/$DISTRIBUTION;/1" \
-             -e "s/ubuntu[0-9]//1" \
+             -e "s/\(ubuntu\|ppa\)[0-9]//1" \
              -e "/(LP: #/D" \
              <debian/changelog | ../filter-empty-entries "$DEBIAN_LAST_ENTRY" >debian/changelog.new
       else
