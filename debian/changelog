@@ -1,4 +1,4 @@
-subnetcalc (2.4.9~b1-1ubuntu1) bionic; urgency=low
+subnetcalc (2.4.9~b2-1ubuntu1) bionic; urgency=low
 
   * New upstream version.
   * debian/rules: Change from autoconf/automake to cmake.
