@@ -1,7 +1,8 @@
 #!/bin/bash
+# $Id: clean-deb 1857 2014-07-03 11:10:22Z dreibh $
 #
 # Debian Packaging Scripts
-# Copyright (C) 2002-2018 by Thomas Dreibholz
+# Copyright (C) 2002-2012 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,4 +25,7 @@ CHANGELOG_HEADER="`head -n1 debian/changelog`"
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
 
 rm -f *.deb *.dsc *.asc *.changes *.build *.upload *.tar.gz stamp-h* svn-commit* *~
-rm -rf $PACKAGE-* $PACKAGE"_"*
+rm -rf $PACKAGE-*.gz $PACKAGE"_"*.gz $PACKAGE-*.bz2 $PACKAGE"_"*.bz2
+
+shopt -s extglob
+rm -rf $PACKAGE-+([0-9]).+([0-9]).+([0-9])*

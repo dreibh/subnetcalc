@@ -32,7 +32,7 @@
 DISTRIBUTIONS=`\
 ( \
 while [ x$1 != "x" ] ; do \
-   echo $1 
+   echo $1
    shift
 done \
 ) | sort -u`
@@ -45,7 +45,6 @@ CHANGELOG_HEADER="`head -n1 debian/changelog`"
 
 # The package name, e.g. MyApplication
 PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
-
 # The package distribution, e.g. precise, raring, ...
 PACKAGE_DISTRIBUTION=`echo $CHANGELOG_HEADER | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
 # The package's version, e.g. 1.2.3-1ubuntu1
@@ -92,9 +91,13 @@ UPSTREAM_PACKAGE_TYPE="gz"
 if [ ! -e "$UPSTREAM_PACKAGE" ] ; then
    UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "$PACKAGE-*.bz2" -printf '%f'`"
    UPSTREAM_PACKAGE_TYPE="bz2"
+   if [ ! -e "$UPSTREAM_PACKAGE" ] ; then
+      UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "$PACKAGE-*.xz" -printf '%f'`"
+      UPSTREAM_PACKAGE_TYPE="xz"
+   fi
 fi
 if [ ! -e "$UPSTREAM_PACKAGE" ]; then
-   rm -f $PACKAGE-*.gz $PACKAGE"_"*.gz $PACKAGE-*.bz2 $PACKAGE"_"*.bz2
+   rm -f $PACKAGE-*.gz $PACKAGE"_"*.gz $PACKAGE-*.bz2 $PACKAGE"_"*.bz2 $PACKAGE-*.xz $PACKAGE"_"*.xz
    echo -e "\x1b[34m------ Running MAKE_DIST ... ------\x1b[0m"
    echo "\$ $MAKE_DIST"
    eval "$MAKE_DIST"
@@ -105,14 +108,18 @@ if [ ! -e "$UPSTREAM_PACKAGE" ]; then
    if [ ! -e "$UPSTREAM_PACKAGE" ] ; then
       UPSTREAM_PACKAGE="`find . -maxdepth 1 -name $PACKAGE-*.bz2 -printf '%f'`"
       UPSTREAM_PACKAGE_TYPE="bz2"
+      if [ ! -e "$UPSTREAM_PACKAGE" ] ; then
+         UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "$PACKAGE-*.xz" -printf '%f'`"
+         UPSTREAM_PACKAGE_TYPE="xz"
+      fi
    fi
    if [ ! -e "$UPSTREAM_PACKAGE" ] ; then
-      echo -e "\x1b[34mERROR: No upstrem package found!\x1b[0m"
+      echo -e "\x1b[34mERROR: No upstream package ($PACKAGE-*, type ${UPSTREAM_PACKAGE_TYPE}) found!\x1b[0m"
       exit 1
    fi
 fi
 echo -e ""
-echo -e "\x1b[34m==> Upstream package is $UPSTREAM_PACKAGE (type is $UPSTREAM_PACKAGE_TYPE)\x1b[0m"
+echo -e "\x1b[34m==> Upstream package is $UPSTREAM_PACKAGE (type is ${UPSTREAM_PACKAGE_TYPE})\x1b[0m"
 echo -e ""
 
 
@@ -123,29 +130,25 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo -e ""
    echo -e "\x1b[34m------ Creating package for $DISTRIBUTION ------\x1b[0m"
 
-   success=1
-   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.$UPSTREAM_PACKAGE_TYPE 
-   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$OUTPUT_VERSION.orig.tar.$UPSTREAM_PACKAGE_TYPE 
-   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$DEBIAN_VERSION.orig.tar.$UPSTREAM_PACKAGE_TYPE 
-   rm -rf ${PACKAGE}-${UPSTREAM_VERSION} 
-   rm -rf ${PACKAGE}-${UPSTREAM_VERSION}.orig 
-   if [ "$UPSTREAM_PACKAGE_TYPE" = "gz" ] ; then
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.${UPSTREAM_PACKAGE_TYPE}
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$OUTPUT_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}
+   cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$DEBIAN_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}
+   rm -rf ${PACKAGE}-${UPSTREAM_VERSION}
+   rm -rf ${PACKAGE}-${UPSTREAM_VERSION}.orig
+   if [ "${UPSTREAM_PACKAGE_TYPE}" = "gz" ] ; then
       tar xzf ${UPSTREAM_PACKAGE}
-   elif [ "$UPSTREAM_PACKAGE_TYPE" = "bz2" ] ; then
+   elif [ "${UPSTREAM_PACKAGE_TYPE}" = "bz2" ] ; then
       tar xjf ${UPSTREAM_PACKAGE}
+   elif [ "${UPSTREAM_PACKAGE_TYPE}" = "xz" ] ; then
+      tar xJf ${UPSTREAM_PACKAGE}
    else
       echo 2>&1 "ERROR: Bad archive format: $UPSTREAM_PACKAGE"
       exit 1
-   fi 
-   cp -r ${PACKAGE}-${UPSTREAM_VERSION} ${PACKAGE}-${UPSTREAM_VERSION}.orig 
-   cp -r debian ${PACKAGE}-${UPSTREAM_VERSION} 
-   find ${PACKAGE}-${UPSTREAM_VERSION} -name .svn | xargs --no-run-if-empty rm -rf 
-   cd ${PACKAGE}-${UPSTREAM_VERSION} 
-   success=0
-
-   if [ $success -ne 0 ] ; then
-      exit 1
    fi
+   cp -r ${PACKAGE}-${UPSTREAM_VERSION} ${PACKAGE}-${UPSTREAM_VERSION}.orig
+   cp -r debian ${PACKAGE}-${UPSTREAM_VERSION}
+   find ${PACKAGE}-${UPSTREAM_VERSION} -name .svn | xargs --no-run-if-empty rm -rf
+   cd ${PACKAGE}-${UPSTREAM_VERSION}
 
    if [ "$DISTRIBUTION" != "default" ] ; then
       if [ "$DISTRIBUTION" = "unstable" -o "$DISTRIBUTION" = "testing" -o "$DISTRIBUTION" = "stable" ] ; then
@@ -220,7 +223,7 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
 
 
    if [ "$SKIP_PACKAGE_SIGNING" = "" ] ; then
-      SKIP_PACKAGE_SIGNING=0 
+      SKIP_PACKAGE_SIGNING=0
    fi
    if [ $SKIP_PACKAGE_SIGNING -eq 1 ] ; then
       # Build source package without signature:
@@ -255,8 +258,6 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    fi
 
 done
-
-
 
 if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
    rm -f "$UPSTREAM_PACKAGE.asc"
