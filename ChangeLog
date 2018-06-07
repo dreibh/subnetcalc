@@ -1,4 +1,221 @@
-commit 3ad414d0c4ba1ca4e0a4e920f7bad17a49e61c69
+commit cdf80e368313dd33c4543272106aa00796970af6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 7 09:02:53 2018 +0200
+
+    Fixed compile options to allow building for Ubuntu Precise.
+
+ CMakeLists.txt | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+commit d44e92f169af64bfe867384edd5b92859b030633
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jun 6 15:28:03 2018 +0200
+
+    Updated build scripts.
+
+ CMakeLists.txt |   2 +-
+ build-deb      |   5 +-
+ clean-deb      |   8 +++-
+ configure.ac   | 141 ---------------------------------------------------------
+ make-deb       |  51 +++++++++++----------
+ make-ppa       |   2 +-
+ 6 files changed, 37 insertions(+), 172 deletions(-)
+
+commit 304afca7599b6318c0bdfbc841d75684bc790a26
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jun 6 15:27:25 2018 +0200
+
+    Updated packaging files.
+
+ debian/changelog | 4 ++--
+ debian/control   | 2 +-
+ debian/copyright | 2 +-
+ 3 files changed, 4 insertions(+), 4 deletions(-)
+
+commit d8f9caad8896242b92116c0d76f9667a91ec9a3b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 22 20:22:45 2017 +0100
+
+    Build script updates.
+
+ build-deb | 2 +-
+ make-deb  | 6 +++---
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit a25b610731c764042afc077b758e7774c90ea1cf
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 22 20:22:39 2017 +0100
+
+    Fedora build updates.
+
+ make-rpm            |  8 ++++----
+ rpm/subnetcalc.spec | 10 +++-------
+ 2 files changed, 7 insertions(+), 11 deletions(-)
+
+commit 332f186161848279f6843c3339755b1008501722
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 22 20:13:19 2017 +0100
+
+    Version bump.
+
+ CMakeLists.txt      | 2 +-
+ debian/changelog    | 2 +-
+ rpm/subnetcalc.spec | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
+
+commit 6b850d892f0f80431b36ac0e83309f56b0b813dd
+Merge: 278a3a7 d2dfdea
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 22 20:07:38 2017 +0100
+
+    Merge branch 'cmake' of github.com:dreibh/subnetcalc into cmake
+
+commit 278a3a79d3eb52b342f3802a622a88b8bf66139f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 22 20:07:23 2017 +0100
+
+    Updated standards version.
+
+ debian/changelog | 2 ++
+ debian/control   | 2 +-
+ 2 files changed, 3 insertions(+), 1 deletion(-)
+
+commit d2dfdeab650ec62f8398cb69124a696df6bbefdc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 20 15:37:38 2017 +0100
+
+    Build script updates.
+
+ CMakeLists.txt     | 68 ++++++++++++++++++++++++++----------------------------
+ src/CMakeLists.txt |  4 ++--
+ 2 files changed, 35 insertions(+), 37 deletions(-)
+
+commit 8dd5a3372255201d787ded658460dd830f9a6f2d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Nov 19 19:40:20 2017 +0100
+
+    Minor update.
+
+ debian/subnetcalc.install | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+commit d5369b660a0b21730d99bfb8f49f25b4dd53efff
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Nov 19 12:36:56 2017 +0100
+
+    Some updates.
+
+ debian/changelog | 7 +++++++
+ debian/control   | 6 +++---
+ debian/rules     | 9 +++++----
+ rpm.conf         | 3 +--
+ 4 files changed, 16 insertions(+), 9 deletions(-)
+
+commit 7ec4924fb7cef482f83285e50230cd6c023f5c92
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Nov 19 11:20:06 2017 +0100
+
+    Changed build system from autoconf/automake to cmake.
+
+ CMakeLists.txt     | 192 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Makefile.am        |   3 -
+ autogen.sh         |  21 +++---
+ bootstrap          |  36 ----------
+ debian.conf        |   3 +-
+ src/CMakeLists.txt |  10 +++
+ src/Makefile.am    |   6 --
+ src/subnetcalc.cc  |   2 -
+ 8 files changed, 216 insertions(+), 57 deletions(-)
+
+commit 3efe879532c26a45da5ef605ac6ac814127e42b7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 23:42:39 2017 +0100
+
+    Improved build script.
+
+ configure.ac | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+commit 4331a1b9175ad314fc8ecaa664df8768ec7dcc29
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 20:55:55 2017 +0100
+
+    Updated build scripts.
+
+ freebsd/subnetcalc/make-diff      | 4 ++--
+ freebsd/subnetcalc/test-packaging | 3 +--
+ 2 files changed, 3 insertions(+), 4 deletions(-)
+
+commit 26ad60e34133ce72a0164c4decc6827abd2de404
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 20:55:38 2017 +0100
+
+    Updated FreeBSD port.
+
+ freebsd/subnetcalc/Makefile | 1 -
+ 1 file changed, 1 deletion(-)
+
+commit dc6660b3186627e69a579610fda15022e107353e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 20:46:38 2017 +0100
+
+    Updated script.
+
+ freebsd/subnetcalc/test-packaging | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
+commit c209fff0c8c632f7e0dea0d5cf5c70a757bf4bef
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 20:30:21 2017 +0100
+
+    Updated FreeBSD port.
+
+ freebsd/subnetcalc/Makefile       | 20 ++++++++------------
+ freebsd/subnetcalc/test-packaging | 17 +++++++++++------
+ 2 files changed, 19 insertions(+), 18 deletions(-)
+
+commit 2083fdc0cfdf09a94ad4526ba8f1383c8b237bf6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Oct 30 19:10:25 2017 +0100
+
+    Script update.
+
+ make-ppa | 15 +++++++++++----
+ 1 file changed, 11 insertions(+), 4 deletions(-)
+
+commit 8e1b30b2d4662f0772375f1cab4272ec5558ff46
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 19:56:16 2017 +0100
+
+    Added helper script.
+
+ freebsd/subnetcalc/make-diff | 51 ++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 51 insertions(+)
+
+commit fda8a0bd0b083a36116120a192822e779b19c7e1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 19:55:06 2017 +0100
+
+    FreeBSD port update.
+
+ freebsd/subnetcalc/Makefile | 4 ++--
+ freebsd/subnetcalc/distinfo | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
+
+commit f36830760a1f9b7806d4fe406412ea2b91a9a5c1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 29 19:45:01 2017 +0100
+
+    New release.
+
+ ChangeLog           | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ configure.ac        |  2 +-
+ debian/changelog    |  2 +-
+ rpm/subnetcalc.spec |  2 +-
+ subnetcalc.lsm      |  6 ++---
+ 5 files changed, 72 insertions(+), 6 deletions(-)
+
+commit 24798cb3adc808df04a4e2e238b4d0f9feb1912a
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 11:15:05 2017 +0100
 
@@ -18,7 +235,7 @@ Date:   Sun Oct 29 11:15:05 2017 +0100
  src/tools.h                       | 3 +--
  12 files changed, 3 insertions(+), 16 deletions(-)
 
-commit 4f403c1c5a808ab5555feb5129d63a500b17ac7c
+commit 3e5e525ae81edcf4dfa80bee186d6b878855ddd4
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 11:11:39 2017 +0100
 
@@ -41,7 +258,7 @@ Date:   Sun Oct 29 11:11:39 2017 +0100
  src/tools.h                       | 2 +-
  15 files changed, 22 insertions(+), 16 deletions(-)
 
-commit 41b50d0702f99965b692444038d42ef0c8449a67
+commit 29cbc20e54c95aa6b7d7c4edcf1b0b3ec000cec6
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 11:11:27 2017 +0100
 
@@ -50,7 +267,7 @@ Date:   Sun Oct 29 11:11:27 2017 +0100
  make-ppa | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit a466737d2041a394e640f3ebc0761b18efbfaec7
+commit c8f4cfdb3d01deb734ca24ca81e63be446d7e51c
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 9 11:50:20 2017 +0200
 
@@ -64,7 +281,7 @@ Date:   Wed Aug 9 11:50:20 2017 +0200
  subnetcalc.lsm      |  4 ++--
  6 files changed, 73 insertions(+), 5 deletions(-)
 
-commit a89961ee72f8f3029451cfff5d3bcbb4bc614563
+commit 1fcd67f3e0e84dc096b2039aa1288e626ce90312
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 9 11:47:27 2017 +0200
 
@@ -85,7 +302,7 @@ Date:   Wed Aug 9 11:47:27 2017 +0200
  subnetcalc.lsm               | 10 +++++-----
  13 files changed, 48 insertions(+), 18 deletions(-)
 
-commit c3d3f98fe9bf3f59ee1620d40a231fdf3a4b34a8
+commit 4a29524d0ec8d8ee4250c7a8f7b36ffce4a46d0d
 Author: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Date:   Mon May 1 09:35:53 2017 +0200
 
@@ -97,7 +314,7 @@ Date:   Mon May 1 09:35:53 2017 +0200
  rpm/subnetcalc.spec | 2 +-
  4 files changed, 5 insertions(+), 5 deletions(-)
 
-commit 5a562e279bd83a0ac1c2af1f10e1f70d5b9d11da
+commit b36e19326879899d64b21695ef9e6ccffbb4cfee
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Tue Mar 21 10:20:39 2017 +0100
 
@@ -108,7 +325,7 @@ Date:   Tue Mar 21 10:20:39 2017 +0100
  rpm/subnetcalc.spec | 2 +-
  3 files changed, 8 insertions(+), 2 deletions(-)
 
-commit 234907a27457d59b3fe2d66aaf16123f4838961f
+commit 24bd4117ae1c6772a0f753c39f4a96e18ce7073c
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:05:56 2016 +0100
 
@@ -117,7 +334,7 @@ Date:   Fri Nov 4 10:05:56 2016 +0100
  subnetcalc.lsm | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit 6395ea20abc76b4a82445138c1f51a463328dd30
+commit ced2cc5f87527b6f32fbfe997802c7f3c60afcb1
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:03:33 2016 +0100
 
@@ -127,7 +344,7 @@ Date:   Fri Nov 4 10:03:33 2016 +0100
  update-changelog |    2 +-
  2 files changed, 2198 insertions(+), 1563 deletions(-)
 
-commit 601ff12add87e6d7901c7091309df002dd9fc8e9
+commit fe6a82700d596fa277f2380b9b5d0f9b5f75dbe8
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:03:06 2016 +0100
 
@@ -139,7 +356,7 @@ Date:   Fri Nov 4 10:03:06 2016 +0100
  subnetcalc.lsm      | 6 +++---
  4 files changed, 7 insertions(+), 7 deletions(-)
 
-commit 50bacd3d806fca06e187c1567b1b727effb32821
+commit bb3b4232b25b29b1aac1da227cd59facaf6123e2
 Author: Thomas Dreibholy <dreibh@simula.no>
 Date:   Thu Nov 3 16:42:43 2016 +0100
 
@@ -148,7 +365,7 @@ Date:   Thu Nov 3 16:42:43 2016 +0100
  autogen.sh | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-commit 11e9472798687987f111ed9285402b2da5e1fc19
+commit c5d082b71bcda4497c5e4d12c5cbf3b5c3156b7d
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Thu Nov 3 16:21:38 2016 +0100
 
@@ -159,7 +376,7 @@ Date:   Thu Nov 3 16:21:38 2016 +0100
  make-ppa         | 2 +-
  3 files changed, 8 insertions(+), 2 deletions(-)
 
-commit 2b79d4718181d9aff2deae30dfea2ca42e9110e8
+commit 88c7bcc635a727cfe204cca94ab7692c6222b0eb
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Apr 4 15:54:21 2016 +0200
 
@@ -170,7 +387,7 @@ Date:   Mon Apr 4 15:54:21 2016 +0200
  subnetcalc.lsm   | 6 +++---
  3 files changed, 5 insertions(+), 5 deletions(-)
 
-commit 67dccda14569a311f2f42bfb8a69b52030534a2e
+commit 22f162dad00e6a2e83f5609457c721324dd3f1e1
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Apr 4 15:36:33 2016 +0200
 
@@ -196,7 +413,7 @@ Date:   Mon Apr 4 15:36:33 2016 +0200
  src/tools.h                       |  2 +-
  18 files changed, 41 insertions(+), 36 deletions(-)
 
-commit f8f6f61e84a4981ee946f3128cbd7601e2c5cf97
+commit bd01197487f1cc6d8e016302f770c35facd91744
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Oct 27 08:23:02 2015 +0000
 
@@ -209,7 +426,7 @@ Date:   Tue Oct 27 08:23:02 2015 +0000
  subnetcalc.lsm |   6 +-
  2 files changed, 224 insertions(+), 157 deletions(-)
 
-commit 4bf28cbb9f77888f080a9566e723661e72f0eeaf
+commit 2cc9c5b0ca3b768b41815e5196b98551a3760911
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Oct 27 08:22:01 2015 +0000
 
@@ -225,18 +442,7 @@ Date:   Tue Oct 27 08:22:01 2015 +0000
  src/subnetcalc.cc   | 47 +++++++++++++++++++++++++++++------------------
  5 files changed, 38 insertions(+), 21 deletions(-)
 
-commit 69eb4e18248f7e56fb79f312a6243035221ad225
-Merge: 9b6750d a115512
-Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
-Date:   Thu Jun 4 14:32:56 2015 +0000
-
-    Merge pull request #2 from dunn/master
-    
-    Merged. Thank you!
-    
-    git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2008 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
-commit a115512296efe5c0bc17b82e35f36355546bd049
+commit 6021a4e576513d7bc66e166826010cb16233c5dd
 Author: Alex Dunn <dunn.alex@gmail.com>
 Date:   Wed May 13 17:06:52 2015 -0700
 
