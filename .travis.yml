@@ -118,7 +118,7 @@ before_install:
        sudo docker ps
     elif [ "$TRAVIS_OS_NAME" = "osx" ] ; then
        brew update
-       brew install cmake
+       # brew install cmake
     fi
 
 
