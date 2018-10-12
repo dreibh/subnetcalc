@@ -9,6 +9,8 @@ Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.ta
 
 AutoReqProv: on
 BuildRequires: cmake
+BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
