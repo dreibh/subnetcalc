@@ -1,4 +1,4 @@
-Format: http://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
 Upstream-Name: SubNetCalc
 Upstream-Contact: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Source: https://www.uni-due.de/~be0001/subnetcalc/

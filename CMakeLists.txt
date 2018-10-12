@@ -3,7 +3,7 @@ PROJECT(subnetcalc)
 
 SET(BUILD_MAJOR "2")
 SET(BUILD_MINOR "4")
-SET(BUILD_PATCH "9~b2")
+SET(BUILD_PATCH "9")
 SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
 
 
@@ -173,8 +173,8 @@ ENDIF()
 # COMPILER FLAGS
 #############################################################################
 
-SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -std=c14   -Wall")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++14 -Wall")
+SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wall")
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
 
 IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
     MESSAGE(STATUS "Building in DEBUG mode")

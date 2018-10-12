@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.9~b2
+Version: 2.4.9
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet

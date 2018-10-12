@@ -1,0 +1,143 @@
+language: c
+
+matrix:
+  include:
+
+    # ###### Ubuntu Linux ###################################################
+
+    # ====== Ubuntu (latest version) ========================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:latest" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:latest" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Ubuntu 18.04 (Bionic Beaver) ===================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:bionic" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:bionic" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Ubuntu 16.04 (Xenial Xerus) ====================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:xenial" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:xenial" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Ubuntu 14.04 (Trusty Tahr) ====================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:trusty" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="ubuntu:trusty" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+
+     # ###### Debian Linux ##################################################
+
+     # ====== Debian Testing ================================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:testing" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:testing" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Debian Stretch =================================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:stretch" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:stretch" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Debian Sid =====================================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:sid" VARIANT="ubuntu" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="debian:sid" VARIANT="ubuntu" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+
+    # ###### Fedora Linux ###################################################
+
+    # ====== Fedora 29 ======================================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="fedora:29" VARIANT="fedora" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="fedora:29" VARIANT="fedora" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+    # ====== Fedora Rawhide =================================================
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="fedora:rawhide" VARIANT="fedora" COMPILER_C="gcc" COMPILER_CXX="g++"
+    - os: linux
+      dist: xenial
+      group: travis_latest
+      env: DOCKER="fedora:rawhide" VARIANT="fedora" COMPILER_C="clang" COMPILER_CXX="clang++"
+
+
+    # ###### Fedora Linux ###################################################
+
+    # ====== MacOS X ========================================================
+    - os: osx
+      osx_image: xcode9.4
+      compiler: clang
+      group: travis_latest
+
+
+before_install:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+       sudo docker run -d --name ubuntu-test -v $(pwd):/travis -w /travis $DOCKER tail -f /dev/null
+       sudo docker ps
+    elif [ "$TRAVIS_OS_NAME" = "osx" ] ; then
+       brew update
+       # brew install cmake
+    fi
+
+
+install:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+       if [ "$VARIANT" = "ubuntu" ] ; then
+          sudo docker exec -t ubuntu-test bash -c "apt-get update"
+          sudo docker exec -t ubuntu-test bash -c "apt-get install -y cmake gcc g++ clang make libgeoip-dev"
+       elif [ "$VARIANT" = "fedora" ] ; then
+          sudo docker exec -t ubuntu-test bash -c "dnf install -y cmake gcc gcc-c++ clang make GeoIP-devel"
+       fi
+    fi
+
+
+script:
+  - |
+    if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
+       sudo docker exec -t ubuntu-test bash -c "echo OPTIONS: CC=$COMPILER_C CXX=$COMPILER_CXX"
+       sudo docker exec -t ubuntu-test bash -c "env CC=$COMPILER_C CXX=$COMPILER_CXX cmake -DCMAKE_INSTALL_PREFIX=/usr ."
+       sudo docker exec -t ubuntu-test bash -c "make VERBOSE=1"
+    fi

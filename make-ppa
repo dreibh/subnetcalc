@@ -2,7 +2,7 @@
 
 ./bootstrap
 ./clean-deb
-./make-deb precise trusty xenial zesty artful bionic
+./make-deb precise trusty xenial bionic cosmic unstable
 changeFiles=`ls *.changes`
 for changeFile in $changeFiles ; do
    if [[ $changeFile =~ .*[0-9](ppa|ubuntu)[0-9].* ]] ; then
