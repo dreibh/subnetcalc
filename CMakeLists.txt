@@ -11,31 +11,14 @@ SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
 # INSTALLATION_DIRECTORIES
 #############################################################################
 
-SET(CMAKE_INSTALL_BINDIR_DOC        "user executables [PREFIX/bin]")
-SET(CMAKE_INSTALL_SBINDIR_DOC       "system admin executables [EPREFIX/sbin]")
-SET(CMAKE_INSTALL_DATADIR_DOC       "read-only architecture-independent data [PREFIX/share]")
-SET(CMAKE_INSTALL_SYSCONFDIR_DOC    "read-only single-machine data [PREFIX/etc]")
-SET(CMAKE_INSTALL_LOCALSTATEDIR_DOC "modifiable single-machine data [PREFIX/var]")
-SET(CMAKE_INSTALL_LIBDIR_DOC        "object code libraries [PREFIX/lib]")
-SET(CMAKE_INSTALL_INCLUDEDIR_DOC    "read-only includes [PREFIX/include]")
-SET(CMAKE_INSTALL_MANDIR_DOC        "man documentation [PREFIX/share/man]")
-
-SET(CMAKE_INSTALL_BINDIR "bin"
-    CACHE PATH ${CMAKE_INSTALL_BINDIR_DOC})
-SET(CMAKE_INSTALL_SBINDIR "sbin"
-    CACHE PATH ${CMAKE_INSTALL_SBINDIR_DOC})
-SET(CMAKE_INSTALL_DATADIR "share"
-    CACHE PATH ${CMAKE_INSTALL_DATADIR_DOC})
-SET(CMAKE_INSTALL_SYSCONFDIR "etc"
-    CACHE PATH ${CMAKE_INSTALL_SYSCONFDIR_DOC})
-SET(CMAKE_INSTALL_LOCALSTATEDIR "var"
-    CACHE PATH ${CMAKE_INSTALL_LOCALSTATEDIR_DOC})
-SET(CMAKE_INSTALL_LIBDIR "lib"
-    CACHE PATH ${CMAKE_INSTALL_LIBDIR_DOC})
-SET(CMAKE_INSTALL_INCLUDEDIR "include"
-    CACHE PATH ${CMAKE_INSTALL_INCLUDEDIR_DOC})
-SET(CMAKE_INSTALL_MANDIR "share/man"
-    CACHE PATH ${CMAKE_INSTALL_MANDIR_DOC})
+SET(CMAKE_INSTALL_BINDIR        "bin"       CACHE PATH "user executables [PREFIX/bin]")
+SET(CMAKE_INSTALL_SBINDIR       "sbin"      CACHE PATH "system admin executables [EPREFIX/sbin]")
+SET(CMAKE_INSTALL_DATADIR       "share"     CACHE PATH "read-only architecture-independent data [PREFIX/share]")
+SET(CMAKE_INSTALL_SYSCONFDIR    "etc"       CACHE PATH "read-only single-machine data [PREFIX/etc]")
+SET(CMAKE_INSTALL_LOCALSTATEDIR "var"       CACHE PATH "modifiable single-machine data [PREFIX/var]")
+SET(CMAKE_INSTALL_LIBDIR        "lib"       CACHE PATH "object code libraries [PREFIX/lib]")
+SET(CMAKE_INSTALL_INCLUDEDIR    "include"   CACHE PATH "read-only includes [PREFIX/include]")
+SET(CMAKE_INSTALL_MANDIR        "share/man" CACHE PATH "man documentation [PREFIX/share/man]")
 
 
 #############################################################################
@@ -59,8 +42,6 @@ INCLUDE(CheckStructHasMember)
 #############################################################################
 # OS DEPENDENT
 #############################################################################
-
-SET(CMAKE_MACOSX_RPATH 1)
 
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
