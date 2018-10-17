@@ -123,6 +123,16 @@ echo -e "\x1b[34m==> Upstream package is $UPSTREAM_PACKAGE (type is ${UPSTREAM_P
 echo -e ""
 
 
+rm -f "$UPSTREAM_PACKAGE.asc"
+if [ "$SKIP_PACKAGE_SIGNING" != "" -a ! $SKIP_PACKAGE_SIGNING -eq 1 ] ; then
+   echo -e ""
+   echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Sign upstream package ==========================================\x1b[0m"
+   echo -e ""
+   echo -e "\x1b[34mSigning upstream package $UPSTREAM_PACKAGE ...\x1b[0m"
+   gpg -sab "$UPSTREAM_PACKAGE"
+fi
+
+
 echo -e ""
 echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating packages ==============================================\x1b[0m"
 for DISTRIBUTION in $DISTRIBUTIONS ; do
@@ -133,6 +143,9 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    cp ${UPSTREAM_PACKAGE} ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.${UPSTREAM_PACKAGE_TYPE}
    cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$OUTPUT_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}
    cp ${UPSTREAM_PACKAGE} ${PACKAGE}_$DEBIAN_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}
+   cp ${UPSTREAM_PACKAGE}.asc ${PACKAGE}_${UPSTREAM_VERSION}.orig.tar.${UPSTREAM_PACKAGE_TYPE}.asc
+   cp ${UPSTREAM_PACKAGE}.asc ${PACKAGE}_$OUTPUT_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}.asc
+   cp ${UPSTREAM_PACKAGE}.asc ${PACKAGE}_$DEBIAN_VERSION.orig.tar.${UPSTREAM_PACKAGE_TYPE}.asc
    rm -rf ${PACKAGE}-${UPSTREAM_VERSION}
    rm -rf ${PACKAGE}-${UPSTREAM_VERSION}.orig
    if [ "${UPSTREAM_PACKAGE_TYPE}" = "gz" ] ; then
@@ -258,17 +271,6 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    fi
 
 done
-
-if [ -e "$UPSTREAM_PACKAGE.asc" ] ; then
-   rm -f "$UPSTREAM_PACKAGE.asc"
-fi
-if [ "$SKIP_PACKAGE_SIGNING" != "" -a ! $SKIP_PACKAGE_SIGNING -eq 1 ] ; then
-   echo -e ""
-   echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Sign upstream package ==========================================\x1b[0m"
-   echo -e ""
-   echo -e "\x1b[34mSigning upstream package $UPSTREAM_PACKAGE ...\x1b[0m"
-   gpg -sab "$UPSTREAM_PACKAGE"
-fi
 
 
 
