@@ -16,8 +16,6 @@ LIB_DEPENDS=	libGeoIP.so:net/GeoIP
 
 GNU_CONFIGURE=	yes
 USES=           cmake
-
-PLIST_FILES=	bin/subnetcalc \
-		man/man1/subnetcalc.1.gz
+CMAKE_ARGS+=    -DCMAKE_INSTALL_MANDIR=${PREFIX}/man
 
 .include <bsd.port.mk>
