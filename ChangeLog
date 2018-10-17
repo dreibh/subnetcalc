@@ -1,11 +1,111 @@
+commit 7414e70653f9a91c70d8567b4f185f20201374f2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 17:29:12 2018 +0200
+
+    Updated LSM entry.
+
+commit 91c1988ad8b9c243173c7fcad7454c9c45ddcac9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 17:24:20 2018 +0200
+
+    Updated FreeBSD packaging files.
+
+commit 1101c67e7e40293b849bfd8b4d861449f188fecd
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 15:39:06 2018 +0200
+
+    Version bump.
+
+commit cb0227a53c4c06fa047f5a3e594e25bad16eb92b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 15:09:37 2018 +0200
+
+    Added tests control file.
+
+commit 79a8c7a0dd2941aad1b03f7bda8f589bf84819d2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 15:07:27 2018 +0200
+
+    Added metadata file.
+
+commit 2f26d292cb5391723039027f72ab3bb592b7335b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 14:38:33 2018 +0200
+
+    Packaging script updates.
+
+commit 8694c97b47f4f10c5c017ae01c341376353298e7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 14:33:53 2018 +0200
+
+    More clean-ups for CMakeLists.txt.
+
+commit 52eb647df1e0b1365550278bee714f5f3bd4a196
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 17 14:25:28 2018 +0200
+
+    Cleaned up CMakeLists.txt.
+
+commit 214833edf3708c7b1fceed34c7c46b5e5804c0e8
+Merge: 900d578 2b24921
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Oct 12 11:02:59 2018 +0200
+
+    Merge branch 'master' of https://github.com/dreibh/subnetcalc
+
+commit 900d57860d7ed1e1ca709e836319fc46d27a1f1b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Oct 12 11:02:47 2018 +0200
+
+    RPM packaging fix.
+
+commit 2b2492187baf341681b3ec5faee563fea93a5c68
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Oct 4 18:20:46 2018 +0100
+
+    An update.
+
+commit 2d911f661935632b3f5a6bcf977dbdfa049492d4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Oct 4 17:42:33 2018 +0100
+
+    Updated script.
+
+commit ce524bf2336c0f77be995a3bbd7de8598e3ed5d5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Oct 4 17:21:37 2018 +0100
+
+    Added Travis CI configuration.
+
+commit 799067efabe2178a6e3eace36bb2579cff4581ba
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 3 09:34:03 2018 +0100
+
+    Removed obsolete automake file.
+
+commit edfd9c3d0efb3290f69342e29409d2391753e592
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 11 13:12:43 2018 +0200
+
+    Updated LSM entry.
+
+commit bcbf593b8b89ed3af39d1716f8a1b6f3086ca01d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 7 09:43:41 2018 +0200
+
+    Added configuration file.
+
+commit cfeae4fd7854df04f43c811aca3622056989a19e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 7 09:32:49 2018 +0200
+
+    Version bump.
+
 commit cdf80e368313dd33c4543272106aa00796970af6
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Thu Jun 7 09:02:53 2018 +0200
 
     Fixed compile options to allow building for Ubuntu Precise.
-
- CMakeLists.txt | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
 commit d44e92f169af64bfe867384edd5b92859b030633
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -13,24 +113,11 @@ Date:   Wed Jun 6 15:28:03 2018 +0200
 
     Updated build scripts.
 
- CMakeLists.txt |   2 +-
- build-deb      |   5 +-
- clean-deb      |   8 +++-
- configure.ac   | 141 ---------------------------------------------------------
- make-deb       |  51 +++++++++++----------
- make-ppa       |   2 +-
- 6 files changed, 37 insertions(+), 172 deletions(-)
-
 commit 304afca7599b6318c0bdfbc841d75684bc790a26
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Jun 6 15:27:25 2018 +0200
 
     Updated packaging files.
-
- debian/changelog | 4 ++--
- debian/control   | 2 +-
- debian/copyright | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
 commit d8f9caad8896242b92116c0d76f9667a91ec9a3b
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -38,30 +125,17 @@ Date:   Wed Nov 22 20:22:45 2017 +0100
 
     Build script updates.
 
- build-deb | 2 +-
- make-deb  | 6 +++---
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
 commit a25b610731c764042afc077b758e7774c90ea1cf
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Nov 22 20:22:39 2017 +0100
 
     Fedora build updates.
 
- make-rpm            |  8 ++++----
- rpm/subnetcalc.spec | 10 +++-------
- 2 files changed, 7 insertions(+), 11 deletions(-)
-
 commit 332f186161848279f6843c3339755b1008501722
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Nov 22 20:13:19 2017 +0100
 
     Version bump.
-
- CMakeLists.txt      | 2 +-
- debian/changelog    | 2 +-
- rpm/subnetcalc.spec | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
 
 commit 6b850d892f0f80431b36ac0e83309f56b0b813dd
 Merge: 278a3a7 d2dfdea
@@ -76,19 +150,11 @@ Date:   Wed Nov 22 20:07:23 2017 +0100
 
     Updated standards version.
 
- debian/changelog | 2 ++
- debian/control   | 2 +-
- 2 files changed, 3 insertions(+), 1 deletion(-)
-
 commit d2dfdeab650ec62f8398cb69124a696df6bbefdc
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Nov 20 15:37:38 2017 +0100
 
     Build script updates.
-
- CMakeLists.txt     | 68 ++++++++++++++++++++++++++----------------------------
- src/CMakeLists.txt |  4 ++--
- 2 files changed, 35 insertions(+), 37 deletions(-)
 
 commit 8dd5a3372255201d787ded658460dd830f9a6f2d
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -96,20 +162,11 @@ Date:   Sun Nov 19 19:40:20 2017 +0100
 
     Minor update.
 
- debian/subnetcalc.install | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit d5369b660a0b21730d99bfb8f49f25b4dd53efff
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Nov 19 12:36:56 2017 +0100
 
     Some updates.
-
- debian/changelog | 7 +++++++
- debian/control   | 6 +++---
- debian/rules     | 9 +++++----
- rpm.conf         | 3 +--
- 4 files changed, 16 insertions(+), 9 deletions(-)
 
 commit 7ec4924fb7cef482f83285e50230cd6c023f5c92
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -117,24 +174,11 @@ Date:   Sun Nov 19 11:20:06 2017 +0100
 
     Changed build system from autoconf/automake to cmake.
 
- CMakeLists.txt     | 192 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- Makefile.am        |   3 -
- autogen.sh         |  21 +++---
- bootstrap          |  36 ----------
- debian.conf        |   3 +-
- src/CMakeLists.txt |  10 +++
- src/Makefile.am    |   6 --
- src/subnetcalc.cc  |   2 -
- 8 files changed, 216 insertions(+), 57 deletions(-)
-
 commit 3efe879532c26a45da5ef605ac6ac814127e42b7
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Oct 30 23:42:39 2017 +0100
 
     Improved build script.
-
- configure.ac | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
 commit 4331a1b9175ad314fc8ecaa664df8768ec7dcc29
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -142,18 +186,11 @@ Date:   Mon Oct 30 20:55:55 2017 +0100
 
     Updated build scripts.
 
- freebsd/subnetcalc/make-diff      | 4 ++--
- freebsd/subnetcalc/test-packaging | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
-
 commit 26ad60e34133ce72a0164c4decc6827abd2de404
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Oct 30 20:55:38 2017 +0100
 
     Updated FreeBSD port.
-
- freebsd/subnetcalc/Makefile | 1 -
- 1 file changed, 1 deletion(-)
 
 commit dc6660b3186627e69a579610fda15022e107353e
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -161,18 +198,11 @@ Date:   Mon Oct 30 20:46:38 2017 +0100
 
     Updated script.
 
- freebsd/subnetcalc/test-packaging | 14 ++++++++++----
- 1 file changed, 10 insertions(+), 4 deletions(-)
-
 commit c209fff0c8c632f7e0dea0d5cf5c70a757bf4bef
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Oct 30 20:30:21 2017 +0100
 
     Updated FreeBSD port.
-
- freebsd/subnetcalc/Makefile       | 20 ++++++++------------
- freebsd/subnetcalc/test-packaging | 17 +++++++++++------
- 2 files changed, 19 insertions(+), 18 deletions(-)
 
 commit 2083fdc0cfdf09a94ad4526ba8f1383c8b237bf6
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -180,17 +210,11 @@ Date:   Mon Oct 30 19:10:25 2017 +0100
 
     Script update.
 
- make-ppa | 15 +++++++++++----
- 1 file changed, 11 insertions(+), 4 deletions(-)
-
 commit 8e1b30b2d4662f0772375f1cab4272ec5558ff46
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 19:56:16 2017 +0100
 
     Added helper script.
-
- freebsd/subnetcalc/make-diff | 51 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 51 insertions(+)
 
 commit fda8a0bd0b083a36116120a192822e779b19c7e1
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -198,22 +222,11 @@ Date:   Sun Oct 29 19:55:06 2017 +0100
 
     FreeBSD port update.
 
- freebsd/subnetcalc/Makefile | 4 ++--
- freebsd/subnetcalc/distinfo | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
 commit f36830760a1f9b7806d4fe406412ea2b91a9a5c1
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 19:45:01 2017 +0100
 
     New release.
-
- ChangeLog           | 66 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac        |  2 +-
- debian/changelog    |  2 +-
- rpm/subnetcalc.spec |  2 +-
- subnetcalc.lsm      |  6 ++---
- 5 files changed, 72 insertions(+), 6 deletions(-)
 
 commit 24798cb3adc808df04a4e2e238b4d0f9feb1912a
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -221,42 +234,11 @@ Date:   Sun Oct 29 11:15:05 2017 +0100
 
     Removed old SVN Id tag, since it is obsolete after transition to Git.
 
- UpdateDocFiles                    | 1 -
- bootstrap                         | 1 -
- build-deb                         | 1 -
- clean-deb                         | 1 -
- filter-empty-entries              | 1 -
- freebsd/subnetcalc/test-packaging | 1 -
- make-deb                          | 1 -
- make-rpm                          | 1 -
- src/subnetcalc.1                  | 2 --
- src/subnetcalc.cc                 | 3 +--
- src/tools.cc                      | 3 +--
- src/tools.h                       | 3 +--
- 12 files changed, 3 insertions(+), 16 deletions(-)
-
 commit 3e5e525ae81edcf4dfa80bee186d6b878855ddd4
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Oct 29 11:11:39 2017 +0100
 
     Header updates.
-
- UpdateDoc1.sed                    | 4 ++--
- build-deb                         | 2 +-
- clean-deb                         | 2 +-
- configure.ac                      | 2 +-
- debian/changelog                  | 6 ++++++
- debian/copyright                  | 2 +-
- filter-empty-entries              | 2 +-
- freebsd/subnetcalc/test-packaging | 2 +-
- make-deb                          | 2 +-
- make-rpm                          | 2 +-
- rpm/subnetcalc.spec               | 4 ++--
- src/subnetcalc.1                  | 2 +-
- src/subnetcalc.cc                 | 2 +-
- src/tools.cc                      | 2 +-
- src/tools.h                       | 2 +-
- 15 files changed, 22 insertions(+), 16 deletions(-)
 
 commit 29cbc20e54c95aa6b7d7c4edcf1b0b3ec000cec6
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -264,22 +246,11 @@ Date:   Sun Oct 29 11:11:27 2017 +0100
 
     Script update.
 
- make-ppa | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit c8f4cfdb3d01deb734ca24ca81e63be446d7e51c
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 9 11:50:20 2017 +0200
 
     Fixed dependency.
-
- ChangeLog           | 63 +++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac        |  2 +-
- debian/changelog    |  6 +++++
- debian/control      |  1 -
- rpm/subnetcalc.spec |  2 +-
- subnetcalc.lsm      |  4 ++--
- 6 files changed, 73 insertions(+), 5 deletions(-)
 
 commit 1fcd67f3e0e84dc096b2039aa1288e626ce90312
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -287,32 +258,11 @@ Date:   Wed Aug 9 11:47:27 2017 +0200
 
     Fixed URL. Version bump.
 
- UpdateDoc1.sed               |  3 +++
- UpdateDocFiles               | 25 +++++++++++++++++++++++++
- configure.ac                 |  2 +-
- debian/changelog             |  6 ++++--
- debian/control               |  2 +-
- debian/copyright             |  2 +-
- debian/watch                 |  2 +-
- freebsd/subnetcalc/Makefile  |  2 +-
- freebsd/subnetcalc/pkg-descr |  2 +-
- make-ppa                     |  2 +-
- rpm/subnetcalc.spec          |  6 +++---
- src/subnetcalc.1             |  2 +-
- subnetcalc.lsm               | 10 +++++-----
- 13 files changed, 48 insertions(+), 18 deletions(-)
-
 commit 4a29524d0ec8d8ee4250c7a8f7b36ffce4a46d0d
 Author: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Date:   Mon May 1 09:35:53 2017 +0200
 
     Script update.
-
- configure.ac        | 2 +-
- debian/changelog    | 4 ++--
- make-ppa            | 2 +-
- rpm/subnetcalc.spec | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
 
 commit b36e19326879899d64b21695ef9e6ccffbb4cfee
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -320,19 +270,11 @@ Date:   Tue Mar 21 10:20:39 2017 +0100
 
     Version bump.
 
- configure.ac        | 2 +-
- debian/changelog    | 6 ++++++
- rpm/subnetcalc.spec | 2 +-
- 3 files changed, 8 insertions(+), 2 deletions(-)
-
 commit 24bd4117ae1c6772a0f753c39f4a96e18ce7073c
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:05:56 2016 +0100
 
     A fix.
-
- subnetcalc.lsm | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit ced2cc5f87527b6f32fbfe997802c7f3c60afcb1
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -340,21 +282,11 @@ Date:   Fri Nov 4 10:03:33 2016 +0100
 
     Updated ChangeLog.
 
- ChangeLog        | 3759 +++++++++++++++++++++++++++++++-----------------------
- update-changelog |    2 +-
- 2 files changed, 2198 insertions(+), 1563 deletions(-)
-
 commit fe6a82700d596fa277f2380b9b5d0f9b5f75dbe8
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 4 10:03:06 2016 +0100
 
     Updated packaging files.
-
- configure.ac        | 2 +-
- debian/changelog    | 4 ++--
- rpm/subnetcalc.spec | 2 +-
- subnetcalc.lsm      | 6 +++---
- 4 files changed, 7 insertions(+), 7 deletions(-)
 
 commit bb3b4232b25b29b1aac1da227cd59facaf6123e2
 Author: Thomas Dreibholy <dreibh@simula.no>
@@ -362,19 +294,11 @@ Date:   Thu Nov 3 16:42:43 2016 +0100
 
     A small fix.
 
- autogen.sh | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit c5d082b71bcda4497c5e4d12c5cbf3b5c3156b7d
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Thu Nov 3 16:21:38 2016 +0100
 
     Updated build scripts.
-
- configure.ac     | 2 +-
- debian/changelog | 6 ++++++
- make-ppa         | 2 +-
- 3 files changed, 8 insertions(+), 2 deletions(-)
 
 commit 88c7bcc635a727cfe204cca94ab7692c6222b0eb
 Author: Thomas Dreibholz <dreibh@simula.no>
@@ -382,36 +306,11 @@ Date:   Mon Apr 4 15:54:21 2016 +0200
 
     Updated LSM entry.
 
- configure.ac     | 2 +-
- debian/changelog | 2 +-
- subnetcalc.lsm   | 6 +++---
- 3 files changed, 5 insertions(+), 5 deletions(-)
-
 commit 22f162dad00e6a2e83f5609457c721324dd3f1e1
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Apr 4 15:36:33 2016 +0200
 
     Packaging updates. Now working with Debian hardening options.
-
- autogen.sh                        |  7 +++++++
- build-deb                         |  2 +-
- clean-deb                         |  2 +-
- configure.ac                      |  2 +-
- debian/changelog                  | 10 ++++++++++
- debian/compat                     |  2 +-
- debian/control                    |  6 ++++--
- debian/copyright                  | 21 +--------------------
- debian/rules                      |  5 +++++
- filter-empty-entries              |  2 +-
- freebsd/subnetcalc/test-packaging |  2 +-
- make-deb                          |  2 +-
- make-rpm                          |  2 +-
- rpm/subnetcalc.spec               |  4 ++--
- src/subnetcalc.1                  |  2 +-
- src/subnetcalc.cc                 |  2 +-
- src/tools.cc                      |  2 +-
- src/tools.h                       |  2 +-
- 18 files changed, 41 insertions(+), 36 deletions(-)
 
 commit bd01197487f1cc6d8e016302f770c35facd91744
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -422,10 +321,6 @@ Date:   Tue Oct 27 08:23:02 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2036 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog      | 375 ++++++++++++++++++++++++++++++++++-----------------------
- subnetcalc.lsm |   6 +-
- 2 files changed, 224 insertions(+), 157 deletions(-)
-
 commit 2cc9c5b0ca3b768b41815e5196b98551a3760911
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Oct 27 08:22:01 2015 +0000
@@ -435,21 +330,11 @@ Date:   Tue Oct 27 08:22:01 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2035 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        |  2 +-
- debian/changelog    |  6 ++++++
- make-ppa            |  2 +-
- rpm/subnetcalc.spec |  2 +-
- src/subnetcalc.cc   | 47 +++++++++++++++++++++++++++++------------------
- 5 files changed, 38 insertions(+), 21 deletions(-)
-
 commit 6021a4e576513d7bc66e166826010cb16233c5dd
 Author: Alex Dunn <dunn.alex@gmail.com>
 Date:   Wed May 13 17:06:52 2015 -0700
 
     bootstrap: allow autotools from anywhere
-
- bootstrap | 42 +++++++++++++-----------------------------
- 1 file changed, 13 insertions(+), 29 deletions(-)
 
 commit 9b6750d2418f2a6cd9b8de205f95f5d9098fc205
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -460,12 +345,6 @@ Date:   Mon May 11 13:32:10 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@2005 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        | 2 +-
- debian/changelog    | 4 ++--
- rpm/subnetcalc.spec | 2 +-
- subnetcalc.lsm      | 6 +++---
- 4 files changed, 7 insertions(+), 7 deletions(-)
-
 commit 97ff204bccaa8e7f0e191fab56dcc6c394c750f8
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu May 7 13:45:29 2015 +0000
@@ -474,9 +353,6 @@ Date:   Thu May 7 13:45:29 2015 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1999 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-ppa | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 98fe38637cb2584c00b5b7623f6cff0f1d5e204a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -487,10 +363,6 @@ Date:   Thu May 7 13:44:05 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1998 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 4 ++--
- make-deb         | 4 ++--
- 2 files changed, 4 insertions(+), 4 deletions(-)
-
 commit 2f035606307d2a640f24c589965eb2406bb600b9
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu May 7 13:29:01 2015 +0000
@@ -499,11 +371,6 @@ Date:   Thu May 7 13:29:01 2015 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1997 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- autogen.sh       | 2 +-
- configure.ac     | 7 +++++--
- debian/changelog | 6 ++++++
- 3 files changed, 12 insertions(+), 3 deletions(-)
 
 commit a9db734154e3985eeae621cd9a6f4913a2b511e6
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -514,9 +381,6 @@ Date:   Thu May 7 13:08:19 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1996 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
 commit 869f71497848c4734a4e5fad20c5c2aa44261075
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Mar 1 11:45:27 2015 +0000
@@ -525,9 +389,6 @@ Date:   Sun Mar 1 11:45:27 2015 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1977 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 25 +++++++++++++++++++++++++
- 1 file changed, 25 insertions(+)
 
 commit 4b5fe706d04308090ea2b1d3312ecdab9edff907
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -538,12 +399,6 @@ Date:   Sun Mar 1 11:45:09 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1976 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        | 2 +-
- debian/changelog    | 2 +-
- rpm/subnetcalc.spec | 2 +-
- subnetcalc.lsm      | 2 +-
- 4 files changed, 4 insertions(+), 4 deletions(-)
-
 commit b02db994682322167ee4fe8d5a210f616e7c033c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Mar 1 11:37:58 2015 +0000
@@ -553,11 +408,6 @@ Date:   Sun Mar 1 11:37:58 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1975 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        | 2 +-
- debian/changelog    | 4 ++--
- rpm/subnetcalc.spec | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
-
 commit 0d874fb6b6b85a181882ed46885147320423388d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Mar 1 11:05:36 2015 +0000
@@ -565,9 +415,6 @@ Date:   Sun Mar 1 11:05:36 2015 +0000
     Updated ChangeLog.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1973 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 48 insertions(+)
 
 commit 0a3b10ed070079fa9cfbff2c74bf37595d617e8c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -578,9 +425,6 @@ Date:   Sun Mar 1 10:54:00 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1968 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/copyright | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
-
 commit cfb5c0418dfe9e7c844e7eef5fefd0f2756a066f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Mar 1 10:46:56 2015 +0000
@@ -589,9 +433,6 @@ Date:   Sun Mar 1 10:46:56 2015 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1967 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- freebsd/subnetcalc/Makefile | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
 
 commit 46fd97302a122714fa0f4a045c0ae735d219a7fc
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -602,15 +443,6 @@ Date:   Sun Mar 1 10:42:18 2015 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1966 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog  |  1 +
- debian/copyright  | 68 ++++++++++++++++++++++++++++---------------------------
- src/subnetcalc.1  |  2 +-
- src/subnetcalc.cc |  2 +-
- src/tools.cc      |  4 ++--
- src/tools.h       |  4 ++--
- subnetcalc.lsm    |  6 ++---
- 7 files changed, 45 insertions(+), 42 deletions(-)
-
 commit df7cb345e251bc495c51e87ee166619257446f33
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Mar 1 10:30:04 2015 +0000
@@ -619,13 +451,6 @@ Date:   Sun Mar 1 10:30:04 2015 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1965 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac                    |   2 +-
- debian/changelog                |   6 +-
- debian/upstream/signing-key.asc | 405 ++++++++++++++++++++++++++++++++++++++++
- debian/watch                    |   1 +
- make-ppa                        |   2 +-
- 5 files changed, 412 insertions(+), 4 deletions(-)
 
 commit e5de6dd09b8fc3c3db96ab46487f1d727519a597
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -636,11 +461,6 @@ Date:   Thu Nov 20 21:07:23 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1938 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog        | 18 ++++++++++++++++++
- debian/changelog |  2 +-
- make-ppa         |  2 +-
- 3 files changed, 20 insertions(+), 2 deletions(-)
-
 commit df2762cfd6ecc76ce78758458643210bd912940a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Nov 20 21:06:52 2014 +0000
@@ -650,13 +470,6 @@ Date:   Thu Nov 20 21:06:52 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1937 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        |  2 +-
- debian/changelog    |  9 ++++++++-
- debian/control      |  2 +-
- rpm/subnetcalc.spec |  2 +-
- src/subnetcalc.cc   | 13 +++++++++++++
- 5 files changed, 24 insertions(+), 4 deletions(-)
-
 commit a51a387f435132bfe4b06254ffa8bafd8f60d180
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jul 28 12:18:55 2014 +0000
@@ -665,9 +478,6 @@ Date:   Mon Jul 28 12:18:55 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1902 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 20 ++++++++++++++++++++
- 1 file changed, 20 insertions(+)
 
 commit 9c9cff1461f8a0c2ec989c8ec35acf7fd3ad2bf3
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -679,13 +489,6 @@ Date:   Mon Jul 28 12:18:43 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1901 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac        | 2 +-
- debian/changelog    | 4 ++--
- rpm/subnetcalc.spec | 2 +-
- src/subnetcalc.cc   | 6 ++----
- subnetcalc.lsm      | 4 ++--
- 5 files changed, 8 insertions(+), 10 deletions(-)
-
 commit 16a358b072a616a0ed9f79b7463ed7ace37a8ecb
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jul 24 14:02:24 2014 +0000
@@ -694,10 +497,6 @@ Date:   Thu Jul 24 14:02:24 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1896 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog      | 110 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- subnetcalc.lsm |   6 ++--
- 2 files changed, 113 insertions(+), 3 deletions(-)
 
 commit 39bf181387cd4883a250f470f197b6d9d37e8e8f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -708,11 +507,6 @@ Date:   Thu Jul 24 14:00:44 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1895 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 1 +
- debian/control   | 2 +-
- src/subnetcalc.1 | 9 ++++++---
- 3 files changed, 8 insertions(+), 4 deletions(-)
-
 commit 3eebe82e6ecfe06ed6427a9906a321dc66ea015d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jul 24 13:54:06 2014 +0000
@@ -721,12 +515,6 @@ Date:   Thu Jul 24 13:54:06 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1894 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac        |  2 +-
- debian/changelog    |  6 +++++
- rpm/subnetcalc.spec |  2 +-
- src/subnetcalc.cc   | 70 +++++++++++++++++++++++++++++++++++------------------
- 4 files changed, 54 insertions(+), 26 deletions(-)
 
 commit a3364cebdcaa751595bd3b7c9a98987d4d2d9189
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -737,9 +525,6 @@ Date:   Fri Jul 11 11:52:57 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1881 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/tools.cc | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
-
 commit 5aea10e12b0ea4e6e1106a31257cf85885b8c68a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jul 4 16:38:55 2014 +0000
@@ -748,9 +533,6 @@ Date:   Fri Jul 4 16:38:55 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1867 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- rpm/subnetcalc.spec | 1 +
- 1 file changed, 1 insertion(+)
 
 commit a1ae61e7445ed4c15d948d76d12ce23c1542cd93
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -761,9 +543,6 @@ Date:   Fri Jul 4 15:05:55 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1866 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- rpm/subnetcalc.spec | 2 ++
- 1 file changed, 2 insertions(+)
-
 commit d0034bcdb453fb12cd1502a1bed355b89811096e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jun 24 09:54:13 2014 +0000
@@ -772,9 +551,6 @@ Date:   Tue Jun 24 09:54:13 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1849 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-rpm | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
 commit ac52cf7532e2e3e18d68b9547fa361537ec9f364
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -785,9 +561,6 @@ Date:   Tue Mar 18 13:01:13 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1790 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- Makefile.am | 2 --
- 1 file changed, 2 deletions(-)
-
 commit 4d0efc927f9c811aa44731a30a37d2714b18d906
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Mar 18 12:28:16 2014 +0000
@@ -796,10 +569,6 @@ Date:   Tue Mar 18 12:28:16 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1788 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac        | 3 ++-
- rpm/subnetcalc.spec | 2 ++
- 2 files changed, 4 insertions(+), 1 deletion(-)
 
 commit 26fa8fc073bf0771db9aa4a63710b65bcdc162cc
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -810,9 +579,6 @@ Date:   Fri Mar 14 17:58:21 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1781 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- rpm.conf | 6 ++++++
- 1 file changed, 6 insertions(+)
-
 commit 9fc95c3b647bdb02d1102962636f15353513924e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Mar 14 17:33:35 2014 +0000
@@ -821,9 +587,6 @@ Date:   Fri Mar 14 17:33:35 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1779 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- rpm/subnetcalc.spec | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 535252acce3791ab9fd6f527c2fb7fb7999e91db
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -834,11 +597,6 @@ Date:   Thu Mar 13 09:21:22 2014 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1778 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog        | 454 ++++++++++++++++++++++++++++++++++++++++---------------
- subnetcalc.lsm   |   6 +-
- update-changelog |   2 +-
- 3 files changed, 338 insertions(+), 124 deletions(-)
-
 commit 47fbe76dfc283f44fe1c8589b0d51ea37aedbda8
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Mar 13 09:06:18 2014 +0000
@@ -847,11 +605,6 @@ Date:   Thu Mar 13 09:06:18 2014 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1777 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac      | 2 +-
- debian/changelog  | 4 ++--
- src/subnetcalc.cc | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
 commit 7908fc398afaa3e3e54688ce418603141a93bad7
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -862,9 +615,6 @@ Date:   Mon Nov 11 08:56:43 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1744 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-rpm | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
 commit 7e549429c015848a0503da14bded4b306a9cb454
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Nov 11 08:44:44 2013 +0000
@@ -874,9 +624,6 @@ Date:   Mon Nov 11 08:44:44 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1743 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-rpm | 109 +++++++++++++++++++++++++++++++++++++--------------------------
- 1 file changed, 65 insertions(+), 44 deletions(-)
-
 commit 4e0fd03db739c870106837040b7ba197c60c237e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Nov 5 15:42:50 2013 +0000
@@ -884,9 +631,6 @@ Date:   Tue Nov 5 15:42:50 2013 +0000
     Improved RPM packaging.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1735 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-rpm | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
 
 commit 0ab42ab07987fb62e2bc0a2cb51d23a5981a0253
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -897,10 +641,6 @@ Date:   Tue Nov 5 14:21:24 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1734 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-rpm            | 359 +++++++---------------------------------------------
- rpm/subnetcalc.spec |   6 +-
- 2 files changed, 51 insertions(+), 314 deletions(-)
-
 commit 70126df8ed3490926f02d406851b9d7ba892a0d1
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Nov 5 13:37:32 2013 +0000
@@ -909,9 +649,6 @@ Date:   Tue Nov 5 13:37:32 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1733 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-rpm | 407 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 407 insertions(+)
 
 commit c3950afefe9f5a7536ae3a3627f6a090ec7a82df
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -922,9 +659,6 @@ Date:   Tue Nov 5 13:10:38 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1732 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- rpm/subnetcalc.spec | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
-
 commit 9775816f58da20d12ad981cc682f1594a279ea62
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Nov 4 11:54:19 2013 +0000
@@ -933,9 +667,6 @@ Date:   Mon Nov 4 11:54:19 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1723 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- rpm/subnetcalc.spec | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 604f9eb3e69d314fd101b75d2352756e6f676282
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -947,11 +678,6 @@ Date:   Sun Nov 3 10:06:20 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1712 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- freebsd/subnetcalc/Makefile       |  2 +-
- freebsd/subnetcalc/distinfo       |  4 ++--
- freebsd/subnetcalc/test-packaging | 17 +++++++++--------
- 3 files changed, 12 insertions(+), 11 deletions(-)
-
 commit 369ae324f02d5e27c02d0eb78565148235490e57
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Oct 25 10:45:15 2013 +0000
@@ -960,9 +686,6 @@ Date:   Fri Oct 25 10:45:15 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1705 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog | 24 ++++++++++++++++++++++++
- 1 file changed, 24 insertions(+)
-
 commit 4faf5dbd65774e90e47d19a1e4606488eb4066ed
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Oct 25 10:42:53 2013 +0000
@@ -970,12 +693,6 @@ Date:   Fri Oct 25 10:42:53 2013 +0000
     Version update.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1704 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac     | 2 +-
- debian/changelog | 4 ++--
- make-ppa         | 2 +-
- subnetcalc.lsm   | 4 ++--
- 4 files changed, 6 insertions(+), 6 deletions(-)
 
 commit 2cbea30a2f318a267b9717fa3f0f00a3bc161b20
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -986,11 +703,6 @@ Date:   Wed Oct 23 18:23:21 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1694 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac     | 20 ++++++++++++--------
- debian/changelog |  6 ++----
- debian/control   |  1 -
- 3 files changed, 14 insertions(+), 13 deletions(-)
-
 commit 78178c488cf0cdceb5889ab1f566350a9811968d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Oct 23 11:32:48 2013 +0000
@@ -999,9 +711,6 @@ Date:   Wed Oct 23 11:32:48 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1686 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog | 10 ++++++++++
- 1 file changed, 10 insertions(+)
-
 commit 4ba86d300509f19e8de460b96561add2da4cc198
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Oct 23 11:29:47 2013 +0000
@@ -1009,13 +718,6 @@ Date:   Wed Oct 23 11:29:47 2013 +0000
     Packaging file updates.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1679 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog        | 25 +++++++++++++++++++++++++
- debian/changelog |  2 +-
- src/Makefile.am  |  2 +-
- subnetcalc.lsm   |  2 +-
- update-changelog |  4 ++++
- 5 files changed, 32 insertions(+), 3 deletions(-)
 
 commit 358d86594b0dd1c3e65ae8d7074f12218a2d2991
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1026,9 +728,6 @@ Date:   Fri Oct 18 21:52:07 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1671 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-ppa | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit f8bfaf90b122e6ecd25964e79ef077cdf49f23a8
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Oct 15 21:00:59 2013 +0000
@@ -1037,12 +736,6 @@ Date:   Tue Oct 15 21:00:59 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1666 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog        | 135 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.ac     |   2 +-
- debian/changelog |   4 +-
- subnetcalc.lsm   |   6 +--
- 4 files changed, 141 insertions(+), 6 deletions(-)
 
 commit 18d9b5a7479c1bc7dcfc46389f2b6a9d2162b1bc
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1053,10 +746,6 @@ Date:   Tue Oct 15 08:02:22 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1665 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 2 ++
- debian/control   | 1 +
- 2 files changed, 3 insertions(+)
-
 commit d9d2c12eb5403e1e0251c83a9e64eac91d3cdbdd
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Oct 14 17:20:41 2013 +0000
@@ -1065,9 +754,6 @@ Date:   Mon Oct 14 17:20:41 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1664 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 1 +
- 1 file changed, 1 insertion(+)
 
 commit e78da7b8bf5376f664a38fa44f74c4f7a6034e11
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1078,9 +764,6 @@ Date:   Thu Sep 26 14:33:31 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1663 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- rpm/subnetcalc.spec | 45 +++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 45 insertions(+)
-
 commit 717ca776f8f5290e79b377a01127c43a06e18173
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Sep 26 14:26:13 2013 +0000
@@ -1089,10 +772,6 @@ Date:   Thu Sep 26 14:26:13 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1662 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac     | 2 +-
- debian/changelog | 5 +++--
- 2 files changed, 4 insertions(+), 3 deletions(-)
 
 commit 66c0e3e0c5a245200b7effe42895417aca4cfe0c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1103,9 +782,6 @@ Date:   Thu Sep 26 14:23:54 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1661 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 35 +++++++++++++++++------------------
- 1 file changed, 17 insertions(+), 18 deletions(-)
-
 commit e4e7689890d90ce776ccfece788ca12a36379921
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Sep 26 14:00:43 2013 +0000
@@ -1114,9 +790,6 @@ Date:   Thu Sep 26 14:00:43 2013 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1660 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 23 ++++++++---------------
- 1 file changed, 8 insertions(+), 15 deletions(-)
 
 commit d0f74e6033c4e53a55dcc4dd6fc1a0236d261687
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1127,9 +800,6 @@ Date:   Thu Sep 26 13:52:39 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1659 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 7 +++++++
- 1 file changed, 7 insertions(+)
-
 commit cae79ce7b32bee126c6a142ceec551ef60392d26
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Sep 26 13:43:13 2013 +0000
@@ -1139,12 +809,6 @@ Date:   Thu Sep 26 13:43:13 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1658 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.1  |  2 +-
- src/subnetcalc.cc | 99 ++++++++++++++++++++++++++++++++++++++++++++-----------
- src/tools.cc      |  2 +-
- src/tools.h       |  2 +-
- 4 files changed, 82 insertions(+), 23 deletions(-)
-
 commit 7c37f67e8ea50ebaccfe7ae4322224953c226c48
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed May 29 16:01:03 2013 +0000
@@ -1152,14 +816,6 @@ Date:   Wed May 29 16:01:03 2013 +0000
     Build system updates.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1648 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- build-deb        |  99 +++++++++++++++++++++++-----
- configure.ac     |   2 +-
- debian/changelog |   4 +-
- debian/control   |   2 +-
- make-deb         | 195 +++++++++++++++++++++++++++++++++----------------------
- make-ppa         |   2 +-
- 6 files changed, 205 insertions(+), 99 deletions(-)
 
 commit b0ca05e92d6f67c33da370aad8a7d17cdaaeaf32
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1170,9 +826,6 @@ Date:   Wed May 29 16:00:55 2013 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1647 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/Makefile.am | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit 10bde0ba23667ae507fb84c087b91ba7856c4c73
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Dec 22 09:10:47 2012 +0000
@@ -1180,9 +833,6 @@ Date:   Sat Dec 22 09:10:47 2012 +0000
     Now using colorgcc.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1611 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac | 1 -
- 1 file changed, 1 deletion(-)
 
 commit 7a2789d637c0dd9524b5b45935939108d2fa9adc
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1192,10 +842,6 @@ Date:   Sat Dec 22 09:08:54 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1610 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac     | 4 ----
- debian/changelog | 8 --------
- 2 files changed, 12 deletions(-)
-
 commit 901c9f369c787394a595116e49588ab604094963
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Dec 22 09:06:17 2012 +0000
@@ -1203,10 +849,6 @@ Date:   Sat Dec 22 09:06:17 2012 +0000
     Now using colorgcc.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1609 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.ac     | 4 ++++
- debian/changelog | 8 ++++++++
- 2 files changed, 12 insertions(+)
 
 commit 63394ba60fde72bf360a11267c395e554ea9cacb
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1218,9 +860,6 @@ Date:   Fri Dec 21 17:33:36 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1597 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- freebsd/subnetcalc/make-shar | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit 6d2be77912fe466f670272bb7965e9a9cf91981f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Dec 21 17:33:09 2012 +0000
@@ -1231,11 +870,6 @@ Date:   Fri Dec 21 17:33:09 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1596 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- freebsd/subnetcalc/Makefile       |  4 ++--
- freebsd/subnetcalc/distinfo       |  5 ++---
- freebsd/subnetcalc/test-packaging | 41 ++++++++++++++++++++++++++++++++++++---
- 3 files changed, 42 insertions(+), 8 deletions(-)
-
 commit b455260316cde26ad8704b3d371d2773f85b1485
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Dec 21 17:01:13 2012 +0000
@@ -1244,9 +878,6 @@ Date:   Fri Dec 21 17:01:13 2012 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1590 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 107 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
 
 commit 027d76753a15bee664cef29f1801ebd1dc7a92c3
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1257,12 +888,6 @@ Date:   Fri Dec 21 17:00:54 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1589 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.ac     | 133 +++++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.in     | 133 -------------------------------------------------------
- debian/changelog |   4 +-
- subnetcalc.lsm   |   4 +-
- 4 files changed, 137 insertions(+), 137 deletions(-)
-
 commit 986f5773dbdd08c3d8c07031ce9ad1f9e7988b7d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Oct 20 21:50:30 2012 +0000
@@ -1270,9 +895,6 @@ Date:   Sat Oct 20 21:50:30 2012 +0000
     Build script updates.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1525 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-ppa | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 25f5d9ad1d5805797772c5b54c5d784877d7044a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1282,17 +904,6 @@ Date:   Sat Aug 25 21:52:30 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1505 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- build-deb        | 45 +++++++++++++++++++++++++++++++++++++++++++++
- clean-deb        |  2 +-
- configure.in     |  2 +-
- debian.conf      |  1 +
- debian/changelog |  4 ++--
- debian/control   |  2 +-
- make-deb         | 26 +++++++++++++++-----------
- make-ppa         |  2 +-
- subnetcalc.lsm   |  6 +++---
- 9 files changed, 70 insertions(+), 20 deletions(-)
-
 commit 777913a89cc6cc010c1e0cecbcec46ac834b9eb1
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jul 20 16:09:09 2012 +0000
@@ -1301,12 +912,6 @@ Date:   Fri Jul 20 16:09:09 2012 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1492 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 12 +++++++++++-
- debian/changelog |  7 ++++---
- debian/control   |  1 +
- src/Makefile.am  |  2 +-
- 4 files changed, 17 insertions(+), 5 deletions(-)
-
 commit 919035e21b8ffc7f7d2afe2e95249c14ef93146c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Dec 14 14:00:30 2011 +0000
@@ -1314,9 +919,6 @@ Date:   Wed Dec 14 14:00:30 2011 +0000
     Fixed detection code for sa_len, sin_len and sin6_len.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1231 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in | 42 +++++++++++++++++++++++++++++-------------
- 1 file changed, 29 insertions(+), 13 deletions(-)
 
 commit dc780c76c5085c67aa0f53413492e9aa7e58e145
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1327,14 +929,6 @@ Date:   Tue Nov 22 14:14:01 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1135 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in               |  2 +-
- debian/changelog           |  6 ++--
- debian/subnetcalc.manpages |  2 +-
- src/Makefile.am            |  2 +-
- src/subnetcalc.1           | 84 ++++++++++++++++++++++++++++++++++++++++++++++
- src/subnetcalc.8           | 84 ----------------------------------------------
- 6 files changed, 90 insertions(+), 90 deletions(-)
-
 commit 0b46d82d07264ebde26ef2471bf0285afc48ae1c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Nov 20 18:21:36 2011 +0000
@@ -1343,9 +937,6 @@ Date:   Sun Nov 20 18:21:36 2011 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1113 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- freebsd/subnetcalc/pkg-plist | 2 --
- 1 file changed, 2 deletions(-)
 
 commit 9339572fdc74cc829719a84a6b1c4fa37c087be2
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1356,13 +947,6 @@ Date:   Thu Oct 20 16:09:00 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1077 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian.conf          |  2 ++
- debian/changelog     |  6 ++++++
- filter-empty-entries | 61 ++++++++++++++++++++++++++++++++++++++++++++++++++++
- make-deb             |  4 ++--
- make-ppa             |  2 +-
- 5 files changed, 72 insertions(+), 3 deletions(-)
-
 commit 1f6ec5369f6940a4d20e152386f177f7fc0215cd
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed May 4 05:43:59 2011 +0000
@@ -1371,9 +955,6 @@ Date:   Wed May 4 05:43:59 2011 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1031 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit e25f033b0f7741538aea3bee5ccf98b3a5d95f42
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1384,10 +965,6 @@ Date:   Wed May 4 05:40:46 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1030 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 9 +++++++--
- debian/control   | 2 +-
- 2 files changed, 8 insertions(+), 3 deletions(-)
-
 commit 1873540ab0bc86964f31b3ec6bd5e0d0fed2338f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue May 3 17:15:05 2011 +0000
@@ -1396,9 +973,6 @@ Date:   Tue May 3 17:15:05 2011 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1025 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 404 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 404 insertions(+)
 
 commit 60129571c94d0cd4d65ccd332d52f72d51170e7d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1409,12 +983,6 @@ Date:   Tue May 3 17:13:14 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1024 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 2 +-
- debian/changelog | 6 +++---
- make-ppa         | 2 +-
- subnetcalc.lsm   | 6 +++---
- 4 files changed, 8 insertions(+), 8 deletions(-)
-
 commit f2b7dfa7565aaa13340034d581dca57c875ba852
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue May 3 17:07:41 2011 +0000
@@ -1423,9 +991,6 @@ Date:   Tue May 3 17:07:41 2011 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@1023 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
 
 commit 24c5c52280d39dfbbd05281a243b8b5fe2f401cb
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1436,9 +1001,6 @@ Date:   Fri Feb 11 22:34:41 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@989 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-deb | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
-
 commit 86f46e4f03622ca5a5c4e2101d289454954ab92d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Feb 2 14:18:54 2011 +0000
@@ -1446,9 +1008,6 @@ Date:   Wed Feb 2 14:18:54 2011 +0000
     make-deb update.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@984 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-deb | 28 ++++++++++++++++++++++------
- 1 file changed, 22 insertions(+), 6 deletions(-)
 
 commit 0c8d5be25c0245866b3b512b69a393c1a1e34d6c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1458,10 +1017,6 @@ Date:   Tue Feb 1 14:25:10 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@978 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-deb | 14 +++++++++-----
- make-ppa |  2 +-
- 2 files changed, 10 insertions(+), 6 deletions(-)
-
 commit 687ccc658e58ed3e98491142f777feb20ae3aa88
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Feb 1 07:46:44 2011 +0000
@@ -1469,11 +1024,6 @@ Date:   Tue Feb 1 07:46:44 2011 +0000
     Debian packaging update.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@961 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog |  4 ++--
- debian/control   | 13 ++++++++++---
- debian/rules     |  4 ++++
- 3 files changed, 16 insertions(+), 5 deletions(-)
 
 commit 4913b8b18a8a7d80fef7f0b8f38fe899bc3c2bbb
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1483,9 +1033,6 @@ Date:   Tue Feb 1 07:27:03 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@955 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- make-deb | 1 -
- 1 file changed, 1 deletion(-)
-
 commit 9bc64ee91d4092cec43b53d9cb9c2d13f5aa9f84
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Feb 1 07:24:54 2011 +0000
@@ -1493,9 +1040,6 @@ Date:   Tue Feb 1 07:24:54 2011 +0000
     Updated make-deb script.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@952 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-deb | 115 ++++++++++++++++++++++++++++++++++++++++++++++++++-------------
- 1 file changed, 92 insertions(+), 23 deletions(-)
 
 commit 6e5cb1461f060484b3581996fd1741e7a10183b7
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1506,10 +1050,6 @@ Date:   Sat Jan 22 14:30:12 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@928 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog |  4 ++--
- make-deb         | 20 +++++++++++++-------
- 2 files changed, 15 insertions(+), 9 deletions(-)
-
 commit 40f253d919f6334416f354f3ceea3654c6d645e3
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Jan 22 10:40:17 2011 +0000
@@ -1517,9 +1057,6 @@ Date:   Sat Jan 22 10:40:17 2011 +0000
     Packaging script update.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@920 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-deb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 commit 75381d7b4aede390a60d2944875b0be123414a61
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1529,9 +1066,6 @@ Date:   Fri Jan 21 23:40:38 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@917 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- clean-deb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit 1f96c3bcd13976a577b528829e81a65c94afe6fa
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jan 21 23:06:51 2011 +0000
@@ -1539,9 +1073,6 @@ Date:   Fri Jan 21 23:06:51 2011 +0000
     Fix for building unstable/default distribution packages.
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@910 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-deb | 1 +
- 1 file changed, 1 insertion(+)
 
 commit e00099f7c6851cc946cfcf42660d0965013f4330
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1552,18 +1083,11 @@ Date:   Fri Jan 21 21:26:50 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@901 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog        | 323 +++++++++----------------------------------------------
- debian/changelog |   2 +-
- 2 files changed, 49 insertions(+), 276 deletions(-)
-
 commit e1008aea3df2a3406a4746f8d14b6c22ce241321
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jan 21 20:54:54 2011 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@896 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/rules | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
 
 commit 5c4178c78e2c63deca21ea11acc96385e1205f4f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1574,19 +1098,6 @@ Date:   Fri Jan 21 20:45:24 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@895 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- clean-deb                  |  3 ++
- debian.conf                |  3 --
- debian/changelog           |  6 ++++
- debian/compat              |  2 +-
- debian/control             |  2 +-
- debian/rules               | 90 ++--------------------------------------------
- debian/source/format       |  1 +
- debian/subnetcalc.install  |  2 +-
- debian/subnetcalc.manpages |  2 +-
- make-deb                   | 76 +++++++++++++++++++++++++--------------
- make-ppa                   |  2 +-
- 11 files changed, 67 insertions(+), 122 deletions(-)
-
 commit 4bfd8aaa2fe0196a85560921898d88c3df82c70c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jan 12 10:26:44 2011 +0000
@@ -1596,17 +1107,11 @@ Date:   Wed Jan 12 10:26:44 2011 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@879 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/source/format | 1 -
- 1 file changed, 1 deletion(-)
-
 commit 0aee32c92ad24cdf4365466ff31e0adffdd59ef3
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Aug 5 19:46:26 2010 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@675 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit d62530649f40ff03ada9ed4d8760d61babd20e39
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1617,9 +1122,6 @@ Date:   Thu Aug 5 19:39:24 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@674 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 11 +++--------
- 1 file changed, 3 insertions(+), 8 deletions(-)
-
 commit e656c3462988bd5f9c5afa9a036859ee712eface
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Aug 5 14:07:05 2010 +0000
@@ -1628,9 +1130,6 @@ Date:   Thu Aug 5 14:07:05 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@673 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- freebsd/subnetcalc/Makefile | 28 ++++++++++++----------------
- 1 file changed, 12 insertions(+), 16 deletions(-)
 
 commit 86b0b1eabe1ddd71ee7113a2a67066962e034b38
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1641,10 +1140,6 @@ Date:   Wed Aug 4 14:32:53 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@672 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 7 +++++++
- debian/control   | 2 +-
- 2 files changed, 8 insertions(+), 1 deletion(-)
-
 commit 84649fe082cf3faec32532dc655c4fbed9541a26
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jul 27 11:42:26 2010 +0000
@@ -1653,9 +1148,6 @@ Date:   Tue Jul 27 11:42:26 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@669 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- freebsd/subnetcalc/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
 
 commit abbe77118e58a59ef163d45fbf92f4e49477078f
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1666,10 +1158,6 @@ Date:   Tue Jul 27 11:35:15 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@668 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog        | 74 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- debian/changelog |  2 +-
- 2 files changed, 75 insertions(+), 1 deletion(-)
-
 commit 68c6604bcf81a52fee74b97860550713ef69b09e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jul 27 11:33:58 2010 +0000
@@ -1678,9 +1166,6 @@ Date:   Tue Jul 27 11:33:58 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@667 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.8 | 1 -
- 1 file changed, 1 deletion(-)
 
 commit 91a943322c69ec96ec654dd18bc072bab4b17dc9
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1691,20 +1176,6 @@ Date:   Tue Jul 27 11:33:13 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@665 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- freebsd/Makefile                  | 33 ---------------------------------
- freebsd/distinfo                  |  3 ---
- freebsd/make-shar                 |  3 ---
- freebsd/pkg-descr                 | 12 ------------
- freebsd/pkg-plist                 |  2 --
- freebsd/subnetcalc/Makefile       | 33 +++++++++++++++++++++++++++++++++
- freebsd/subnetcalc/distinfo       |  3 +++
- freebsd/subnetcalc/make-shar      |  3 +++
- freebsd/subnetcalc/pkg-descr      | 12 ++++++++++++
- freebsd/subnetcalc/pkg-plist      |  2 ++
- freebsd/subnetcalc/test-packaging | 26 ++++++++++++++++++++++++++
- freebsd/test-packaging            | 26 --------------------------
- 12 files changed, 79 insertions(+), 79 deletions(-)
-
 commit f435ae608c825ee7aa637c23080af7b5fcaac725
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jul 27 11:21:45 2010 +0000
@@ -1713,11 +1184,6 @@ Date:   Tue Jul 27 11:21:45 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@664 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- freebsd/Makefile  | 2 +-
- freebsd/distinfo  | 6 +++---
- freebsd/make-shar | 2 +-
- 3 files changed, 5 insertions(+), 5 deletions(-)
 
 commit 5715dbaaae87f604b1d432ba2ba0ac8b68cc3404
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1728,18 +1194,6 @@ Date:   Tue Jul 27 11:06:44 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@663 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- Makefile.am            |  2 ++
- configure.in           |  4 +++-
- debian/changelog       |  6 ++++++
- freebsd/Makefile       | 33 +++++++++++++++++++++++++++++++++
- freebsd/distinfo       |  3 +++
- freebsd/make-shar      |  3 +++
- freebsd/pkg-descr      | 12 ++++++++++++
- freebsd/pkg-plist      |  2 ++
- freebsd/test-packaging | 26 ++++++++++++++++++++++++++
- subnetcalc.lsm         |  6 +++---
- 10 files changed, 93 insertions(+), 4 deletions(-)
-
 commit 56eb6d307ea88e7f1f135668eec38f9ccd603dc5
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jul 16 13:20:04 2010 +0000
@@ -1748,9 +1202,6 @@ Date:   Fri Jul 16 13:20:04 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@631 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/control | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 85ae6cdbdcff661b3ff3c6bc9295fd8ed2c30e71
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1761,9 +1212,6 @@ Date:   Wed Jun 30 20:45:10 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@597 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- subnetcalc.lsm | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
 commit 0e54ff552867a09a8f4ec0c27fe5df8055b37a97
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jun 30 15:24:45 2010 +0000
@@ -1772,9 +1220,6 @@ Date:   Wed Jun 30 15:24:45 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@595 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 50 ++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 50 insertions(+)
 
 commit 71be74566c69cc322acba69a002f6973fb454a6e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1785,10 +1230,6 @@ Date:   Wed Jun 30 15:24:27 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@594 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 2 +-
- debian/changelog | 9 +++------
- 2 files changed, 4 insertions(+), 7 deletions(-)
-
 commit d79dce735e931b16852d8df034c3d63cbb1d53af
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jun 29 20:48:45 2010 +0000
@@ -1798,17 +1239,11 @@ Date:   Tue Jun 29 20:48:45 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@593 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
 commit 801e9c41a0f972a4531745168636ffd91883752d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Jun 19 11:03:22 2010 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@577 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- make-ppa | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 53191ea916c2127211cf5ec403bfa7e8225ee25c
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1819,13 +1254,6 @@ Date:   Sat Jun 19 10:38:17 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@574 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog     | 8 ++++++--
- debian/control       | 2 +-
- debian/source/format | 1 +
- make-deb             | 4 ++--
- make-ppa             | 2 +-
- 5 files changed, 11 insertions(+), 6 deletions(-)
-
 commit 18d60c4334023772c404c6c48cc7944080db016e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Jun 19 09:03:29 2010 +0000
@@ -1835,20 +1263,11 @@ Date:   Sat Jun 19 09:03:29 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@573 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 1 -
- debian/changelog | 2 +-
- src/subnetcalc.8 | 2 +-
- subnetcalc.lsm   | 4 ++--
- 4 files changed, 4 insertions(+), 5 deletions(-)
-
 commit b57de9cca750a64d3ec6c516012584db4387343a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jun 17 10:36:54 2010 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@572 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 92 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 92 insertions(+)
 
 commit 4d32eee73f3cd420820626428b4712382c574a76
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1859,11 +1278,6 @@ Date:   Thu Jun 17 10:36:43 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@571 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 2 +-
- debian/changelog | 4 ++--
- make-ppa         | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
-
 commit 31c64965b5370db494802668010db6a9d644f763
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jun 17 10:09:56 2010 +0000
@@ -1872,10 +1286,6 @@ Date:   Thu Jun 17 10:09:56 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@570 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 8 +++++++-
- src/tools.cc      | 5 +++++
- 2 files changed, 12 insertions(+), 1 deletion(-)
 
 commit 633940345c1c2661d4553e185696c87bfde92031
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1886,12 +1296,6 @@ Date:   Tue Jun 8 09:42:28 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@569 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- autogen.sh        | 5 +++++
- configure.in      | 9 ++++++++-
- debian/changelog  | 4 ++--
- src/subnetcalc.cc | 4 ++++
- 4 files changed, 19 insertions(+), 3 deletions(-)
-
 commit 405cfe9bba22443bb79969fc3b9ba638acf0d832
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jun 7 10:23:41 2010 +0000
@@ -1900,11 +1304,6 @@ Date:   Mon Jun 7 10:23:41 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@568 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in     | 2 +-
- debian.conf      | 2 +-
- debian/changelog | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
 
 commit 1cdf48eac8ca70b8f023c07e6cfd9d7471fb16ea
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1915,9 +1314,6 @@ Date:   Thu Jun 3 19:14:25 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@567 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.8 | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
 commit 77d20e78603650873d916ec140ef2f91d6f1d4a6
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jun 3 18:43:44 2010 +0000
@@ -1926,9 +1322,6 @@ Date:   Thu Jun 3 18:43:44 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@566 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.8 | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit 8a24970907b22d247d18828099adf63afe631d3e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1939,10 +1332,6 @@ Date:   Thu Jun 3 18:38:14 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@565 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 2 +-
- debian/changelog | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
 commit fa90e2952a1b1f5b7078466277dea9fa7734ea82
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jun 3 18:38:06 2010 +0000
@@ -1951,9 +1340,6 @@ Date:   Thu Jun 3 18:38:06 2010 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@564 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.8 | 2 ++
- 1 file changed, 2 insertions(+)
 
 commit 7d7bf7b332b7810edd8dbaca4213f5b04ff7bd2a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1965,19 +1351,11 @@ Date:   Thu Jun 3 18:29:56 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@563 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.8  | 11 +++++++++--
- src/subnetcalc.cc | 44 ++++++++++++++++++++++++++++++++++++++++----
- src/tools.cc      |  5 +++--
- 3 files changed, 52 insertions(+), 8 deletions(-)
-
 commit 2f73693f36c3d0d7c79b670337a3209cdd2197ef
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon May 31 09:53:09 2010 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@560 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
 
 commit d524dfb2172032060a86895fef388fc16203e6d4
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -1990,20 +1368,6 @@ Date:   Mon May 31 09:49:10 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@556 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in      |  31 +++++++++++++++-
- debian/changelog  |   8 ++---
- debian/control    |   2 +-
- debian/copyright  |   6 ++--
- debian/rules      |   1 +
- make-ppa          |   2 +-
- src/Makefile.am   |   2 +-
- src/subnetcalc.8  |  13 ++++---
- src/subnetcalc.cc | 103 +++++++++++++++++++++++++++++++++++++++++++-----------
- src/tools.cc      |  11 ++++--
- src/tools.h       |   2 +-
- subnetcalc.lsm    |   6 ++--
- 12 files changed, 145 insertions(+), 42 deletions(-)
-
 commit 9f02830f2d815ffd7760b57160d9f39cce065688
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon May 24 18:43:15 2010 +0000
@@ -2012,20 +1376,11 @@ Date:   Mon May 24 18:43:15 2010 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@546 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- bootstrap         | 50 +++++++++++++++++++++++++++++---------------------
- configure.in      | 24 ++++++++++++++++++++----
- src/subnetcalc.cc | 36 ++++++++++++++++++------------------
- 3 files changed, 67 insertions(+), 43 deletions(-)
-
 commit d3ad998a55ca091c9be3a985f0458ed4cdd81094
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Nov 8 10:01:15 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@513 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog | 6 ++++++
- make-ppa         | 2 +-
- 2 files changed, 7 insertions(+), 1 deletion(-)
 
 commit 9dc609e30b2a24671d68581b4eaabb24f67ab437
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2036,20 +1391,11 @@ Date:   Wed Jun 10 20:38:30 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@280 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog        | 56 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.in     |  2 +-
- debian/changelog |  7 +++++++
- debian/rules     |  2 +-
- 4 files changed, 65 insertions(+), 2 deletions(-)
-
 commit 480a04e69f0da569adb286209085ec1c3b3e5ae2
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jun 10 10:15:18 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@279 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/control | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit c9b4d8cbe9be1c0d993ed039ece46155d7a93f76
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2060,13 +1406,6 @@ Date:   Mon Jun 8 21:15:49 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@269 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     |  2 +-
- debian/changelog | 14 ++++----------
- debian/control   | 11 +++++++----
- debian/rules     |  2 +-
- subnetcalc.lsm   | 18 +++++++++++-------
- 5 files changed, 24 insertions(+), 23 deletions(-)
-
 commit c7d077e07ed30338a73a6473acae246977ef93de
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Jun 7 19:21:28 2009 +0000
@@ -2076,17 +1415,11 @@ Date:   Sun Jun 7 19:21:28 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@268 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 25 +++++--------------------
- 1 file changed, 5 insertions(+), 20 deletions(-)
-
 commit ad041ba3aa942321ab20b6ba49d4feb5e874382b
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Jun 7 19:19:20 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@267 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/control | 1 -
- 1 file changed, 1 deletion(-)
 
 commit 6c52d1b915dd7b26b038965a38ed2bee0c6ec7ec
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2097,17 +1430,11 @@ Date:   Sat Jun 6 13:46:11 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@264 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- ChangeLog | 61 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 61 insertions(+)
-
 commit d3bc5386d6a4b426a256da9b15dd2e41d6f998e5
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sat Jun 6 13:37:08 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@263 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 1 +
- 1 file changed, 1 insertion(+)
 
 commit 0470b1f52f101f9ce596ffb7a3cf870ecd5a54bc
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2119,11 +1446,6 @@ Date:   Sat Jun 6 13:32:51 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@262 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in      |  2 +-
- debian/changelog  | 21 +++++++++++++++++++++
- src/subnetcalc.cc | 18 +++++++++++++++---
- 3 files changed, 37 insertions(+), 4 deletions(-)
-
 commit e9c02835f55aa32999122fc3e30b9fb670b41363
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Jun 4 20:07:50 2009 +0000
@@ -2132,11 +1454,6 @@ Date:   Thu Jun 4 20:07:50 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@261 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog |  6 +++---
- debian/control   |  1 +
- debian/copyright | 26 +++++---------------------
- 3 files changed, 9 insertions(+), 24 deletions(-)
 
 commit 1bc7c86dca515a9d370a2bc9b027e4b3287b1de8
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2147,17 +1464,11 @@ Date:   Thu Jun 4 10:01:30 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@259 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
 commit 10758993922830307f47eee6801cba537d2b5bff
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jun 3 14:17:59 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@257 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/control | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
 commit e90bcceb13c5871827780d1042b16ff4ed1071a0
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2168,9 +1479,6 @@ Date:   Wed Jun 3 13:03:28 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@255 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
 commit 19b268eb85e6364b45e133cbd0f52aee95ec82a7
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jun 3 12:30:10 2009 +0000
@@ -2180,22 +1488,11 @@ Date:   Wed Jun 3 12:30:10 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@254 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     |  2 +-
- debian/changelog |  5 +++--
- debian/control   |  2 +-
- debian/copyright | 28 +++++++++++++++++++++++++---
- debian/rules     | 12 ++++++++----
- src/subnetcalc.8 |  6 +++---
- 6 files changed, 41 insertions(+), 14 deletions(-)
-
 commit 026d17e8af607147b20bcf0bd7bb10a44be38705
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Wed Jun 3 09:30:07 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@249 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 112 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 112 insertions(+)
 
 commit f061afcb29af918ee23e7403955b6a99f4e8595a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2207,26 +1504,11 @@ Date:   Wed Jun 3 09:29:52 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@248 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- Makefile.am       |  2 +-
- README            | 16 ++++++++++++++++
- configure.in      |  2 +-
- debian.conf       |  2 +-
- debian/changelog  |  4 ++--
- debian/control    |  4 ++--
- src/subnetcalc.8  |  6 +++---
- src/subnetcalc.cc | 47 +++++++++++++++++++++++++++++++++--------------
- subnetcalc.lsm    | 20 ++++++++++++++++++++
- 9 files changed, 79 insertions(+), 24 deletions(-)
-
 commit d4db5c42b60fedd3178f1a107443185abd6457c6
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jun 2 13:40:58 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@246 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in     | 2 +-
- debian/changelog | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
 
 commit 70489bc134467fbf3ecc36a6270f888d26723a15
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2237,11 +1519,6 @@ Date:   Tue Jun 2 13:33:37 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@245 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.8  |  2 +-
- src/subnetcalc.cc | 32 +++++++++++++++++++++++++++-----
- src/t1.cc         | 16 ++++++++++++++++
- 3 files changed, 44 insertions(+), 6 deletions(-)
-
 commit 1c1ce6817af4ba945a9587f4d2b946a55de9d7da
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jun 2 12:57:21 2009 +0000
@@ -2250,14 +1527,6 @@ Date:   Tue Jun 2 12:57:21 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@244 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in      |  74 -------
- src/Makefile.am   |   2 +-
- src/ext_socket.h  | 596 ------------------------------------------------------
- src/subnetcalc.cc |   4 +
- src/tools.cc      | 549 -------------------------------------------------
- src/tools.h       |  40 ----
- 6 files changed, 5 insertions(+), 1260 deletions(-)
 
 commit 6dbdc339b6fd3f6a11937e19072458cd5e32bd9e
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2268,18 +1537,11 @@ Date:   Tue Jun 2 12:46:41 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@243 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 6 ++++++
- 1 file changed, 6 insertions(+)
-
 commit 997dbed05887408325f5f0f40a65f6e977f8c191
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Tue Jun 2 09:52:32 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@240 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/tools.cc | 901 +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- src/tools.h  | 114 ++++++++
- 2 files changed, 1015 insertions(+)
 
 commit f6c65538b76bf8d71b9d4b05f006c8be0d0686c2
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2290,10 +1552,6 @@ Date:   Mon Jun 1 18:12:16 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@238 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 71 ++++++++++++++++++++++++++++++++++++++++++++++++-------
- src/test1         |  3 +++
- 2 files changed, 66 insertions(+), 8 deletions(-)
-
 commit a30746f18aedb22e02dda086c3862a48d3c27b54
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jun 1 16:10:36 2009 +0000
@@ -2303,19 +1561,11 @@ Date:   Mon Jun 1 16:10:36 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@237 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/control | 3 ++-
- debian/rules   | 2 +-
- 2 files changed, 3 insertions(+), 2 deletions(-)
-
 commit bca30974d70c6e7297fd375ef21f99684b435d44
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jun 1 15:56:41 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@236 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog      | 8 ++++++++
- debian/control | 2 +-
- 2 files changed, 9 insertions(+), 1 deletion(-)
 
 commit 0d21d6590cf9488fd30d7ce0b1dc2017053d2508
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2325,11 +1575,6 @@ Date:   Mon Jun 1 15:54:49 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@234 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/Makefile.am   |  2 +-
- src/subnetcalc.cc | 45 +++++++++++++++++++--------------------------
- src/test1         | 18 ++++++++++++++++++
- 3 files changed, 38 insertions(+), 27 deletions(-)
 
 commit c9bda049a150833e5473b0d92ea41b2b1ed6d807
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2342,15 +1587,6 @@ Date:   Mon Jun 1 15:24:43 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@232 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- Makefile.am       |   2 -
- configure.in      | 115 +++++++++++++++++++++++++++++++++++++++++++++++++++++-
- debian/changelog  |   4 +-
- debian/control    |  10 +++--
- make-ppa          |   6 +++
- src/subnetcalc.8  |  30 ++++++++++----
- src/subnetcalc.cc |  71 ++++++++++++++++++++++++++++-----
- 7 files changed, 212 insertions(+), 26 deletions(-)
-
 commit 19482c3c7687a343453f44e5cbff3eedabe357e0
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jun 1 14:43:14 2009 +0000
@@ -2359,9 +1595,6 @@ Date:   Mon Jun 1 14:43:14 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@231 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 152 ++++++++++++++++++++++++++++++++++++++++++++++++++----
- 1 file changed, 142 insertions(+), 10 deletions(-)
 
 commit 49444aedcae2d8a80c246e81087dbe3daabf9191
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2372,9 +1605,6 @@ Date:   Mon Jun 1 13:38:51 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@230 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/subnetcalc.cc | 94 ++++++++++++++++++++++++++++++++++++++++++++++---------
- 1 file changed, 80 insertions(+), 14 deletions(-)
-
 commit bddd14ea88f4bbbe50892e2398b8eae7205bcda7
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Mon Jun 1 13:03:22 2009 +0000
@@ -2383,9 +1613,6 @@ Date:   Mon Jun 1 13:03:22 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@229 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- src/subnetcalc.cc | 329 ++++++++++++++++++++++++++++++++++++------------------
- 1 file changed, 221 insertions(+), 108 deletions(-)
 
 commit 88fcedb6b27040024985e3fc927e7684bfc65178
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2396,21 +1623,11 @@ Date:   Mon Jun 1 11:52:26 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@228 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- src/Makefile.am   |   2 +-
- src/ext_socket.h  | 596 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- src/subnetcalc.cc | 326 ++++++++++++++++++++---------
- 3 files changed, 824 insertions(+), 100 deletions(-)
-
 commit a690fdd1f1cc9de0622c76398bf9d4a5d010252b
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Apr 30 09:24:57 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@181 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog        | 92 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- configure.in     |  2 +-
- debian/changelog |  4 +--
- 3 files changed, 95 insertions(+), 3 deletions(-)
 
 commit c98da27fe1fceed3625c0c5960d2650c3583423d
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2421,20 +1638,11 @@ Date:   Sat Feb 21 13:40:08 2009 +0000
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@171 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian/changelog | 4 ++--
- debian/control   | 2 --
- 2 files changed, 2 insertions(+), 4 deletions(-)
-
 commit 647f8055d54cecd9750adac2694990d4f5bb609a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Feb 15 19:25:12 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@168 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in     | 2 +-
- debian/changelog | 4 ++--
- src/subnetcalc.8 | 2 +-
- 3 files changed, 4 insertions(+), 4 deletions(-)
 
 commit f3408fd41284c7faa26c0add04f71c15dfb9bf28
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2442,19 +1650,11 @@ Date:   Sun Feb 15 19:04:21 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@166 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian.conf |  2 ++
- make-deb    | 51 ++++++++++++++++++++++++++++++++++++++++++++++++---
- 2 files changed, 50 insertions(+), 3 deletions(-)
-
 commit d3035cd75ff814f715efe409d73ce51cb17508c4
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Sun Feb 15 18:54:04 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@165 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- configure.in     | 2 +-
- debian/changelog | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
 
 commit d4e0aefe3e41aafec31915aab659bad05317b07a
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2462,20 +1662,11 @@ Date:   Fri Feb 6 08:33:21 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@153 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- configure.in     | 2 +-
- debian/changelog | 4 ++--
- src/subnetcalc.8 | 6 +++---
- 3 files changed, 6 insertions(+), 6 deletions(-)
-
 commit f91a0ccad44f7e8dc6e45d7121e5e84aae174478
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Thu Feb 5 14:56:09 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@152 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- debian/changelog | 4 ++--
- debian/watch     | 3 +--
- 2 files changed, 3 insertions(+), 4 deletions(-)
 
 commit e5ca97e2bb155f7328858f39c0033ac4866be713
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2483,18 +1674,11 @@ Date:   Wed Feb 4 13:38:00 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@151 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
 
- debian.conf      | 2 +-
- debian/changelog | 4 ++--
- 2 files changed, 3 insertions(+), 3 deletions(-)
-
 commit ee0a4969c51a03dabca8821d8b36d9f5a05beee7
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
 Date:   Fri Jan 30 08:34:07 2009 +0000
 
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@149 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- ChangeLog | 6 ++++++
- 1 file changed, 6 insertions(+)
 
 commit 81ea324f3a8eab467da8b8fbc67ad3e92f0021ac
 Author: dreibh <dreibh@acdd8558-d4fd-0310-b0a5-8cf3c1ec824a>
@@ -2504,29 +1688,3 @@ Date:   Fri Jan 30 08:25:43 2009 +0000
     
     
     git-svn-id: https://svn.tdr.iem.uni-due.de:8443/svn/sctp-misc/trunk/subnetcalc@148 acdd8558-d4fd-0310-b0a5-8cf3c1ec824a
-
- AUTHORS                    |   1 +
- BUGS                       |   0
- COPYING                    | 674 +++++++++++++++++++++++++++++++++++++++++++++
- ChangeLog                  |   0
- INSTALL                    | 237 ++++++++++++++++
- Makefile.am                |   5 +
- NEWS                       |   0
- README                     |   0
- bootstrap                  |  45 +++
- clean-deb                  |  25 ++
- configure.in               |  15 +
- debian.conf                |   8 +
- debian/changelog           |   5 +
- debian/compat              |   1 +
- debian/control             |  18 ++
- debian/copyright           |  27 ++
- debian/rules               |  84 ++++++
- debian/subnetcalc.install  |   1 +
- debian/subnetcalc.manpages |   1 +
- debian/watch               |   3 +
- make-deb                   | 112 ++++++++
- src/Makefile.am            |   6 +
- src/subnetcalc.8           |  55 ++++
- src/subnetcalc.cc          | 194 +++++++++++++
- 24 files changed, 1517 insertions(+)
