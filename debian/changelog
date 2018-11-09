@@ -1,3 +1,10 @@
+subnetcalc (2.4.11~rc1.0-1ubuntu1) disco; urgency=low
+
+  * New upstream version.
+  * debian/control: updated standards version.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Fri, 09 Nov 2018 08:08:08 +0200
+
 subnetcalc (2.4.10-1ubuntu1) cosmic; urgency=low
 
   * New upstream version.
