@@ -1,4 +1,4 @@
 #!/bin/sh -e
 
 LANG=C
-git log --stat . >ChangeLog.new && mv ChangeLog.new ChangeLog
+git log -v . >ChangeLog.new && mv ChangeLog.new ChangeLog

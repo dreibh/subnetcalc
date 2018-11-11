@@ -1,0 +1,72 @@
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
+
+import os
+import re
+import sys
+
+
+dep = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\(.*\))[\s]*$')
+
+def extractDependencies(line):
+   # Remove "build-depends:", etc.:
+   m = re.match(r'^(.*:)(.*$)', line)
+   if m != None:
+      line = m.group(2)
+   line = line.strip()
+
+   # Split into segments
+   for l in line.split(','):
+      l = l.strip()
+      m = dep.match(l)
+      if m != None:
+         sys.stdout.write(m.group(1) + ' ')
+
+
+if len(sys.argv) != 2:
+   sys.stderr.write('Usage: ' + sys.argv[0] + ' debian|ubuntu|fedora\n')
+   sys.exit(1)
+
+if ((sys.argv[1] == 'debian') or  (sys.argv[1] == 'ubuntu')):
+   if os.path.exists('debian/control'):
+      with open('debian/control', 'r') as fp:
+         inside = False
+         for line in fp:
+            if not line:
+               break
+            line_lower = line.lower()
+            if inside:
+               if line.startswith((' ', "\t")):
+                  extractDependencies(line)
+                  continue
+               elif line.startswith('#'):
+                  continue
+               inside = False
+            if line_lower.startswith(('build-depends:', 'build-depends-indep:')):
+               extractDependencies(line)
+               inside = True
+   sys.stdout.write('\n')
+
+elif sys.argv[1] == 'fedora':
+   if os.path.exists('rpm/tsctp.spec'):
+      with open('rpm/tsctp.spec', 'r') as fp:
+         inside = False
+         for line in fp:
+            if not line:
+               break
+            line_lower = line.lower()
+            if inside:
+               if line.startswith((' ', "\t")):
+                  extractDependencies(line)
+                  continue
+               elif line.startswith('#'):
+                  continue
+               inside = False
+            if line_lower.startswith('buildrequires:'):
+               extractDependencies(line)
+               inside = True
+   sys.stdout.write('\n')
+
+else:
+   sys.stderr.write('ERROR: Invalid system ' + sys.argv[1] + '!\n')
+   sys.exit(1)

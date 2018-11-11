@@ -1,3 +1,11 @@
+subnetcalc (2.4.10-1ubuntu1) cosmic; urgency=low
+
+  * New upstream version.
+  * debian/upstream/metadata: added metadata file.
+  * debian/tests/control: added tests control file.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 17 Oct 2018 08:08:08 +0800
+
 subnetcalc (2.4.9-1ubuntu1) bionic; urgency=low
 
   * New upstream version.

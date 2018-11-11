@@ -22,8 +22,8 @@
 # ---------------------------------------------------------------------------
 # USAGE:
 # ./make-rpm default            => for default distribution (F18, amd64)
-# ./make-rpm fedora-27-x86_64   => F27, amd64
-# ./make-rpm fedora-27-i386     => F27, i386
+# ./make-rpm fedora-30-x86_64   => F30, amd64
+# ./make-rpm fedora-30-i386     => F30, i386
 # ...
 # ---------------------------------------------------------------------------
 
@@ -36,7 +36,7 @@ while [ x$1 != "x" ] ; do \
 done \
 ) | sort -u`
 if [ "$DISTRIBUTIONS" == "" ] ; then
-   DISTRIBUTIONS="fedora-27-x86_64"
+   DISTRIBUTIONS="fedora-rawhide-x86_64"
 fi
 
 PACKAGE=`grep "^Name:" rpm/*.spec | head -n1 | sed -e "s/Name://g" -e "s/[ \t]*//g"`
@@ -150,17 +150,25 @@ for DISTRIBUTION in $DISTRIBUTIONS ; do
    echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating binary RPM for $DISTRIBUTION ==========\x1b[0m"
    echo -e ""
 
+   if [ ! -e "/etc/mock/$DISTRIBUTION.cfg" ] ; then
+      echo >&2 "ERROR: Cannot find /etc/mock/$DISTRIBUTION.cfg!"
+      exit 1
+   fi
+   # NOTE: DISTRIBUTION may point to another directory (e.g. "rawhide" instead of "30")!
+   distribution=`grep "config_opts..root.. =" /etc/mock/$DISTRIBUTION.cfg | sed -e "s/^.* = //g" -e "s/'//g"`
+
    # Remove old files
    find /var/lib/mock/$DISTRIBUTION/result -name "$PACKAGE-*.rpm" | xargs --no-run-if-empty rm -f
 
    # Build the binary RPM
-   mock -r $DISTRIBUTION --init
-   mock -r $DISTRIBUTION --installdeps $PACKAGE_SRPM
-   mock -r $DISTRIBUTION --install openssl pesign
-   mock -r $DISTRIBUTION --no-clean --rebuild $PACKAGE_SRPM
+   # NOTE: using old chroot instead of container, to allow running it inside a container!
+   mock -r $DISTRIBUTION --old-chroot --init
+   mock -r $DISTRIBUTION --old-chroot --installdeps $PACKAGE_SRPM
+   mock -r $DISTRIBUTION --old-chroot --install openssl pesign
+   mock -r $DISTRIBUTION --old-chroot --no-clean --rebuild $PACKAGE_SRPM
 
    # Check whether files are at the right location
-   PACKAGE_RPMS=`find /var/lib/mock/$DISTRIBUTION/result -name "$PACKAGE-*$PACKAGE_VERSION*-*.rpm" | grep -v "$PACKAGE-*$PACKAGE_VERSION*-*.src.rpm" || true`
+   PACKAGE_RPMS=`find /var/lib/mock/$distribution/result -name "$PACKAGE-*$PACKAGE_VERSION*-*.rpm" | grep -v "$PACKAGE-*$PACKAGE_VERSION*-*.src.rpm" || true`
    if [ "$PACKAGE_RPMS" == "" ] ; then
       echo >&2 "ERROR: Cannot find RPMs!"
       exit 1

@@ -1,0 +1,112 @@
+#!/bin/bash -e
+#
+# Travis CI Scripts
+# Copyright (C) 2018-2019 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@iem.uni-due.de
+
+
+# ###### Linux ##############################################################
+if [ "$TRAVIS_OS_NAME" == "linux" ] ; then
+   # ====== Ubuntu Linux ====================================================
+   if [ "$VARIANT" == "ubuntu" -o "$VARIANT" == "debian" ] ; then
+      UBUNTU_DEPS="`ci/get-dependencies $VARIANT`"
+
+      sudo docker exec -t ubuntu-test bash -c "apt-get update"
+      sudo docker exec -t ubuntu-test bash -c "apt-get install -y eatmydata"
+
+      # ====== Ubuntu/Debian: set up compiler ===============================
+      if [ "$TOOL" == "compile" ] ; then
+         sudo docker exec -t ubuntu-test bash -c "eatmydata apt-get install -y clang ${UBUNTU_DEPS}"
+
+      # ====== Ubuntu/Debian: set up pbuilder ===============================
+      elif [ "$TOOL" == "pbuilder" ] ; then
+         sudo docker exec -t ubuntu-test bash -c "eatmydata apt-get install -y devscripts pbuilder ${UBUNTU_DEPS}"
+
+         distribution=`sudo docker exec -t ubuntu-test bash -c "lsb_release -cs" | sed -e "s/[^0-9a-zA-Z]//g"`
+         if [ "$VARIANT" == "debian" ] ; then
+            if [[ "$DOCKER" =~ ^(debian:)(.*)$ ]] ; then
+               distribution="${BASH_REMATCH[2]}"
+            fi
+         fi
+         echo "distribution=$distribution"
+
+         if [ "$VARIANT" = u"buntu" ] ; then
+            mirror="http://us.archive.ubuntu.com/ubuntu/"
+         else
+            mirror="http://deb.debian.org/debian"
+         fi
+         echo "mirror=$mirror"
+
+         sudo docker exec -t ubuntu-test bash -c "cat >/etc/pbuilderrc <<EOF
+DISTRIBUTION=$distribution
+COMPONENTS=\"main universe\"
+MIRRORSITE=$mirror
+APTCACHEHARDLINK=no
+EXTRAPACKAGES=eatmydata
+EATMYDATA=yes
+EOF
+"
+         sudo docker exec -t ubuntu-test bash -c "cat /etc/pbuilderrc"
+         sudo docker exec -t ubuntu-test bash -c "eatmydata pbuilder create --debootstrapopts --variant=buildd"
+
+         # ====== Ubuntu: add ppa:dreibh/ppa ================================
+         if [ "$VARIANT" == "ubuntu" ] ; then
+            sudo docker exec -t ubuntu-test bash -c "pbuilder login --save-after-login <<EOF
+apt install -y software-properties-common
+apt-add-repository -sy ppa:dreibh/ppa
+apt-get update
+EOF
+"
+         fi
+
+      else
+         echo >&2 "ERROR: Invalid setting of TOOL=$TOOL"
+         exit 1
+      fi
+
+   # ======Fedora Core Linux ================================================
+   elif [ "$VARIANT" == "fedora" ] ; then
+      FEDORA_DEPS="`ci/get-dependencies $VARIANT`"
+
+      # ====== Fedora: set up compiler ======================================
+      if [ "$TOOL" == "compile" ] ; then
+         sudo docker exec -t ubuntu-test bash -c "dnf install -y make clang ${FEDORA_DEPS}"
+
+      # ====== Fedora: set up pbuilder ======================================
+      elif [ "$TOOL" == "mock" ] ; then
+         sudo docker exec -t ubuntu-test bash -c "dnf install -y make findutils rpmdevtools fedora-release mock ${FEDORA_DEPS}"
+
+      else
+         echo >&2 "ERROR: Invalid setting of TOOL=$TOOL"
+         exit 1
+      fi
+
+   # ======Fedora Core Linux ================================================
+   else
+      echo >&2 "ERROR: Invalid setting of VARIANT=$VARIANT"
+      exit 1
+   fi
+
+# ###### Other ##############################################################
+elif [ "$TRAVIS_OS_NAME" == "osx" ] ; then
+   echo "TBD"
+
+# ###### Error ##############################################################
+else
+   echo >&2 "ERROR: Invalid setting of TRAVIS_OS_NAME=$TRAVIS_OS_NAME"
+   exit 1
+fi

@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.9
+Version: 2.4.10
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -9,6 +9,8 @@ Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.ta
 
 AutoReqProv: on
 BuildRequires: cmake
+BuildRequires: gcc
+BuildRequires: gcc-c++
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
