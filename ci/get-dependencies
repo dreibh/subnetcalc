@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 # -*- coding: utf-8 -*-
 
+import glob
 import os
 import re
 import sys
@@ -48,8 +49,9 @@ if ((sys.argv[1] == 'debian') or  (sys.argv[1] == 'ubuntu')):
    sys.stdout.write('\n')
 
 elif sys.argv[1] == 'fedora':
-   if os.path.exists('rpm/tsctp.spec'):
-      with open('rpm/tsctp.spec', 'r') as fp:
+   specFiles = glob.glob('rpm/*.spec')
+   if len(specFiles) > 0:
+      with open(specFiles[0], 'r') as fp:
          inside = False
          for line in fp:
             if not line:
