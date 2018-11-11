@@ -6,7 +6,7 @@ import re
 import sys
 
 
-dep = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\(.*\))[\s]*$')
+dep = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\|.*|\(.*)[\s]*$')
 
 def extractDependencies(line):
    # Remove "build-depends:", etc.:
