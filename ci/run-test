@@ -1,0 +1,6 @@
+#!/bin/bash -e
+
+for script in before-install install build ; do
+   sudo env TRAVIS_OS_NAME=linux DOCKER="ubuntu:bionic" VARIANT="ubuntu" TOOL="pbuilder" ci/${script}
+done
+

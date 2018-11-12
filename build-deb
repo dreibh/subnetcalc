@@ -111,4 +111,4 @@ if [ ! -e "$changesFile" ] ; then
     echo >&2 "ERROR: Unable to find changes file $changesFile!"
     exit 1
 fi
-lintian -iIEv --pedantic $changesFilesPattern
+lintian -iIEv --pedantic $changesFilesPattern || true
