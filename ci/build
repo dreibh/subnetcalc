@@ -28,7 +28,7 @@ if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
 
    elif [ "$TOOL" = "pbuilder" ] ; then
      sudo docker exec -t ubuntu-test bash -c "sed -e 's/SKIP_PACKAGE_SIGNING=0/SKIP_PACKAGE_SIGNING=1/g' -i debian.conf"
-     sudo docker exec -t ubuntu-test bash -c "env LANG=C.UTF-8 ./build-deb"
+     sudo docker exec -t ubuntu-test bash -c "env LANG=C.UTF-8 eatmydata ./build-deb"
 
    elif [ "$TOOL" = "mock" ] ; then
       sudo docker exec -t ubuntu-test bash -c "cat /etc/fedora-release"
