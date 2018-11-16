@@ -80,7 +80,7 @@ fi
 echo -e ""
 echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Calling wrap-and-sort ==========================================\x1b[0m"
 echo -e ""
-wrap-and-sort -a -v || exit 1
+wrap-and-sort -a -v || true
 
 
 echo -e ""

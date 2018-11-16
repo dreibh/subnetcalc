@@ -104,6 +104,7 @@ echo \"Package repositories:\"
 cat /etc/apt/sources.list
 cat /etc/apt/sources.list.d/*
 echo \"---\"
+apt-get dist-upgrade -y
 EOF"
             wait
             sudo docker exec ubuntu-test bash -c "ls -l /var/cache/pbuilder/base.tgz"
@@ -118,6 +119,7 @@ apt-get update || true
 echo \"Package repositories:\"
 cat /etc/apt/sources.list
 echo \"---\"
+apt-get dist-upgrade -y
 EOF"
             wait
          fi
