@@ -31,6 +31,8 @@ import sys
 dep = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\|.*|\(.*)[\s]*$')
 
 def extractDependencies(line, variant):
+   dependencies = []
+
    # Remove "build-depends:", etc.:
    m = re.match(r'^(.*:)(.*$)', line)
    if m != None:
@@ -56,18 +58,28 @@ def extractDependencies(line, variant):
                except:
                   pass
 
-         sys.stdout.write(dependency + ' ')
+         dependencies.append(dependency)
+
+   return dependencies
 
 
 # ###### Main program #######################################################
 
 # ====== Check arguments ====================================================
-if len(sys.argv) != 2:
-   sys.stderr.write('Usage: ' + sys.argv[0] + ' debian|ubuntu|fedora\n')
+if len(sys.argv) < 2:
+   sys.stderr.write('Usage: ' + sys.argv[0] + ' debian|ubuntu|fedora [-i|--install]\n')
    sys.exit(1)
-variant = sys.argv[1]
+variant    = sys.argv[1]
+runInstall = False
+for i in range(2, len(sys.argv)):
+   if sys.argv[i] == '-i' or sys.argv[i] == '--install':
+      runInstall = True
+   else:
+      sys.stderr.write('ERROR: Bad parameter ' + sys.argv[i] + '!')
+      sys.exit(1)
 
 # ====== Debian/Ubuntu ======================================================
+dependencies = [ ]
 if ((variant == 'debian') or  (variant == 'ubuntu')):
    if os.path.exists('debian/control'):
       with open('debian/control', 'r') as fp:
@@ -78,15 +90,22 @@ if ((variant == 'debian') or  (variant == 'ubuntu')):
             line_lower = line.lower()
             if inside:
                if line.startswith((' ', "\t")):
-                  extractDependencies(line, variant)
+                  dependencies = dependencies + extractDependencies(line, variant)
                   continue
                elif line.startswith('#'):
                   continue
                inside = False
             if line_lower.startswith(('build-depends:', 'build-depends-indep:')):
-               extractDependencies(line, variant)
+               dependencies = dependencies + extractDependencies(line, variant)
                inside = True
-   sys.stdout.write('\n')
+
+      for dependency in sorted(dependencies):
+          sys.stdout.write(dependency + ' ')
+      sys.stdout.write('\n')
+
+      if runInstall == True:
+         subprocess.call([ 'apt-get', 'install', '-y' ] + dependencies)
+
 
 # ====== Fedora =============================================================
 elif variant == 'fedora':
@@ -100,15 +119,21 @@ elif variant == 'fedora':
             line_lower = line.lower()
             if inside:
                if line.startswith((' ', "\t")):
-                  extractDependencies(line, variant)
+                  dependencies = dependencies + extractDependencies(line, variant)
                   continue
                elif line.startswith('#'):
                   continue
                inside = False
             if line_lower.startswith('buildrequires:'):
-               extractDependencies(line, variant)
+               dependencies = dependencies + extractDependencies(line, variant)
                inside = True
-   sys.stdout.write('\n')
+
+      for dependency in sorted(dependencies):
+          sys.stdout.write(dependency + ' ')
+      sys.stdout.write('\n')
+
+      if runInstall == True:
+         subprocess.call([ 'dnf', 'install', '-y' ] + dependencies)
 
 # ====== Error ==============================================================
 else:

@@ -25,6 +25,7 @@ if [ "$TRAVIS_OS_NAME" = "linux" ] ; then
    sudo docker run -d \
       --name ubuntu-test \
       --tmpfs /var/cache/pbuilder:rw,exec,dev,size=4g \
+      --tmpfs /var/lib/mock:rw,exec,dev,size=4g \
       --cap-add=SYS_ADMIN --cap-add=NET_ADMIN \
       --security-opt apparmor:unconfined \
       -v $(pwd):/travis -w /travis \
