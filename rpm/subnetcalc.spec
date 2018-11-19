@@ -37,5 +37,5 @@ make DESTDIR=%{buildroot} install
 %doc
 
 %changelog
-* Wed Nov 22 2017-2019 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
+* Wed Nov 22 2017 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.2.0
 - Created RPM package.
