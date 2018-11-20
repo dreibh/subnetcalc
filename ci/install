@@ -62,7 +62,7 @@ if [ "$TRAVIS_OS_NAME" == "linux" ] ; then
          fi
          echo "mirror=$mirror"
 
-         # ====== PBuilder environment ======================================
+         # ====== pbuilder environment ======================================
          echo "Creating pbuilder environment ..."
          sudo docker exec ubuntu-test bash -c "cat >/etc/pbuilderrc <<OUTER-EOF
 DISTRIBUTION=$distribution

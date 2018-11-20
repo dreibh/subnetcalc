@@ -69,11 +69,11 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating binary RPM for ${DISTRIBUTION} ==========\x1b[0m"
    echo -e ""
 
+   # NOTE: DISTRIBUTION may point to another directory (e.g. "rawhide" instead of "30")!
    if [ ! -e "/etc/mock/${DISTRIBUTION}.cfg" ] ; then
       echo >&2 "ERROR: Cannot find /etc/mock/${DISTRIBUTION}.cfg!"
       exit 1
    fi
-   # NOTE: DISTRIBUTION may point to another directory (e.g. "rawhide" instead of "30")!
    distribution=`grep "config_opts..root.. =" /etc/mock/${DISTRIBUTION}.cfg | sed -e "s/^.* = //g" -e "s/'//g"`
 
    # Remove old files
