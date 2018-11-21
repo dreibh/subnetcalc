@@ -54,7 +54,6 @@ echo -e "\x1b[34m###########################################\x1b[0m"
 # ====== Create source RPM ==================================================
 ./make-srpm
 
-echo find $HOME/rpmbuild/SRPMS/ -name "${PACKAGE}-*${PACKAGE_VERSION}*-*.src.rpm"
 PACKAGE_SRPM=`find $HOME/rpmbuild/SRPMS/ -name "${PACKAGE}-*${PACKAGE_VERSION}*-*.src.rpm"`
 if [ ! -e "${PACKAGE_SRPM}" ] ; then
    echo >&2 "ERROR: Cannot find SRPM ${PACKAGE}-*${PACKAGE_VERSION}*-*.src.rpm in $HOME/rpmbuild/SRPMS!"
