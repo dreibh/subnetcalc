@@ -39,14 +39,17 @@ echo -e "\x1b[34m###########################################\x1b[0m"
 # ====== Check with Debian package's version ================================
 if [ -e debian/changelog ] ; then
    DEBIAN_CHANGELOG_HEADER="`head -n1 debian/changelog`"
+
    # The package name, e.g. MyApplication
    DEBIAN_PACKAGE=`echo ${DEBIAN_CHANGELOG_HEADER} | sed -e "s/(.*//" -e "s/ //g"`
+   # The package distribution, e.g. precise, raring, ...
+   DEBIAN_PACKAGE_DISTRIBUTION=`echo ${DEBIAN_CHANGELOG_HEADER} | sed -e "s/[^)]*)//" -e "s/;.*//g" -e "s/ //g"`
    # The package's version, e.g. 1.2.3-1ubuntu1
-   DEBIAN_PACKAGE_VERSION=`echo ${DEBIAN_CHANGELOG_HEADER} | sed -e "s/.*(//" -e "s/).*//" -e "s/ //g" -e "s/ //g"`
+   DEBIAN_PACKAGE_VERSION=`echo ${DEBIAN_CHANGELOG_HEADER} | sed -e "s/.*(//" -e "s/).*//" -e "s/ //g" -e "s/ //g" -e "s/^[0-9]://g"`
    # The package's output version, e.g. 1.2.3-1ubuntu
-   DEBIAN_OUTPUT_VERSION=`echo ${DEBIAN_PACKAGE_VERSION}   | sed -e "s/\(ubuntu\)[0-9]*$/\1/"`
+   DEBIAN_OUTPUT_VERSION=`echo ${DEBIAN_PACKAGE_VERSION}   | sed -e "s/\(ubuntu\|ppa\)[0-9]*$/\1/"`
    # The package's Debian version, e.g. 1.2.3-1
-   DEBIAN_VERSION=`echo ${DEBIAN_OUTPUT_VERSION}    | sed -e "s/ubuntu$//1"`
+   DEBIAN_VERSION=`echo ${DEBIAN_OUTPUT_VERSION}    | sed -e "s/\(ubuntu\|ppa\)$//1"`
    # The package's upstream version, e.g. 1.2.3
    DEBIAN_UPSTREAM_VERSION=`echo ${DEBIAN_VERSION}  | sed -e "s/-[0-9]*$//"`
 

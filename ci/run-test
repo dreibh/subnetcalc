@@ -7,13 +7,13 @@ export TRAVIS_OS_NAME="linux"
 # export VARIANT="debian"
 # export TOOL="pbuilder"
 
-# export DOCKER="ubuntu:bionic"
-# export VARIANT="ubuntu"
-# export TOOL="pbuilder"
+export DOCKER="ubuntu:cosmic"
+export VARIANT="ubuntu"
+export TOOL="pbuilder"
 
-export DOCKER="fedora:30"
-export VARIANT="fedora"
-export TOOL="mock"
+# export DOCKER="fedora:30"
+# export VARIANT="fedora"
+# export TOOL="mock"
 
 
 SCRIPTS="before-install install build test"
