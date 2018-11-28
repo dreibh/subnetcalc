@@ -89,7 +89,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
       # ====== Ubuntu/Debian: set up compiler ===============================
       if [ "${TOOL}" == "compile" ] ; then
          echo "###### Installing compile environment ... #############################"
-         sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} joe clang ${UBUNTU_DEPS}
+         sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} build-essential joe clang ${UBUNTU_DEPS}
 
 
       # ====== Ubuntu/Debian: set up pbuilder ===============================
