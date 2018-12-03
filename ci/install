@@ -20,7 +20,7 @@
 
 
 CONTAINER="ubuntu-test"
-UBUNTU_MIRROR="se.archive.ubuntu.com"
+UBUNTU_MIRROR="archive.ubuntu.com"
 
 
 # ###### Linux ##############################################################

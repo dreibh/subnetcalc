@@ -18,13 +18,20 @@
 #
 # Contact: dreibh@iem.uni-due.de
 
-. ./debian.conf
 
+# ====== Obtain package information =========================================
 CHANGELOG_HEADER="`head -n1 debian/changelog`"
-PACKAGE=`echo $CHANGELOG_HEADER | sed -e "s/(.*//" -e "s/ //g"`
+PACKAGE=`echo ${CHANGELOG_HEADER} | sed -e "s/(.*//" -e "s/ //g"`
 
+
+# ====== Clean up ===========================================================
 rm -f *.deb *.dsc *.asc *.changes *.build *.upload *.tar.gz stamp-h* svn-commit* *~
-rm -rf $PACKAGE-*.gz $PACKAGE"_"*.gz $PACKAGE-*.bz2 $PACKAGE"_"*.bz2
+
+for type in gz bz2 xz ; do
+   find . -maxdepth 1 -name "${PACKAGE}-*.${type}" | xargs -r rm
+   find . -maxdepth 1 -name "${PACKAGE}_*.${type}" | xargs -r rm
+done
+find . -maxdepth 1 -name "*.buildinfo" | xargs -r rm
 
 shopt -s extglob
-rm -rf $PACKAGE-+([0-9]).+([0-9]).+([0-9])*
+rm -rf ${PACKAGE}-+([0-9]).+([0-9]).+([0-9])*

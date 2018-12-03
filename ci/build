@@ -39,7 +39,11 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          echo >&2 "WARNING: No build system detected. Trying to just call \"make\" ..."
       fi
 
-      sudo docker exec ubuntu-test env LANG=C.UTF-8 make VERBOSE=1
+      cores=`sudo docker exec ubuntu-test env LANG=C.UTF-8 getconf _NPROCESSORS_ONLN 2>/dev/null || true`
+      if [ $cores -gt 1 ] ; then
+         MAKEFLAGS="-j${cores}"
+      fi
+      sudo docker exec ubuntu-test env LANG=C.UTF-8 MAKEFLAGS=${MAKEFLAGS} make   # VERBOSE=1
 
    elif [ "${TOOL}" == "pbuilder" ] ; then
       echo "###### Running pbuilder ... ###########################################"
@@ -61,7 +65,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
 # ###### Other ##############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
    cmake .
-   make VERBOSE=1
+   make   # VERBOSE=1
 
 
 # ###### Error ##############################################################
