@@ -25,15 +25,15 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
       echo "###### Compiling ... ##################################################"
 
       if [ -e CMakeLists.txt ] ; then
-         sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} cmake .
+         sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} cmake . $@
       elif [ -e configure.ac -o -e configure.in ] ; then
          if [ -e bootstrap ] ; then
             sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./bootstrap
-            sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./configure
+            sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./configure $@
          elif [ -e autogen.sh ] ; then
             sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./autogen.sh
          else
-            sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./configure
+            sudo docker exec ubuntu-test env LANG=C.UTF CC=${COMPILER_C} CXX=${COMPILER_CXX} ./configure $@
          fi
       else
          echo >&2 "WARNING: No build system detected. Trying to just call \"make\" ..."
@@ -64,8 +64,8 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
 
 # ###### Other ##############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
-   cmake .
-   make   # VERBOSE=1
+   cmake . $@
+   make VERBOSE=1
 
 
 # ###### Error ##############################################################
