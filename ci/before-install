@@ -24,19 +24,20 @@ CONTAINER="ubuntu-test"
 
 # ###### Linux ##############################################################
 if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
-
-   # NOTE: Using tmpfs for pbuilder and mock!
-   # The build machine therefore needs a sufficient amount of RAM!
-   sudo docker rm -f ${CONTAINER} || true
-   sudo docker run -d \
-      --name ${CONTAINER} \
-      --tmpfs /var/cache/pbuilder:rw,exec,dev,size=4g \
-      --tmpfs /var/lib/mock:rw,exec,dev,size=4g \
-      --cap-add=SYS_ADMIN --cap-add=NET_ADMIN \
-      --security-opt apparmor:unconfined \
-      -v $(pwd):/travis -w /travis \
-      $DOCKER tail -f /dev/null
-   sudo docker ps
+   if [ "${DOCKER}" != "" ] ; then
+      # NOTE: Using tmpfs for pbuilder and mock!
+      # The build machine therefore needs a sufficient amount of RAM!
+      sudo docker rm -f ${CONTAINER} || true
+      sudo docker run -d \
+         --name ${CONTAINER} \
+         --tmpfs /var/cache/pbuilder:rw,exec,dev,size=4g \
+         --tmpfs /var/lib/mock:rw,exec,dev,size=4g \
+         --cap-add=SYS_ADMIN --cap-add=NET_ADMIN \
+         --security-opt apparmor:unconfined \
+         -v $(pwd):/travis -w /travis \
+         $DOCKER tail -f /dev/null
+      sudo docker ps
+   fi
 
 # ###### Other ##############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
