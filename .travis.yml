@@ -278,4 +278,4 @@ install:
 
 script:
   - |
-    travis_wait 60 ci/build && travis_wait 60 ci/test
+    ci/build && travis_wait 60 ci/test
