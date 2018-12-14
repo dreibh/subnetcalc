@@ -107,11 +107,11 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          # ------ Upload results --------------------------------------------
          if [ "${TRAVIS_BRANCH}" == "${COVERITY_SCAN_BRANCH}" ] ; then
             curl --form token=${COVERITY_SCAN_TOKEN} \
-              --form email=${COVERITY_SCAN_NOTIFICATION_EMAIL} \
-              --form file=@coverity-results.tar.gz \
-              --form version="master branch head" \
-              --form description="$(git log -1|head -1)" \
-              https://scan.coverity.com/builds?project=${COVERITY_PROJECT}
+                 --form email=${COVERITY_SCAN_NOTIFICATION_EMAIL} \
+                 --form file=@coverity-results.tar.gz \
+                 --form version="master branch head" \
+                 --form description="$(git log -1|head -1)" \
+                 https://scan.coverity.com/builds?project=${COVERITY_PROJECT}
             CURL_RESULT=$?
             echo "curl returned ${CURL_RESULT}"
             if [ $CURL_RESULT -ne 0 ]; then
@@ -131,6 +131,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
 
 # ###### Other ##############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
+
    cmake . $@
    make VERBOSE=1
 

@@ -21,6 +21,8 @@
 
 CONTAINER="ubuntu-test"
 UBUNTU_MIRROR="archive.ubuntu.com"
+RETRY_MAXTRIALS=5
+RETRY_PAUSE=30
 
 
 # ###### Linux ##############################################################
@@ -34,6 +36,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          APT_UPDATE='env LANG=C.UTF-8 apt-get update -o Acquire::GzipIndexes=false'
          APT_INSTALL="env LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends"
          APT_UPGRADE="env LANG=C.UTF-8 DEBIAN_FRONTEND=noninteractive apt-get dist-upgrade -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends"
+         APT_ADD_REPOSITORY="env LANG=C.UTF-8 apt-add-repository -y"
 
          # ====== Prepare container =========================================
          echo "###### Preparing container ... ########################################"
@@ -44,11 +47,10 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
             sed -e "s#http://archive.ubuntu.com/ubuntu/#http://${UBUNTU_MIRROR}/ubuntu/#g" -i /etc/apt/sources.list
          sudo docker exec ${CONTAINER} bash -c "find /var/lib/apt/lists/ -maxdepth 1 -type f | xargs rm -f"
-         sudo docker exec ${CONTAINER} ${APT_UPDATE}
+         sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_UPDATE}
 
          echo "Installing eatmydata ..."
-         echo sudo docker exec ${CONTAINER} ${APT_INSTALL} eatmydata python3 software-properties-common
-         sudo docker exec ${CONTAINER} ${APT_INSTALL} eatmydata python3 software-properties-common
+         sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_INSTALL} eatmydata python3 software-properties-common
 
          distribution=`sudo docker exec ${CONTAINER} env LANG=C.UTF-8 lsb_release -cs | sed -e "s/[^0-9a-zA-Z]//g"`
          if [ "${VARIANT}" == "debian" ] ; then
@@ -70,16 +72,16 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          echo "###### Adding dreibh:ppa, backports, updates to container ... ###############"
          if [ "${VARIANT}" == "ubuntu" ] ; then
             echo "Ubuntu: adding adding ppa:dreibh/ppa and ${distribution}-backports ..."
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 apt-add-repository -y ppa:dreibh/ppa
-            sudo docker exec ${CONTAINER} eatmydata ${APT_UPDATE}
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} ${APT_ADD_REPOSITORY} ppa:dreibh/ppa
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_UPDATE}
          fi
          if [ "${VARIANT}" == "ubuntu" -o "${VARIANT}" == "debian" ] ; then
             echo "Ubuntu/Debian: adding ${distribution}-backports ..."
             # NOTE: backports may be unavailable -> ignore error on apt-get update!
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 apt-add-repository "deb ${mirror} ${distribution}-updates main universe"
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 apt-add-repository "deb ${mirror} ${distribution}-backports main universe"
-            sudo docker exec ${CONTAINER} eatmydata ${APT_UPDATE} || true
-            sudo docker exec ${CONTAINER} eatmydata ${APT_UPGRADE}
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} ${APT_ADD_REPOSITORY} "\"deb ${mirror} ${distribution}-updates main universe\""
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} ${APT_ADD_REPOSITORY} "\"deb ${mirror} ${distribution}-backports main universe\""
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_UPDATE} || true
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_UPGRADE}
          fi
 
 
@@ -93,13 +95,13 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          # ====== Ubuntu/Debian: set up compiler ============================
          if [ "${TOOL}" == "compile" ] ; then
             echo "###### Installing compile environment ... #############################"
-            sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} build-essential joe clang ${UBUNTU_DEPS}
+            eatmydata ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} ${APT_INSTALL} build-essential joe clang ${UBUNTU_DEPS}
 
 
          # ====== Ubuntu/Debian: set up pbuilder ============================
          elif [ "${TOOL}" == "pbuilder" ] ; then
             echo "###### Installing pbuilder environment ... ############################"
-            sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} \
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} \
                joe build-essential devscripts fakeroot lintian pbuilder python3-debian sudo ${UBUNTU_DEPS}
 
             # ====== pbuilder environment ===================================
@@ -125,9 +127,9 @@ EOF"
             if [ "${VARIANT}" == "ubuntu" ] ; then
                echo "###### Adding dreibh:ppa to pbuilder ... ##############################"
                echo "pbuilder Ubuntu: adding adding ppa:dreibh/ppa and ${distribution}-backports ..."
-               sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
 ${APT_INSTALL} software-properties-common
-apt-add-repository -y ppa:dreibh/ppa
+${APT_ADD_REPOSITORY} ppa:dreibh/ppa
 ${APT_UPDATE}
 EOF"
                sudo docker exec ${CONTAINER} env LANG=C.UTF-8 ls -l /var/cache/pbuilder/base.tgz
@@ -137,10 +139,10 @@ EOF"
                echo "###### Adding backports and updates to pbuilder ... ###################"
 
                # NOTE: backports may be unavailable -> ignore error on apt-get update!
-               sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
 ${APT_INSTALL} software-properties-common
-apt-add-repository \"deb ${mirror} ${distribution}-updates main universe\"
-apt-add-repository \"deb ${mirror} ${distribution}-backports main universe\"
+${APT_ADD_REPOSITORY} \"deb ${mirror} ${distribution}-updates main universe\"
+${APT_ADD_REPOSITORY} \"deb ${mirror} ${distribution}-backports main universe\"
 ${APT_UPDATE} || true
 ${APT_UPGRADE}
 EOF"
@@ -161,12 +163,12 @@ EOF"
 
          # ====== Fedora: set up compiler ===================================
          if [ "${TOOL}" == "compile" ] ; then
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
                dnf install -y make clang ${FEDORA_DEPS}
 
          # ====== Fedora: set up pbuilder ===================================
          elif [ "${TOOL}" == "mock" ] ; then
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
                dnf install -y make findutils fedora-release mock rpmdevtools ${FEDORA_DEPS}
 
          else
@@ -184,14 +186,14 @@ EOF"
    # ====== Travis CI standard Ubuntu Linux machine =========================
    # That is: not using Docker
    else
-      sudo apt-get update
-      sudo ci/get-dependencies ubuntu --install
+      env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo apt-get update
+      env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo ci/get-dependencies ubuntu --install
 
       # ====== Coverity Scan ================================================
       if [ "${TOOL}" == "coverity" ] ; then
          mkdir coverity
          cd coverity
-         wget --no-verbose https://scan.coverity.com/download/linux64 --post-data "token=${COVERITY_SCAN_TOKEN}&project=${COVERITY_PROJECT}" -O coverity_tool.tar.gz
+         ../ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- wget --no-verbose https://scan.coverity.com/download/linux64 --post-data "token=${COVERITY_SCAN_TOKEN}&project=${COVERITY_PROJECT}" -O coverity_tool.tar.gz
          if [ $? -ne 0 ] ; then
             echo 2>&1 "ERROR: Download of Coverity Scan analysis tool failed!"
             exit 1
@@ -206,7 +208,9 @@ EOF"
 
 # ###### Other ##############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
-   echo "Nothing to be done here."
+
+   brew update
+   brew install $@
 
 
 # ###### Error ##############################################################
