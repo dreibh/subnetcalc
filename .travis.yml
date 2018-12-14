@@ -241,10 +241,11 @@ matrix:
    # ###### Other ###########################################################
 
    # ====== MacOS X =========================================================
-   #- os: osx
-   #  osx_image: xcode9.4
-   #  compiler: clang
-   #  group: travis_latest
+   # - name: "MacOS X"
+   #   os: osx
+   #   osx_image: xcode9.4
+   #   compiler: clang
+   #   group: travis_latest
 
 
    # ###### Special #########################################################
