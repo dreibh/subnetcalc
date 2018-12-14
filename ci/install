@@ -191,9 +191,10 @@ EOF"
 
       # ====== Coverity Scan ================================================
       if [ "${TOOL}" == "coverity" ] ; then
+         rm -rf coverity
          mkdir coverity
          cd coverity
-         ../ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- wget --no-verbose https://scan.coverity.com/download/linux64 --post-data "token=${COVERITY_SCAN_TOKEN}&project=${COVERITY_PROJECT}" -O coverity_tool.tar.gz
+         ../ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- wget --no-verbose https://scan.coverity.com/download/linux64 --post-data "\"token=${COVERITY_SCAN_TOKEN}&project=${COVERITY_PROJECT}\"" -O coverity_tool.tar.gz
          if [ $? -ne 0 ] ; then
             echo 2>&1 "ERROR: Download of Coverity Scan analysis tool failed!"
             exit 1
