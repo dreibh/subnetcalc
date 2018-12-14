@@ -276,5 +276,4 @@ install:
 
 script:
   - |
-    travis_wait 60 ci/build
-    travis_wait 60 ci/test
+    travis_wait 60 ci/build && travis_wait 60 ci/test
