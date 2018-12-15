@@ -22,7 +22,7 @@
 CONTAINER="ubuntu-test"
 UBUNTU_MIRROR="archive.ubuntu.com"
 RETRY_MAXTRIALS=5
-RETRY_PAUSE=30
+RETRY_PAUSE=60
 
 
 # ###### Linux ##############################################################
@@ -119,7 +119,7 @@ export CONCURRENCY_LEVEL=\\\${cores}
 export DEB_BUILD_OPTIONS=\"parallel=\\\${cores}\"
 EOF"
             sudo docker exec ${CONTAINER} env LANG=C.UTF-8 cat /etc/pbuilderrc
-            sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
                pbuilder create --debootstrapopts --variant=buildd
             sudo docker exec ${CONTAINER} env LANG=C.UTF-8 ls -l /var/cache/pbuilder/base.tgz
 
@@ -127,11 +127,11 @@ EOF"
             if [ "${VARIANT}" == "ubuntu" ] ; then
                echo "###### Adding dreibh:ppa to pbuilder ... ##############################"
                echo "pbuilder Ubuntu: adding adding ppa:dreibh/ppa and ${distribution}-backports ..."
-               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "\"env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
 ${APT_INSTALL} software-properties-common
 ${APT_ADD_REPOSITORY} ppa:dreibh/ppa
 ${APT_UPDATE}
-EOF"
+EOF\""
                sudo docker exec ${CONTAINER} env LANG=C.UTF-8 ls -l /var/cache/pbuilder/base.tgz
             fi
 
@@ -139,13 +139,13 @@ EOF"
                echo "###### Adding backports and updates to pbuilder ... ###################"
 
                # NOTE: backports may be unavailable -> ignore error on apt-get update!
-               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} bash -c "\"env LANG=C.UTF-8 eatmydata pbuilder login --save-after-login <<EOF
 ${APT_INSTALL} software-properties-common
-${APT_ADD_REPOSITORY} \"deb ${mirror} ${distribution}-updates main universe\"
-${APT_ADD_REPOSITORY} \"deb ${mirror} ${distribution}-backports main universe\"
+${APT_ADD_REPOSITORY} \\\"deb ${mirror} ${distribution}-updates main universe\\\"
+${APT_ADD_REPOSITORY} \\\"deb ${mirror} ${distribution}-backports main universe\\\"
 ${APT_UPDATE} || true
 ${APT_UPGRADE}
-EOF"
+EOF\""
                sudo docker exec ${CONTAINER} env LANG=C.UTF-8 ls -l /var/cache/pbuilder/base.tgz
             fi
 
