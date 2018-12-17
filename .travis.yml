@@ -269,13 +269,11 @@ matrix:
 
 
 before_install:
-  - |
-    travis_wait 60 ci/before-install
+  - travis_wait 60 ci/before-install
 
 install:
-  - |
-    travis_wait 60 ci/install
+  - travis_wait 60 ci/install
 
 script:
-  - |
-    ci/build && travis_wait 60 ci/test
+  - travis_wait 60 ci/build
+  - travis_wait 60 ci/test
