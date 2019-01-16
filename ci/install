@@ -186,6 +186,9 @@ EOF\""
    # ====== Travis CI standard Ubuntu Linux machine =========================
    # That is: not using Docker
    else
+      # Travis CI only supports Ubuntu:
+      env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo apt-get install -y software-properties-common
+      env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo apt-add-repository -y ppa:dreibh/ppa
       env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo apt-get update
       env LANG=C.UTF-8 ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo ci/get-dependencies ubuntu --install
 
