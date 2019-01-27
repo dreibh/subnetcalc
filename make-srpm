@@ -109,23 +109,25 @@ echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating source RPM ===============
 echo -e ""
 
 # ------ Initialise RPM build directories -----------------------------------
-rpmdev-setuptree
-find $HOME/rpmbuild/SRPMS -name "${PACKAGE}*.rpm" | xargs --no-run-if-empty rm -f
-find $HOME/rpmbuild/RPMS  -name "${PACKAGE}*.rpm" | xargs --no-run-if-empty rm -f
+for subdir in BUILD BUILDROOT RPMS SOURCES SPECS SRPMS ; do
+   mkdir -p ${HOME}/rpmbuild/${subdir}
+done
+find ${HOME}/rpmbuild/SRPMS -name "${PACKAGE}*.rpm" | xargs --no-run-if-empty rm -f
+find ${HOME}/rpmbuild/RPMS  -name "${PACKAGE}*.rpm" | xargs --no-run-if-empty rm -f
 # Copy upstream sources
-cp ${UPSTREAM_PACKAGE} $HOME/rpmbuild/SOURCES/
+cp ${UPSTREAM_PACKAGE} ${HOME}/rpmbuild/SOURCES/
 # Patches
 if [ -e original ] ; then
-   find original -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" $HOME/rpmbuild/SOURCES/
+   find original -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" ${HOME}/rpmbuild/SOURCES/
 fi
 # Further patches
-find rpm -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" $HOME/rpmbuild/SOURCES/
+find rpm -name "*" -type f | grep -v "~$" | grep -v ".spec$" | xargs -n1 -i§ cp "§" ${HOME}/rpmbuild/SOURCES/
 # The .spec file
-cp rpm/${PACKAGE}.spec $HOME/rpmbuild/SPECS/
+cp rpm/${PACKAGE}.spec ${HOME}/rpmbuild/SPECS/
 
 # ------ Create source RPM --------------------------------------------------
 rpmbuild -bs rpm/${PACKAGE}.spec
-PACKAGE_SRPM=`find $HOME/rpmbuild/SRPMS/ -name "${PACKAGE}-*${PACKAGE_VERSION}*-*.src.rpm"`
+PACKAGE_SRPM=`find ${HOME}/rpmbuild/SRPMS/ -name "${PACKAGE}-*${PACKAGE_VERSION}*-*.src.rpm"`
 if [ ! -e "${PACKAGE_SRPM}" ] ; then
    echo >&2 "ERROR: Cannot find SRPM ${PACKAGE_SRPM}!"
    exit 1
