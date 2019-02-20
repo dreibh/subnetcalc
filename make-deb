@@ -71,11 +71,11 @@ echo -e "\x1b[34mUPSTREAM_VERSION:     ${UPSTREAM_VERSION}\x1b[0m"
 echo -e "\x1b[34mPLAIN_VERSION:        ${PLAIN_VERSION}\x1b[0m"
 echo -e "\x1b[34m######################################################################\x1b[0m"
 
-if [ ! -e ./debian.conf ] ; then
-   echo >&2 "ERROR: debian.conf does not exist -> no configuration for the new package!"
+if [ ! -e ./packaging.conf ] ; then
+   echo >&2 "ERROR: packaging.conf does not exist -> no configuration for the new package!"
    exit 1
 fi
-. ./debian.conf
+. ./packaging.conf
 
 
 # ====== Run warp-and-sort tool =============================================
@@ -91,33 +91,22 @@ fi
 echo -e ""
 echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating upstream package ======================================\x1b[0m"
 echo -e ""
+if [ "${SKIP_PACKAGE_SIGNING}" != "" -a ${SKIP_PACKAGE_SIGNING} -eq 1 ] ; then
+   ./make-upstream-package ${PACKAGE} ${UPSTREAM_VERSION} "${MAKE_DIST}" -skip-signing
+else
+   ./make-upstream-package ${PACKAGE} ${UPSTREAM_VERSION} "${MAKE_DIST}"
+fi
+
 for UPSTREAM_PACKAGE_TYPE in xz bz2 gz ; do
-   UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-*.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
+   UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-${UPSTREAM_VERSION}.tar.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
    if [ -e "${UPSTREAM_PACKAGE}" ] ; then
       break
    fi
 done
-if [ ! -e "${UPSTREAM_PACKAGE}" ]; then
-   rm -f ${PACKAGE}-*.gz ${PACKAGE}"_"*.gz ${PACKAGE}-*.bz2 ${PACKAGE}"_"*.bz2 ${PACKAGE}-*.xz ${PACKAGE}"_"*.xz
-   echo -e "\x1b[34m------ Running MAKE_DIST ... ------\x1b[0m"
-   echo "\$ $MAKE_DIST"
-   eval "$MAKE_DIST"
-
-   echo -e "\x1b[34m------ Looking for upstream package ... ------\x1b[0m"
-   for UPSTREAM_PACKAGE_TYPE in xz bz2 gz ; do
-      UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-*.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
-      if [ -e "${UPSTREAM_PACKAGE}" ] ; then
-         break
-      fi
-   done
-   if [ ! -e "${UPSTREAM_PACKAGE}" ] ; then
-      echo -e "\x1b[34mERROR: No upstream package (${PACKAGE}-*, type ${UPSTREAM_PACKAGE_TYPE}) found!\x1b[0m"
-      exit 1
-   fi
+if [ ! -e "${UPSTREAM_PACKAGE}" ] ; then
+   echo -e "\x1b[34mERROR: No upstream package (${PACKAGE}-${UPSTREAM_VERSION}.tar.*) found!\x1b[0m"
+   exit 1
 fi
-echo -e ""
-echo -e "\x1b[34m==> Upstream package is ${UPSTREAM_PACKAGE} (type is ${UPSTREAM_PACKAGE_TYPE})\x1b[0m"
-echo -e ""
 
 
 # ====== Sign upstream source package =======================================

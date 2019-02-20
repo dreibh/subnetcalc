@@ -51,11 +51,11 @@ echo -e "\x1b[34mUPSTREAM_VERSION:     ${UPSTREAM_VERSION}\x1b[0m"
 echo -e "\x1b[34mPLAIN_VERSION:        ${PLAIN_VERSION}\x1b[0m"
 echo -e "\x1b[34m######################################################################\x1b[0m"
 
-if [ ! -e ./debian.conf ] ; then
-   echo >&2 "ERROR: debian.conf does not exist -> no configuration for the new package!"
+if [ ! -e ./packaging.conf ] ; then
+   echo >&2 "ERROR: packaging.conf does not exist -> no configuration for the new package!"
    exit 1
 fi
-. ./debian.conf
+. ./packaging.conf
 
 if [ "${OVERRIDE_PACKAGE_DISTRIBUTION}" != "" ] ; then
    PACKAGE_DISTRIBUTION="${OVERRIDE_PACKAGE_DISTRIBUTION}"

@@ -21,7 +21,7 @@
 
 # ---------------------------------------------------------------------------
 # USAGE:
-# ./make-rpm
+# ./make-srpm
 # ---------------------------------------------------------------------------
 
 
@@ -57,14 +57,10 @@ if [ -e debian/changelog ] ; then
       echo >&2 "ERROR: RPM version and Debian version do not match -> ${PACKAGE}-${PACKAGE_VERSION} vs. ${DEBIAN_PACKAGE}-${DEBIAN_UPSTREAM_VERSION}!"
       exit 1
    fi
-   if [ ! -e ./debian.conf ] ; then
-      echo >&2 "ERROR: debian.conf does not exist -> no configuration for the new package!"
-      exit 1
-   fi
 fi
 
-if [ -e rpm.conf ] ; then
-   . ./rpm.conf
+if [ -e packaging.conf ] ; then
+   . ./packaging.conf
 fi
 
 
@@ -72,35 +68,22 @@ fi
 echo -e ""
 echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Creating upstream package ======================================\x1b[0m"
 echo -e ""
-if [ "${UPSTREAM_PACKAGE}" = "" ] ; then
-   for UPSTREAM_PACKAGE_TYPE in xz bz2 gz ; do
-      UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-*.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
-      if [ -e "${UPSTREAM_PACKAGE}" ] ; then
-         break
-      fi
-   done
-   if [ ! -e "${UPSTREAM_PACKAGE}" ]; then
-      rm -f ${PACKAGE}-*.gz ${PACKAGE}"_"*.gz ${PACKAGE}-*.bz2 ${PACKAGE}"_"*.bz2
-      echo -e "\x1b[34m------ Running MAKE_DIST ... ------\x1b[0m"
-      echo "\$ $MAKE_DIST"
-      eval "$MAKE_DIST"
-
-      echo -e "\x1b[34m------ Looking for upstream package ... ------\x1b[0m"
-      for UPSTREAM_PACKAGE_TYPE in xz bz2 gz ; do
-         UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-*.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
-         if [ -e "${UPSTREAM_PACKAGE}" ] ; then
-            break
-         fi
-      done
-   fi
+if [ "${SKIP_PACKAGE_SIGNING}" != "" -a ${SKIP_PACKAGE_SIGNING} -eq 1 ] ; then
+   ./make-upstream-package ${PACKAGE} ${PACKAGE_VERSION} "${MAKE_DIST}" -skip-signing
+else
+   ./make-upstream-package ${PACKAGE} ${PACKAGE_VERSION} "${MAKE_DIST}"
 fi
+
+for UPSTREAM_PACKAGE_TYPE in xz bz2 gz ; do
+   UPSTREAM_PACKAGE="`find . -maxdepth 1 -name "${PACKAGE}-${PACKAGE_VERSION}.tar.${UPSTREAM_PACKAGE_TYPE}" -printf '%f'`"
+   if [ -e "${UPSTREAM_PACKAGE}" ] ; then
+      break
+   fi
+done
 if [ ! -e "${UPSTREAM_PACKAGE}" ] ; then
-   echo -e "\x1b[34mERROR: No upstrem package found!\x1b[0m"
+   echo -e "\x1b[34mERROR: No upstream package (${PACKAGE}-${PACKAGE_VERSION}.tar.*) found!\x1b[0m"
    exit 1
 fi
-echo -e ""
-echo -e "\x1b[34m==> Upstream package is ${UPSTREAM_PACKAGE} (type is ${UPSTREAM_PACKAGE_TYPE})\x1b[0m"
-echo -e ""
 
 
 # ====== Create source RPM ==================================================
