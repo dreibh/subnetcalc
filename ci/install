@@ -164,12 +164,12 @@ EOF\""
          # ====== Fedora: set up compiler ===================================
          if [ "${TOOL}" == "compile" ] ; then
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
-               dnf install -y make clang ${FEDORA_DEPS}
+               dnf install -y --allowerasing make clang ${FEDORA_DEPS}
 
-         # ====== Fedora: set up pbuilder ===================================
+         # ====== Fedora: set up mock =======================================
          elif [ "${TOOL}" == "mock" ] ; then
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
-               dnf install -y make findutils fedora-release mock rpmdevtools ${FEDORA_DEPS}
+               dnf install -y --allowerasing make findutils fedora-release mock rpmdevtools ${FEDORA_DEPS}
 
          else
             echo >&2 "ERROR: Invalid setting of TOOL=${TOOL}"
