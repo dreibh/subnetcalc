@@ -32,7 +32,7 @@ make DESTDIR=%{buildroot} install
 
 %files
 %{_bindir}/subnetcalc
-%{_datadir}/man/man1/subnetcalc.1.gz
+%{_mandir}/man1/subnetcalc.1.gz
 
 %doc
 
