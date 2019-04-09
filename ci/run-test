@@ -2,20 +2,43 @@
 
 export TRAVIS_OS_NAME="linux"
 
+# ====== Get settings =======================================================
+if [[ "$1" =~ ^(debian|ubuntu)_([a-z]*)-(pbuilder|mock|compile)(|-gcc|-clang)$ ]] ; then
+   export DOCKER="${BASH_REMATCH[1]}:${BASH_REMATCH[2]}"
+   export VARIANT="${BASH_REMATCH[1]}"
+   export TOOL="${BASH_REMATCH[3]}"
+   COMPILER="${BASH_REMATCH[4]}"
+   echo "DOCKER=${DOCKER}"
+   echo "VARIANT=${VARIANT}"
+   echo "TOOL=${TOOL}"
+   if [ "${TOOL}" == "compile" -a "${COMPILER}" != "" ] ; then
+      if [ "${COMPILER}" == "-gcc" ] ; then
+         export COMPILER_C=gcc
+         export COMPILER_CXX=g++
+      elif [ "${COMPILER}" == "-clang" ] ; then
+         export COMPILER_C=clang
+         export COMPILER_CXX=clang++
+      else
+         echo >&2 "ERROR: Bad compiler setting!"
+         exit 1
+      fi
+      echo "COMPILER_C=${COMPILER_C}"
+      echo "COMPILER_CXX=${COMPILER_CXX}"
+   fi
 
-# export DOCKER="debian:stretch"
-# export VARIANT="debian"
-# export TOOL="pbuilder"
+elif [ "$1" == "" ] ; then
+   # ------ Use defaults ----------------------------------
+   export DOCKER="ubuntu:bionic"
+   export VARIANT="ubuntu"
+   export TOOL="pbuilder"
 
-export DOCKER="ubuntu:cosmic"
-export VARIANT="ubuntu"
-export TOOL="pbuilder"
-
-# export DOCKER="fedora:30"
-# export VARIANT="fedora"
-# export TOOL="mock"
+else
+   echo >&2 "Usage: $0 [ubuntu|fedora]_[release]-[pbuilder|mock|compile-[gcc|clang]]"
+   exit 1
+fi
 
 
+# ====== Run test ===========================================================
 SCRIPTS="before-install install build test"
 # SCRIPTS="install"
 
@@ -24,5 +47,8 @@ for script in $SCRIPTS ; do
       TRAVIS_OS_NAME="$TRAVIS_OS_NAME" \
       DOCKER="$DOCKER" \
       VARIANT="$VARIANT" \
-      TOOL="$TOOL" ci/${script}
+      TOOL="$TOOL" \
+      COMPILER_C="$COMPILER_C" \
+      COMPILER_CXX="$COMPILER_CXX" \
+      ci/${script} || ci/enter
 done

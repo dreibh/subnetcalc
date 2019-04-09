@@ -19,7 +19,7 @@
 # Contact: dreibh@iem.uni-due.de
 
 
-CONTAINER="ubuntu-test"
+. `dirname $0`/get-container
 UBUNTU_MIRROR="archive.ubuntu.com"
 RETRY_MAXTRIALS=5
 RETRY_PAUSE=60

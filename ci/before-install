@@ -19,7 +19,7 @@
 # Contact: dreibh@iem.uni-due.de
 
 
-CONTAINER="ubuntu-test"
+. `dirname $0`/get-container
 
 
 # ###### Linux ##############################################################
