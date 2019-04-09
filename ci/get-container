@@ -19,31 +19,32 @@
 # Contact: dreibh@iem.uni-due.de
 
 
-# ====== Check configuration ================================================
-if [ "${DOCKER}" == "" ] ; then
-   echo >&2 "ERROR: DOCKER is not set!"
-   exit 1
+if [ "${DOCKER}" != "" ] ; then
+   # ====== Check configuration =============================================
+   if [ "${VARIANT}" == "" ] ; then
+      echo >&2 "ERROR: VARIANT is not set!"
+      exit 1
+   fi
+   if [ "${TOOL}" == "" ] ; then
+      echo >&2 "ERROR: TOOL is not set!"
+      exit 1
+   fi
+
+
+   # ====== Get name of package =============================================
+   CHANGELOG_HEADER="`head -n1 debian/changelog`"
+   PACKAGE=`echo ${CHANGELOG_HEADER} | sed -e "s/(.*//" -e "s/ //g"`
+
+
+   # ====== Set container name ==============================================
+   CONTAINER=`echo "${PACKAGE}-${DOCKER}-${TOOL}" | sed -e "s/:/_/g"`
+   if [ "${COMPILER_C}" != "" ] ; then
+      CONTAINER="${CONTAINER}-${COMPILER_C}"
+   fi
+   export CONTAINER
+
+   # echo "###### Using container ${CONTAINER} ######"
+
+else
+   export CONTAINER=""   # Not using docker -> no container!
 fi
-if [ "${VARIANT}" == "" ] ; then
-   echo >&2 "ERROR: VARIANT is not set!"
-   exit 1
-fi
-if [ "${TOOL}" == "" ] ; then
-   echo >&2 "ERROR: TOOL is not set!"
-   exit 1
-fi
-
-
-# ====== Get name of package ================================================
-CHANGELOG_HEADER="`head -n1 debian/changelog`"
-PACKAGE=`echo ${CHANGELOG_HEADER} | sed -e "s/(.*//" -e "s/ //g"`
-
-
-# ====== Set container name =================================================
-CONTAINER=`echo "${PACKAGE}-${DOCKER}-${TOOL}" | sed -e "s/:/_/g"`
-if [ "${COMPILER_C}" != "" ] ; then
-   CONTAINER="${CONTAINER}-${COMPILER_C}"
-fi
-export CONTAINER
-
-# echo "###### Using container ${CONTAINER} ######"
