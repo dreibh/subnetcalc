@@ -1,8 +1,27 @@
 #!/bin/bash -e
+#
+# Travis CI Scripts
+# Copyright (C) 2018-2019 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@iem.uni-due.de
 
-export TRAVIS_OS_NAME="linux"
 
 # ====== Get settings =======================================================
+export TRAVIS_OS_NAME="linux"
+
 if [[ "$1" =~ ^(debian|ubuntu)_([a-z]*)-(pbuilder|mock|compile)(|-gcc|-clang)$ ]] ; then
    export DOCKER="${BASH_REMATCH[1]}:${BASH_REMATCH[2]}"
    export VARIANT="${BASH_REMATCH[1]}"
@@ -40,9 +59,10 @@ fi
 
 # ====== Run test ===========================================================
 SCRIPTS="before-install install build test"
-# SCRIPTS="install"
+# SCRIPTS="test"
 
 for script in $SCRIPTS ; do
+   echo "###### Running $script ... ######"
    sudo env \
       TRAVIS_OS_NAME="$TRAVIS_OS_NAME" \
       DOCKER="$DOCKER" \
@@ -50,5 +70,20 @@ for script in $SCRIPTS ; do
       TOOL="$TOOL" \
       COMPILER_C="$COMPILER_C" \
       COMPILER_CXX="$COMPILER_CXX" \
-      ci/${script} || ci/enter
+      ci/${script} \
+   || {
+      echo ""
+      echo "====== Something went wrong! Getting shell into the container! ======"
+      echo ""
+      sudo env \
+         TRAVIS_OS_NAME="$TRAVIS_OS_NAME" \
+         DOCKER="$DOCKER" \
+         VARIANT="$VARIANT" \
+         TOOL="$TOOL" \
+         COMPILER_C="$COMPILER_C" \
+         COMPILER_CXX="$COMPILER_CXX" \
+         ci/enter
+      exit 1
+   }
 done
+echo "###### Build test completed! ######"

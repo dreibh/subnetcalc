@@ -46,4 +46,4 @@ if [ "${COMPILER_C}" != "" ] ; then
 fi
 export CONTAINER
 
-echo "###### Using container ${CONTAINER} ######"
+# echo "###### Using container ${CONTAINER} ######"
