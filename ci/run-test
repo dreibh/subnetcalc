@@ -22,7 +22,7 @@
 # ====== Get settings =======================================================
 export TRAVIS_OS_NAME="linux"
 
-if [[ "$1" =~ ^(debian|ubuntu)_([a-z]*)-(pbuilder|mock|compile)(|-gcc|-clang)$ ]] ; then
+if [[ "$1" =~ ^(debian|ubuntu|fedora)_([a-z]*|[0-9]*)-(pbuilder|mock|compile)(|-gcc|-clang)$ ]] ; then
    export DOCKER="${BASH_REMATCH[1]}:${BASH_REMATCH[2]}"
    export VARIANT="${BASH_REMATCH[1]}"
    export TOOL="${BASH_REMATCH[3]}"
