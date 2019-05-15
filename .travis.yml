@@ -221,21 +221,21 @@ matrix:
      env: DOCKER="fedora:28" VARIANT="fedora" TOOL="mock"
 
    # ====== Fedora Rawhide ==================================================
-   - name: "Fedora Rawhide with GCC"
-     os: linux
-     dist: xenial
-     group: travis_latest
-     env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
-   - name: "Fedora Rawhide with Clang"
-     os: linux
-     dist: xenial
-     group: travis_latest
-     env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
-   - name: "Fedora Rawhide packaging with mock"
-     os: linux
-     dist: xenial
-     group: travis_latest
-     env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="mock"
+   # - name: "Fedora Rawhide with GCC"
+   #   os: linux
+   #   dist: xenial
+   #   group: travis_latest
+   #   env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
+   # - name: "Fedora Rawhide with Clang"
+   #   os: linux
+   #   dist: xenial
+   #   group: travis_latest
+   #   env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
+   # - name: "Fedora Rawhide packaging with mock"
+   #   os: linux
+   #   dist: xenial
+   #   group: travis_latest
+   #   env: DOCKER="fedora:rawhide" VARIANT="fedora" TOOL="mock"
 
 
    # ###### Other ###########################################################
