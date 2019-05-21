@@ -1,4 +1,4 @@
-subnetcalc (2.4.11~rc1.0-1ubuntu1) disco; urgency=low
+subnetcalc (2.4.11-1ubuntu1) disco; urgency=medium
 
   * New upstream version.
   * debian/control: updated standards version.
