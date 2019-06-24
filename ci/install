@@ -50,7 +50,7 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_UPDATE}
 
          echo "Installing eatmydata ..."
-         sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_INSTALL} eatmydata python3 software-properties-common
+         sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_INSTALL} eatmydata python3 software-properties-common lsb-release
 
          distribution=`sudo docker exec ${CONTAINER} env LANG=C.UTF-8 lsb_release -cs | sed -e "s/[^0-9a-zA-Z]//g"`
          if [ "${VARIANT}" == "debian" ] ; then
@@ -59,6 +59,11 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
             fi
          fi
          echo "distribution=$distribution"
+
+         # Ubuntu 12.04 needs "python-software-properties" package:
+         if [ "$distribution" == "precise" ] ; then
+            sudo docker exec ${CONTAINER} ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- ${APT_INSTALL} python-software-properties
+         fi
 
          if [ "${VARIANT}" == "ubuntu" ] ; then
             mirror="http://${UBUNTU_MIRROR}/ubuntu/"
@@ -102,7 +107,13 @@ if [ "${TRAVIS_OS_NAME}" == "linux" ] ; then
          elif [ "${TOOL}" == "pbuilder" ] ; then
             echo "###### Installing pbuilder environment ... ############################"
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} \
-               joe build-essential devscripts fakeroot lintian pbuilder python3-debian sudo ${UBUNTU_DEPS}
+               joe build-essential devscripts fakeroot lintian pbuilder sudo ${UBUNTU_DEPS}
+            if [ "$distribution" == "precise" ] ; then
+               # Ubuntu 12.04 needs "python-debian" package:
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} python-debian
+            else
+               ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} eatmydata ${APT_INSTALL} python3-debian
+            fi
 
             # ====== pbuilder environment ===================================
             echo "###### Setting up pbuilder ... ########################################"
@@ -164,17 +175,20 @@ EOF\""
          # ====== Fedora: set up compiler ===================================
          if [ "${TOOL}" == "compile" ] ; then
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
-               dnf install -y --allowerasing make clang dnf-plugins-core ${FEDORA_DEPS}
+               dnf install -y --allowerasing dnf-plugins-core
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
                dnf copr enable -y dreibh/ppa
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
+               dnf install -y --allowerasing make clang ${FEDORA_DEPS}
 
          # ====== Fedora: set up mock =======================================
          elif [ "${TOOL}" == "mock" ] ; then
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
-               dnf install -y --allowerasing make findutils fedora-release mock rpmdevtools dnf-plugins-core ${FEDORA_DEPS}
+               dnf install -y --allowerasing dnf-plugins-core
             ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
                dnf copr enable -y dreibh/ppa
-
+            ci/retry -t ${RETRY_MAXTRIALS} -p ${RETRY_PAUSE} -- sudo docker exec ${CONTAINER} env LANG=C.UTF-8 \
+               dnf install -y --allowerasing make findutils fedora-release mock rpmdevtools ${FEDORA_DEPS}
          else
             echo >&2 "ERROR: Invalid setting of TOOL=${TOOL}"
             exit 1

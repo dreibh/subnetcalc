@@ -34,7 +34,7 @@ def extractDependencies(line, variant):
    dependencies = []
 
    # Remove "build-depends:", etc.:
-   m = re.match(r'^(.*:)(.*$)', line)
+   m = re.match(r'^(.*:[ \t]*)([a-zA-Z0-9-+]*)(.*)$', line)
    if m != None:
       line = m.group(2)
    line = line.strip()
@@ -49,11 +49,11 @@ def extractDependencies(line, variant):
          # ------ Ugly work-around for cmake --------------------------------
          # We need cmake >= 3.0!
          if ((dependency == 'cmake') or (dependency == 'cmake3')):
-            if ((variant == 'debian') or  (variant == 'ubuntu')):
+            if ((variant == 'debian') or (variant == 'ubuntu')):
                try:
                   distribution = subprocess.check_output( ["lsb_release", "-cs"] ).decode('utf-8').strip()
                   # print("distribution=", distribution, ".")
-                  if distribution in [ 'precise', 'trusty' ]:
+                  if distribution in [ 'trusty' ]:
                      dependency = 'cmake3'
                except:
                   pass
