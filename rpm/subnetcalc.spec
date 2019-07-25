@@ -1,11 +1,11 @@
 Name: subnetcalc
-Version: 2.4.11
+Version: 2.4.12~rc1.0
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
 License: GPLv3
 URL: https://www.uni-due.de/~be0001/subnetcalc/
-Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.gz
+Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.xz
 
 AutoReqProv: on
 BuildRequires: cmake
