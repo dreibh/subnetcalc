@@ -834,9 +834,16 @@ int main(int argc, char** argv)
    }
    else {
       reservedHosts = 1;
-      hostBits      = 128 - prefix;
-      host1         = network + 1;
-      host2         = broadcast;   // There is no broadcast address for IPv6!
+      if(prefix < 128) {
+         hostBits = 128 - prefix;
+         host1    = network + 1;
+         host2    = broadcast;   // There is no broadcast address for IPv6!
+      }
+      else {
+         hostBits = 1;
+         host1    = network;
+         host2    = broadcast;   // There is no broadcast address for IPv6!
+      }
    }
    if(hostBits <= 64) {
       maxHosts = (unsigned long long)pow(2.0, (double)hostBits) - reservedHosts;
