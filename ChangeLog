@@ -1,3 +1,51 @@
+commit ebb04acc5cb48e9fa89504827b7e139efb5fab59
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 26 09:12:13 2019 +0200
+
+    Bugfix: Fixed Bug #3 (https://github.com/dreibh/subnetcalc/issues/3).
+
+commit 3333577c35a8373737e703795fb1ba23cca622ea
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jul 25 15:09:32 2019 +0200
+
+    Using Tar/XZ for archive.
+
+commit b15eb3029a7a9130cfcf076e57801f8128a06094
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 27 21:35:44 2019 +0200
+
+    CI script update.
+
+commit 1a263455388155678838fd2c5279216a6c9e3480
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 27 21:34:54 2019 +0200
+
+    Build script update.
+
+commit 52b1abe2e5eb1504d1587e67bc21525aff931a77
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 24 17:24:16 2019 +0200
+
+    Updated build scripts.
+
+commit 502ed4de01a7e9b5beb756b55ec73532dc1e321a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 13 12:56:13 2019 +0200
+
+    Improved build script.
+
+commit d84e54fff91ad83b454e5c3824bf85578ba9fe00
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue May 21 17:23:17 2019 +0200
+
+    An update.
+
+commit d70761484338456225da0d6f82942d9428d78ca6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue May 21 16:51:34 2019 +0200
+
+    New release 2.4.11.
+
 commit b2db091f37399eeba98671c005b6fd38b6dae986
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Tue May 21 16:40:24 2019 +0200

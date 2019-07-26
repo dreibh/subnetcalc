@@ -1,4 +1,4 @@
-subnetcalc (2.4.12~rc1.0-1ubuntu1) disco; urgency=medium
+subnetcalc (2.4.12-1ubuntu1) eoan; urgency=medium
 
   * New upstream release.
 

@@ -1,4 +1,0 @@
-#!/bin/sh -e
-
-LANG=C
-git log -v . >ChangeLog.new && mv ChangeLog.new ChangeLog
