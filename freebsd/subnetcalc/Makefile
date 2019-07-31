@@ -2,9 +2,10 @@
 # $FreeBSD: head/net/subnetcalc/Makefile 427596 2016-12-03 08:11:52Z jhale $
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.4.10
+PORTVERSION=	2.4.12
 CATEGORIES=	net
 MASTER_SITES=	https://www.uni-due.de/~be0001/subnetcalc/download/
+EXTRACT_SUFX=	.tar.xz
 
 MAINTAINER=	dreibh@iem.uni-due.de
 COMMENT=	IPv4/IPv6 Subnet Calculator
