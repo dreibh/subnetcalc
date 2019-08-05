@@ -44,6 +44,13 @@ if [ ${DPUT} -eq 0 -a ${COPR} -eq 0 ] ; then
    DPUT=1
 fi
 
+if [ ! -e debian/ ] ; then
+   DPUT=0
+fi
+if [ ! -e rpm/ ] ; then
+   COPR=0
+fi
+
 
 # ====== Build source packages ==============================================
 ./clean-deb

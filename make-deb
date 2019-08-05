@@ -148,7 +148,6 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       echo 2>&1 "ERROR: Bad archive format: ${UPSTREAM_PACKAGE}"
       exit 1
    fi
-   cp -r ${PACKAGE}-${UPSTREAM_VERSION} ${PACKAGE}-${UPSTREAM_VERSION}.orig
    cp -r debian ${PACKAGE}-${UPSTREAM_VERSION}
    find ${PACKAGE}-${UPSTREAM_VERSION} -name .svn | xargs --no-run-if-empty rm -rf
    cd ${PACKAGE}-${UPSTREAM_VERSION}
@@ -227,7 +226,6 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    # For binaries:
    # debuild -b
    # Use -i to ignore .svn files!
-
 
    if [ "${SKIP_PACKAGE_SIGNING}" == "" ] ; then
       SKIP_PACKAGE_SIGNING=0
