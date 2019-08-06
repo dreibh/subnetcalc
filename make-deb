@@ -260,7 +260,7 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       debuild ${opt} -us -uc -S "-k${MAINTAINER}" -i || exit 1
    else
       # Build source package including signature:
-      debuild ${opt} --no-check-builddeps -sa -S "-k${MAINTAINER}" -i || exit 1
+      debuild ${opt} -sa -S "-k${MAINTAINER}" -i || exit 1
    fi
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
@@ -341,6 +341,12 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       changesFilesPattern="${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9]_*.changes"
       dscFile=`ls ${PACKAGE}_${PACKAGE_VERSION}~${DISTRIBUTION}[0-9]~ppa[0-9].dsc | tail -n1`
    fi
-   echo -e "\x1b[34m   sudo pbuilder build ${dscFile} && lintian -iIEv --pedantic /var/cache/pbuilder/result/$changesFilesPattern\x1b[0m"
+   profile="ubuntu"
+   if [ "${DISTRIBUTION}" == "unstable" -o \
+        "${DISTRIBUTION}" == "testing"  -o \
+        "${DISTRIBUTION}" == "stable" ] ; then
+      profile="debian"
+   fi
+   echo -e "\x1b[34m   sudo pbuilder build ${dscFile} && lintian -iIEv --profile ${profile} --pedantic /var/cache/pbuilder/result/$changesFilesPattern\x1b[0m"
 done
 echo -e ""
