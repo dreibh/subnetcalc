@@ -1,3 +1,9 @@
+subnetcalc (2.4.13~rc1.0-1ubuntu1) eoan; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Tue, 06 Aug 2019 20:19:30 +0200
+
 subnetcalc (2.4.12-1ubuntu1) eoan; urgency=medium
 
   * New upstream release.
@@ -78,7 +84,6 @@ subnetcalc (2.4.2-1ubuntu1) wily; urgency=low
 
 subnetcalc (2.4.1-1ubuntu1) vivid; urgency=low
 
-  * New upstream version bug closed (Closes: #xxxxxx).
   * debian/copyright: changed to machine-readable format.
   * debian/control: updated standards version.
   * debian/watch: added pgpsigurlmangle option.
@@ -88,14 +93,12 @@ subnetcalc (2.4.1-1ubuntu1) vivid; urgency=low
 
 subnetcalc (2.3.1-1ubuntu1) utopic; urgency=low
 
-  * New upstream version bug closed (Closes: #xxxxxx).
   * debian/control: updated standards version.
 
  -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Mon, 28 Jul 2014 08:08:08 +0800
 
 subnetcalc (2.2.1-1ubuntu1) trusty; urgency=low
 
-  * New upstream version bug closed (Closes: #xxxxxx).
   * debian/subnetcalc.manpages: Changed manpage category from 8 to 1.
   * debian/control: now compiling with colorgcc.
 
