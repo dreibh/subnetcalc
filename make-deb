@@ -29,6 +29,12 @@
 # ---------------------------------------------------------------------------
 
 
+# Set current Debian debhelper version here
+# for building unstable/testing/stable packages
+# (See https://packages.qa.debian.org/d/debhelper.html for latest version!)
+DEBHELPER_LATEST_VERSION="12"
+
+
 # ====== Obtain package and version information =============================
 DISTRIBUTIONS=`\
 ( \
@@ -125,6 +131,8 @@ echo -e ""
 echo -e "\x1b[34m`date +%FT%H:%M:%S`: ====== Building source packages =======================================\x1b[0m"
 for DISTRIBUTION in ${DISTRIBUTIONS} ; do
 
+   updatedDebhelperVersion=0
+
    echo -e ""
    echo -e "\x1b[34m------ Creating package for ${DISTRIBUTION} ------\x1b[0m"
 
@@ -196,7 +204,18 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
            "${DISTRIBUTION}" == "jaunty" ] ; then
          rm -rf debian/source
       fi
-      # ---------------------------------------------------------------------
+
+      # ------ Use latest Debhelper for Debian ------------------------------
+      if [ "${DISTRIBUTION}" == "unstable" -o "${DISTRIBUTION}" == "testing" -o "${DISTRIBUTION}" == "stable" ] ; then
+         # Update debhelper version:
+         echo "${DEBHELPER_LATEST_VERSION}" >debian/compat
+         sed -e "s/debhelper (.* [0-9]*)/debhelper (>= ${DEBHELPER_LATEST_VERSION})/g" <debian/control >debian/control.new
+         # Newer debhelper does not need "--parallel" for building:
+         sed -e "s/\(.*dh .. --buildsystem=cmake.*\)\(--parallel\)\(.*\)/\1\3/g" -e 's@[[:space:]]*$@@g' <debian/rules >debian/rules.new
+         mv debian/control.new debian/control
+         mv debian/rules.new debian/rules
+      fi
+
    else
       # Ubuntu: Remove Debian Bug IDs.
       sed -e "/(Closes: #/D" \
@@ -204,6 +223,7 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       mv debian/changelog.new debian/changelog
       sed -e "s/^Maintainer:/Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nXSBC-Original-Maintainer:/g" <debian/control >debian/control.new
       mv debian/control.new debian/control
+      updatedDebhelperVersion=1
    fi
 
    echo -e ""
@@ -230,12 +250,17 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    if [ "${SKIP_PACKAGE_SIGNING}" == "" ] ; then
       SKIP_PACKAGE_SIGNING=0
    fi
+   if [ $updatedDebhelperVersion -eq 0 ] ; then
+      opt=""
+   else
+      opt="--no-check-builddeps"   # Needed for increased debhelper version!
+   fi
    if [ ${SKIP_PACKAGE_SIGNING} -eq 1 ] ; then
       # Build source package without signature:
-      debuild -us -uc -S "-k${MAINTAINER}" -i || exit 1
+      debuild ${opt} -us -uc -S "-k${MAINTAINER}" -i || exit 1
    else
       # Build source package including signature:
-      debuild -sa -S "-k${MAINTAINER}" -i || exit 1
+      debuild ${opt} --no-check-builddeps -sa -S "-k${MAINTAINER}" -i || exit 1
    fi
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
