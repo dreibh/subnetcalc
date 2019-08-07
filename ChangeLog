@@ -1,3 +1,81 @@
+commit b33ee643cc55f61da38f60dda7cb6934fd21b237
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 7 10:33:04 2019 +0200
+
+    Fixed some inconsistencies in different packaging files.
+
+commit c3fe844847c6850d864dd08fbd649b6734d12ee7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 7 10:04:34 2019 +0200
+
+    Updated build scripts.
+
+commit 7269cddc87e97981971a9a7c412f3d532b5319df
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 6 23:50:00 2019 +0200
+
+    Simplified CMakeLists.txt.
+
+commit 7cd993cd02e15a28ff96dc4646ba1069a97b5ceb
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 6 23:23:15 2019 +0200
+
+    Some clean-ups.
+
+commit d84f5f7a43b05eada98bea4fd163bdcfbb6b0d01
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 6 22:40:53 2019 +0200
+
+    Build script updates.
+
+commit 56574f470428bb7a6a4363de4e2bd02ffbaf20b6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 6 19:56:48 2019 +0200
+
+    Updated build script.
+
+commit e6d0fb9ca888ac15213267134fbf4f442d8b7dcc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 5 22:06:50 2019 +0200
+
+    Updated CI scripts.
+
+commit 5d2ee670126ada2752d8e6ad466689c71dfd528e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 5 17:00:41 2019 +0200
+
+    Updated Debian Standards version.
+
+commit 378b7127e1a0d065b327484683dccdc4bef05559
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 5 15:11:17 2019 +0200
+
+    Updated Travis CI configuration.
+
+commit 7b9d178f0e5137497304fbb2763aca2399a21eeb
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 5 15:05:27 2019 +0200
+
+    Build script updates.
+
+commit c9b3b9df9c578ff0a2bd02f8dc0406ae0f749079
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jul 31 16:28:56 2019 +0200
+
+    Updated FreeBSD ports files.
+
+commit 4555f2d36fb2d27fc18283483e048c3ffec07972
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 26 09:39:29 2019 +0200
+
+    Updated LSM entry.
+
+commit 7f7cce13aa0f6fe1575c18a08962f8a69ae760d9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 26 09:37:25 2019 +0200
+
+    New release subnetcalc-2.4.12.
+
 commit ebb04acc5cb48e9fa89504827b7e139efb5fab59
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Jul 26 09:12:13 2019 +0200
