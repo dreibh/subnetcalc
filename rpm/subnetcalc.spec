@@ -3,7 +3,7 @@ Version: 2.4.13~rc1.0
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
-License: GPLv3
+License: GPL-3+
 URL: https://www.uni-due.de/~be0001/subnetcalc/
 Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.xz
 

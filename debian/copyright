@@ -5,7 +5,7 @@ Source: https://www.uni-due.de/~be0001/subnetcalc/
 
 Files: *
 Copyright: Copyright (C) 2002-2019 Thomas Dreibholz <dreibh@iem.uni-due.de>
-License: GPL-3
+License: GPL-3+
  This program is free software: you can redistribute it and/or modify
  it under the terms of the GNU General Public License as published by
  the Free Software Foundation, either version 3 of the License, or
