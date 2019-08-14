@@ -5,7 +5,6 @@ PORTNAME=	subnetcalc
 PORTVERSION=	2.4.13
 CATEGORIES=	net
 MASTER_SITES=	https://www.uni-due.de/~be0001/subnetcalc/download/
-EXTRACT_SUFX=	.tar.xz
 
 MAINTAINER=	dreibh@iem.uni-due.de
 COMMENT=	IPv4/IPv6 Subnet Calculator
@@ -15,8 +14,8 @@ LICENSE_FILE=   ${WRKSRC}/COPYING
 
 LIB_DEPENDS=	libGeoIP.so:net/GeoIP
 
-GNU_CONFIGURE=	yes
-USES=           cmake
+USES=           tar:xz cmake
+
 CMAKE_ARGS+=    -DCMAKE_INSTALL_MANDIR=${PREFIX}/man
 
 .include <bsd.port.mk>
