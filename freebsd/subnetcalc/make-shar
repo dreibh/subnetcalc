@@ -1,3 +1,0 @@
-#!/bin/sh
-
-shar Makefile distinfo pkg-descr >subnetcalc.shar
