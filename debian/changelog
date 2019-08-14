@@ -1,3 +1,9 @@
+subnetcalc (2.4.14-1ubuntu1) eoan; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Wed, 14 Aug 2019 15:34:32 +0200
+
 subnetcalc (2.4.13-1ubuntu1) eoan; urgency=medium
 
   * New upstream release.

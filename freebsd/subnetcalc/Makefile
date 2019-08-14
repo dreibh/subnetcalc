@@ -2,7 +2,7 @@
 # $FreeBSD: head/net/subnetcalc/Makefile 427596 2016-12-03 08:11:52Z jhale $
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.4.13
+PORTVERSION=	2.4.14
 CATEGORIES=	net
 MASTER_SITES=	https://www.uni-due.de/~be0001/subnetcalc/download/
 

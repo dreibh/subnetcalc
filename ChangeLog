@@ -1,3 +1,90 @@
+commit 9fd935c5f7a0c96d3eabf37459ebfd60dff7aad5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 15:31:42 2019 +0200
+
+    Removed FreeBSD dependency on GeoIP, since it is not available any more.
+
+commit 9f0577366bbc79b43cba918501a7acfa7b4569cc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 15:30:52 2019 +0200
+
+    CMakeLists.txt for FreeBSD builds.
+
+commit 2eca6eb3a08f107195e71affd858148f49a64cac
+Merge: a144888 31a8c60
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 14:04:23 2019 +0200
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit 31a8c602d516f1aa0fbdeafbbfaa3a37fc54ff1e
+Merge: 15bf6ee 5dbcce7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 11:45:18 2019 +0200
+
+    Merge branch 'master' of https://github.com/dreibh/subnetcalc
+
+commit 15bf6ee245dac3dbb21410e80342abd7bc723729
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 11:27:22 2019 +0200
+
+    Removed obsolete helper scripts.
+
+commit a144888d0bc8df0759d0b0846a4ef4674483c598
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 09:51:34 2019 +0200
+
+    Updated CI scripts.
+
+commit 5dbcce7c483472d092ae3331e9be64b27721be52
+Merge: 2656cd1 778f097
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 14 09:46:57 2019 +0200
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit 2656cd12dc5b488a9b1b15f038c315b410d9cec3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 12 15:30:31 2019 +0200
+
+    Updated build script.
+
+commit 778f097b71bd8291af1bdea6654ab262d473df6e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 12 10:58:42 2019 +0200
+
+    Updated FreeBSD port files.
+
+commit 70ba13947f6a2ce00636a24a280a985ad097b409
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Aug 12 09:05:37 2019 +0200
+
+    Improved Travis CI configuration.
+
+commit 5223ae1900736a5bce6eca770e014581c56aa3ce
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Aug 8 14:05:25 2019 +0200
+
+    Build script update.
+
+commit 1d45b0109f8f7157c6cce1c04fe78ae26b2287e2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 7 18:22:33 2019 +0200
+
+    Updated distinfo.
+
+commit e3546d4a5b71bf34daa1c50af6d73a2a71f83fa4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 7 18:22:03 2019 +0200
+
+    Updated LSM entry.
+
+commit e31c3f081e7f2c59fb30561193277ecb431b58a9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 7 17:41:09 2019 +0200
+
+    New release subnetcalc-2.4.13.
+
 commit b33ee643cc55f61da38f60dda7cb6934fd21b237
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 7 10:33:04 2019 +0200
