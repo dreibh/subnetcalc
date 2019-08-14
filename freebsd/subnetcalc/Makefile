@@ -12,8 +12,6 @@ COMMENT=	IPv4/IPv6 Subnet Calculator
 LICENSE=	GPLv3+
 LICENSE_FILE=   ${WRKSRC}/COPYING
 
-LIB_DEPENDS=	libGeoIP.so:net/GeoIP
-
 USES=           tar:xz cmake
 
 CMAKE_ARGS+=    -DCMAKE_INSTALL_MANDIR=${PREFIX}/man
