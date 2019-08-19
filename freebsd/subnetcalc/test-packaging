@@ -53,9 +53,12 @@ make package && \
 echo "4. ###### make deinstall ##############################################" && \
 make deinstall && \
 echo "5. ###### pkg add #####################################################" && \
-if [ -e ${PACKAGE}-${PACKAGE_VERSION}.txz ] ; then
+if [ -e work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz ] ; then
    mkdir /usr/ports/packages /usr/ports/packages/All
-   cp ${PACKAGE}-${PACKAGE_VERSION}.txz /usr/ports/packages/All
+   cp work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz /usr/ports/packages/All
+else
+   echo >&2 "ERROR: Cannot find work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz!"
+   exit 1
 fi
 pkg add /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.txz && \
 echo "6. ###### make deinstall ##############################################" && \
