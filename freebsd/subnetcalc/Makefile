@@ -1,5 +1,5 @@
 # Created by: Thomas Dreibholz <dreibh@iem.uni-due.de>
-# $FreeBSD: head/net/subnetcalc/Makefile 427596 2016-12-03 08:11:52Z jhale $
+# $FreeBSD: head/net/subnetcalc/Makefile 509302 2019-08-19 19:22:25Z jgh $
 
 PORTNAME=	subnetcalc
 PORTVERSION=	2.4.14
@@ -10,10 +10,12 @@ MAINTAINER=	dreibh@iem.uni-due.de
 COMMENT=	IPv4/IPv6 Subnet Calculator
 
 LICENSE=	GPLv3+
-LICENSE_FILE=   ${WRKSRC}/COPYING
+LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=           cmake tar:xz
+USES=		tar:xz cmake
+CMAKE_ARGS+=	-DCMAKE_INSTALL_MANDIR=${MANPREFIX}/man
 
-CMAKE_ARGS+=    -DCMAKE_INSTALL_MANDIR=${PREFIX}/man
+PLIST_FILES=	bin/subnetcalc \
+		man/man1/subnetcalc.1.gz
 
 .include <bsd.port.mk>
