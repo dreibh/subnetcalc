@@ -324,11 +324,11 @@ matrix:
 
 
 before_install:
-  - travis_wait 60 travis_retry ci/before-install
+  - ci/before-install
 
 install:
-  - travis_wait 60 travis_retry ci/install
+  - ci/install
 
 script:
-  - travis_wait 60 travis_retry ci/build
-  - travis_wait 60 travis_retry ci/test
+  - ci/build
+  - ci/test
