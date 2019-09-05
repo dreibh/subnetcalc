@@ -403,6 +403,8 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
 
       # Basic dependencies:
       ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
+         env ASSUME_ALWAYS_YES=yes pkg update
+      ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
          env ASSUME_ALWAYS_YES=yes pkg install -y bash gcc joe git
 
       # Bash shell:
