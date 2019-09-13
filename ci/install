@@ -303,6 +303,7 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
       sudo fuse-ufs2/fuse-ufs/fuse-ufs ${LOOPDEV}p3 ${mountPoint} -o rw
 
       # ~~~~~~ Modify ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      # Set up networking:
       sudo cp ${mountPoint}/etc/rc.conf .
       sudo bash -c "(
             echo \"sshd_enable=\\\"YES\\\"\"
@@ -314,11 +315,13 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
          ) >>${mountPoint}/etc/rc.conf"
       # sudo cat ${mountPoint}/etc/rc.conf
 
-      sudo bash -c "echo \"PermitRootLogin prohibit-password\" >>${mountPoint}/etc/ssh/sshd_config"
-      # sudo tail -n 6 ${mountPoint}/etc/ssh/sshd_config
+      # Make sure that FreeBSD uses the latest packages:
+      sudo sed -e 's#"pkg+http://pkg.FreeBSD.org/${ABI}/quarterly"#"pkg+http://pkg.FreeBSD.org/${ABI}/latest"#g' -i ${mountPoint}/etc/pkg/FreeBSD.conf
 
+      # Make sure that the /usr/ports directory is there.
       sudo mkdir -p ${mountPoint}/usr/ports
 
+      # Add SSH public key authentication:
       sudo mkdir -p ${mountPoint}/root/.ssh
       sudo chmod 700 ${mountPoint}/root/.ssh
       if [ ! -e ~/.ssh/id_rsa ] ; then
@@ -327,6 +330,10 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
       sudo cp ~/.ssh/id_rsa.pub ${mountPoint}/root/.ssh/authorized_keys
       sudo chmod 600 ${mountPoint}/root/.ssh/authorized_keys
 
+      sudo bash -c "echo \"PermitRootLogin prohibit-password\" >>${mountPoint}/etc/ssh/sshd_config"
+      # sudo tail -n 6 ${mountPoint}/etc/ssh/sshd_config
+
+      # Set up NFS:
       sudo mkdir -p ${mountPoint}/travis
       sudo sed -e "/^.*\/travis.*$/d" -i~ ${mountPoint}/etc/fstab
       sudo bash -c "( echo \"192.168.100.1:/travis /travis   nfs   rw,soft,async,noatime,nfsv3,rsize=65536,wsize=65536   0   0\" ; echo \"tmpfs /usr/ports tmpfs rw 0 0\" ) >>${mountPoint}/etc/fstab"
@@ -368,7 +375,7 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
 
       # ====== Start VM =====================================================
       sudo killall -q qemu-system-x86_64 || true
-      ssh-keygen -R "[localhost]:8829"
+      ssh-keygen -R "[localhost]:8829" -f ~/.ssh/known_hosts
       # Non-KVM execution: qemu-system-x86_64 \
       sudo qemu-system-x86_64 -machine type=pc,accel=kvm -nographic \
          -m 6144 -cpu host -smp $(nproc) \
@@ -402,7 +409,7 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
       ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
          env ASSUME_ALWAYS_YES=yes pkg update
       ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
-         env ASSUME_ALWAYS_YES=yes pkg install -y bash gcc joe git
+         env ASSUME_ALWAYS_YES=yes pkg install -y bash gcc joe git libtool autoconf automake
 
       # Bash shell:
       # Use bash, and make sure it is available under /bin/bash.
@@ -417,11 +424,11 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
       # ---    "portsnap --interactive fetch extract | grep -v ^/usr/ports"
       # Using Git is much faster:
       ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
-         "rm -rf /usr/ports/* /usr/ports/.git* ; git clone --depth=1 --filter=tree:0 https://github.com/freebsd/freebsd-ports /usr/ports"
+         "rm -rf /usr/ports ; git clone --depth=1 --filter=tree:0 https://github.com/freebsd/freebsd-ports /usr/ports"
 
       # Package's dependencies:
       ssh -p 8829 -oStrictHostKeyChecking=no -i ~/.ssh/id_rsa root@localhost \
-         "cd /travis/freebsd/*/ && ( make build-depends-list && make run-depends-list ) | sed 's/^.*\///g' | xargs -r env ASSUME_ALWAYS_YES=yes pkg install -y"
+         "cd /travis/freebsd/*/ && ( make build-depends-list && make run-depends-list ) | sed -e 's/^.*\///g' -e 's/glib20/glib/g' | sort -u | xargs -r env ASSUME_ALWAYS_YES=yes pkg install -y"
 
       echo "===== The FreeBSD VM is ready! ====="
    fi
@@ -430,8 +437,11 @@ elif [ "${TRAVIS_OS_NAME}" == "linux" -a "${QEMU}" == "FreeBSD" ] ; then
 # ###### MacOS X ############################################################
 elif [ "${TRAVIS_OS_NAME}" == "osx" ] ; then
 
-   brew update
-   brew install $@
+   # For MacOS, the dependencies have to be specified as parameters to "ci/install":
+   if [ $# -gt 0 ] ; then
+      brew update
+      brew install $@
+   fi
 
 
 # ###### Error ##############################################################
