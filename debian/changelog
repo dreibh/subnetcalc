@@ -1,9 +1,9 @@
-subnetcalc (2.4.15~rc3-1ubuntu1) focal; urgency=medium
+subnetcalc (2.4.15-1ubuntu1) focal; urgency=medium
 
   * New upstream release.
   * debian/control: Updated standards version to 4.5.0.0.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Fri, 07 Feb 2020 12:53:00 +0100
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Fri, 07 Feb 2020 13:21:27 +0100
 
 subnetcalc (2.4.14-1ubuntu1) eoan; urgency=medium
 
