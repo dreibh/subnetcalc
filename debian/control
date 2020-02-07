@@ -8,7 +8,7 @@ Build-Depends: cmake (>= 3.0.2) | cmake3,
                libfile-fcntllock-perl,
                libgeoip-dev,
                pkg-config
-Standards-Version: 4.4.1.2
+Standards-Version: 4.5.0.0
 Vcs-Git: https://github.com/dreibh/subnetcalc.git
 Vcs-Browser: https://github.com/dreibh/subnetcalc
 
