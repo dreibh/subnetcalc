@@ -16,21 +16,21 @@ matrix:
 
    # ###### Ubuntu Linux ####################################################
 
-   # ====== Ubuntu 20.04 (Focal Fossum) =====================================
-   - name: "Ubuntu 20.04 (Focal Fossum) with GCC"
+   # ====== Ubuntu 20.04 (Focal Fossa) ======================================
+   - name: "Ubuntu 20.04 (Focal Fossa) with GCC"
      os: linux
-     dist: xenial
+     dist: focal
      group: travis_latest
-     env: DOCKER="ubuntu:eoan" VARIANT="ubuntu" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
-   - name: "Ubuntu 20.04 (Focal Fossum) with Clang"
+     env: DOCKER="ubuntu:focal" VARIANT="ubuntu" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
+   - name: "Ubuntu 20.04 (Focal Fossa) with Clang"
      os: linux
-     dist: xenial
+     dist: focal
      group: travis_latest
-     env: DOCKER="ubuntu:eoan" VARIANT="ubuntu" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
-   - name: "Ubuntu 20.04 (Focal Fossum) packaging with pbuilder"
-     dist: xenial
+     env: DOCKER="ubuntu:focal" VARIANT="ubuntu" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
+   - name: "Ubuntu 20.04 (Focal Fossa) packaging with pbuilder"
+     dist: focal
      group: travis_latest
-     env: DOCKER="ubuntu:eoan" VARIANT="ubuntu" TOOL="pbuilder"
+     env: DOCKER="ubuntu:focal" VARIANT="ubuntu" TOOL="pbuilder"
 
    # ====== Ubuntu 19.10 (Eoan Ermine) ======================================
    - name: "Ubuntu 19.10 (Eoan Ermine) with GCC"
@@ -47,22 +47,6 @@ matrix:
      dist: bionic
      group: travis_latest
      env: DOCKER="ubuntu:eoan" VARIANT="ubuntu" TOOL="pbuilder"
-
-   # ====== Ubuntu 18.10 (Cosmic Cuttlefish) ================================
-   - name: "Ubuntu 18.10 (Cosmic Cuttlefish) with GCC"
-     os: linux
-     dist: bionic
-     group: travis_latest
-     env: DOCKER="ubuntu:cosmic" VARIANT="ubuntu" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
-   - name: "Ubuntu 18.10 (Cosmic Cuttlefish) with Clang"
-     os: linux
-     dist: bionic
-     group: travis_latest
-     env: DOCKER="ubuntu:cosmic" VARIANT="ubuntu" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
-   - name: "Ubuntu 18.10 (Cosmic Cuttlefish) packaging with pbuilder"
-     dist: bionic
-     group: travis_latest
-     env: DOCKER="ubuntu:cosmic" VARIANT="ubuntu" TOOL="pbuilder"
 
    # ====== Ubuntu 18.04 (Bionic Beaver) ====================================
    - name: "Ubuntu 18.04 (Bionic Beaver) with GCC"
