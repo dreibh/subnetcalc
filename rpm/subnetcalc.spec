@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.15
+Version: 2.4.16
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -37,6 +37,8 @@ make DESTDIR=%{buildroot} install
 %doc
 
 %changelog
+* Mon May 18 2020 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.16
+- New upstream release.
 * Fri Feb 07 2020 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.15
 - New upstream release.
 * Wed Aug 14 2019 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.14

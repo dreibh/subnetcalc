@@ -1,3 +1,63 @@
+commit d8e504f8b0f4a9316eec5045927ce24bd7aa3295
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 18 10:53:27 2020 +0200
+
+    Added test.
+
+commit fa3c0de27236d382e246bc7ef4534b9073485b5b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed May 6 22:02:24 2020 +0200
+
+    Updated build scripts
+
+commit 6ad6ba32d6594ac1d19cc1ee4ac9e6a33daf4f05
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed May 6 22:02:23 2020 +0200
+
+    Updated build scripts
+
+commit ad16c162f7e4b76c72b8cb947287fafddd8c5b5a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 20 10:57:31 2020 +0200
+
+    Travis CI configuration update for Fedora.
+
+commit acf0c023c2b362999440c133cf3855eaa35868db
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Apr 17 11:30:57 2020 +0200
+
+    Updated Travis CI configuration for Ubuntu builds.
+
+commit 724f28e5c81e1e25131dc4e0ed6bc1dc7824e63f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Apr 16 11:42:55 2020 +0200
+
+    Updated Travis CI configuration: Ubuntu 19.04 (Disco Dingo) is now obsolete.
+
+commit 0521d3c60b625b06f65b6053972a0d6945b427ad
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Apr 14 19:04:43 2020 +0200
+
+    Updated build scripts
+
+commit ae49b337a7038b008544c4f2c78166ce0b51cfb3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Mar 26 09:56:53 2020 +0100
+
+    Updated build scripts
+
+commit ddf44e71d03417950e79077090724f65b6e832bc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Feb 7 13:27:57 2020 +0100
+
+    Updated LSM entry.
+
+commit 53599147e859b314b3012ae4c245ec95c7ed9500
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Feb 7 13:21:31 2020 +0100
+
+    New release subnetcalc-2.4.15.
+
 commit 131abc5de03afda2b7ec78426b37aa99d54f0ce6
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Feb 7 13:18:53 2020 +0100
