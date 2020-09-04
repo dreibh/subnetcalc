@@ -4,7 +4,7 @@ env:
   global:
     # The next declaration is the encrypted COVERITY_SCAN_TOKEN, created
     #   via the "travis encrypt" command using the project repo's public key
-    - secure: "b9CXtttZr7QMDNgsJWaQHYbihszxdTo+rsNFf+k5TvlyJEx4p5mgrMOe0aHAIPJHW8TRtEHJKUkF1wlTiI8mrG3ZkFoLz7yVLXUwti26GnAmyLSt4pHJeoyov9+P4jHMhCwkf7xQCWs1klQwVscRClEHDaZqrJeTMWnp01Ej6Fbu1Exu7KED1OKA8ywvX/SDjc9lNsovYQ5lV1dSgA747KY2DD1w9AHfKb5GQk8nOIUKVq+zwJtlY26FA9WBUqDCmHr0fCzRV7XoAkKqKhJYNIB/5yuDz0244KaSbRoNlhLRfGkIPoIlF2cmrZdIW1GB58xAkBk1HqZTPvN+dLlXQx6jM+wjOiD43UA4RR6zgTJCD42/JywdNZluZGWAEr1k7ccmOK5CtHbd+dnFv4PDetGrhHxGblB+ahMFsi8wcdhQHSgDFDbPXQwBFN/SKkWSfMpxPlD6gLrXFNV3YMbVr8JgEJtYEYpIyu3VOaoRDqHPbAOAXFFvu/BLwqZLoLGrqKMmFynOEOIXi0eYD05zR1jlbR//SaxvGa+RiFdgiYwHFP65L/wmt5L/PkhhprPIUfkWyT40tjYQIg+bvV6ITwbIuzN3IAmMaFWqWNYruiNyBDUytoDOsyTYxg301uEpUYoM+IkjlI7PNxheJdQ/5/RJ4iJbHO3caZb5J78CnX8="
+    - secure: "b9CXtttZr7QMDNgsJWaQHYbihszxdTo+rsNFf+k5TvlyJEx4p5mgrMOe0aHAIPJHW8TRtEHJKUkF1wlTiI8mrG3ZkFoLz7yVLXUwti26GnAmyLSt4pHJeoyov9+P4jHMhCwkf7xQCWs1klQwVscRClEHDaZqrJeTMWnp01Ej6Fbu1Exu7KED1OKA8ywvX/SDjc9lNsovYQ5lV1dSgA747KY2DD1w9AHfKb5GQk8nOIUKVq+zwJtlY26FA9WBUqDCmHr0fCzRV7XoAkKqKhJYNIB/5yuDz0244KaSbRoNlhLRfGkIPoIlF2cmrZdIW1GB58xAkBk1HqZTPvN+dLlXQx6jM+wjOiD43UA4RR6zgTJCD42/JywdNZluZGWAEr1k7ccmOK5CtHbd+dnFv4PDetGrhHxGblB+ahMFsi8wcdhQHSgDFDbPXQwBFN/SKkWSfMpxPlD6gLrXFNV3YMbVr8JgEJtYEYpIyu3VOaoRDqHPbAOAXFFvu/BLwqZLoLGrqKMmFynOEOIXi0eYD05zR1jlbR//SaxvGa+RiFdgiYwHFP65L/wmt5L/PkhhprPIUfkWyT40tjYQIg+bvV6ITwbIuzN3IAmMaFWqWNYruiNyBDUytoDOsyTYxg321uEpUYoM+IkjlI7PNxheJdQ/5/RJ4iJbHO3caZb5J78CnX8="
 cache:
   directories:
     - /var/cache/apt/
@@ -190,22 +190,22 @@ matrix:
      group: travis_latest
      env: DOCKER="fedora:31" VARIANT="fedora" TOOL="mock"
 
-   # ====== Fedora 30 =======================================================
-   - name: "Fedora 30 with GCC"
+   # ====== Fedora 32 =======================================================
+   - name: "Fedora 32 with GCC"
      os: linux
      dist: bionic
      group: travis_latest
-     env: DOCKER="fedora:30" VARIANT="fedora" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
-   - name: "Fedora 30 with Clang"
+     env: DOCKER="fedora:32" VARIANT="fedora" TOOL="compile" COMPILER_C="gcc" COMPILER_CXX="g++"
+   - name: "Fedora 32 with Clang"
      os: linux
      dist: bionic
      group: travis_latest
-     env: DOCKER="fedora:30" VARIANT="fedora" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
-   - name: "Fedora 30 packaging with mock"
+     env: DOCKER="fedora:32" VARIANT="fedora" TOOL="compile" COMPILER_C="clang" COMPILER_CXX="clang++"
+   - name: "Fedora 32 packaging with mock"
      os: linux
      dist: bionic
      group: travis_latest
-     env: DOCKER="fedora:30" VARIANT="fedora" TOOL="mock"
+     env: DOCKER="fedora:32" VARIANT="fedora" TOOL="mock"
 
    # ====== Fedora Rawhide ==================================================
    # - name: "Fedora Rawhide with GCC"
