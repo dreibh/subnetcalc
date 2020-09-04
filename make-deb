@@ -35,7 +35,7 @@ set -e
 # Set current Debian debhelper version here
 # for building unstable/testing/stable packages
 # (See https://packages.qa.debian.org/d/debhelper.html for latest version!)
-DEBHELPER_LATEST_VERSION="13"
+DEBHELPER_LATEST_VERSION="12"
 
 
 # ====== Obtain package and version information =============================
