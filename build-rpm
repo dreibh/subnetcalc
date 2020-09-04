@@ -76,7 +76,6 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       echo >&2 "ERROR: Cannot find /etc/mock/${DISTRIBUTION}.cfg!"
       exit 1
    fi
-   distribution=`grep "config_opts..root.. =" /etc/mock/${DISTRIBUTION}.cfg | sed -e "s/^.* = //g" -e "s/'//g"`
 
    # Remove old files
    find /var/lib/mock/${DISTRIBUTION}/result -name "${PACKAGE}-*.rpm" | xargs --no-run-if-empty rm -f
@@ -89,7 +88,7 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    mock -r ${DISTRIBUTION} --old-chroot --no-clean --rebuild ${PACKAGE_SRPM}
 
    # Check whether files are at the right location
-   PACKAGE_RPMS=`find /var/lib/mock/${distribution}/result -name "${PACKAGE}-*-*.rpm" | grep -v "${PACKAGE}-*-*.src.rpm" || true`
+   PACKAGE_RPMS=`find /var/lib/mock/${DISTRIBUTION}/result -name "${PACKAGE}-*-*.rpm" | grep -v "${PACKAGE}-*-*.src.rpm" || true`
    if [ "${PACKAGE_RPMS}" == "" ] ; then
       echo >&2 "ERROR: Cannot find RPMs!"
       exit 1
