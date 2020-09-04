@@ -1,7 +1,7 @@
 Name: SubNetCalc
 Homepage: https://www.uni-due.de/~be0001/subnetcalc/
-Repository: https://github.com/dreibh/rsplib.git
-Repository-Browse: https://github.com/dreibh/rsplib
-Bug-Submit: https://github.com/dreibh/rsplib/issues
+Repository: https://github.com/dreibh/subnetcalc.git
+Repository-Browse: https://github.com/dreibh/subnetcalc
+Bug-Submit: https://github.com/dreibh/subnetcalc/issues
 Contact: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Security-Contact: Thomas Dreibholz <dreibh@iem.uni-due.de>
