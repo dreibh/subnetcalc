@@ -253,10 +253,14 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    fi
    if [ ${SKIP_PACKAGE_SIGNING} -eq 1 -o "${OVERRIDE_SKIP_PACKAGE_SIGNING}" == "1" ] ; then
       # Build source package without signature:
-      debuild ${opt} -us -uc -S "-k${MAINTAINER}" -i || exit 1
+      debuild ${opt} -us -uc -S -i || exit 1
    else
       # Build source package including signature:
-      debuild ${opt} -sa -S "-k${MAINTAINER}" -i || exit 1
+      if [ "${MAINTAINER_KEY}" == "" ] ; then
+         echo >&2 "ERROR: MAINTAINER_KEY is not set!"
+         exit 1
+      fi
+      debuild ${opt} -sa -S "-k${MAINTAINER_KEY}" -i || exit 1
    fi
 
    # Important: In /etc/pbuilderrc, set COMPONENTS="main universe"!
