@@ -25,10 +25,10 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 
 %build
 %cmake -DCMAKE_INSTALL_PREFIX=/usr .
-make %{?_smp_mflags}
+%cmake_build
 
 %install
-make DESTDIR=%{buildroot} install
+%cmake_install
 
 %files
 %{_bindir}/subnetcalc
