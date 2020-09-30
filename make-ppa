@@ -93,8 +93,8 @@ fi
 
 # ====== dput ===============================================================
 if [ ${DPUT} -ne 0 ] ; then
-   changeFiles=`ls *.changes`
-   for changeFile in ${changeFile} ; do
+   changeFiles=`find . -mindepth 1 -maxdepth 1 -name "*.changes"`
+   for changeFile in ${changeFiles} ; do
       if [[ ${changeFile} =~ .*[0-9](ppa|ubuntu)[0-9].* ]] ; then
          dput ppa ${changeFile}
       else
