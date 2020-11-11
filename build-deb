@@ -119,5 +119,5 @@ if [ "${PACKAGE_DISTRIBUTION}" == "unstable" -o \
      "${PACKAGE_DISTRIBUTION}" == "stable" ] ; then
    profile="debian"
 fi
-echo "Calling: lintian -iIEv --pedantic --profile ${profile} ${changesFile}"
-lintian -iIEv --pedantic --profile ${profile} ${changesFile} || true
+echo "Calling: lintian -iIEv --pedantic --suppress-tags file-references-package-build-path --profile ${profile} ${changesFile}"
+lintian -iIEv --pedantic --suppress-tags file-references-package-build-path --profile ${profile} ${changesFile} || true
