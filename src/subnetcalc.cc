@@ -738,7 +738,7 @@ int main(int argc, char** argv)
          printf("ERROR: Bad address %s!\n", argv[1]);
          exit(1);
       }
-      if( (prefix = readPrefix((const char*)&slash[1], address, netmask)) < 0 ) {
+      if( readPrefix((const char*)&slash[1], address, netmask) < 0 ) {
          if(string2address((const char*)&slash[1], &netmask) == false) {
             printf("ERROR: Bad netmask %s!\n", (const char*)&slash[1]);
             exit(1);
@@ -757,7 +757,7 @@ int main(int argc, char** argv)
          options = 3;
          // ------ Get netmask or prefix ------------------------------------
          if(argv[2][0] != '-') {
-            if( (prefix = readPrefix(argv[2], address, netmask)) < 0 ) {
+            if( readPrefix(argv[2], address, netmask) < 0 ) {
                if(string2address(argv[2], &netmask) == false) {
                   printf("ERROR: Bad netmask %s!\n", argv[2]);
                   exit(1);
