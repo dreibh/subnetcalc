@@ -66,7 +66,7 @@ while [ $# -gt 0 ] ; do
    elif [ "$1" == "--" ] ; then
       break
    else
-      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|use-gcc-analyzer] [--debug] [--cores N] [--verbose]"
+      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|--use-gcc-analyzer] [--debug] [--cores N] [--verbose]"
       exit 1
    fi
    shift
