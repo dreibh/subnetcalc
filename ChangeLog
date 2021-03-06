@@ -1,3 +1,118 @@
+commit b741c839e85312fa84b8c766930272cac432fd13
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Mar 5 18:52:37 2021 +0100
+
+    Updated Travis CI configuration
+
+commit c827240b1f0e446905e50969aefaffafb62ed5f7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Mar 5 16:01:45 2021 +0100
+
+    Updated build scripts
+
+commit f12da881d72a69d72d16bd58e3f3cbe37a2de4aa
+Merge: bb70bbb a39f2fc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Mar 4 21:10:28 2021 +0100
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit bb70bbb01bd6eb08a7bc8bc951bee168c3444038
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Mar 4 21:10:20 2021 +0100
+
+    Updated Travis CI configuration.
+
+commit a39f2fcdbbfd04f5d32df44a4a4e9cf7080af146
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 3 19:41:47 2021 +0100
+
+    Updated script.
+
+commit 2ffbebb96846d1de43fdc3676f6b2e0d22d018a3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Mar 1 21:25:37 2021 +0100
+
+    Removed unused variable assignments reported by static analysis.
+
+commit 7c687eb11fbb84ff9a3ac47277f97825d6d4e37e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Mar 1 21:22:43 2021 +0100
+
+    Removed unused variable assignment reported by static analysis.
+
+commit 849ed7376d4b43b64ec4c90f1e0d943db6204f06
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Mar 1 21:20:30 2021 +0100
+
+    Updated build scripts
+
+commit df9d373d99d7a8b445db9be0dc007ae6d18aae97
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Mar 1 16:30:36 2021 +0100
+
+    Updated build scripts
+
+commit a91677efbc1a031bf7f866ffef9031fecd7b1341
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Mar 1 16:13:22 2021 +0100
+
+    Improved autogen.sh with options for static analysis.
+
+commit 7bc3492291c6dc9a73ece380e7319deeb29c2040
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 17:57:11 2021 +0100
+
+    Cleaned up CMakeLists.txt.
+
+commit ead3bbcd1a3a0d1f8306daf53f758aa1198c70f3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 15:19:07 2021 +0100
+
+    Updated build scripts
+
+commit 528183434437f7fbd1a79c976993806a051b0a6c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 15:19:06 2021 +0100
+
+    Updated build scripts
+
+commit 601ac5bc2e1da7aeeab3a548bd87e40b27ef92be
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 15:17:37 2021 +0100
+
+    Updated build scripts
+
+commit 344bcdfcdb316df40f3bf33f0fbcd67c24ad4972
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 15:17:37 2021 +0100
+
+    Updated build scripts
+
+commit f324cf27c038092f7cbd97fac3c46aad01131230
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 17 15:16:37 2021 +0100
+
+    Header updates.
+
+commit 8246215f12681969a9b50915336e7d6e7a816c83
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jan 30 07:40:00 2021 +0100
+
+    Updated Travis CI configuration
+
+commit 8582512c5823b98f3990098335d406570efbc915
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 13 19:47:56 2020 +0100
+
+    Updated LSM entry.
+
+commit 947e67ac5a305211e2d253da84ea5681942952a8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 13 19:00:20 2020 +0100
+
+    New release subnetcalc-2.4.17.
+
 commit 13b8b6b0bceb874750e88d25621b0f97cb1043cb
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Nov 13 10:24:50 2020 +0100

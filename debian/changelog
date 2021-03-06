@@ -1,3 +1,10 @@
+subnetcalc (2.4.18-1ubuntu1) hirsute; urgency=medium
+
+  * New upstream release.
+  * debian/control: Updated standards version to 4.5.1.0.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 06 Mar 2021 23:40:21 +0100
+
 subnetcalc (2.4.17-1ubuntu1) hirsute; urgency=medium
 
   * New upstream release.
