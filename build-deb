@@ -73,9 +73,10 @@ sudo echo ""
 ./clean-deb
 ./make-deb ${PACKAGE_DISTRIBUTION}
 
-if [ "${PACKAGE_DISTRIBUTION}" == "unstable" -o \
-     "${PACKAGE_DISTRIBUTION}" == "testing"  -o \
-     "${PACKAGE_DISTRIBUTION}" == "stable"   -o \
+if [ "${PACKAGE_DISTRIBUTION}" == "unstable"  -o \
+     "${PACKAGE_DISTRIBUTION}" == "testing"   -o \
+     "${PACKAGE_DISTRIBUTION}" == "stable"    -o \
+     "${PACKAGE_DISTRIBUTION}" == "oldstable" -o \
      "${PACKAGE_DISTRIBUTION}" == "default" ] ; then
    if [ "${PACKAGE_DISTRIBUTION}" == "default" ] ; then
       version=${PACKAGE_VERSION}
@@ -116,7 +117,8 @@ fi
 profile="ubuntu"
 if [ "${PACKAGE_DISTRIBUTION}" == "unstable" -o \
      "${PACKAGE_DISTRIBUTION}" == "testing"  -o \
-     "${PACKAGE_DISTRIBUTION}" == "stable" ] ; then
+     "${PACKAGE_DISTRIBUTION}" == "stable"   -o \
+     "${PACKAGE_DISTRIBUTION}" == "oldstable" ] ; then
    profile="debian"
 fi
 echo "Calling: lintian -iIEv --pedantic --suppress-tags file-references-package-build-path --profile ${profile} ${changesFile}"
