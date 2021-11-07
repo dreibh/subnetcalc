@@ -164,7 +164,7 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
             ../merge-debian-changelogs debian/changelog debian/changelog.dist >debian/changelog.merged && \
                mv debian/changelog.merged debian/changelog
          fi
-         rm -f changelog.dist
+         rm -f debian/changelog.dist
 
          # Debian: Also remove Launchpad Bug IDs.
          sed -e "s/${PACKAGE_DISTRIBUTION};/${DISTRIBUTION};/1" \
