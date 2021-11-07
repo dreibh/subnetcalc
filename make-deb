@@ -157,12 +157,20 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    cd ${PACKAGE}-${UPSTREAM_VERSION}
 
    if [ "${DISTRIBUTION}" != "default" ] ; then
-      if [ "${DISTRIBUTION}" == "unstable" -o "${DISTRIBUTION}" == "testing" -o "${DISTRIBUTION}" == "stable" ] ; then
+      if [ "${DISTRIBUTION}" == "unstable" -o "${DISTRIBUTION}" == "testing" -o "${DISTRIBUTION}" == "stable" -o "${DISTRIBUTION}" == "oldstable" ] ; then
+         # Fetch debian/changelog from Debian, if available.
+         # If there is a Debian changelog, merge new entries.
+         if ../fetch-debian-changelog ${PACKAGE} ${DISTRIBUTION} >debian/changelog.dist ; then
+            ../merge-debian-changelogs debian/changelog debian/changelog.dist >debian/changelog.merged && \
+               mv debian/changelog.merged debian/changelog
+         fi
+         rm -f changelog.dist
+
          # Debian: Also remove Launchpad Bug IDs.
          sed -e "s/${PACKAGE_DISTRIBUTION};/${DISTRIBUTION};/1" \
              -e "s/\(ubuntu\|ppa\)[0-9]//1" \
              -e "/(LP: #/D" \
-             <debian/changelog | ../filter-empty-entries "$DEBIAN_LAST_ENTRY" >debian/changelog.new
+             <debian/changelog | ../filter-debian-changelog "${DEBIAN_LAST_ENTRY}" >debian/changelog.new
       else
          # Ubuntu PPA
          # Naming example: 2.7.7-1ubuntu~focal1
@@ -170,7 +178,7 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
          sed -e "s/${PACKAGE_DISTRIBUTION};/${DISTRIBUTION};/1" \
              -e "s/${PACKAGE_VERSION}/${OUTPUT_VERSION}~${DISTRIBUTION}1/1" \
              -e "/(Closes: #/D" \
-             <debian/changelog | ../filter-empty-entries "$UBUNTU_LAST_ENTRY" >debian/changelog.new
+             <debian/changelog | ../filter-debian-changelog "${UBUNTU_LAST_ENTRY}" >debian/changelog.new
 
          # ------ Old distributions not supporting c++/regex style symbols --
          if [ "${DISTRIBUTION}" == "dapper"   -o \
@@ -202,12 +210,17 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
       fi
 
       # ------ Use latest Debhelper for Debian ------------------------------
-      if [ "${DISTRIBUTION}" == "unstable" -o "${DISTRIBUTION}" == "testing" -o "${DISTRIBUTION}" == "stable" ] ; then
+      if [ "${DISTRIBUTION}" == "unstable" -o "${DISTRIBUTION}" == "testing" -o "${DISTRIBUTION}" == "stable" -o "${DISTRIBUTION}" == "oldstable" ] ; then
          # Update debhelper version:
-         echo "${DEBHELPER_LATEST_VERSION}" >debian/compat
-         sed -e "s/debhelper (.* [0-9]*)/debhelper (>= ${DEBHELPER_LATEST_VERSION})/g" <debian/control >debian/control.new
+         # Also get rid of legacy cmake3 dependency alternative.
+         sed -e "s/debhelper (.* [0-9]*)/debhelper-compat (= ${DEBHELPER_LATEST_VERSION})/g" \
+             -e "s/ | cmake3//g" \
+            <debian/control >debian/control.new
          # Newer debhelper does not need "--parallel" for building:
-         sed -e "s/\(.*dh .. .*--buildsystem=cmake.*\)\(--parallel\)\(.*\)/\1\3/g" -e 's@[[:space:]]*$@@g' <debian/rules >debian/rules.new
+         sed -e "s/\(.*dh .. .*--buildsystem=cmake.*\)\(--parallel\)\(.*\)/\1\3/g" -e 's@[[:space:]]*$@@g' \
+            <debian/rules >debian/rules.new
+         # There is no need for debian/compat any more:
+         rm -f debian/compat
          mv debian/control.new debian/control
          mv debian/rules.new debian/rules
          updatedDebhelperVersion=1
@@ -269,9 +282,10 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
 
    cd ..
 
-   if [ "${DISTRIBUTION}" == "unstable" -o \
-        "${DISTRIBUTION}" == "testing"  -o \
-        "${DISTRIBUTION}" == "stable"   -o \
+   if [ "${DISTRIBUTION}" == "unstable"  -o \
+        "${DISTRIBUTION}" == "testing"   -o \
+        "${DISTRIBUTION}" == "stable"    -o \
+        "${DISTRIBUTION}" == "oldstable" -o \
         "${DISTRIBUTION}" == "default" ] ; then
       if [ "${DISTRIBUTION}" == "default" ] ; then
          version=${PACKAGE_VERSION}
@@ -297,9 +311,10 @@ echo -e ""
 
 echo -e "\x1b[34mUpload to PPA:\x1b[0m"
 for DISTRIBUTION in ${DISTRIBUTIONS} ; do
-   if [ "${DISTRIBUTION}" == "unstable" -o \
-        "${DISTRIBUTION}" == "testing"  -o \
-        "${DISTRIBUTION}" == "stable"   -o \
+   if [ "${DISTRIBUTION}" == "unstable"  -o \
+        "${DISTRIBUTION}" == "testing"   -o \
+        "${DISTRIBUTION}" == "stable"    -o \
+        "${DISTRIBUTION}" == "oldstable" -o \
         "${DISTRIBUTION}" == "default" ] ; then
       if [ "${DISTRIBUTION}" == "default" ] ; then
          ppa="revu"
@@ -326,9 +341,10 @@ fi
 
 echo -e "\x1b[34mBuild Test Commands:\x1b[0m"
 for DISTRIBUTION in ${DISTRIBUTIONS} ; do
-   if [ "${DISTRIBUTION}" == "unstable" -o \
-        "${DISTRIBUTION}" == "testing"  -o \
-        "${DISTRIBUTION}" == "stable"   -o \
+   if [ "${DISTRIBUTION}" == "unstable"  -o \
+        "${DISTRIBUTION}" == "testing"   -o \
+        "${DISTRIBUTION}" == "stable"    -o \
+        "${DISTRIBUTION}" == "oldstable" -o \
         "${DISTRIBUTION}" == "default" ] ; then
       if [ "${DISTRIBUTION}" == "default" ] ; then
          version=${PACKAGE_VERSION}
@@ -344,7 +360,8 @@ for DISTRIBUTION in ${DISTRIBUTIONS} ; do
    profile="ubuntu"
    if [ "${DISTRIBUTION}" == "unstable" -o \
         "${DISTRIBUTION}" == "testing"  -o \
-        "${DISTRIBUTION}" == "stable" ] ; then
+        "${DISTRIBUTION}" == "stable"   -o \
+        "${DISTRIBUTION}" == "oldstable" ] ; then
       profile="debian"
    fi
    echo -e "\x1b[34m   sudo pbuilder build ${dscFile} && lintian -iIEv --profile ${profile} --pedantic /var/cache/pbuilder/result/$changesFilesPattern\x1b[0m"
