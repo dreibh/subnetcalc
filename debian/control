@@ -17,10 +17,10 @@ Package: subnetcalc
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: iputils-ping,
-            iputils-tracepath,
+Recommends: iputils-tracepath,
+            ping | iputils-ping,
             rsplib-tools,
-            traceroute,
+            traceroute | inetutils-traceroute,
             whois
 Description: IPv4/IPv6 Subnet Calculator
  SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or

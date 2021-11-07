@@ -1,9 +1,10 @@
-subnetcalc (2.4.19~test0-1ubuntu1) hirsute; urgency=medium
+subnetcalc (2.4.19~test1-1ubuntu1) jammy; urgency=medium
 
   * New upstream release.
   * debian/control: Updated standards version to 4.6.0.1.
+  * debian/control: Dependency update (Closes: #737575).
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sat, 06 Nov 2021 20:13:35 +0100
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 07 Nov 2021 19:15:39 +0100
 
 subnetcalc (2.4.18-1ubuntu1) hirsute; urgency=medium
 
