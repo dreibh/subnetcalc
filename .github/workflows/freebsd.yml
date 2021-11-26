@@ -1,0 +1,56 @@
+# GitHub Actions Scripts
+# Copyright (C) 2021-2022 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@simula.no
+
+name: FreeBSD CI Tests
+
+on:
+  push:
+    branches:
+      - master
+      - dreibh/github-actions
+      - dreibh/github-actions-freebsd
+
+jobs:
+  build_job:
+
+    # ###### Build matrix ###################################################
+    strategy:
+      matrix:
+        include:
+
+          # ====== FreeBSD 13.0 =============================================
+          - label: "FreeBSD 13.0: Clang/x86_64"
+            cc: clang
+            cxx: clang++
+
+
+    # ###### Build commands #################################################
+    name: ${{ matrix.label }}
+    runs-on: macos-10.15
+    steps:
+    - uses: actions/checkout@v2
+    - name: Test in FreeBSD
+      id: test
+      uses: vmactions/freebsd-vm@v0.1.5
+      with:
+        usesh: true
+        run: |
+          ASSUME_ALWAYS_YES=yes pkg install -y bash
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-setup   compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-install compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-build   compile

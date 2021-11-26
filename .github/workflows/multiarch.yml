@@ -1,0 +1,87 @@
+# GitHub Actions Scripts
+# Copyright (C) 2021-2022 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@simula.no
+
+name: Linux Multi-Arch Tests
+
+on:
+  push:
+    branches:
+      - master
+      - dreibh/github-actions
+
+jobs:
+  build_job:
+
+    # ###### Build matrix ###################################################
+    strategy:
+      matrix:
+        include:
+
+          # ====== Ubuntu Linux =============================================
+          - label: "Ubuntu 20.04 (Focal Fossa): Clang/ARMv8"
+            arch: aarch64
+            distro: ubuntu20.04
+            cc: clang
+            cxx: clang++
+          - label: "Ubuntu 20.04 (Focal Fossa): GCC/S390x"
+            arch: s390x
+            distro: ubuntu20.04
+            cc: gcc
+            cxx: g++
+          - label: "Ubuntu 20.04 (Focal Fossa): GCC/RISC-V"
+            arch: riscv64
+            distro: ubuntu20.04
+            cc: gcc
+            cxx: g++
+
+          # ====== Debian Linux =============================================
+          - label: "Debian 12 (Bookworm): GCC/i386"
+            arch: i386
+            distro: bookworm
+            cc: gcc
+            cxx: g++
+          - label: "Debian 12 (Bookworm): Clang/ARMv7"
+            arch: arm32v7
+            distro: bookworm
+            cc: clang
+            cxx: clang++
+
+          # ====== Fedora Linux =============================================
+          - label: "Fedora 35: GCC/PPC64"
+            arch: ppc64le
+            distro: fedora35
+            cc: gcc
+            cxx: g++
+
+
+    # ###### Build commands #################################################
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: dreibh/run-on-arch-action@dreibh/tests
+        name: Build
+        id: build
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+          run: |
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-setup   compile
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-install compile
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-build   compile
