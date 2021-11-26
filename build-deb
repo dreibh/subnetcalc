@@ -73,6 +73,9 @@ sudo echo ""
 ./clean-deb
 ./make-deb ${PACKAGE_DISTRIBUTION}
 
+if [ "${ARCH}" == "" ] ; then
+   ARCH=`dpkg --print-architecture`
+fi
 if [ "${PACKAGE_DISTRIBUTION}" == "unstable"  -o \
      "${PACKAGE_DISTRIBUTION}" == "testing"   -o \
      "${PACKAGE_DISTRIBUTION}" == "stable"    -o \
