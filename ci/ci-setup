@@ -201,7 +201,7 @@ EOF
 # ###### FreeBSD ############################################################
 elif [ "${UNAME}" == "FreeBSD" ] ; then
 
-   ASSUME_ALWAYS_YES=yes pkg install -y bash gcc git python3
+   ASSUME_ALWAYS_YES=yes pkg install -y bash gcc libtool git python3
 
    # Ports collection:
    # This is the slow method via portsnap:
