@@ -105,7 +105,7 @@ if ((system == 'debian') or  (system == 'ubuntu')):
       sys.stdout.write('\n')
 
       if runInstall == True:
-         subprocess.call([ 'apt-get', 'install', '-y' ] + dependencies)
+         subprocess.call([ 'apt-get', 'install', '-qy' ] + dependencies)
 
    else:
       sys.stderr.write('ERROR: Unable to locate Debian control file!\n')
