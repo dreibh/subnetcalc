@@ -83,10 +83,10 @@ if [ "${PACKAGE_DISTRIBUTION}" == "unstable"  -o \
    else
       version=${DEBIAN_VERSION}
    fi
-   changesFilesPattern="${PACKAGE}_${version}_*.changes"
+   changesFilesPattern="${PACKAGE}_${version}_${ARCH}*.changes"
    dscFile=`ls ${PACKAGE}_${version}.dsc | tail -n1`
 else
-   changesFilesPattern="${PACKAGE}_${OUTPUT_VERSION}~${PACKAGE_DISTRIBUTION}[0-9]_*.changes"
+   changesFilesPattern="${PACKAGE}_${OUTPUT_VERSION}~${PACKAGE_DISTRIBUTION}[0-9]_${ARCH}*.changes"
    dscFile=`ls ${PACKAGE}_${OUTPUT_VERSION}~${PACKAGE_DISTRIBUTION}[0-9].dsc | tail -n1`
 fi
 
@@ -100,7 +100,7 @@ if [ ! -e "${dscFile}" ] ; then
     echo >&2 "ERROR: Unable to find description file ${dscFile}!"
     exit 1
 fi
-sudo pbuilder build ${dscFile}
+sudo OS=${OS} DIST=${DIST} ARCH=${ARCH} pbuilder build ${dscFile}
 
 
 # ====== Run lintian ========================================================
