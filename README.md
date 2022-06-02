@@ -212,21 +212,10 @@ The Git repository of the SubNetCalc sources can be found at https://github.com/
 - Pull Requests for SubNetCalc: https://github.com/dreibh/subnetcalc/pulls.
   Your contributions to SubNetCalc are always welcome!
 
-- Travis CI automated build tests of SubNetCalc: https://travis-ci.org/dreibh/subnetcalc.
+- CI build tests of SubNetCalc: https://github.com/dreibh/subnetcalc/actions.
 
 - Coverity Scan analysis of SubNetCalc: https://scan.coverity.com/projects/dreibh-subnetcalc.
 
 ### Current Stable Release
 
-The tarball has been signed with my GnuPG key DF605BB0760F2D65. Its authenticity and integrity can be verified by:
-
-gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys DF605BB0760F2D65
-gpg --verify subnetcalc-VERSION.tar.xz.asc subnetcalc-VERSION.tar.xz
-
-- [subnetcalc-2.4.14.tar.xz (Tar/XZ file)](https://www.uni-due.de/~be0001/subnetcalc/download/subnetcalc-2.4.14.tar.xz)
-- [subnetcalc-2.4.14.tar.xz.asc (Signature)](https://www.uni-due.de/~be0001/subnetcalc/download/subnetcalc-2.4.14.tar.xz.asc)
-
-## Requirements
-
-- Linux or FreeBSD (other OS should work too), GeoIP library and a C++ compiler
-
+See https://www.uni-due.de/~be0001/subnetcalc/#Download!
