@@ -867,6 +867,11 @@ int main(int argc, char** argv)
       }
    }
    std::cout << "Wildcard Mask = " << wildcard << std::endl;
+   if(isIPv4(address)) {
+      char hex[16];
+      snprintf((char*)&hex, sizeof(hex), "%08X", ntohl(address.in.sin_addr.s_addr));
+      std::cout << "Hex. Address  = " << hex << std::endl;
+   }
    std::cout << "Hosts Bits    = " << hostBits << std::endl;
    if(!isMulticast(address)) {
       char maxHostsString[128];
