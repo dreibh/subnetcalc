@@ -55,6 +55,7 @@ union sockaddr_union {
 };
 
 bool checkIPv6();
+bool hasTranslationPrefix(const sockaddr_in6* address);
 size_t getSocklen(const struct sockaddr* address);
 bool address2string(const struct sockaddr* address,
                     char*                  buffer,

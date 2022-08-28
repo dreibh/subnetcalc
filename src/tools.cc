@@ -126,6 +126,15 @@ bool checkIPv6()
 }
 
 
+/* ###### Does the given address have a translation prefix? ############## */
+bool hasTranslationPrefix(const sockaddr_in6* address)
+{
+   return ntohs(address->sin6_addr.s6_addr16[0]) == 0x64 &&
+          ntohs(address->sin6_addr.s6_addr16[1]) == 0xff9b &&
+          ntohs(address->sin6_addr.s6_addr16[2]) <= 1;
+}
+
+
 /* ###### Get socklen for given address ################################## */
 size_t getSocklen(const struct sockaddr* address)
 {
@@ -140,6 +149,45 @@ size_t getSocklen(const struct sockaddr* address)
          return(sizeof(struct sockaddr));
        break;
    }
+}
+
+
+/* ###### Format an IPv6-embedded IPv6 address ########################### */
+inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
+                                  char*                      str,
+                                  const size_t               maxlen)
+{
+   struct in6_addr prefix = ipv6address->sin6_addr;
+
+   // Set the suffix to a predictable value.
+   prefix.s6_addr32[3] = 0xffffffff;
+
+   if(inet_ntop(AF_INET6, &prefix, str, maxlen) == NULL)
+   {
+      return false;
+   }
+
+   // Overwrite the predictable suffix with the IPv4 address.
+   const size_t pl  = strnlen(str, maxlen) - 9;
+   const uint32_t u = ntohs(ipv6address->sin6_addr.s6_addr16[6]);
+   const uint32_t l = ntohs(ipv6address->sin6_addr.s6_addr16[7]);
+
+   struct in_addr suffix = { .s_addr = htonl((u << 16) | l) };
+
+   return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != NULL;
+}
+
+
+/* ###### Format an IPv6 address ######################################### */
+static inline bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
+                                     char*                      str,
+                                     const size_t               maxlen)
+{
+   if(hasTranslationPrefix(ipv6address)) {
+      return formatEmbeddedAddress(ipv6address, str, maxlen);
+   }
+
+   return inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, maxlen) != NULL;
 }
 
 
@@ -184,7 +232,7 @@ bool address2string(const struct sockaddr* address,
          else {
             scope[0] = 0x00;
          }
-         if(inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, sizeof(str)) != NULL) {
+         if(formatIPv6Address(ipv6address, str, sizeof(str))) {
             if(port) {
                snprintf(buffer, length,
                         "[%s%s]:%d", str, scope, ntohs(ipv6address->sin6_port));

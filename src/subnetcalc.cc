@@ -591,6 +591,9 @@ void printAddressProperties(std::ostream&         os,
       else if(IN6_IS_ADDR_V4MAPPED(&ipv6address)) {
          os << "   - IPv4-mapped IPv6 address" << std::endl;
       }
+      else if(hasTranslationPrefix(&address.in6)) {
+         os << "   - IPv4-embedded IPv6 address" << std::endl;
+      }
 
       // ------ Multicast addresses -----------------------------------------
       else if(IN6_IS_ADDR_MULTICAST(&ipv6address)) {
