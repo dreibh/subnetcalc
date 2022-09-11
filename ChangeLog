@@ -1,3 +1,93 @@
+commit 97862488a68096eea2738a575aadb9e9435805aa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:47:32 2022 +0200
+
+    Removed Vcs-* fields from debian/control.
+
+commit 16a8f3d6b2a0f3fe69540630167f9af2af909e3f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:20:07 2022 +0200
+
+    Updated CI scripts
+
+commit 632af4f05ea49dc9cb4bb43b673f89e1965c66ce
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:20:05 2022 +0200
+
+    Updated build scripts
+
+commit 91831ce55d93e43079f55b3691a1d3e89283ab50
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 2 12:06:06 2022 +0200
+
+    Updated README.md.
+
+commit a1237967d64703d5528f1e7f8cedfba9dc222704
+Author: TechnologyClassroom <michael.steven.mcmahon@gmail.com>
+Date:   Fri Oct 25 14:07:23 2019 -0400
+
+    Copy readme from site
+
+commit 9581fa23b22d3936a77e0d2073a69eac611e57d9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 16 12:22:30 2022 +0100
+
+    Updated build scripts
+
+commit dde3270d45ce5c8cc2b120f4bf42d0232d5b4fe9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 30 15:29:55 2021 +0100
+
+    Removed invalid field "Homepage" from debian/upstream/metadata
+
+commit 5fb80869c9c20028414f1c414db725c4da4fc482
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 22:01:15 2021 +0100
+
+    Updated CI scripts
+
+commit 8c9313516ce747cd99772128704faa2d3d5bf7a7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 21:57:50 2021 +0100
+
+    Updated build scripts
+
+commit bf0b903cb5d75c61c000f4b7b32b2f9c730bf93a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:39 2021 +0100
+
+    Added CI workflows.
+
+commit 0c1e7c3e64f413c49f059484af5ea9f510187464
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Updated CI scripts
+
+commit 5a5851de2db6e76650fd2d917ac8cd0913e5152d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Travis CI is dead. Removed obsolete Travis CI scripts and configuration.
+
+commit b5921ecada3d0b71a7f07adc2abead77dd32ab14
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Updated build scripts
+
+commit 4ccc7347eeb2346951ee5d9c7a6129d2c4f90fdd
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 8 20:34:36 2021 +0100
+
+    Updated LSM entry.
+
+commit 169e78a384d51787dca24f1a8b58a6e3bb12fde6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 8 20:10:40 2021 +0100
+
+    New release subnetcalc-2.4.19.
+
 commit 22a51e2a0df6371e3079e0e30352914e37165b07
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Nov 7 19:52:14 2021 +0100

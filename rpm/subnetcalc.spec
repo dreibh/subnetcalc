@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.19
+Version: 2.4.20
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -37,6 +37,8 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 %doc
 
 %changelog
+* Sun Sep 11 2022 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.20
+- New upstream release.
 * Mon Nov 08 2021 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.19
 - New upstream release.
 * Sat Mar 06 2021 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.18
