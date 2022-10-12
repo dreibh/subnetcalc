@@ -2,6 +2,7 @@ subnetcalc (2.4.20-1ubuntu2) UNRELEASED; urgency=medium
 
   * Bump debhelper from deprecated 9 to 13.
   * Set debhelper-compat version in Build-Depends.
+  * Set upstream metadata fields: Bug-Database.
 
  -- Debian Janitor <janitor@jelmer.uk>  Wed, 12 Oct 2022 03:40:24 -0000
 
