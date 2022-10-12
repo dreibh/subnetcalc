@@ -4,7 +4,7 @@ Priority: optional
 Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
 Homepage: https://www.uni-due.de/~be0001/subnetcalc/
 Build-Depends: cmake (>= 3.0.2) | cmake3,
-               debhelper (>= 9),
+               debhelper (>= 13~),
                libfile-fcntllock-perl,
                libgeoip-dev,
                pkg-config
