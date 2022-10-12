@@ -4,6 +4,8 @@ subnetcalc (2.4.20-1ubuntu2) UNRELEASED; urgency=medium
   * Set debhelper-compat version in Build-Depends.
   * Set upstream metadata fields: Bug-Database.
   * Drop unnecessary dh arguments: --parallel
+  * Remove obsolete fields Contact, Name from debian/upstream/metadata (already
+    present in machine-readable debian/copyright).
 
  -- Debian Janitor <janitor@jelmer.uk>  Wed, 12 Oct 2022 03:40:24 -0000
 
