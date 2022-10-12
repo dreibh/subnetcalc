@@ -6,6 +6,7 @@ subnetcalc (2.4.20-1ubuntu2) UNRELEASED; urgency=medium
   * Drop unnecessary dh arguments: --parallel
   * Remove obsolete fields Contact, Name from debian/upstream/metadata (already
     present in machine-readable debian/copyright).
+  * Fix day-of-week for changelog entry 2.4.5-1ubuntu1.
 
  -- Debian Janitor <janitor@jelmer.uk>  Wed, 12 Oct 2022 03:40:24 -0000
 
@@ -119,7 +120,7 @@ subnetcalc (2.4.5-1ubuntu1) xenial; urgency=low
 
   * New upstream version.
 
- -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Thu, 04 Nov 2016 08:08:08 +0800
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Fri, 04 Nov 2016 08:08:08 +0800
 
 subnetcalc (2.4.4-1ubuntu1) xenial; urgency=low
 
