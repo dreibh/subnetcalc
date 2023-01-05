@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Contact: dreibh@iem.uni-due.de
+# Contact: thomas.dreibholz@gmail.com
 
 PACKAGE=`cat Makefile | grep PORTNAME= | sed -e "s/^PORTNAME=//g" | tr -d " \t"`
 UPSTREAM_VERSION=`cat Makefile | grep PORTVERSION= | sed -e "s/^PORTVERSION=//g" | tr -d " \t"`

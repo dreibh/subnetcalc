@@ -14,11 +14,11 @@ Description:    SubNetCalc is an IPv4/IPv6 subnet address calculator. For
                 (e.g. type, scope, interface ID, etc.). Finally, it can
                 generate IPv6 unique local prefixes.
 Keywords:       IPv4, IPv6, Address, Subnet
-Author:         dreibh@iem.uni-due.de (Thomas Dreibholz)
-Maintained-by:  dreibh@iem.uni-due.de (Thomas Dreibholz)
-Primary-site:   https://www.uni-due.de/~be0001/subnetcalc
+Author:         thomas.dreibholz@gmail.com (Thomas Dreibholz)
+Maintained-by:  thomas.dreibholz@gmail.com (Thomas Dreibholz)
+Primary-site:   https://www.nntb.no/~dreibh/subnetcalc
                 128 kB download/subnetcalc-2.4.19.tar.xz
-Original-site:  https://www.uni-due.de/~be0001/subnetcalc
+Original-site:  https://www.nntb.no/~dreibh/subnetcalc
 Platforms:      Linux, FreeBSD, MacOS, Solaris
 Copying-policy: GPL-3+
 End

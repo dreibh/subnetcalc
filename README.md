@@ -218,4 +218,4 @@ The Git repository of the SubNetCalc sources can be found at https://github.com/
 
 ### Current Stable Release
 
-See https://www.uni-due.de/~be0001/subnetcalc/#Download!
+See https://www.nntb.no/~dreibh/subnetcalc/#Download!
