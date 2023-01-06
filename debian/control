@@ -8,7 +8,7 @@ Build-Depends: cmake (>= 3.0.2) | cmake3,
                libfile-fcntllock-perl,
                libgeoip-dev,
                pkg-config
-Standards-Version: 4.6.1
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
 
 Package: subnetcalc

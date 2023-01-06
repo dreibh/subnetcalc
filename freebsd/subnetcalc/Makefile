@@ -2,7 +2,7 @@
 # $FreeBSD: head/net/subnetcalc/Makefile 509302 2019-08-19 19:22:25Z jgh $
 
 PORTNAME=	subnetcalc
-PORTVERSION=	2.4.20
+PORTVERSION=	2.4.21~rc0
 CATEGORIES=	net
 MASTER_SITES=	https://www.nntb.no/~dreibh/subnetcalc/download/
 
