@@ -1,3 +1,39 @@
+commit c39047209b82ea3ccc80b6d83e63ae5e6f4e769f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jan 21 22:02:47 2023 +1100
+
+    Updated build scripts
+
+commit ad1a560dcf4cd5f0cf6c7e4dcfb2bbbbd8b13b2d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jan 6 21:38:01 2023 +1100
+
+    URL change from UDE to NNTB.
+
+commit 0f8025f259f9981c015226d4bc93c55cced5db03
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:44:24 2023 +1100
+
+    URL fix: UDE -> NNTB.
+
+commit 4328d5e08d83c15a22f91c5e2fae76e8b4c6b7d1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:43:07 2023 +1100
+
+    Updated CI scripts
+
+commit 2e748538dc42fdb03860e552bb277c7efcd80552
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:43:06 2023 +1100
+
+    Updated build scripts
+
+commit 67e5f7ed5d1fd5fc0b58b17bdbd1e642090d4f58
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Sep 11 13:04:30 2022 +0200
+
+    New release subnetcalc-2.4.20.
+
 commit 97862488a68096eea2738a575aadb9e9435805aa
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Aug 31 11:47:32 2022 +0200

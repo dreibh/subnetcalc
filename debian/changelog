@@ -1,9 +1,9 @@
-subnetcalc (2.4.21~rc0-1ubuntu1) jammy; urgency=medium
+subnetcalc (2.4.21-1ubuntu1) jammy; urgency=medium
 
   * New upstream release.
   * debian/control: Updated standards version to 4.6.2.
 
- -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Fri, 06 Jan 2023 21:28:31 +1100
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Sun, 22 Jan 2023 22:34:02 +1100
 
 subnetcalc (2.4.20-1ubuntu1) jammy; urgency=medium
 
