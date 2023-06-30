@@ -1,3 +1,27 @@
+commit 614e82c43add9edb59b7ea9fa6fb8571b55f4a55
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:25:44 2023 +0200
+
+    Updated build scripts
+
+commit fd872df30871f94e717aa668844e7adcb49b4d82
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:25:28 2023 +0200
+
+    A small clean-up.
+
+commit d609ed49f611725b39a3b2754e568a2a68920d81
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:18:17 2023 +0200
+
+    Bugfix: Fixed wrong handling of 7th block in solicited node multicast address.
+
+commit 61b08c3e2a9a7a80d44b09dab392a5af6d82ec06
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Jan 22 22:34:07 2023 +1100
+
+    New release subnetcalc-2.4.21.
+
 commit c39047209b82ea3ccc80b6d83e63ae5e6f4e769f
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sat Jan 21 22:02:47 2023 +1100
