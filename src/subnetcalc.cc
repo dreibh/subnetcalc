@@ -524,7 +524,7 @@ void printAddressProperties(std::ostream&         os,
          if((a == 172) && ((b >= 16) && (b <= 31))) {
             os << "   - Private" << std::endl;
          }
-         if((a == 169) && (b == 254)) {
+         else if((a == 169) && (b == 254)) {
             os << "   - Link-local address" << std::endl;
          }
       }
