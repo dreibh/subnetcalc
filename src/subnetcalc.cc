@@ -647,7 +647,7 @@ void printAddressProperties(std::ostream&         os,
             char nodeAddressString[64];
             snprintf((char*)&nodeAddressString, sizeof(nodeAddressString),
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
-                     ntohs(ipv6address.s6_addr16[6]) >> 8,
+                     ntohs(ipv6address.s6_addr16[6]) & 0xff,
                      ntohs(ipv6address.s6_addr16[7]));
             os << "      + Address is solicited node multicast address for "
                << nodeAddressString << std::endl;
