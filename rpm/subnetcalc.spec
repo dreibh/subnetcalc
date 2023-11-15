@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.4.22
+Version: 2.4.23~rc1
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
