@@ -1,5 +1,4 @@
 # Created by: Thomas Dreibholz <thomas.dreibholz@gmail.com>
-# $FreeBSD: head/net/subnetcalc/Makefile 509302 2019-08-19 19:22:25Z jgh $
 
 PORTNAME=	subnetcalc
 PORTVERSION=	2.4.23
@@ -8,6 +7,7 @@ MASTER_SITES=	https://www.nntb.no/~dreibh/subnetcalc/download/
 
 MAINTAINER=	thomas.dreibholz@gmail.com
 COMMENT=	IPv4/IPv6 Subnet Calculator
+WWW=		https://www.nntb.no/~dreibh/subnetcalc/
 
 LICENSE=	GPLv3+
 LICENSE_FILE=	${WRKSRC}/COPYING
