@@ -1,5 +1,3 @@
-# Created by: Thomas Dreibholz <thomas.dreibholz@gmail.com>
-
 PORTNAME=	subnetcalc
 PORTVERSION=	2.4.23
 CATEGORIES=	net
