@@ -1,3 +1,85 @@
+commit 7130ef042d4cb4a0f8bc1015671d11a5bedb33e9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:35:11 2024 +0100
+
+    Fix for output to stderr instead of stdout for 6to4 address (Debian Bug #1061757).
+
+commit acbacf967686d74caa171294ce3012eed2182483
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:28:32 2024 +0100
+
+    Another metadata update.
+
+commit a967188d323284e3dc187a7cb166d018ca9ea28c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:27:21 2024 +0100
+
+    Updated metadata file.
+
+commit 292528da7acaf5f79eeaf1b2098d2f8fa3acb64c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:23:08 2024 +0100
+
+    Test script fix.
+
+commit e77f837030f7590929b286f1bc160b8756c869d0
+Merge: 04fadf5 c12e955
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:22:05 2024 +0100
+
+    Merge pull request #13 from silkeh/add-nat64-support
+    
+    Format IPv4-embedded IPv6 addresses
+
+commit 04fadf509609da8462a5a0705dd124337a3c4e02
+Merge: ef7b61b 3b20088
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:04:31 2024 +0100
+
+    Merge branch 'master' into dreibh/hex-address
+
+commit 3b20088832b01e7c428be3feb771d750366ac8f5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 10:39:26 2024 +0100
+
+    Updated FreeBSD packaging files.
+
+commit 2eb6da1e57513ee192bacdaafabe24b67301d698
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Dec 18 10:06:46 2023 +0100
+
+    Updated FreeBSD packaging.
+
+commit 723596a99959175b0386061ac5889e5e802ac85e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Dec 7 12:32:29 2023 +0100
+
+    Improved FreeBSD test script.
+
+commit b07f3c1f5e4a8fe7f059860cd97b37c8b4167e8e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Dec 7 12:05:53 2023 +0100
+
+    Updated FreeBSD packaging files.
+
+commit 1de65047477119be9c3d833dc424f3144240d920
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Dec 7 10:20:11 2023 +0100
+
+    Updated packaging configuration.
+
+commit e5062d4dc2a2dd0f9ba29c846ba24c102931c556
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Dec 6 16:50:52 2023 +0100
+
+    Updated LSM entry.
+
+commit 38dd88614ba8dc4f41814ddc87b08822c7f27daa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Dec 6 16:48:23 2023 +0100
+
+    New release subnetcalc-2.4.23.
+
 commit 1be7a7ad573518fb0b4b45435e1ccd1244a57343
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Nov 15 11:42:31 2023 +0100
@@ -142,6 +224,19 @@ Date:   Wed Aug 31 11:20:05 2022 +0200
 
     Updated build scripts
 
+commit c12e955fd7dc941533a27fd5cc4c49bf212054b1
+Author: Silke Hofstra <silke@slxh.eu>
+Date:   Sun Aug 28 13:57:52 2022 +0200
+
+    Format IPv4-embedded IPv6 addresses
+    
+    IPv4-embedded IPv6 addresses (as defined in RFC 6052 and RFC 8215) are
+    currently formatted as regular IPv6 addresses. Format these addresses in the
+    same way as IPv4-compatible or IPv4-mapped IPv6 addresses to make them easier to read.
+    
+    Formatting is only done when the Well-Known Prefix (64:ff9b::/96) or the local use
+    translation prefix (64:ff9b:1::/48) is used.
+
 commit 91831ce55d93e43079f55b3691a1d3e89283ab50
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Thu Jun 2 12:06:06 2022 +0200
@@ -153,6 +248,12 @@ Author: TechnologyClassroom <michael.steven.mcmahon@gmail.com>
 Date:   Fri Oct 25 14:07:23 2019 -0400
 
     Copy readme from site
+
+commit ef7b61be49b090c627a3aa2cd2659468f7092903
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 2 11:47:28 2022 +0200
+
+    Also print IPv4 address as hexadecimal.
 
 commit 9581fa23b22d3936a77e0d2073a69eac611e57d9
 Author: Thomas Dreibholz <dreibh@simula.no>
