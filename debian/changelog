@@ -1,3 +1,10 @@
+subnetcalc (2.5.0~rc0-1ubuntu1) jammy; urgency=medium
+
+  * New upstream release.
+  * Fix for output to stderr instead of stdout (Closes: #1061757).
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Sat, 10 Feb 2024 15:26:09 +0100
+
 subnetcalc (2.4.23-1ubuntu1) jammy; urgency=medium
 
   * New upstream release.
