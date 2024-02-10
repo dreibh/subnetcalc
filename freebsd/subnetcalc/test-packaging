@@ -1,7 +1,7 @@
-#!/bin/sh
+#!/usr/bin/env bash
 #
 # Free Packaging Test Script
-# Copyright (C) 2010-2021 by Thomas Dreibholz
+# Copyright (C) 2010-2024 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -16,24 +16,24 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Contact: dreibh@iem.uni-due.de
+# Contact: thomas.dreibholz@gmail.com
 
-PACKAGE=`cat Makefile | grep PORTNAME= | sed -e "s/^PORTNAME=//g" | tr -d " \t"`
-UPSTREAM_VERSION=`cat Makefile | grep PORTVERSION= | sed -e "s/^PORTVERSION=//g" | tr -d " \t"`
-PORTREVISION=`cat Makefile | grep PORTREVISION= | sed -e "s/^PORTREVISION=//g" | tr -d " \t"`
-CATEGORY=`cat Makefile | grep CATEGORIES= | sed -e "s/^CATEGORIES=//g" | tr -d " \t"`
+PACKAGE=`cat Makefile | grep "^PORTNAME=" | sed -e "s/^PORTNAME=//g" | tr -d " \t"`
+UPSTREAM_VERSION=`cat Makefile | grep "^PORTVERSION=" | sed -e "s/^PORTVERSION=//g" | tr -d " \t"`
+PORTREVISION=`cat Makefile | grep "^PORTREVISION=" | sed -e "s/^PORTREVISION=//g" | tr -d " \t"`
+CATEGORY=`cat Makefile | grep "^CATEGORIES=" | sed -e "s/^CATEGORIES=//g" | tr -d " \t"`
 
 PACKAGE_VERSION="${UPSTREAM_VERSION}"
-if [ "$PORTREVISION" != "" ] ; then
+if [ "${PORTREVISION}" != "" ] ; then
    PACKAGE_VERSION="${UPSTREAM_VERSION}_${PORTREVISION}"
 fi
 
 
 echo "######################################################################"
-echo "PACKAGE:          $PACKAGE"
-echo "UPSTREAM_VERSION: $UPSTREAM_VERSION"
-echo "PACKAGE_VERSION:  $PACKAGE_VERSION"
-echo "CATEGORY:         $CATEGORY"
+echo "PACKAGE:          ${PACKAGE}"
+echo "UPSTREAM_VERSION: ${UPSTREAM_VERSION}"
+echo "PACKAGE_VERSION:  ${PACKAGE_VERSION}"
+echo "CATEGORY:         ${CATEGORY}"
 echo "######################################################################"
 
 
@@ -53,22 +53,19 @@ make package && \
 echo "4. ###### make deinstall ##############################################" && \
 make deinstall && \
 echo "5. ###### pkg add #####################################################" && \
-if [ -e work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz ] ; then
-   mkdir /usr/ports/packages /usr/ports/packages/All
-   cp work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz /usr/ports/packages/All
-else
-   echo >&2 "ERROR: Cannot find work/pkg/${PACKAGE}-${PACKAGE_VERSION}.txz!"
+if [ ! -e "/usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.pkg" ] ; then
+   echo >&2 "ERROR: Package /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.pkg not found!"
    exit 1
-fi
-pkg add /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.txz && \
+fi && \
+pkg add /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.pkg && \
 echo "6. ###### make deinstall ##############################################" && \
 make deinstall && \
 echo "7. ###### make reinstall ##############################################" && \
 make reinstall && \
 echo "8. ###### make package ################################################" && \
 make package && \
-echo "9. ###### tar tzvf *.txz ##############################################" && \
-tar tzvf /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.txz && \
+echo "9. ###### tar tzvf *.pkg ##############################################" && \
+tar tzvf /usr/ports/packages/All/${PACKAGE}-${PACKAGE_VERSION}.pkg && \
 echo "Running portlint ..." && \
 portlint && \
 echo "====== Successfully completed! ======"

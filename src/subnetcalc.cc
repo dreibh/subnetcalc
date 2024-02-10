@@ -1,6 +1,6 @@
 /*
  * IPv4/IPv6 Subnet Calculator
- * Copyright (C) 2002-2021 by Thomas Dreibholz
+ * Copyright (C) 2002-2024 by Thomas Dreibholz
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -15,7 +15,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
- * Contact: dreibh@iem.uni-due.de
+ * Contact: thomas.dreibholz@gmail.com
  */
 
 #include <stdio.h>
@@ -524,7 +524,7 @@ void printAddressProperties(std::ostream&         os,
          if((a == 172) && ((b >= 16) && (b <= 31))) {
             os << "   - Private" << std::endl;
          }
-         if((a == 169) && (b == 254)) {
+         else if((a == 169) && (b == 254)) {
             os << "   - Link-local address" << std::endl;
          }
       }
@@ -647,7 +647,7 @@ void printAddressProperties(std::ostream&         os,
             char nodeAddressString[64];
             snprintf((char*)&nodeAddressString, sizeof(nodeAddressString),
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
-                     ntohs(ipv6address.s6_addr16[6]) >> 8,
+                     ntohs(ipv6address.s6_addr16[6]) & 0xff,
                      ntohs(ipv6address.s6_addr16[7]));
             os << "      + Address is solicited node multicast address for "
                << nodeAddressString << std::endl;

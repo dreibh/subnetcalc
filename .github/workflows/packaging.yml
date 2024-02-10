@@ -1,5 +1,5 @@
 # GitHub Actions Scripts
-# Copyright (C) 2021-2022 by Thomas Dreibholz
+# Copyright (C) 2021-2024 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ jobs:
     name: Ubuntu Packaging
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - name: Packaging
       shell: bash
       run: |
@@ -43,15 +43,22 @@ jobs:
   debian-packaging:
     name: Debian Packaging
     runs-on: ubuntu-latest
+    container:
+      image: debian:unstable
+      options: "--privileged"
     steps:
-    - uses: actions/checkout@v2
-    - name: Packaging
-      shell: bash
-      run: |
-        sudo CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-setup   package
-        sudo CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-install package
-        sudo CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-build   package
-        sudo ci/ci-test
+      - uses: actions/checkout@v4
+      - name: Packaging
+        shell: bash
+        # NOTE: The Debian container has no "sudo". It is necessary to install
+        #       it first, for the scripts to work.
+        run: |
+          apt-get update -q
+          DEBIAN_FRONTEND=noninteractive apt-get install -qqy sudo
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-setup   package
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-install package
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-build   package
+          ci/ci-test
 
   # ====== Fedora Linux =====================================================
   fedora-packaging:
@@ -61,7 +68,7 @@ jobs:
       image: fedora:latest
       options: "--privileged"
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Packaging
         shell: bash
         run: |

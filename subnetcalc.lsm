@@ -1,7 +1,7 @@
 Begin4
 Title:          subnetcalc
-Version:        2.4.19
-Entered-date:   2021-11-08
+Version:        2.4.23
+Entered-date:   2023-12-06
 Description:    SubNetCalc is an IPv4/IPv6 subnet address calculator. For
                 given IPv4 or IPv6 address and netmask or prefix length, it
                 calculates network address, broadcast address, maximum
@@ -14,11 +14,11 @@ Description:    SubNetCalc is an IPv4/IPv6 subnet address calculator. For
                 (e.g. type, scope, interface ID, etc.). Finally, it can
                 generate IPv6 unique local prefixes.
 Keywords:       IPv4, IPv6, Address, Subnet
-Author:         dreibh@iem.uni-due.de (Thomas Dreibholz)
-Maintained-by:  dreibh@iem.uni-due.de (Thomas Dreibholz)
-Primary-site:   https://www.uni-due.de/~be0001/subnetcalc
-                128 kB download/subnetcalc-2.4.19.tar.xz
-Original-site:  https://www.uni-due.de/~be0001/subnetcalc
+Author:         thomas.dreibholz@gmail.com (Thomas Dreibholz)
+Maintained-by:  thomas.dreibholz@gmail.com (Thomas Dreibholz)
+Primary-site:   https://www.nntb.no/~dreibh/subnetcalc
+                125 kB download/subnetcalc-2.4.23.tar.xz
+Original-site:  https://www.nntb.no/~dreibh/subnetcalc
 Platforms:      Linux, FreeBSD, MacOS, Solaris
 Copying-policy: GPL-3+
 End

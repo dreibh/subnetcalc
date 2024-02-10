@@ -1,17 +1,14 @@
 Source: subnetcalc
 Section: net
 Priority: optional
-Maintainer: Thomas Dreibholz <dreibh@iem.uni-due.de>
-Homepage: https://www.uni-due.de/~be0001/subnetcalc/
-Build-Depends: cmake (>= 3.0.2) | cmake3,
-               debhelper (>= 9),
-               libfile-fcntllock-perl,
+Maintainer: Thomas Dreibholz <thomas.dreibholz@gmail.com>
+Homepage: https://www.nntb.no/~dreibh/subnetcalc/
+Build-Depends: cmake,
+               debhelper (>= 12),
                libgeoip-dev,
                pkg-config
-Standards-Version: 4.6.0.1
+Standards-Version: 4.6.2
 Rules-Requires-Root: no
-Vcs-Git: https://github.com/dreibh/subnetcalc.git
-Vcs-Browser: https://github.com/dreibh/subnetcalc
 
 Package: subnetcalc
 Architecture: any

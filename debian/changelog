@@ -1,3 +1,29 @@
+subnetcalc (2.4.23-1ubuntu1) jammy; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Wed, 06 Dec 2023 16:48:06 +0100
+
+subnetcalc (2.4.22-1ubuntu1) jammy; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Fri, 30 Jun 2023 22:59:24 +0200
+
+subnetcalc (2.4.21-1ubuntu1) jammy; urgency=medium
+
+  * New upstream release.
+  * debian/control: Updated standards version to 4.6.2.
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Sun, 22 Jan 2023 22:34:02 +1100
+
+subnetcalc (2.4.20-1ubuntu1) jammy; urgency=medium
+
+  * New upstream release.
+  * debian/control: Updated standards version to 4.6.1.
+
+ -- Thomas Dreibholz <dreibh@iem.uni-due.de>  Sun, 11 Sep 2022 13:04:29 +0200
+
 subnetcalc (2.4.19-1ubuntu1) jammy; urgency=medium
 
   * New upstream release.

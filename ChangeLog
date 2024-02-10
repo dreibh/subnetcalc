@@ -1,3 +1,219 @@
+commit 1be7a7ad573518fb0b4b45435e1ccd1244a57343
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 15 11:42:31 2023 +0100
+
+    Dependency improvements.
+
+commit 302da2aae5f8a3386fc8ab6b15e3b1ad454ace5b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 15 10:53:51 2023 +0100
+
+    Packaging clean-ups.
+
+commit bd1087c6fd304fd8579ae552885d55903349baf6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 15 09:52:31 2023 +0100
+
+    Updated build scripts
+
+commit 6179b948c01dff102590f8e116c23f8cda99ea4c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 15 09:33:42 2023 +0100
+
+    Updated build scripts
+
+commit bdd516a3bbb83507866594473a6538cc4909ffef
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Nov 11 17:50:51 2023 +0100
+
+    Workflows update.
+
+commit 4eb196cfb8aede786fc58a311daa7ca7cda120fa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Nov 11 17:10:17 2023 +0100
+
+    Minor update.
+
+commit 925d09a409e05ca07973b5966559d0d9692ece64
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Nov 11 16:22:36 2023 +0100
+
+    Header updates.
+
+commit 028ee2e03e7280003487c6f717f39b22033811de
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Nov 11 16:16:10 2023 +0100
+
+    Updated CI scripts
+
+commit 72f7e67e22761f235076b273f6c759197cbb2bcf
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Nov 11 16:15:53 2023 +0100
+
+    Updated build scripts
+
+commit 89a2bc288380a47b1546257de6dd1d7e51595743
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 23:02:26 2023 +0200
+
+    Updated LSM entry.
+
+commit 7214f02eaa1487d1c2efe217fbde38cd24c664b3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:59:27 2023 +0200
+
+    New release subnetcalc-2.4.22.
+
+commit 614e82c43add9edb59b7ea9fa6fb8571b55f4a55
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:25:44 2023 +0200
+
+    Updated build scripts
+
+commit fd872df30871f94e717aa668844e7adcb49b4d82
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:25:28 2023 +0200
+
+    A small clean-up.
+
+commit d609ed49f611725b39a3b2754e568a2a68920d81
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 30 22:18:17 2023 +0200
+
+    Bugfix: Fixed wrong handling of 7th block in solicited node multicast address.
+
+commit 61b08c3e2a9a7a80d44b09dab392a5af6d82ec06
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Jan 22 22:34:07 2023 +1100
+
+    New release subnetcalc-2.4.21.
+
+commit c39047209b82ea3ccc80b6d83e63ae5e6f4e769f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jan 21 22:02:47 2023 +1100
+
+    Updated build scripts
+
+commit ad1a560dcf4cd5f0cf6c7e4dcfb2bbbbd8b13b2d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jan 6 21:38:01 2023 +1100
+
+    URL change from UDE to NNTB.
+
+commit 0f8025f259f9981c015226d4bc93c55cced5db03
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:44:24 2023 +1100
+
+    URL fix: UDE -> NNTB.
+
+commit 4328d5e08d83c15a22f91c5e2fae76e8b4c6b7d1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:43:07 2023 +1100
+
+    Updated CI scripts
+
+commit 2e748538dc42fdb03860e552bb277c7efcd80552
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jan 5 22:43:06 2023 +1100
+
+    Updated build scripts
+
+commit 67e5f7ed5d1fd5fc0b58b17bdbd1e642090d4f58
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Sep 11 13:04:30 2022 +0200
+
+    New release subnetcalc-2.4.20.
+
+commit 97862488a68096eea2738a575aadb9e9435805aa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:47:32 2022 +0200
+
+    Removed Vcs-* fields from debian/control.
+
+commit 16a8f3d6b2a0f3fe69540630167f9af2af909e3f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:20:07 2022 +0200
+
+    Updated CI scripts
+
+commit 632af4f05ea49dc9cb4bb43b673f89e1965c66ce
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 31 11:20:05 2022 +0200
+
+    Updated build scripts
+
+commit 91831ce55d93e43079f55b3691a1d3e89283ab50
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 2 12:06:06 2022 +0200
+
+    Updated README.md.
+
+commit a1237967d64703d5528f1e7f8cedfba9dc222704
+Author: TechnologyClassroom <michael.steven.mcmahon@gmail.com>
+Date:   Fri Oct 25 14:07:23 2019 -0400
+
+    Copy readme from site
+
+commit 9581fa23b22d3936a77e0d2073a69eac611e57d9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Feb 16 12:22:30 2022 +0100
+
+    Updated build scripts
+
+commit dde3270d45ce5c8cc2b120f4bf42d0232d5b4fe9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 30 15:29:55 2021 +0100
+
+    Removed invalid field "Homepage" from debian/upstream/metadata
+
+commit 5fb80869c9c20028414f1c414db725c4da4fc482
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 22:01:15 2021 +0100
+
+    Updated CI scripts
+
+commit 8c9313516ce747cd99772128704faa2d3d5bf7a7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 21:57:50 2021 +0100
+
+    Updated build scripts
+
+commit bf0b903cb5d75c61c000f4b7b32b2f9c730bf93a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:39 2021 +0100
+
+    Added CI workflows.
+
+commit 0c1e7c3e64f413c49f059484af5ea9f510187464
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Updated CI scripts
+
+commit 5a5851de2db6e76650fd2d917ac8cd0913e5152d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Travis CI is dead. Removed obsolete Travis CI scripts and configuration.
+
+commit b5921ecada3d0b71a7f07adc2abead77dd32ab14
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 26 15:51:12 2021 +0100
+
+    Updated build scripts
+
+commit 4ccc7347eeb2346951ee5d9c7a6129d2c4f90fdd
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 8 20:34:36 2021 +0100
+
+    Updated LSM entry.
+
+commit 169e78a384d51787dca24f1a8b58a6e3bb12fde6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 8 20:10:40 2021 +0100
+
+    New release subnetcalc-2.4.19.
+
 commit 22a51e2a0df6371e3079e0e30352914e37165b07
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Nov 7 19:52:14 2021 +0100

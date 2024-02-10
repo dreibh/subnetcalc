@@ -1,11 +1,11 @@
 Name: subnetcalc
-Version: 2.4.19
+Version: 2.4.23
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
 License: GPL-3+
-URL: https://www.uni-due.de/~be0001/subnetcalc/
-Source: https://www.uni-due.de/~be0001/subnetcalc/download/%{name}-%{version}.tar.xz
+URL: https://www.nntb.no/~dreibh/subnetcalc/
+Source: https://www.nntb.no/~dreibh/subnetcalc/download/%{name}-%{version}.tar.xz
 
 AutoReqProv: on
 BuildRequires: cmake
@@ -18,7 +18,14 @@ BuildRoot: %{_tmppath}/%{name}-%{version}-build
 %define _unpackaged_files_terminate_build 0
 
 %description
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. The output is colourized for better readability (e.g. network part, host part). Also, it prints the addresses in binary format for better understandability. Furthermore, it can identify the address type (e.g. multicast, unique local, site local, etc.) and extract additional information from the address (e.g. type, scope, interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6
+address and netmask or prefix length, it calculates network address, broadcast
+address, maximum number of hosts and host address range. The output is
+colourized for better readability (e.g. network part, host part). Also, it
+prints the addresses in binary format for better understandability. Furthermore,
+it can identify the address type (e.g. multicast, unique local, site local,
+etc.) and extract additional information from the address (e.g. type, scope,
+interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
 
 %prep
 %setup -q
@@ -37,6 +44,14 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 %doc
 
 %changelog
+* Wed Dec 06 2023 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.4.23
+- New upstream release.
+* Fri Jun 30 2023 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.4.22
+- New upstream release.
+* Sun Jan 22 2023 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.4.21
+- New upstream release.
+* Sun Sep 11 2022 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.20
+- New upstream release.
 * Mon Nov 08 2021 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.19
 - New upstream release.
 * Sat Mar 06 2021 Thomas Dreibholz <dreibh@iem.uni-due.de> - 2.4.18
