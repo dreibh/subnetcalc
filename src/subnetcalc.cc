@@ -36,7 +36,6 @@
 #include "tools.h"
 
 
-
 #ifdef __FreeBSD__   // FreeBSD
 #define s6_addr16 __u6_addr.__u6_addr16
 #define s6_addr32 __u6_addr.__u6_addr32
@@ -54,7 +53,7 @@
 // ###### Is given address an IPv4 address? #################################
 inline bool isIPv4(const sockaddr_union& address)
 {
-   return(address.sa.sa_family == AF_INET);
+   return (address.sa.sa_family == AF_INET);
 }
 
 
@@ -62,7 +61,7 @@ inline bool isIPv4(const sockaddr_union& address)
 inline in_addr_t getIPv4Address(const sockaddr_union& address)
 {
    assert(address.sa.sa_family == AF_INET);
-   return(address.in.sin_addr.s_addr);
+   return address.in.sin_addr.s_addr;
 }
 
 
@@ -70,7 +69,7 @@ inline in_addr_t getIPv4Address(const sockaddr_union& address)
 inline in6_addr getIPv6Address(const sockaddr_union& address)
 {
    assert(address.sa.sa_family == AF_INET6);
-   return(address.in6.sin6_addr);
+   return address.in6.sin6_addr;
 }
 
 
@@ -78,11 +77,11 @@ inline in6_addr getIPv6Address(const sockaddr_union& address)
 inline bool isMulticast(const sockaddr_union& address)
 {
    if(isIPv4(address)) {
-      return(IN_CLASSD(ntohl(getIPv4Address(address))));
+      return IN_CLASSD(ntohl(getIPv4Address(address)));
    }
    else {
       const in6_addr ipv6address = getIPv6Address(address);
-      return(IN6_IS_ADDR_MULTICAST(&ipv6address));
+      return IN6_IS_ADDR_MULTICAST(&ipv6address);
    }
 }
 
@@ -94,17 +93,17 @@ int readPrefix(const char*           parameter,
 {
    for(size_t i = 0;i < strlen(parameter);i++) {
       if(!isdigit(parameter[i])) {
-         return(-1);
+         return -1;
       }
    }
    int prefix = atol(parameter);
    if(prefix < 0) {
-      return(-1);
+      return -1;
    }
    netmask = forAddress;
    if(netmask.sa.sa_family == AF_INET) {
       if(prefix > 32) {
-         return(-1);
+         return -1;
       }
       int p = prefix;
       netmask.in.sin_addr.s_addr = 0;
@@ -118,7 +117,7 @@ int readPrefix(const char*           parameter,
    }
    else {
       if(prefix > 128) {
-         return(-1);
+         return -1;
       }
       int p = prefix;
       for(int j = 0;j < 16;j++) {
@@ -131,7 +130,7 @@ int readPrefix(const char*           parameter,
          }
       }
    }
-   return(prefix);
+   return prefix;
 }
 
 
@@ -149,7 +148,7 @@ void generateUniqueLocal(sockaddr_union& address,
    // ====== Read random number from random device ==========================
    const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
    FILE* fh = fopen(randomFile, "r");
-   if(fh != NULL) {
+   if(fh != nullptr) {
       std::cout << "Generating Unique Local IPv6 address (using " << randomFile << ") ..." << std::endl;
 
       if(fread((char*)&buffer, 5, 1, fh) != 1) {
@@ -268,7 +267,7 @@ int getPrefixLength(const sockaddr_union& netmask)
          }
          else {
             if(belongsToNetwork == false) {
-               return(-1);
+               return -1;
             }
          }
       }
@@ -284,13 +283,13 @@ int getPrefixLength(const sockaddr_union& netmask)
             }
             else {
                if(belongsToNetwork == false) {
-                  return(-1);
+                  return -1;
                }
             }
          }
       }
    }
-   return(prefixLength);
+   return prefixLength;
 }
 
 
@@ -308,7 +307,7 @@ sockaddr_union operator&(const sockaddr_union& a1, const sockaddr_union& a2)
          a.in6.sin6_addr.s6_addr32[j] &= a2.in6.sin6_addr.s6_addr32[j];
       }
    }
-   return(a);
+   return a;
 }
 
 
@@ -326,7 +325,7 @@ sockaddr_union operator|(const sockaddr_union& a1, const sockaddr_union& a2)
          a.in6.sin6_addr.s6_addr32[j] |= a2.in6.sin6_addr.s6_addr32[j];
       }
    }
-   return(a);
+   return a;
 }
 
 
@@ -342,7 +341,7 @@ sockaddr_union operator~(const sockaddr_union& a1)
          a.in6.sin6_addr.s6_addr32[j] = ~a1.in6.sin6_addr.s6_addr32[j];
       }
    }
-   return(a);
+   return a;
 }
 
 
@@ -350,7 +349,7 @@ sockaddr_union operator~(const sockaddr_union& a1)
 std::ostream& operator<<(std::ostream& os, const sockaddr_union& a)
 {
    printAddress(os, &a.sa, false, true);
-   return(os);
+   return os;
 }
 
 
@@ -368,7 +367,7 @@ sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
          n = (uint32_t)(sum >> 32);
       }
    }
-   return(a);
+   return a;
 }
 
 
@@ -386,7 +385,7 @@ sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
          n = (uint32_t)(sum >> 32);
       }
    }
-   return(a);
+   return a;
 }
 
 
@@ -396,15 +395,15 @@ int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
    assert(a1.sa.sa_family == a2.sa.sa_family);
 
    if(a1.sa.sa_family == AF_INET) {
-      return(a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
+      return (a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
    }
    else {
       for(int j = 3;j >= 0;j--) {
          if(a1.in6.sin6_addr.s6_addr32[j] != a2.in6.sin6_addr.s6_addr32[j]) {
-            return(false);
+            return false;
          }
       }
-      return(true);
+      return true;
    }
 }
 
@@ -751,7 +750,7 @@ int main(int argc, char** argv)
    }
 
    // ====== Get address and netmask from separate parameters ===============
-   else if(slash == NULL) {
+   else if(slash == nullptr) {
       if(string2address(argv[1], &address) == false) {
          printf("ERROR: Bad address %s!\n", argv[1]);
          exit(1);
@@ -902,16 +901,16 @@ int main(int argc, char** argv)
    // distributions include some of them, etc.. Just avoid annoying the user
    // by printing these errors to /dev/null. The error condition of a
    // non-existing database is handled by subnetcalc anyway.
-   if(freopen("/dev/null", "w", stderr) == NULL) { }
+   if(freopen("/dev/null", "w", stderr) == nullptr) { }
 
-   const char* country = NULL;
-   const char* code    = NULL;
+   const char* country = nullptr;
+   const char* code    = nullptr;
    if(address.sa.sa_family == AF_INET) {
       GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION, GEOIP_STANDARD);
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
          std::cout << "GeoIP AS Info = "
-                   << ((org != NULL) ? org : "Unknown") << std::endl;
+                   << ((org != nullptr) ? org : "Unknown") << std::endl;
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION, GEOIP_STANDARD);
@@ -919,26 +918,26 @@ int main(int argc, char** argv)
          country = GeoIP_country_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
          code    = GeoIP_country_code_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
          std::cout << "GeoIP Country = "
-                   << ((country != NULL) ? country: "Unknown")
-                   << " (" << ((code != NULL) ? code : "??") << ")" << std::endl;
+                   << ((country != nullptr) ? country: "Unknown")
+                   << " (" << ((code != nullptr) ? code : "??") << ")" << std::endl;
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1, GEOIP_STANDARD);
       if(geoIP) {
          GeoIPRecord* gir = GeoIP_record_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         if(gir != NULL) {
+         if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
             std::cout << "GeoIP Region  = "
-                      << ((gir->postal_code != NULL) ? gir->postal_code : "")
-                      << ((gir->postal_code != NULL) ? " " : "")
-                      << ((gir->city != NULL) ? gir->city : "Unknown")
-                      << ", " << ((gir->region != NULL) ? gir->region : "Unknown")
+                      << ((gir->postal_code != nullptr) ? gir->postal_code : "")
+                      << ((gir->postal_code != nullptr) ? " " : "")
+                      << ((gir->city != nullptr) ? gir->city : "Unknown")
+                      << ", " << ((gir->region != nullptr) ? gir->region : "Unknown")
                       << " ("
                       << fabs(gir->latitude)  << "°" << ((gir->latitude > 0)  ? "N" : "S") << ", "
                       << fabs(gir->longitude) << "°" << ((gir->longitude > 0) ? "E" : "W")
-                      << ((timeZone != NULL) ? ", " : "")
-                      << ((timeZone != NULL) ? timeZone : "")
+                      << ((timeZone != nullptr) ? ", " : "")
+                      << ((timeZone != nullptr) ? timeZone : "")
                       << ")"
                       << std::endl;
             GeoIPRecord_delete(gir);
@@ -952,7 +951,7 @@ int main(int argc, char** argv)
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
          std::cout << "GeoIP AS Info = "
-                   << ((org != NULL) ? org : "Unknown") << std::endl;
+                   << ((org != nullptr) ? org : "Unknown") << std::endl;
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION_V6, GEOIP_STANDARD);
@@ -960,26 +959,26 @@ int main(int argc, char** argv)
          country = GeoIP_country_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
          code    = GeoIP_country_code_by_ipnum_v6(geoIP, address.in6.sin6_addr);
          std::cout << "GeoIP Country = "
-                   << ((country != NULL) ? country: "Unknown")
-                   << " (" << ((code != NULL) ? code : "??") << ")" << std::endl;
+                   << ((country != nullptr) ? country: "Unknown")
+                   << " (" << ((code != nullptr) ? code : "??") << ")" << std::endl;
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1_V6, GEOIP_STANDARD);
       if(geoIP) {
          GeoIPRecord* gir = GeoIP_record_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         if(gir != NULL) {
+         if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
             std::cout << "GeoIP Region  = "
-                      << ((gir->postal_code != NULL) ? gir->postal_code : "")
-                      << ((gir->postal_code != NULL) ? " " : "")
-                      << ((gir->city != NULL) ? gir->city : "Unknown")
-                      << ", " << ((gir->region != NULL) ? gir->region : "Unknown")
+                      << ((gir->postal_code != nullptr) ? gir->postal_code : "")
+                      << ((gir->postal_code != nullptr) ? " " : "")
+                      << ((gir->city != nullptr) ? gir->city : "Unknown")
+                      << ", " << ((gir->region != nullptr) ? gir->region : "Unknown")
                       << " ("
                       << fabs(gir->latitude)  << "°" << ((gir->latitude > 0)  ? "N" : "S") << ", "
                       << fabs(gir->longitude) << "°" << ((gir->longitude > 0) ? "E" : "W")
-                      << ((timeZone != NULL) ? ", " : "")
-                      << ((timeZone != NULL) ? timeZone : "")
+                      << ((timeZone != nullptr) ? ", " : "")
+                      << ((timeZone != nullptr) ? timeZone : "")
                       << ")"
                       << std::endl;
             GeoIPRecord_delete(gir);
@@ -1001,7 +1000,7 @@ int main(int argc, char** argv)
                               (address.sa.sa_family == AF_INET6) ?
                                  sizeof(sockaddr_in6) : sizeof(sockaddr_in),
                               (char*)&hostname, sizeof(hostname),
-                              NULL, 0,
+                              nullptr, 0,
 #ifdef NI_IDN
                               NI_NAMEREQD|NI_IDN
 #else

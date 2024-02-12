@@ -45,27 +45,27 @@
 #include <iostream>
 
 
-/* ###### Get current time ############################################### */
+// ###### Get current time ##################################################
 unsigned long long getMicroTime()
 {
   struct timeval tv;
-  gettimeofday(&tv,NULL);
-  return(((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
-         (unsigned long long)tv.tv_usec);
+  gettimeofday(&tv, nullptr);
+  return (((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
+          (unsigned long long)tv.tv_usec);
 }
 
 
-/* ###### Length-checking strcpy() ####################################### */
+// ###### Length-checking strcpy() ##########################################
 int safestrcpy(char* dest, const char* src, const size_t size)
 {
    assert(size > 0);
    strncpy(dest, src, size);
    dest[size - 1] = 0x00;
-   return(strlen(dest) < size);
+   return strlen(dest) < size;
 }
 
 
-/* ###### Length-checking strcat() ####################################### */
+// ###### Length-checking strcat() ##########################################
 int safestrcat(char* dest, const char* src, const size_t size)
 {
    const size_t l1 = strlen(dest);
@@ -74,85 +74,85 @@ int safestrcat(char* dest, const char* src, const size_t size)
    assert(size > 0);
    strncat(dest, src, size - l1 - 1);
    dest[size - 1] = 0x00;
-   return(l1 + l2 < size);
+   return (l1 + l2 < size);
 }
 
 
-/* ###### Find first occurrence of character in string #################### */
+// ###### Find first occurrence of character in string #######################
 char* strindex(char* string, const char character)
 {
-   if(string != NULL) {
+   if(string != nullptr) {
       while(*string != character) {
          if(*string == 0x00) {
-            return(NULL);
+            return nullptr;
          }
          string++;
       }
-      return(string);
+      return string;
    }
-   return(NULL);
+   return nullptr;
 }
 
 
 
-/* ###### Find last occurrence of character in string #################### */
+// ###### Find last occurrence of character in string #######################
 char* strrindex(char* string, const char character)
 {
    const char* original = string;
 
-   if(original != NULL) {
+   if(original != nullptr) {
       string = (char*)&string[strlen(string)];
       while(*string != character) {
          if(string == original) {
-            return(NULL);
+            return nullptr;
          }
          string--;
       }
-      return(string);
+      return string;
    }
-   return(NULL);
+   return nullptr;
 }
 
 
-/* ###### Check for support of IPv6 ###################################### */
+// ###### Check for support of IPv6 #########################################
 bool checkIPv6()
 {
    int sd = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
    if(sd >= 0) {
       close(sd);
-      return(true);
+      return true;
    }
-   return(false);
+   return false;
 }
 
 
-/* ###### Does the given address have a translation prefix? ############## */
+// ###### Does the given address have a translation prefix? #################
 bool hasTranslationPrefix(const sockaddr_in6* address)
 {
-   return ntohs(address->sin6_addr.s6_addr16[0]) == 0x64 &&
-          ntohs(address->sin6_addr.s6_addr16[1]) == 0xff9b &&
-          ntohs(address->sin6_addr.s6_addr16[2]) <= 1;
+   return (ntohs(address->sin6_addr.s6_addr16[0]) == 0x64   &&
+           ntohs(address->sin6_addr.s6_addr16[1]) == 0xff9b &&
+           ntohs(address->sin6_addr.s6_addr16[2]) <= 1);
 }
 
 
-/* ###### Get socklen for given address ################################## */
+// ###### Get socklen for given address #####################################
 size_t getSocklen(const struct sockaddr* address)
 {
    switch(address->sa_family) {
       case AF_INET:
-         return(sizeof(struct sockaddr_in));
+         return sizeof(struct sockaddr_in);
        break;
       case AF_INET6:
-         return(sizeof(struct sockaddr_in6));
+         return sizeof(struct sockaddr_in6);
        break;
       default:
-         return(sizeof(struct sockaddr));
+         return sizeof(struct sockaddr);
        break;
    }
 }
 
 
-/* ###### Format an IPv6-embedded IPv6 address ########################### */
+// ###### Format an IPv6-embedded IPv6 address ##############################
 inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
                                   char*                      str,
                                   const size_t               maxlen)
@@ -161,24 +161,21 @@ inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
 
    // Set the suffix to a predictable value.
    prefix.s6_addr32[3] = 0xffffffff;
-
-   if(inet_ntop(AF_INET6, &prefix, str, maxlen) == NULL)
-   {
+   if(inet_ntop(AF_INET6, &prefix, str, maxlen) == nullptr) {
       return false;
    }
 
    // Overwrite the predictable suffix with the IPv4 address.
-   const size_t pl  = strnlen(str, maxlen) - 9;
-   const uint32_t u = ntohs(ipv6address->sin6_addr.s6_addr16[6]);
-   const uint32_t l = ntohs(ipv6address->sin6_addr.s6_addr16[7]);
+   const size_t   pl    = strnlen(str, maxlen) - 9;
+   const uint32_t upper = ntohs(ipv6address->sin6_addr.s6_addr16[6]);
+   const uint32_t lower = ntohs(ipv6address->sin6_addr.s6_addr16[7]);
 
-   struct in_addr suffix = { .s_addr = htonl((u << 16) | l) };
-
-   return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != NULL;
+   const struct in_addr suffix = { .s_addr = htonl((upper << 16) | lower) };
+   return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != nullptr;
 }
 
 
-/* ###### Format an IPv6 address ######################################### */
+// ###### Format an IPv6 address ############################################
 static inline bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
                                      char*                      str,
                                      const size_t               maxlen)
@@ -187,11 +184,11 @@ static inline bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
       return formatEmbeddedAddress(ipv6address, str, maxlen);
    }
 
-   return inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, maxlen) != NULL;
+   return (inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, maxlen) != nullptr);
 }
 
 
-/* ###### Convert address to string ###################################### */
+// ###### Convert address to string #########################################
 bool address2string(const struct sockaddr* address,
                     char*                  buffer,
                     const size_t           length,
@@ -215,7 +212,7 @@ bool address2string(const struct sockaddr* address,
          else {
             snprintf(buffer, length, "%s", inet_ntoa(ipv4address->sin_addr));
          }
-         return(true);
+         return true;
        break;
       case AF_INET6:
          ipv6address = (const struct sockaddr_in6*)address;
@@ -223,9 +220,9 @@ bool address2string(const struct sockaddr* address,
              (IN6_IS_ADDR_LINKLOCAL(&ipv6address->sin6_addr) ||
               IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address->sin6_addr)) ) {
             ifname = if_indextoname(ipv6address->sin6_scope_id, (char*)&ifnamebuffer);
-            if(ifname == NULL) {
+            if(ifname == nullptr) {
                safestrcpy((char*)&ifnamebuffer, "(BAD!)", sizeof(ifnamebuffer));
-               return(false);
+               return false;
             }
             snprintf((char*)&scope, sizeof(scope), "%%%s", ifname);
          }
@@ -240,19 +237,19 @@ bool address2string(const struct sockaddr* address,
             else {
                snprintf(buffer, length, "%s%s", str, scope);
             }
-            return(true);
+            return true;
          }
        break;
       case AF_UNSPEC:
          safestrcpy(buffer, "(unspecified)", length);
-         return(true);
+         return true;
        break;
    }
-   return(false);
+   return false;
 }
 
 
-/* ###### Convert string to address ###################################### */
+// ###### Convert string to address #########################################
 bool string2address(const char*           string,
                     union sockaddr_union* address,
                     const bool            readPort)
@@ -272,15 +269,15 @@ bool string2address(const char*           string,
    size_t i;
 
    if(strlen(string) > sizeof(host)) {
-      return(false);
+      return false;
    }
    strcpy((char*)&host,string);
    strcpy((char*)&port, "0");
 
-   /* ====== Handle RFC2732-compliant addresses ========================== */
+   // ====== Handle RFC2732-compliant addresses =============================
    if(string[0] == '[') {
       p1 = strindex(host,']');
-      if(p1 != NULL) {
+      if(p1 != nullptr) {
          if((p1[1] == ':') || (p1[1] == '!')) {
             strcpy((char*)&port, &p1[2]);
          }
@@ -289,7 +286,7 @@ bool string2address(const char*           string,
       }
    }
 
-   /* ====== Handle standard address:port ================================ */
+   // ====== Handle standard address:port ===================================
    else {
       if(readPort) {
          unsigned int colons = 0;
@@ -300,10 +297,10 @@ bool string2address(const char*           string,
          }
          if(colons == 1) {
             p1 = strrindex(host,':');
-            if(p1 == NULL) {
+            if(p1 == nullptr) {
                p1 = strrindex(host,'!');
             }
-            if(p1 != NULL) {
+            if(p1 != nullptr) {
                p1[0] = 0x00;
                strcpy((char*)&port, &p1[1]);
             }
@@ -311,20 +308,19 @@ bool string2address(const char*           string,
       }
    }
 
-   /* ====== Check port number =========================================== */
+   // ====== Check port number ==============================================
    portNumber = ~0;
    if((sscanf(port, "%d", &portNumber) != 1) ||
       (portNumber < 0) ||
       (portNumber > 65535)) {
-      puts("q2");
-      return(false);
+      return false;
    }
 
 
-   /* ====== Create address structure ==================================== */
+   // ====== Create address structure =======================================
 
-   /* ====== Get information for host ==================================== */
-   res        = NULL;
+   // ====== Get information for host =======================================
+   res        = nullptr;
    isNumeric  = true;
    isIPv6     = false;
    hostLength = strlen(host);
@@ -358,11 +354,11 @@ bool string2address(const char*           string,
 
    // First try IPv6 ...
    hints.ai_family = AF_INET6;
-   if(getaddrinfo(host, NULL, &hints, &res) != 0) {
+   if(getaddrinfo(host, nullptr, &hints, &res) != 0) {
       // ... then (if there is no AAAA record), try also IPv4
       hints.ai_family = AF_UNSPEC;
-      if(getaddrinfo(host, NULL, &hints, &res) != 0) {
-         return(false);
+      if(getaddrinfo(host, nullptr, &hints, &res) != 0) {
+         return false;
       }
    }
 
@@ -383,16 +379,16 @@ bool string2address(const char*           string,
 #endif
        break;
       default:
-         return(false);
+         return false;
        break;
    }
 
    freeaddrinfo(res);
-   return(true);
+   return true;
 }
 
 
-/* ###### Print address ################################################## */
+// ###### Print address #####################################################
 void printAddress(std::ostream&          os,
                   const struct sockaddr* address,
                   const bool             port,
