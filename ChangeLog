@@ -1,3 +1,34 @@
+commit 22e2ef12f95bb1b55b858e5d44b1cce6bf91b75f
+Merge: 549f589 3c97215
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Feb 12 14:44:55 2024 +0100
+
+    Merge branch 'dreibh/build-fix-12feb2024'
+
+commit 549f589138b61a81b106c7d7ab1803d8a1400423
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Feb 12 12:30:38 2024 +0100
+
+    Some code clean-ups.
+
+commit 3c9721503e8365d207623e631a63dc8728244d70
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Feb 12 12:19:23 2024 +0100
+
+    Fix for FreeBSD build issue.
+
+commit 383574634fbfbf0f2729e3624b1c96e4c3a40df5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 16:00:08 2024 +0100
+
+    Updated LSM entry.
+
+commit 011cca97db5d8e22a2af4a640f2b81af5e3ac740
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Feb 10 15:42:31 2024 +0100
+
+    New release subnetcalc-2.5.0.
+
 commit 7130ef042d4cb4a0f8bc1015671d11a5bedb33e9
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sat Feb 10 15:35:11 2024 +0100
