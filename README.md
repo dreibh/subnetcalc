@@ -33,13 +33,13 @@ Network       = 132.252.150.240 / 28
 Netmask       = 255.255.255.240
 Broadcast     = 132.252.150.255
 Wildcard Mask = 0.0.0.15
+Hex. Address  = 84FC96FE
 Hosts Bits    = 4
 Max. Hosts    = 14   (2^4 - 2)
 Host Range    = { 132.252.150.241 - 132.252.150.254 }
 Properties    =
    - 132.252.150.254 is a HOST address in 132.252.150.240/28
    - Class B
-GeoIP Country = Germany (DE)
 DNS Hostname  = dummy.iem.uni-duisburg-essen.de
 ```
 
@@ -75,30 +75,30 @@ My new host should use Interface ID 0x100 and Subnet ID 0x1234. Generate a Uniqu
 
 ```
 user@host:~$ subnetcalc 0:0:0:1234::1 56 -uniquelocalhq
-Address       = fded:30d0:1072:1234::1
-                   fded = 11111101 11101101
-                   30d0 = 00110000 11010000
-                   1072 = 00010000 01110010
+Generating Unique Local IPv6 address (using /dev/random) ...
+Address       = fd57:58a6:7f41:1234::1
+                   fd57 = 11111101 01010111
+                   58a6 = 01011000 10100110
+                   7f41 = 01111111 01000001
                    1234 = 00010010 00110100
                    0000 = 00000000 00000000
                    0000 = 00000000 00000000
                    0000 = 00000000 00000000
                    0001 = 00000000 00000001
-Network       = fded:30d0:1072:1200:: / 56
+Network       = fd57:58a6:7f41:1200:: / 56
 Netmask       = ffff:ffff:ffff:ff00::
 Wildcard Mask = ::ff:ffff:ffff:ffff:ffff
 Hosts Bits    = 72
-Max. Hosts    = 4722366482869645213696   (2^72 - 1)
-Host Range    = { fded:30d0:1072:1200::1 - fded:30d0:1072:12ff:ffff:ffff:ffff:ffff }
+Max. Hosts    = 2^72 - 1
+Host Range    = { fd57:58a6:7f41:1200::1 - fd57:58a6:7f41:12ff:ffff:ffff:ffff:ffff }
 Properties    =
-   - fded:30d0:1072:1234::1 is a HOST address in fded:30d0:1072:1200::/56
+   - fd57:58a6:7f41:1234::1 is a HOST address in fd57:58a6:7f41:1200::/56
    - Unique Local Unicast Properties:
-      + Locally chose
-      + Global ID    = ed30d01072
+      + Locally chosen
+      + Global ID    = 5758a67f41
       + Subnet ID    = 1234
       + Interface ID = 0000:0000:0000:0001
       + Sol. Node MC = ff02::1:ff00:0001
-GeoIP Country = Unknown (??)
 DNS Hostname  = (Name or service not known)
 ```
 
@@ -118,16 +118,15 @@ Address       = 2401:3800:c001::68
 Network       = 2401:3800:c001::68 / 128
 Netmask       = ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
 Wildcard Mask = ::
-Hosts Bits    = 0
-Max. Hosts    = 0   (2^0 - 1)
-Host Range    = { 2401:3800:c001::69 - 2401:3800:c001::68 }
+Hosts Bits    = 1
+Max. Hosts    = 1   (2^1 - 1)
+Host Range    = { 2401:3800:c001::68 - 2401:3800:c001::68 }
 Properties    =
    - 2401:3800:c001::68 is a NETWORK address
    - Global Unicast Properties:
       + Interface ID = 0000:0000:0000:0068
       + Sol. Node MC = ff02::1:ff00:0068
-GeoIP Country = China (CN)
-DNS Hostname  = bg-in-x68.1e100.net
+DNS Hostname  = (Name or service not known)
 ```
 
 Which are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
@@ -147,7 +146,7 @@ Network       = 2001:638:501:4ef8:: / 64
 Netmask       = ffff:ffff:ffff:ffff::
 Wildcard Mask = ::ffff:ffff:ffff:ffff
 Hosts Bits    = 64
-Max. Hosts    = 18446744073709551616   (2^64 - 1)
+Max. Hosts    = 18446744073709551615   (2^64 - 1)
 Host Range    = { 2001:638:501:4ef8::1 - 2001:638:501:4ef8:ffff:ffff:ffff:ffff }
 Properties    =
    - 2001:638:501:4ef8:223:aeff:fea4:8ca9 is a HOST address in 2001:638:501:4ef8::/64
@@ -155,7 +154,6 @@ Properties    =
       + Interface ID = 0223:aeff:fea4:8ca9
       + MAC address  = 00:23:ae:a4:8c:a9
       + Sol. Node MC = ff02::1:ffa4:8ca9
-GeoIP Country = Germany (DE)
 DNS Hostname  = (Name or service not known)
 ```
 
