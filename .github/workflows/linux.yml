@@ -33,16 +33,16 @@ jobs:
         include:
 
           # ====== Ubuntu Linux =============================================
+          - label: "Ubuntu 24.04 (Noble Numbat) with GCC"
+            image: ubuntu:24.04
+            cc: gcc
+            cxx: g++
           - label: "Ubuntu 22.04 (Jammy Jellyfish) with GCC"
             image: ubuntu:22.04
             cc: gcc
             cxx: g++
           - label: "Ubuntu 20.04 (Focal Fossa) with GCC"
             image: ubuntu:20.04
-            cc: gcc
-            cxx: g++
-          - label: "Ubuntu 18.04 (Bionic Beaver) with GCC"
-            image: ubuntu:18.04
             cc: gcc
             cxx: g++
 
@@ -61,12 +61,8 @@ jobs:
             cxx: g++
 
           # ====== Fedora Linux =============================================
-          - label: "Fedora 39 with Clang"
-            image: fedora:35
-            cc: clang
-            cxx: clang++
-          - label: "Fedora 38 with Clang"
-            image: fedora:34
+          - label: "Fedora 40 with Clang"
+            image: fedora:40
             cc: clang
             cxx: clang++
 
@@ -78,7 +74,7 @@ jobs:
       image: ${{ matrix.image }}
     steps:
       # NOTE: actions/checkout@v4 does not work for old Ubuntu 18.04!
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - name: Build
         shell: bash
         run: |
