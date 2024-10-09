@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Travis CI Scripts
+# GitHub Actions Scripts
 # Copyright (C) 2018-2024 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
@@ -67,17 +67,31 @@ def extractDependencies(line, system):
 # ###### Main program #######################################################
 
 # ====== Check arguments ====================================================
-if len(sys.argv) < 2:
-   sys.stderr.write('Usage: ' + sys.argv[0] + ' debian|ubuntu|fedora|freebsd [-i|--install]\n')
-   sys.exit(1)
-system     = sys.argv[1]
+system     = None
 runInstall = False
-for i in range(2, len(sys.argv)):
-   if sys.argv[i] == '-i' or sys.argv[i] == '--install':
+for i in range(1, len(sys.argv)):
+   if sys.argv[i] == '-s' or sys.argv[i] == '--system':
+      if i + 1 < len(sys.argv):
+         system = sys.argv[i + 1]
+      else:
+         sys.stderr.write('ERROR: Invalid system setting!\n')
+         sys.exit(1)
+   elif sys.argv[i] == '-i' or sys.argv[i] == '--install':
       runInstall = True
+   elif sys.argv[i] == '-h' or sys.argv[i] == '--help':
+      sys.stderr.write('Usage: ' + sys.argv[0] + ' [-h|--help] [-s|--system debian|ubuntu|fedora|freebsd|auto] [-i|--install]\n')
+      sys.exit(0)
    else:
       sys.stderr.write('ERROR: Bad parameter ' + sys.argv[i] + '!')
       sys.exit(1)
+
+if system == None:
+   with open("/etc/os-release") as osReleaseFile:
+    osRelease = { }
+    for line in osReleaseFile:
+        key, value = line.rstrip().split("=")
+        osRelease[key] = value.strip('"')
+   system = osRelease['ID']
 
 # ====== Debian/Ubuntu ======================================================
 dependencies = [ ]
@@ -162,10 +176,11 @@ elif system == 'freebsd':
       if output != None:
          ports = output.decode('utf-8').splitlines()
          for port in ports:
-            basename = os.path.basename(port)
-            if basename == 'glib20':
-               basename = 'glib'   # May be there is a better solution here?
-            dependencies.append(basename)
+            if port[0:3] != '---':
+               basename = os.path.basename(port)
+               if basename == 'glib20':
+                  basename = 'glib'   # May be there is a better solution here?
+               dependencies.append(basename)
 
       for dependency in sorted(set(dependencies)):
           sys.stdout.write(dependency + ' ')
