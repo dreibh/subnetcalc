@@ -1,5 +1,5 @@
 PORTNAME=	subnetcalc
-PORTVERSION=	2.5.1
+DISTVERSION=	2.5.1
 PORTREVISION=	1
 CATEGORIES=	net
 MASTER_SITES=	https://www.nntb.no/~dreibh/subnetcalc/download/
