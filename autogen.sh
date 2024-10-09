@@ -19,7 +19,7 @@
 # Contact: thomas.dreibholz@gmail.com
 
 # Bash options:
-set -e
+set -eu
 
 
 CMAKE_OPTIONS=""
@@ -44,18 +44,24 @@ while [ $# -gt 0 ] ; do
       export CC=gcc
    elif [[ "$1" =~ ^(-|--)use-gcc-analyzer$ ]] ; then
       # Use these settings for GCC:
-      export CXX=g++-10
-      export CC=gcc-10
+      export CXX=g++
+      export CC=gcc
       export CFLAGS=-fanalyzer
       export CXXFLAGS=-fanalyzer
-      CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_VERBOSE_MAKEFILE=ON"
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_VERBOSE_MAKEFILE=ON"
       CORES=1   # The analyzer takes a *huge* amount of memory!
    elif [[ "$1" =~ ^(-|--)debug$ ]] ; then
       # Enable debugging build:
-      CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_BUILD_TYPE=DEBUG"
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=Debug"
+   elif [[ "$1" =~ ^(-|--)release$ ]] ; then
+      # Enable debugging build:
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=Release"
+   elif [[ "$1" =~ ^(-|--)release-with-debinfo$ ]] ; then
+      # Enable debugging build:
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=RelWithDebInfo"
    elif [[ "$1" =~ ^(-|--)verbose$ ]] ; then
       # Enable verbose Makefile:
-      CMAKE_OPTIONS="$CMAKE_OPTIONS -DCMAKE_VERBOSE_MAKEFILE=ON"
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_VERBOSE_MAKEFILE=ON"
    elif [[ "$1" =~ ^(-|--)cores ]] ; then
       if [[ ! "$2" =~ ^[0-9]*$ ]] ; then
          echo >&2 "ERROR: Number of cores must be an integer number!"
@@ -66,7 +72,7 @@ while [ $# -gt 0 ] ; do
    elif [ "$1" == "--" ] ; then
       break
    else
-      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|--use-gcc-analyzer] [--debug] [--cores N] [--verbose]"
+      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|--use-gcc-analyzer] [--debug|--release|--release-with-debinfo] [--cores N] [--verbose]"
       exit 1
    fi
    shift
@@ -75,16 +81,26 @@ done
 
 # ====== Configure with CMake ===============================================
 rm -f CMakeCache.txt
-echo "CMake options:${CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=/usr $@ ."
-${COMMAND} cmake ${CMAKE_OPTIONS} -DCMAKE_INSTALL_PREFIX=/usr $@ .
+if [ "$(uname)" != "FreeBSD" ] ; then
+   installPrefix="/usr"
+else
+   installPrefix="/usr/local"
+fi
+if [ "$*" != "" ] ; then
+echo "x"
+   CMAKE_OPTIONS="${CMAKE_OPTIONS} $*"
+fi
+echo "CMake options:${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX=\"${installPrefix}\""
+# shellcheck disable=SC2048,SC2086
+${COMMAND} cmake ${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX="${installPrefix}"
 
 # ------ Obtain number of cores ---------------------------------------------
 # Try Linux
 if [ "${CORES}" == "" ] ; then
-   CORES=`getconf _NPROCESSORS_ONLN 2>/dev/null || true`
+   CORES=$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)
    if [ "${CORES}" == "" ] ; then
       # Try FreeBSD
-      CORES=`sysctl -a | grep 'hw.ncpu' | cut -d ':' -f2 | tr -d ' ' || true`
+      CORES=$(sysctl -a | grep 'hw.ncpu' | cut -d ':' -f2 | tr -d ' ' || true)
    fi
    if [ "${CORES}" == "" ] ; then
       CORES="1"
@@ -93,4 +109,4 @@ if [ "${CORES}" == "" ] ; then
 fi
 
 # ====== Build ==============================================================
-${COMMAND} make -j${CORES}
+${COMMAND} make -j"${CORES}"
