@@ -1008,8 +1008,9 @@ int main(int argc, char** argv)
                               NI_NAMEREQD
 #endif
                               );
-      std::cout << ((colourMode == true) ? "\r\x1b[K" : "\r");
-      std::cout << "DNS Hostname  = "; std::cout.flush();
+      std::cout << "\r\x1b[K"
+                << "DNS Hostname  = ";
+      std::cout.flush();
       if(error == 0) {
          std::cout << hostname << std::endl;
       }
