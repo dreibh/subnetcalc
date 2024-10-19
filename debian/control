@@ -3,11 +3,13 @@ Section: net
 Priority: optional
 Maintainer: Thomas Dreibholz <thomas.dreibholz@gmail.com>
 Homepage: https://www.nntb.no/~dreibh/subnetcalc/
+Vcs-Git: https://github.com/dreibh/subnetcalc.git
+Vcs-Browser: https://github.com/dreibh/subnetcalc
 Build-Depends: cmake,
                debhelper (>= 12),
                libgeoip-dev,
-               pkg-config
-Standards-Version: 4.6.2
+               pkgconf | pkg-config
+Standards-Version: 4.7.0
 Rules-Requires-Root: no
 
 Package: subnetcalc

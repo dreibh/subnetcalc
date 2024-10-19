@@ -1,0 +1,1829 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+#
+# Unified Build Tool
+# Copyright (C) 2021-2024 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: thomas.dreibholz@gmail.com
+
+import distro
+import glob
+import os
+import pprint
+import re
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+import urllib.error
+import urllib.request
+
+
+# ###########################################################################
+# #### Constants                                                         ####
+# ###########################################################################
+
+TarballFormats = [ 'xz', 'bz2', 'gz' ]
+TarOptions = {
+   'xz':  'J',
+   'bz2': 'j',
+   'gz':  'z'
+}
+
+Systems = [
+   # Prefix       System Name         Configuration File
+   [ 'cmake',    'CMake',             'cmake_lists_name'      ],
+   [ 'autoconf', 'AutoConf/AutoMake', 'autoconf_config_name'  ],
+   [ 'other',    'Version File',      'other_file_name'       ],
+   [ 'rpm',      'RPM Spec',          'rpm_spec_name'         ],
+   [ 'debian',   'Debian Changelog',  'debian_changelog_name' ],
+   [ 'port',     'Port Makefile',     'port_makefile_name'    ]
+]
+
+DebianCodenames = None   # Will be initialised later!
+UbuntuCodenames = None   # Will be initialised later!
+
+DebhelperLatestVersion = 13
+
+
+# ###########################################################################
+# #### Helper Functions                                                  ####
+# ###########################################################################
+
+
+# ###### Print section header ###############################################
+def printSection(title):
+   now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+   sys.stdout.write('\n\x1b[34m' + (now + ' ====== ' + title + ' ').ljust(132, '=') + '\x1b[0m\n\n')
+
+
+# ###### Print subsection header ############################################
+def printSubsection(title):
+   now = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime())
+   sys.stdout.write('\n\x1b[34m' + (now + ' ------ ' + title + ' ').ljust(132, '-') + '\x1b[0m\n')
+
+
+# ###### Show difference between two files ##################################
+def showDiff(a, b):
+   try:
+      subprocess.run( [ 'diff', '--color', a, b ] )
+   except Exception as e:
+      sys.stderr.write('ERROR: Diff run failed: ' + str(e) + '\n')
+      sys.exit(1)
+
+
+# ###### Read file and return list of lines #################################
+def readTextFile(inputName):
+
+   inputFile = open(inputName, 'r', encoding='utf-8')
+   contents = inputFile.readlines()
+   inputFile.close()
+
+   return contents
+
+
+# ###### Write file by list of lines ########################################
+def writeTextFile(outputName, contents):
+   outputFile = open(outputName, 'w', encoding='utf-8')
+   for line in contents:
+      outputFile.write(line)
+
+
+# ###### Get system architecture ############################################
+def getArchitecture():
+   return os.uname().machine
+
+
+
+# ###########################################################################
+# #### Packaging                                                         ####
+# ###########################################################################
+
+
+# ###### Read packaging configuration from packaging.conf ###################
+def readPackagingConfiguration():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+   packageInfo['packaging_maintainer']     = None
+   packageInfo['packaging_maintainer_key'] = None
+   packageInfo['packaging_make_dist']      = None
+   packageInfo['packaging_config_name']    = 'packaging.conf'
+
+   # ====== Obtain package configuration ====================================
+   re_package_maintainer     = re.compile(r'^(MAINTAINER=\")(.*)(\".*$)')
+   re_package_maintainer_key = re.compile(r'^(MAINTAINER_KEY=\")(.*)(\".*$)')
+   re_package_makedist       = re.compile(r'^(MAKE_DIST=\")(.*)(\".*$)')
+   try:
+      packagingConfFile = open(packageInfo['packaging_config_name'], 'r', encoding='utf-8')
+      packagingConfFileContents = packagingConfFile.readlines()
+      for line in packagingConfFileContents:
+         match = re_package_maintainer.match(line)
+         if match != None:
+            packageInfo['packaging_maintainer'] = match.group(2)
+         else:
+            match = re_package_maintainer_key.match(line)
+            if match != None:
+               packageInfo['packaging_maintainer_key'] = match.group(2)
+            else:
+               match = re_package_makedist.match(line)
+               if match != None:
+                  packageInfo['packaging_make_dist'] = match.group(2)
+      packagingConfFile.close()
+   except Exception as e:
+      sys.stderr.write('ERROR: Unable to read ' + packageInfo['packaging_config_name'] + ': ' + str(e) + '\n')
+      sys.exit(1)
+
+   if packageInfo['packaging_maintainer'] == None:
+      sys.stderr.write('ERROR: Unable to find MAINTAINER in ' + packageInfo['packaging_config_name'] + '!\n')
+      sys.exit(1)
+   elif packageInfo['packaging_make_dist'] == None:
+      sys.stderr.write('ERROR: Unable to find MAKE_DIST in ' + packageInfo['packaging_config_name'] + '!\n')
+      sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read CMake packaging information ###################################
+def readCMakePackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+
+   # ====== Obtain package configuration ====================================
+   cmakeListsFile = 'CMakeLists.txt'
+   if os.path.isfile(cmakeListsFile):
+      re_cmake_project   = re.compile(r'[ \t]*[Pp][Rr][Oo][Jj][Ee][Cc][Tt][ \t]*\(([a-zA-Z0-9-+]+)')
+      re_cmakefile_major = re.compile(r'^[Ss][Ee][Tt]\((BUILD_MAJOR|PROJECT_MAJOR_VERSION)[ \t]*("|)(\d+)("|)[ \t]*\)')
+      re_cmakefile_minor = re.compile(r'^[Ss][Ee][Tt]\((BUILD_MINOR|PROJECT_MINOR_VERSION)[ \t]*("|)(\d+)("|)[ \t]*\)')
+      re_cmakefile_patch = re.compile(r'^[Ss][Ee][Tt]\((BUILD_PATCH|PROJECT_PATCH_VERSION)[ \t]*("|)(\d+)(~[a-zA-Z0-9\.+~]+|)("|)[ \t]*\)')
+
+      packageInfo['cmake_lists_name'] = cmakeListsFile
+      try:
+         cmakeFile = open(packageInfo['cmake_lists_name'], 'r', encoding='utf-8')
+         cmakeFileContents = cmakeFile.readlines()
+         for line in cmakeFileContents:
+            match = re_cmakefile_major.match(line)
+            if match != None:
+               packageInfo['cmake_version_major'] = int(match.group(3))
+            else:
+               match = re_cmakefile_minor.match(line)
+               if match != None:
+                  packageInfo['cmake_version_minor'] = int(match.group(3))
+               else:
+                  match = re_cmakefile_patch.match(line)
+                  if match != None:
+                     packageInfo['cmake_version_patch'] = int(match.group(3))
+                     packageInfo['cmake_version_extra'] = match.group(4)
+                  else:
+                     match = re_cmake_project.match(line)
+                     if match != None:
+                        packageInfo['cmake_package'] = match.group(1)
+         cmakeFile.close()
+
+         if ('cmake_version_major' in packageInfo) and \
+            ('cmake_version_minor' in packageInfo) and \
+            ('cmake_version_patch' in packageInfo) and \
+            ('cmake_version_extra' in packageInfo):
+            packageInfo['cmake_version_string'] = \
+               str(packageInfo['cmake_version_major']) + '.' + \
+                  str(packageInfo['cmake_version_minor']) + '.' + \
+                  str(packageInfo['cmake_version_patch']) + packageInfo['cmake_version_extra']
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + packageInfo['cmake_lists_name'] + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if ( ( not 'cmake_package' in packageInfo) or
+           ( not 'cmake_version_string' in packageInfo ) ):
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['cmake_lists_name'] + '!\n')
+         print(packageInfo)
+         sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read AutoConf packaging information ################################
+def readAutoConfPackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+
+   # ====== Obtain package configuration ====================================
+   for autoconfConfigName in [ 'configure.ac', 'configure.in' ]:
+      if os.path.isfile(autoconfConfigName):
+         break
+   if os.path.isfile(autoconfConfigName):
+      re_autoconffile_version = re.compile(r'^AC_INIT\([ \t]*\[(.*)\][ \t]*,[ \t]*\[(\d).(\d).(\d+)([~+][a-zA-Z0-9\.+]+|)\][ \t]*,[ \t]*\[(.*)\][ \t]*\)')
+
+      packageInfo['autoconf_config_name'] = autoconfConfigName
+      try:
+         autoconfFile = open(packageInfo['autoconf_config_name'], 'r', encoding='utf-8')
+         autoconfFileContents = autoconfFile.readlines()
+         for line in autoconfFileContents:
+            match = re_autoconffile_version.match(line)
+            if match != None:
+               packageInfo['autoconf_package']       = match.group(1)
+               packageInfo['autoconf_version_major'] = int(match.group(2))
+               packageInfo['autoconf_version_minor'] = int(match.group(3))
+               packageInfo['autoconf_version_patch'] = int(match.group(4))
+               packageInfo['autoconf_version_extra'] = match.group(5)
+               packageInfo['autoconf_version_string'] = \
+                  str(packageInfo['autoconf_version_major']) + '.' + \
+                  str(packageInfo['autoconf_version_minor']) + '.' + \
+                  str(packageInfo['autoconf_version_patch']) + packageInfo['autoconf_version_extra']
+               break
+         autoconfFile.close()
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + packageInfo['autoconf_config_name'] + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if ( ( not 'autoconf_package' in packageInfo) or
+           ( not 'autoconf_version_string' in packageInfo ) ):
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['autoconf_config_name'] + '!\n')
+         sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read Debian packaging information ##################################
+def readDebianPackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+
+   # ====== Process changelog file ==========================================
+   debianChangelogName = 'debian/changelog'
+   debianControlName   = 'debian/control'
+   debianRulesName     = 'debian/rules'
+   if ( (os.path.isfile(debianChangelogName)) and
+        (os.path.isfile(debianControlName)) and
+        (os.path.isfile(debianRulesName)) ):
+      re_debian_version = re.compile(r'^([a-zA-Z0-9-+]+)[ \t]*\((\d+:|)(\d+)\.(\d+)\.(\d+)([a-zA-Z0-9+~\.]*)(-|)(\d[a-zA-Z0-9-+~]*|)\)[ \t]*([a-zA-Z-+]+)[ \t]*;(.*)$')
+      re_debian_itp1    = re.compile(r'^ * .*ITP.*Closes: #([0-9]+).*$')
+      re_debian_itp2    = re.compile(r'^ * .*Closes: #([0-9]+).*ITP.*$')
+
+      packageInfo['debian_changelog_name']    = debianChangelogName
+      packageInfo['debian_control_name']      = debianControlName
+      packageInfo['debian_rules_name']        = debianRulesName
+      packageInfo['debian_package_name']      = None
+      packageInfo['debian_version_string']    = None
+      packageInfo['debian_standards_version'] = None
+      packageInfo['debian_codename']          = None
+      packageInfo['debian_itp']               = None
+      packageInfo['debian_status']            = None
+
+      try:
+         debianChangeLogFile = open(debianChangelogName, 'r', encoding='utf-8')
+         debianChangeLogFileContents = debianChangeLogFile.readlines()
+         n = 0
+         for line in debianChangeLogFileContents:
+            n = n + 1
+            if n == 1:
+               match = re_debian_version.match(line)
+               if match != None:
+                  packageInfo['debian_package_name']      = match.group(1)
+                  packageInfo['debian_version_prefix']    = match.group(2)
+                  packageInfo['debian_version_major']     = int(match.group(3))
+                  packageInfo['debian_version_minor']     = int(match.group(4))
+                  packageInfo['debian_version_patch']     = int(match.group(5))
+                  packageInfo['debian_version_extra']     = match.group(6)
+                  packageInfo['debian_version_packaging'] = match.group(8)
+                  packageInfo['debian_codename']          = match.group(9)
+                  packageInfo['debian_version_string']    = \
+                     str(packageInfo['debian_version_major']) + '.' + \
+                     str(packageInfo['debian_version_minor']) + '.' + \
+                     str(packageInfo['debian_version_patch']) + packageInfo['debian_version_extra']
+                  packageInfo['debian_urgency'] = 'low'
+
+                  options = match.group(9).split(';')
+                  for option in options:
+                     option = option.strip().split('=')
+                     if len(option) == 2:
+                        if option[0].strip() == 'urgency':
+                           packageInfo['debian_urgency'] = option[1].strip()
+
+            elif n > 1:
+               match = re_debian_itp1.match(line)
+               if match == None:
+                  match = re_debian_itp2.match(line)
+               if match != None:
+                  # print('ITP: ' + line)
+                  packageInfo['debian_itp'] = int(match.group(1))
+                  break
+         debianChangeLogFile.close()
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + debianChangelogName + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      if packageInfo['debian_package_name'] == None:
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + debianChangelogName + '!\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if not 'debian_package_name' in packageInfo:
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + debianChangelogName + '!\n')
+         sys.exit(1)
+
+      # ====== Process control file =========================================
+      re_debian_standards_version = re.compile(r'^Standards-Version:[ \t]*([0-9\.]*)[ \t]*$')
+      try:
+         debianControlFile = open(debianControlName, 'r', encoding='utf-8')
+         debianControlFileContents = debianControlFile.readlines()
+         for line in debianControlFileContents:
+            match = re_debian_standards_version.match(line)
+            if match != None:
+               packageInfo['debian_standards_version'] = match.group(1)
+         debianControlFile.close()
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + debianControlName + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read RPM packaging information #####################################
+def readRPMPackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+
+   # ====== Obtain package configuration ====================================
+   rpm_spec_names = glob.glob('rpm/*.spec')
+   if len(rpm_spec_names) == 1:
+      packageInfo['rpm_spec_name'] = rpm_spec_names[0]
+
+      re_rpm_name    = re.compile(r'^(Name:[ \t]*)(\S+)')
+      re_rpm_version = re.compile(r'^(Version:[ \t]*)(\d+)\.(\d+)\.(\d+)(.*|)')
+      re_rpm_release = re.compile(r'^(Release:[ \t]*)(\d+)')
+      try:
+         rpmSpecFile = open(packageInfo['rpm_spec_name'], 'r', encoding='utf-8')
+         rpmSpecFileContents = rpmSpecFile.readlines()
+         packageInfo['rpm_version_packaging'] = None
+         for line in rpmSpecFileContents:
+            match = re_rpm_version.match(line)
+            if match != None:
+               packageInfo['rpm_version_major']  = int(match.group(2))
+               packageInfo['rpm_version_minor']  = int(match.group(3))
+               packageInfo['rpm_version_patch']  = int(match.group(4))
+               packageInfo['rpm_version_extra']  = match.group(5)
+               packageInfo['rpm_version_string'] = \
+                  str(packageInfo['rpm_version_major']) + '.' + \
+                  str(packageInfo['rpm_version_minor']) + '.' + \
+                  str(packageInfo['rpm_version_patch']) + packageInfo['rpm_version_extra']
+            else:
+               match = re_rpm_release.match(line)
+               if match != None:
+                  packageInfo['rpm_version_packaging'] = int(match.group(2))
+               else:
+                  match = re_rpm_name.match(line)
+                  if match != None:
+                     packageInfo['rpm_package_name'] = match.group(2)
+         rpmSpecFile.close()
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + packageInfo['rpm_spec_name'] + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if ( (not 'rpm_package_name' in packageInfo) or
+           (not 'rpm_version_packaging' in packageInfo) ):
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['rpm_spec_name'] + '!\n')
+         sys.exit(1)
+
+   elif len(rpm_spec_names) > 1:
+      sys.stderr.write('ERROR: More than one spec file found: ' + str(rpm_spec_names) + '!\n')
+      sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read FreeBSD ports packaging information ###########################
+def readFreeBSDPackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+   port_makefile_names = glob.glob('freebsd/*/Makefile')
+
+   # ====== Obtain package configuration ====================================
+   if len(port_makefile_names) > 0:
+      packageInfo['port_makefile_name'] = port_makefile_names[0]
+      re_freebsd_version = re.compile(r'^(DISTVERSION=[ \t]*)(\d+)\.(\d+)\.(\d+)(.*|)')
+      try:
+         freeBSDMakefileFile = open(packageInfo['port_makefile_name'], 'r', encoding='utf-8')
+         freeBSDMakefileFileContents = freeBSDMakefileFile.readlines()
+         for line in freeBSDMakefileFileContents:
+            match = re_freebsd_version.match(line)
+            if match != None:
+               packageInfo['port_version_major']  = int(match.group(2))
+               packageInfo['port_version_minor']  = int(match.group(3))
+               packageInfo['port_version_patch']  = int(match.group(4))
+               packageInfo['port_version_extra']  = match.group(5)
+               packageInfo['port_version_string'] = \
+                  str(packageInfo['port_version_major']) + '.' + \
+                  str(packageInfo['port_version_minor']) + '.' + \
+                  str(packageInfo['port_version_patch']) + packageInfo['port_version_extra']
+         freeBSDMakefileFile.close()
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + packageInfo['port_makefile_name'] + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if not 'port_version_string' in packageInfo:
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['port_makefile_name'] + '!\n')
+         sys.exit(1)
+
+   return packageInfo
+
+
+# ###### Read other packaging information ###################################
+def readOtherPackagingInformation():
+
+   # ====== Initialise ======================================================
+   packageInfo = {}
+
+   # ====== Obtain package configuration ====================================
+   for otherFileName in [ 'version' ]:
+      if os.path.isfile(otherFileName):
+         break
+
+   if os.path.isfile(otherFileName):
+      packageInfo['other_file_name'] = otherFileName
+      re_otherfile_version = re.compile(r'(\S+) (\d).(\d).(\d+)([~+][a-zA-Z0-9\.+]+|)')
+      try:
+         otherFile = open(otherFileName, 'r', encoding='utf-8')
+         otherFileContents = otherFile.readlines()
+         line = otherFileContents[0]
+         match = re_otherfile_version.match(line)
+         if match != None:
+            packageInfo['other_package']       = match.group(1)
+            packageInfo['other_version_major'] = int(match.group(2))
+            packageInfo['other_version_minor'] = int(match.group(3))
+            packageInfo['other_version_patch'] = int(match.group(4))
+            packageInfo['other_version_extra'] = match.group(5)
+            packageInfo['other_version_string'] = \
+               str(packageInfo['other_version_major']) + '.' + \
+               str(packageInfo['other_version_minor']) + '.' + \
+               str(packageInfo['other_version_patch']) + packageInfo['other_version_extra']
+         otherFile.close()
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to read ' + otherFileName + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      # ====== Check whether information is complete ========================
+      if not 'other_version_major' in packageInfo:
+         sys.stderr.write('ERROR: Cannot find required package versioning details in ' + debianChangelogName + '!\n')
+         sys.exit(1)
+
+   return packageInfo
+
+
+
+# ###### Obtain distribution codenames ######################################
+def obtainDistributionCodenames():
+   global DebianCodenames
+   global UbuntuCodenames
+   DebianCodenames = getDistributionCodenames()
+   UbuntuCodenames = getDistributionCodenames('ubuntu')
+
+
+# ###### Read packaging information #########################################
+def readPackagingInformation():
+
+   # ====== Read information from different packaging system files ==========
+   packageInfo = readPackagingConfiguration()
+
+   cmakePackageInfo = readCMakePackagingInformation()
+   if cmakePackageInfo != None:
+      packageInfo.update(cmakePackageInfo)
+
+   autoconfPackageInfo = readAutoConfPackagingInformation()
+   if autoconfPackageInfo != None:
+      packageInfo.update(autoconfPackageInfo)
+
+   debianPackageInfo = readDebianPackagingInformation()
+   if debianPackageInfo != None:
+      packageInfo.update(debianPackageInfo)
+
+   rpmPackageInfo = readRPMPackagingInformation()
+   if rpmPackageInfo != None:
+      packageInfo.update(rpmPackageInfo)
+
+   freeBSDPackageInfo = readFreeBSDPackagingInformation()
+   if freeBSDPackageInfo != None:
+      packageInfo.update(freeBSDPackageInfo)
+
+   otherPackageInfo = readOtherPackagingInformation()
+   if otherPackageInfo != None:
+      packageInfo.update(otherPackageInfo)
+
+
+   # ====== Obtain master packaging information =============================
+   for system in Systems:
+      systemPrefix     = system[0]
+      systemName       = system[1]
+      systemConfigFile = system[2]
+      if hasPackagingFor(packageInfo, systemPrefix):
+         sys.stdout.write('Using master versioning from ' + systemName + '.\n')
+         for entry in [ 'package', 'version_string',  'version_major',  'version_minor',  'version_patch',  'version_extra' ]:
+            packageInfo['master_' + entry] = packageInfo[systemPrefix + '_' + entry]
+         break
+   if not hasPackagingFor(packageInfo, 'master'):
+      sys.stderr.write('ERROR: Unable to obtain master packaging information!\n')
+      sys.exit(1)
+
+
+   # ====== Check master packaging information ==============================
+   for system in Systems:
+      systemPrefix     = system[0]
+      systemName       = system[1]
+      systemConfigFile = system[2]
+      if hasPackagingFor(packageInfo, systemPrefix):
+         sys.stdout.write(('Version from ' + systemName + ': ').ljust(32, ' ') + \
+                          packageInfo[systemPrefix + '_version_string'] + \
+                          ' (from ' + packageInfo[systemConfigFile] + ')\n')
+         if packageInfo[systemPrefix + '_version_string'] != packageInfo['master_version_string']:
+            sys.stderr.write('ERROR: ' + systemName + ' version ' + \
+                             packageInfo[systemPrefix + '_version_string'] + ' does not match master version ' + \
+                             packageInfo['master_version_string'] + '!\n')
+            sys.exit(1)
+
+
+   # ====== Look for source tarball =========================================
+   sourcePackageInfo = findSourceTarball(packageInfo)
+   if sourcePackageInfo != None:
+      packageInfo.update(sourcePackageInfo)
+
+   return packageInfo
+
+
+# ###### Find source tarball ################################################
+def findSourceTarball(packageInfo, quiet = False):
+
+   # ====== Initialise ======================================================
+   sourceInfo = {}
+
+   # ====== Obtain package configuration ====================================
+   tarballPattern = packageInfo['master_package'] + '-' + packageInfo['master_version_string'] + '.tar.*'
+   if not quiet:
+      sys.stdout.write('Looking for tarball ' + tarballPattern + ' ... ')
+   tarballs = glob.glob(tarballPattern)   # NOTE: This will also find .tar.xz.asc, etc.!
+   for tarball in tarballs:
+      extension = os.path.splitext(tarball)[1][1:]
+      if extension in TarballFormats:
+         sourceInfo['source_tarball_name']   = tarball
+         sourceInfo['source_tarball_format'] = extension
+
+         # ====== Check for signature file ==================================
+         signature = sourceInfo['source_tarball_name'] + '.asc'
+         if os.path.isfile(signature):
+            sourceInfo['source_tarball_signature'] = signature
+
+         if not quiet:
+            sys.stdout.write('Found ' + sourceInfo['source_tarball_name'] + \
+                           ' (format is ' + sourceInfo['source_tarball_format'] + ', signature in ')
+            if 'source_tarball_signature' in sourceInfo:
+               sys.stdout.write(sourceInfo['source_tarball_signature'] + ').\n')
+            else:
+               sys.stdout.write('MISSING!).\n')
+
+         return sourceInfo
+
+   if not quiet:
+      sys.stdout.write('not found!\n')
+   return None
+
+
+# ###### Check whether specific packaging information is available ##########
+def hasPackagingFor(packageInfo, variant):
+   if variant + '_version_string' in packageInfo:
+      return True
+   return False
+
+
+
+# ###########################################################################
+# #### Tools                                                             ####
+# ###########################################################################
+
+
+# ###### Show package information ###########################################
+def showInformation(packageInfo):
+   pprint.pprint(packageInfo, indent=1)
+
+
+# ###### Make source tarball ################################################
+def makeSourceTarball(packageInfo, skipPackageSigning, summaryFile):
+
+   printSection('Creating source tarball')
+
+   # ====== Make source tarball =============================================
+   if 'source_tarball_name' in packageInfo:
+      sourcePackageInfo = findSourceTarball(packageInfo, quiet=True)
+      sys.stdout.write('Tarball is already there: ' + sourcePackageInfo['source_tarball_name'] + \
+                       ' (format is ' + sourcePackageInfo['source_tarball_format'] + ')\n')
+   else:
+      print(packageInfo['packaging_make_dist'])
+      result = os.system(packageInfo['packaging_make_dist'])
+      if result != 0:
+         sys.stderr.write('ERROR: Unable to create source tarball!\n')
+         return False
+      sourcePackageInfo = findSourceTarball(packageInfo, quiet=(not skipPackageSigning))
+      if sourcePackageInfo == None:
+         sys.stderr.write('ERROR: Unable to find source tarball!\n')
+         return False
+      # The source tarball is new, i.e. an existing signature is obsolete and
+      # must be deleted.
+      try:
+         os.unlink(sourcePackageInfo['source_tarball_name'] + '.asc')
+      except FileNotFoundError:
+         pass
+
+   if summaryFile != None:
+      summaryFile.write('sourceTarballFile: ' + os.path.abspath(sourcePackageInfo['source_tarball_name']) + '\n')
+
+   # ====== Sign tarball ====================================================
+   if skipPackageSigning == False:
+      if 'source_tarball_signature' in sourcePackageInfo:
+         sys.stdout.write('Signature is already there: ' + sourcePackageInfo['source_tarball_signature'] + '\n')
+
+      else:
+         result = os.system('gpg --sign --armor --detach-sign ' + \
+                           sourcePackageInfo['source_tarball_name'])
+         if result != 0:
+            sys.stderr.write('ERROR: Unable to sign source tarball!\n')
+            return False
+         sourcePackageInfo = findSourceTarball(packageInfo)
+         if ( (sourcePackageInfo == None) or
+            (not 'source_tarball_name' in sourcePackageInfo) ):
+            sys.stderr.write('ERROR: Unable to find signature of source tarball!\n')
+
+      result = os.system('gpg --verify ' + \
+                            sourcePackageInfo['source_tarball_signature'] + ' ' + \
+                            sourcePackageInfo['source_tarball_name'])
+      if result == 0:
+         sys.stderr.write('Signature verified.\n')
+      else:
+         sys.stderr.write('ERROR: Bad signature! Something is wrong!\n')
+         return False
+
+      if summaryFile != None:
+         summaryFile.write('sourceTarballSignatureFile: ' + os.path.abspath(sourcePackageInfo['source_tarball_signature']) + '\n')
+
+   packageInfo.update(sourcePackageInfo)
+   return True
+
+
+# ###### Get modified debian packaging version for given codename ###########
+def modifyDebianVersionPackaging(packageInfo, codename):
+   # print("I=" + packageInfo['debian_version_packaging'])
+
+   # ------- Debian ------------------------------------------------------
+   if codename in DebianCodenames:
+      # Update codename and package versioning:
+      # Drop Ubuntu packaging version:
+      if codename == 'unstable':
+         newSuffix = ''
+      else:
+         newSuffix = '~' + codename + '1'
+      newDebianVersionPackaging = re.sub(r'(ubuntu|ppa|)[0-9]+$', newSuffix,
+                                         packageInfo['debian_version_packaging'])
+
+   # ------- Ubuntu ------------------------------------------------------
+   else:
+      # Update codename and package versioning:
+      # Drop Ubuntu packaging version:
+      newDebianVersionPackaging = re.sub(r'[0-9]+$', '~' + codename + '1',
+                                         packageInfo['debian_version_packaging'])
+
+   # print("N=" + newDebianVersionPackaging)
+   return newDebianVersionPackaging
+
+
+# ###### Get Debian/Ubuntu codenames ########################################
+def getDistributionCodenames(distribution = 'debian'):
+   if distribution == 'debian':
+      distroInfo = 'debian-distro-info'
+   else:
+      distroInfo = 'ubuntu-distro-info'
+   try:
+      process = subprocess.Popen([ distroInfo, '--all'],
+                                 stdout=subprocess.PIPE, universal_newlines=True)
+      result = process.stdout.readlines()
+   except Exception as e:
+      sys.stderr.write('ERROR: Unable to obtain Debian codenames: ' + str(e) + '\n')
+      sys.exit(1)
+
+   codenames = [ codename.strip() for codename in result ]
+   if distribution == 'debian':
+      codenames += [ 'unstable', 'testing', 'stable', 'oldstable' ]
+      codenames += [ codename.strip() + '-backports'        for codename in result]
+      codenames += [ codename.strip() + '-backports-sloppy' for codename in result]
+   codenames = sorted(codenames)
+
+   # pprint.pprint(codenames, indent=1)
+   return codenames
+
+
+# ###### Get Debian default architecture ####################################
+def getDebianDefaultArchitecture():
+   try:
+      process = subprocess.Popen([ 'dpkg', '--print-architecture'],
+                                 stdout=subprocess.PIPE, universal_newlines=True)
+      result = process.stdout.readlines()[0].strip()
+   except Exception as e:
+      sys.stderr.write('ERROR: Unable to obtain Debian default architecture: ' + str(e) + '\n')
+      sys.exit(1)
+   return result
+
+
+# ###### Get name of Debian DSC file name ###################################
+def getDebianDscName(packageInfo, debianVersionPackaging = None):
+
+   if debianVersionPackaging == None:
+      debianVersionPackaging = packageInfo['debian_version_packaging']
+   dscFileName = packageInfo['debian_package_name'] + '_' + \
+                    packageInfo['debian_version_string'] + '-' + \
+                    debianVersionPackaging + '.dsc'
+   return dscFileName
+
+
+# ###### Get name of Debian source buildinfo name ###########################
+def getDebianBuildinfoName(packageInfo, debianVersionPackaging = None,
+                           architecture = 'source'):
+
+   if debianVersionPackaging == None:
+      debianVersionPackaging = packageInfo['debian_version_packaging']
+   sourceBuildInfoFileName = packageInfo['debian_package_name'] + '_' + \
+                                packageInfo['debian_version_string'] + '-' + \
+                                debianVersionPackaging + '_' +  \
+                                architecture + '.buildinfo'
+   return sourceBuildInfoFileName
+
+
+# ###### Get name of Debian source buildinfo name ###########################
+def getDebianChangesName(packageInfo, debianVersionPackaging = None,
+                         architecture = 'source'):
+
+   if debianVersionPackaging == None:
+      debianVersionPackaging = packageInfo['debian_version_packaging']
+   changesFileName = packageInfo['debian_package_name'] + '_' + \
+                        packageInfo['debian_version_string'] + '-' + \
+                        debianVersionPackaging + '_' + \
+                        architecture + '.changes'
+   return changesFileName
+
+
+# ###### Get name of Debian control tarball name ############################
+def getDebianControlTarballName(packageInfo, debianVersionPackaging = None):
+
+   if debianVersionPackaging == None:
+      debianVersionPackaging = packageInfo['debian_version_packaging']
+   controlTarballFileName = packageInfo['debian_package_name'] + '_' + \
+                               packageInfo['debian_version_string'] + '-' + \
+                               debianVersionPackaging + '.debian.tar.' + \
+                               'xz'   # FIXME: Check packageInfo['source_tarball_format'] with ".tar.gz" package!
+   return controlTarballFileName
+
+
+# ###### Fetch Debian changelog file ########################################
+def fetchDebianChangelog(packageInfo, codename = 'unstable'):
+   if not hasPackagingFor(packageInfo, 'debian'):
+      sys.stderr.write('ERROR: Cannot find required Debian packaging information!\n')
+      sys.exit(1)
+
+   if codename in DebianCodenames:
+      # Debian
+      statusPageURL = 'https://packages.debian.org/source/' + codename + '/' + packageInfo['debian_package_name']
+   else:
+      # Ubuntu
+      statusPageURL = 'https://packages.ubuntu.com/source/' + codename + '/' + packageInfo['debian_package_name']
+
+   debianVersion       = None
+   debianLocation      = None
+   debianArchive       = None
+   debianArchiveFormat = None
+
+   # ====== Get package status =================================================
+   statusPageContents = None
+   sys.stderr.write('Looking for package status on ' + statusPageURL + ' ... ')
+   sys.stderr.flush()
+   try:
+      statusPage = urllib.request.urlopen(statusPageURL)
+      statusPageContents = statusPage.readlines()
+      statusPage.close()
+
+      re_debian_package = re.compile(r'.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
+      re_debian_archive = re.compile(r'.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
+                                       packageInfo['debian_package_name'][0:1] + '/' + \
+                                       packageInfo['debian_package_name'] + '/' + \
+                                       r')(' + packageInfo['debian_package_name'] + r'_[0-9-+~\.a-z]+\.debian\.tar\.[a-zA-Z]+)"')
+      for line in statusPageContents:
+         line = line.decode('utf-8')
+         match = re_debian_package.match(line)
+         if match != None:
+            debianVersion = match.group(1)
+         else:
+            match = re_debian_archive.match(line)
+            if match != None:
+               debianLocation = match.group(1)
+               debianArchive  = match.group(3)
+
+   except urllib.error.HTTPError as e:
+      sys.stderr.write('not found (HTTP ' + str(e.code) + ')!\n')
+      sys.exit(1)
+
+   if (debianVersion == None) or (debianArchive == None):
+      sys.stderr.write('not found!\n')
+      return None
+
+   sys.stderr.write('Version in ' + codename + ' is ' + debianVersion + '\n')
+
+
+   # ====== Determine necessary compression option =============================
+   debianArchiveFormat  = debianArchive[len(debianArchive) - 2 : len(debianArchive)]
+   tarCompressionOption = TarOptions[debianArchiveFormat]
+
+
+   # ====== Fetch debian archive ===============================================
+   archiveFileURL =  debianLocation + debianArchive
+   sys.stderr.write('Looking for \"debian\" archive at ' + archiveFileURL + ' ... ')
+   sys.stderr.flush()
+   result = None
+   try:
+      archiveFile = urllib.request.urlopen(archiveFileURL)
+      debianArchiveFile = tempfile.NamedTemporaryFile(delete=False)
+      shutil.copyfileobj(archiveFile, debianArchiveFile)
+      debianArchiveFile.close()
+      archiveFile.close()
+      sys.stderr.write('found!\n')
+
+      try:
+         process = subprocess.Popen([ 'tar', 'x' + tarCompressionOption + 'fO', debianArchiveFile.name, 'debian/changelog'],
+                                    stdout=subprocess.PIPE, universal_newlines=True)
+         result = process.stdout.readlines()
+         os.unlink(debianArchiveFile.name)
+
+      except Exception as e:
+         sys.stderr.write('ERROR: Failed to extract debian/changelog from ' + debianArchiveFile.name + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+   except urllib.error.HTTPError as e:
+      sys.stderr.write('not found (HTTP ' + str(e.code) + ')!\n')
+      return None
+
+   return result
+
+
+# ###### Filter Debian changelog ############################################
+# This function filters debian/changelog entries:
+# regexp_for_last_entry: None (no filtering), 1 (first entry), RegExp
+# * Empty entries get dropped.
+# * Stop, if entry matches regexp_for_last_entry argument.
+# * Stop after first entry, if regexp_for_last_entry = 1.
+def filterDebianChangelog(changeLogContents, re_last_entry = None):
+
+   re_begin_of_entry = re.compile(r'^[a-zA-Z].*$')
+   re_end_of_entry   = re.compile(r'^ --.*$')
+   re_empty          = re.compile(r'^$')
+   re_item           = re.compile(r'^ *')
+   re_item_is_itp    = re.compile(r'^(.*Closes:.*ITP.*|.*ITP.*Closes:.*)$')
+
+   resultingChangelog = []
+   entries            = 0
+   entryContentLines  = 0
+   entryContent       = ''
+   entryIsITP         = False
+
+   for line in changeLogContents:
+
+      # ====== Begin of entry ===============================================
+      if entryContentLines == 0:
+         if re_begin_of_entry.match(line):
+            if entries == 0:
+               entryContent = line
+            else:
+               entryContent = '\n' + line
+            entryContentLines = 1
+
+      # ====== Within entry =================================================
+      else:
+         # ------ End of entry ----------------------------------------------
+         if re_end_of_entry.match(line):
+            entryContent = entryContent + line
+            if entryContentLines > 1:
+               entries = entries + 1
+
+               # ------ Print entry -----------------------------------------
+               if not entryIsITP:
+                  resultingChangelog.append(entryContent)
+
+               # ------ Print entry with ITP --------------------------------
+               # Special case: The ITP package for Debian must only contain the
+               #               ITP entry with ITP item and nothing else!
+               else:
+                  splittedITPEntry = entryContent.splitlines()
+                  i = 0
+                  for itpLine in splittedITPEntry:
+                     i = i + 1
+                     if (i <= 2) or (i >= len(splittedITPEntry) - 2):
+                        resultingChangelog.append(itpLine + '\n')
+                     elif re_item_is_itp.match(itpLine) != None:
+                        resultingChangelog.append(itpLine + '\n')
+                  break   # ITP -> done!
+
+               entryContent = ''
+               entryIsITP   = False
+
+            # ------ Check for match with last entry regexp in argument -----
+            if re_last_entry != None:
+               if re_last_entry.match(line) != None:
+                  break
+
+            entryContentLines = 0
+
+         # ------ Part of entry ---------------------------------------------
+         else:
+            if re_item.match(line):
+               entryContent      = entryContent + line
+               entryContentLines = entryContentLines + 1
+               if re_item_is_itp.match(line):
+                  entryIsITP = True
+
+   return resultingChangelog
+
+
+# ###### Merge Debian changelogs ###########################################
+# This function merges debian/changelog entries.
+# 1. Import old entries from distributor's changelog
+# 2a. Get all newer entries from PPA changelog
+# 2b. Merge newer entries into a single entry
+def mergeDebianChangelogs(ppaChangelogContents, distributorChangelogContents):
+
+   # ====== Merge changelogs ================================================
+   re_entry_header = re.compile(r'^([a-zA-Z0-9-]+ \([0-9a-zA-Z\.~+]+-)')
+   re_entry_footer = re.compile(r'^ -- .*')
+   re_empty        = re.compile(r'^\S*$')
+
+   topics = [
+      { 'regexp': re.compile(r'^  \* .*ew upstream (version|release).*$'), 'count': 0, 'max': 1 },
+      { 'regexp': re.compile(r'^  \* .*standards version.*$'),             'count': 0, 'max': 1 },
+      { 'regexp': re.compile(r'^  \* .*debian/compat:.*$'),                'count': 0, 'max': 0 }
+   ]
+
+   # ------ Get latest entry from distribution changelog --------------------
+   latestDistributionEntry = distributorChangelogContents[0]
+   match = re_entry_header.match(latestDistributionEntry)
+   if match == None:
+      sys.stderr.write('ERROR: Bad distributor changelog header!\n')
+      sys.stderr.write('First distributor entry: "' + latestDistributionEntry.strip() + '"\n')
+      sys.exit(1)
+   latestDistributionEntry = match.group(1)
+
+   # ------ Join all new entries from PPA changelog -------------------------
+   resultingChangelogContents        = []
+   entries                           = 0
+   insideEntry                       = False
+   foundLatestDistributionEntryInPPA = False
+   firstFooter                       = None
+
+   for line in ppaChangelogContents:
+
+      # ------ Begin of an entry --------------------------------------------
+      match = re_entry_header.match(line)
+      if match != None:
+         entries = entries + 1
+         if entries == 1:
+            resultingChangelogContents.append(line)
+            resultingChangelogContents.append('\n')
+
+         # ------ Done? -----------------------------------------------------
+         elif match.group(1) == latestDistributionEntry:
+            foundLatestDistributionEntryInPPA = True
+            break
+
+         continue
+
+      # ------ Empty line ---------------------------------------------------
+      match = re_empty.match(line)
+      if match != None:
+         continue
+
+      # ------ End of an entry ----------------------------------------------
+      match = re_entry_footer.match(line)
+      if match != None:
+         if entries == 1:
+            firstFooter = line
+         continue
+
+      # ------ Topics -------------------------------------------------------
+      skip = False
+      for topic in topics:
+         match = topic['regexp'].match(line)
+         if match != None:
+            topic['count'] = topic['count'] + 1
+            if topic['count'] > topic['max']:
+               skip = True
+               break
+      if skip == True:
+         continue
+
+      # ------ Add line to output -------------------------------------------
+      if line[0] == ' ':
+         resultingChangelogContents.append(line)
+         continue
+
+      # ------ Something is wrong -------------------------------------------
+      sys.stderr.write('ERROR: Unexpected line: ' + line + '!\n')
+      sys.exit(1)
+
+
+   resultingChangelogContents.append('\n')
+   resultingChangelogContents.append(firstFooter)
+
+   if foundLatestDistributionEntryInPPA == False:
+      # Distributor changelog is equal to PPA changelog?
+      if ppaChangelogContents[0] != latestDistributionEntry:
+         sys.stderr.write('ERROR: Did not found the latest distribution entry in the PPA changelog!\n')
+         sys.stderr.write('Latest distributor entry: "' + latestDistributionEntry.strip() + '"\n')
+         sys.stderr.write('First PPA entry:          "' + ppaChangelogContents[0].strip() + '"\n')
+         sys.exit(1)
+
+   for line in distributorChangelogContents:
+      resultingChangelogContents.append(line)
+
+   #for line in resultingChangelogContents:
+      #sys.stdout.write(line)
+
+   return resultingChangelogContents
+
+
+
+# ###### Make Debian source package #########################################
+def makeSourceDeb(packageInfo, codenames, skipPackageSigning, summaryFile):
+
+   # ====== Make sure that the source tarball is available ==================
+   if makeSourceTarball(packageInfo, skipPackageSigning, summaryFile) == False:
+      return False
+   if len(codenames) == 0:
+      codenames = [ packageInfo['debian_codename'] ]
+
+
+   # ====== Build for each distribution codename ============================
+   changesFiles = {}
+   dscFiles     = {}
+
+   printSection('Creating source Debian packages')
+
+   # Make sure to have the original packages with their Debian names:
+   originalTarball = packageInfo['debian_package_name'] + '_' + \
+                        packageInfo['debian_version_string'] + '.orig.tar.' + \
+                        packageInfo['source_tarball_format']
+   originalSignature = originalTarball + '.asc'
+   try:
+      os.link(packageInfo['source_tarball_name'], originalTarball)
+   except FileExistsError:
+      pass
+   if skipPackageSigning == False:
+      try:
+         os.link(packageInfo['source_tarball_signature'], originalSignature)
+      except FileExistsError:
+         pass
+
+   defaultArchitecture = getDebianDefaultArchitecture()
+   for codename in codenames:
+      updatedDebhelperVersion = False
+
+      printSubsection('Creating source Debian package for ' + codename)
+
+      # ====== Prepare work directory =======================================
+      workdir = '/tmp/packaging-' + \
+         codename + '-' + \
+         packageInfo['debian_package_name'] + '-' + \
+         packageInfo['debian_version_string'] + '-' + \
+         packageInfo['debian_version_packaging']
+      sys.stdout.write('Preparing work directory ' + workdir + ' ...\n')
+
+      shutil.rmtree(workdir, ignore_errors = True)
+      os.makedirs(workdir, exist_ok = True)
+
+      # !!! Using *symlink* below! !!!
+      # shutil.copyfile(originalTarball, workdir + '/' + originalTarball)
+      # if skipPackageSigning == False:
+          #shutil.copyfile(originalSignature, workdir + '/' + originalSignature)
+      os.symlink(os.path.abspath(packageInfo['source_tarball_name']), workdir + '/' + originalTarball)
+      if skipPackageSigning == False:
+         os.symlink(os.path.abspath(packageInfo['source_tarball_signature']), workdir + '/' + originalSignature)
+
+
+      # ====== Unpack the sources ===========================================
+      compressionOption = TarOptions[packageInfo['source_tarball_format']]
+      try:
+         subprocess.run([ 'tar', 'x' + compressionOption + 'f', originalTarball ], cwd = workdir, check = True)
+      except Exception as e:
+         sys.stderr.write('ERROR: Unable to uncompress upstream source tarball ' + originalTarball + ': ' + str(e) + '\n')
+         sys.exit(1)
+
+      upstreamSourceDir = workdir + '/' + packageInfo['debian_package_name'] + '-' + packageInfo['debian_version_string']
+      if not os.path.isdir(upstreamSourceDir):
+         # Sources not found in expected directory!
+         sys.stderr.write('ERROR: Sources are not in the expected directory ' + upstreamSourceDir + '!\n')
+         # Check for package-*/debian/.. as new path:
+         found = glob.glob(workdir + '/' + packageInfo['debian_package_name'] + '-*/debian/..')
+         if len(found) == 1:
+            # Found -> set new upstream source path
+            sys.stderr.write('WARNING: Sources are not in the expected directory ' + upstreamSourceDir)
+            upstreamSourceDir = os.path.realpath(found[0])
+            sys.stderr.write(' => using ' + upstreamSourceDir + '!\n')
+         else:
+            # Not found -> abort with error.
+            sys.stderr.write('ERROR: Sources are not in the expected directory ' + upstreamSourceDir + '!\n')
+            sys.exit(1)
+
+
+      # ====== Adapt packaging ==============================================
+      changeLogContents = readTextFile(packageInfo['debian_changelog_name'])
+      controlContents   = readTextFile(packageInfo['debian_control_name'])
+      rulesContents     = readTextFile(packageInfo['debian_rules_name'])
+
+      newDebianVersionPackaging = modifyDebianVersionPackaging(packageInfo, codename)
+      sys.stdout.write('Modifying packaging version from ' + \
+                       packageInfo['debian_version_packaging'] + \
+                       ' to ' + newDebianVersionPackaging + '!\n')
+
+
+      # ====== Update changelog =============================================
+      changeLogContents[0] = \
+         packageInfo['debian_package_name'] + \
+         ' (' + packageInfo['debian_version_prefix'] + packageInfo['debian_version_string'] + '-' + newDebianVersionPackaging + ') ' + \
+         codename + '; ' + \
+         'urgency=' + packageInfo['debian_urgency'] + \
+         '\n'
+      sys.stdout.write('Updating changelog header: ' + changeLogContents[0])
+
+      # ------- Debian ------------------------------------------------------
+      if codename in DebianCodenames:
+         # Remove Launchpad entries:
+         re_launchpad = re.compile(r'^.*\(LP: #[0-9]+')
+         changeLogContents = [ line for line in changeLogContents if not re_launchpad.match(line) ]
+
+         # ------ Fetch distributor's latest changelog ----------------------
+         distributorChangelogContents = fetchDebianChangelog(packageInfo, codename)
+         if distributorChangelogContents != None:
+            # Merge new entries from changelog into a single entry, and append
+            # the distributor's changelog with the rest:
+            changeLogContents = mergeDebianChangelogs(changeLogContents, distributorChangelogContents)
+
+         # ------ Use latest Debhelper for Debian ----------------------------
+         if codename in [ 'unstable', 'testing', 'stable', 'oldstable' ]:
+            # Update debhelper version:
+            re_debhelper = re.compile(r'debhelper \(.* [0-9]+\)')
+            # Ugly CMake 3.x version work-around for old Ubuntu versions:
+            re_cmake3    = re.compile(r'cmake .* \| cmake3')
+            for i in range(0, len(controlContents)):
+               controlContents[i] = re.sub(re_debhelper,
+                                           'debhelper-compat (= ' + str(DebhelperLatestVersion) + ')',
+                                           controlContents[i])
+               controlContents[i] = re.sub(re_cmake3,
+                                           'cmake',
+                                           controlContents[i])
+
+            # There is no need for debian/compat any more:
+            try:
+               os.unlink(upstreamSourceDir + '/debian/compat')
+            except FileNotFoundError:
+               pass
+
+            # Newer debhelper does not need "--parallel" for building:
+            re_parallel = re.compile(r' --parallel')
+            for i in range(0, len(rulesContents)):
+               rulesContents[i] = re.sub(re_parallel, '', rulesContents[i])
+
+            updatedDebhelperVersion = True
+
+
+      # ------- Ubuntu ------------------------------------------------------
+      else:
+
+         # Remove Debian Bug entries:
+         # FIXME: Is this still useful, since Ubuntu is based on Debian?
+         # re_launchpad = re.compile(r'^.*\(Closes: #[0-9]+')
+         # changeLogContents = [ line for line in changeLogContents if not re_launchpad.match(line) ]
+
+         # ------ Update control --------------------------------------------
+         # for i in range(0, len(controlContents)):
+         #    # FIXME: Is this still necessary for Ubuntu?
+         #    controlContents[i] = re.sub(r'^Maintainer:', 'Maintainer: Ubuntu Developers <ubuntu-devel-discuss@lists.ubuntu.com>\nXSBC-Original-Maintainer:', controlContents[i])
+
+         True
+
+
+      # ------ Clean up empty lines -----------------------------------------
+      changeLogContents = filterDebianChangelog(changeLogContents, None)
+      writeTextFile(upstreamSourceDir + '/debian/changelog', changeLogContents)
+      writeTextFile(upstreamSourceDir + '/debian/control',   controlContents)
+      writeTextFile(upstreamSourceDir + '/debian/rules',     rulesContents)
+
+      sys.stdout.write('Updated Debian changelog:\n')
+      showDiff(packageInfo['debian_changelog_name'], upstreamSourceDir + '/debian/changelog')
+      sys.stdout.write('Updated Debian control:\n')
+      showDiff(packageInfo['debian_control_name'], upstreamSourceDir + '/debian/control')
+      sys.stdout.write('Updated Debian rules:\n')
+      showDiff(packageInfo['debian_rules_name'], upstreamSourceDir + '/debian/rules')
+
+
+      # ====== Build source Debian package ==================================
+      if skipPackageSigning == False:
+         # Build source package including signature:
+         if packageInfo['packaging_maintainer_key'] == None:
+            sys.stderr.write('ERROR: No MAINTAINER_KEY in ' + packageInfo['packaging_config_name'] + '\n')
+            sys.exit(1)
+         debuild = [ 'debuild', '--no-check-builddeps', '-sa', '-S', '-k' + packageInfo['packaging_maintainer_key'], '-i' ]
+      else:
+         # Build source package without signature:
+         debuild = [ 'debuild', '--no-check-builddeps', '-us', '-uc', '-S', '-i' ]
+      if updatedDebhelperVersion == True:
+         debuild.append('--no-check-builddeps')
+      try:
+         subprocess.run(debuild, cwd = upstreamSourceDir, check = True)
+      except Exception as e:
+         sys.stderr.write('ERROR: Debuild run failed: ' + str(e) + '\n')
+         sys.exit(1)
+
+
+      # ====== Check results ================================================
+      sys.stdout.write('Checking results:\n')
+      dscFileName        = getDebianDscName(packageInfo,            newDebianVersionPackaging)
+      buildinfoName      = getDebianBuildinfoName(packageInfo,      newDebianVersionPackaging)
+      changesName        = getDebianChangesName(packageInfo,        newDebianVersionPackaging)
+      controlTarballName = getDebianControlTarballName(packageInfo, newDebianVersionPackaging)
+      if os.path.isfile(workdir + '/' + dscFileName):
+         sys.stdout.write('* DSC file is ' + dscFileName + '.\n')
+         dscFiles[codename] = dscFileName
+      else:
+         sys.stderr.write('ERROR: DSC file not found at expected location ' + workdir + '/' + dscFile + '!\n')
+         sys.exit(1)
+      changesFiles[codename] = changesName
+
+      if os.path.isfile(workdir + '/' + buildinfoName):
+         sys.stdout.write('* Buildinfo file is ' + buildinfoName + '.\n')
+      else:
+         sys.stderr.write('ERROR: Buildinfo file not found at expected location ' + workdir + '/' + buildinfoName + '!\n')
+         sys.exit(1)
+      if os.path.isfile(workdir + '/' + changesName):
+         sys.stdout.write('* Changes file is ' + changesName + '.\n')
+      else:
+         sys.stderr.write('ERROR: Source changes file not found at expected location ' + workdir + '/' + changesName + '!\n')
+         sys.exit(1)
+      if os.path.isfile(workdir + '/' + controlTarballName):
+         sys.stdout.write('* Control tarball file is ' + controlTarballName + '.\n')
+      else:
+         sys.stderr.write('ERROR: Control tarball file not found at expected location ' + workdir + '/' + controlTarballName + '!\n')
+         sys.exit(1)
+
+      # Copy results to main directory.
+      # NOTE: The original tarball and signature are already there (symlinked)!
+      for fileName in [ dscFileName, buildinfoName, changesName, controlTarballName ] :
+         shutil.copyfile(workdir + '/' + fileName, fileName)
+
+      # ====== Add files to summary =========================================
+      if summaryFile != None:
+         summaryFile.write('debSourceDscFile: '            + workdir + '/' + dscFileName        + ' ' + codename + '\n')
+         summaryFile.write('debSourceBuildinfoFile: '      + workdir + '/' + buildinfoName      + ' ' + codename + '\n')
+         summaryFile.write('debSourceChangesFile: '        + workdir + '/' + changesName        + ' ' + codename + '\n')
+         summaryFile.write('debSourceControlTarballFile: ' + workdir + '/' + controlTarballName + ' ' + codename + '\n')
+
+   # ====== Print overview ==================================================
+   printSection('Debian source package overview')
+
+   sys.stdout.write('\x1b[34mUpload to PPA:\x1b[0m\n')
+   for codename in sorted(changesFiles.keys()):
+      if codename in DebianCodenames:
+         ppa = 'mentors'
+      else:
+         ppa = 'ppa'
+      sys.stdout.write('\x1b[34m   dput ' + ppa + ' ' + changesFiles[codename] + '\x1b[0m\n')
+   sys.stdout.write('\n')
+
+   sys.stdout.write('\x1b[34mBuild Test Commands:\x1b[0m\n')
+   for codename in sorted(dscFiles.keys()):
+
+      buildArchitecture = getDebianDefaultArchitecture()
+      buildDistribution = codename
+      if codename in DebianCodenames:
+         buildSystem    = 'debian'
+         lintianProfile = 'debian'
+      else:
+         buildSystem    = 'ubuntu'
+         lintianProfile = 'ubuntu'
+      basetgz = '/var/cache/pbuilder/' + buildSystem + '-' + codename + '-' + buildArchitecture + '-base.tgz'
+
+      sys.stdout.write('\x1b[34m   ' + \
+                       'sudo pbuilder build --basetgz ' + basetgz + ' ' + \
+                       dscFiles[codename] + ' && ' + \
+                       'lintian -iIEv --profile ' + lintianProfile + '  --pedantic ' + \
+                        '/var/cache/pbuilder/result/*/' +  changesFiles[codename] + \
+                       '\x1b[0m\n')
+   sys.stdout.write('\n')
+
+   return True
+
+
+# ###### Build Debian binary package ########################################
+def buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile):
+
+   # ====== Build for each distribution codename ============================
+   printSection('Creating binary Debian packages')
+
+   if len(codenames) == 0:
+      codenames = [ packageInfo['debian_codename'] ]
+   if len(architectures) == 0:
+      architectures = [ getDebianDefaultArchitecture() ]
+   for codename in codenames:
+
+      # ====== Make sure that the source Debian files are available ============
+      makeSourceDeb(packageInfo, [ codename ], skipPackageSigning, summaryFile)
+
+      for buildArchitecture in architectures:
+         newDebianVersionPackaging = modifyDebianVersionPackaging(packageInfo, codename)
+
+         printSubsection('Creating binary Debian package for ' + codename + '/' + buildArchitecture)
+
+         dscFileName = getDebianDscName(packageInfo, newDebianVersionPackaging)
+         if not os.path.isfile(dscFileName):
+            sys.stderr.write('ERROR: DSC file ' + dscFileName + ' does not exist!\n')
+            sys.exit(1)
+
+         buildDistribution = codename
+         if codename in DebianCodenames:
+            buildSystem    = 'debian'
+            lintianProfile = 'debian'
+         else:
+            buildSystem    = 'ubuntu'
+            lintianProfile = 'ubuntu'
+         basetgz = '/var/cache/pbuilder/' + buildSystem + '-' + codename + '-' + buildArchitecture + '-base.tgz'
+         if not os.path.isfile(basetgz):
+            sys.stderr.write('ERROR: Base tgz ' + basetgz + ' for pbuilder is not available!\nCheck pbuilder installation and configuration!\n')
+            sys.exit(1)
+         buildlog = 'build-' + buildSystem + '-' + codename + '-' + buildArchitecture + '.log'
+
+         # ====== Run pbuilder ==============================================
+         pbuilderCommand = [ 'sudo',
+                                'OS='   + buildSystem,
+                                'ARCH=' + buildArchitecture,
+                                'DIST=' + codename,
+                             'pbuilder',
+                                'build',
+                                '--basetgz', basetgz,
+                                '--logfile', buildlog,
+                             dscFileName ]
+         print(pbuilderCommand)
+         try:
+            subprocess.run(pbuilderCommand, check=True)
+         except Exception as e:
+            sys.stderr.write('ERROR: PBuilder run failed: ' + str(e) + '\n')
+            sys.exit(1)
+
+         # ====== Check for changes file ====================================
+         changesFileName = getDebianChangesName(packageInfo, newDebianVersionPackaging,
+                                                buildArchitecture)
+         changesFileGlobs = [
+            '/var/cache/pbuilder/result/' + buildSystem + '-' + codename + '-' + buildArchitecture + '/' + changesFileName,
+            '/var/cache/pbuilder/result/' + changesFileName,
+            '/var/cache/pbuilder/result/*/' + changesFileName
+         ]
+         for changesFileGlob in changesFileGlobs:
+            foundChangesFiles = glob.glob(changesFileGlob)
+            if len(foundChangesFiles) != 0:
+               break
+         if len(foundChangesFiles) < 1:
+            sys.stderr.write('ERROR: Unable to locate the changes file!\n')
+            sys.stderr.write('Search locations for changes file: ' + str(changesFileGlobs) + '!')
+            sys.exit(1)
+         elif len(foundChangesFiles) > 1:
+            sys.stderr.write('ERROR: Multiple changes files have been found! PBuilder configuration problem?\n')
+            sys.stderr.write('Found changes files: ' + str(foundChangesFiles) + '\n')
+            sys.exit(1)
+
+         # ====== Run BLHC ==================================================
+         # FIXME: BLHC < 0.14 does not properly handle D_FORTIFY_SOURCE=3!
+         if shutil.which('blhc') != None:
+            blhcCommand = 'blhc ' + buildlog + ' | grep -v "^CPPFLAGS missing (-D_FORTIFY_SOURCE=2).*-D_FORTIFY_SOURCE=3.*"  | grep -v "^NONVERBOSE BUILD:"'
+            printSubsection('Running BLHC')
+            print('=> ' + blhcCommand)
+            try:
+               subprocess.run(blhcCommand, check=False, shell=True)
+            except Exception as e:
+               sys.stderr.write('ERROR: BLHC run failed: ' + str(e) + '\n')
+               sys.exit(1)
+         else:
+            sys.stderr.write('NOTE: BLHC is not installed -> checks skipped!\n')
+
+         # ====== Run Lintian ===============================================
+         if shutil.which('lintian') != None:
+            lintianCommand = 'lintian -v -i -I -E --pedantic' + \
+                                ' --profile ' + lintianProfile + \
+                                ' --suppress-tags malformed-deb-archive,bad-distribution-in-changes-file' + \
+                                ' ' + foundChangesFiles[0]
+            printSubsection('Running Lintian')
+            print('=> ' + lintianCommand)
+            try:
+               subprocess.run(lintianCommand, check=False, shell=True)
+            except Exception as e:
+               sys.stderr.write('ERROR: Lintian run failed: ' + str(e) + '\n')
+               sys.exit(1)
+         else:
+            sys.stderr.write('NOTE: Lintian is not installed -> checks skipped!\n')
+
+         # ====== Run LRC ===================================================
+         if shutil.which('lrc') != None:
+            lrcCommand = 'lrc -t'
+            printSubsection('Running LRC')
+            print('=> ' + lrcCommand)
+            try:
+               subprocess.run(lrcCommand, check=False, shell=True)
+            except Exception as e:
+               sys.stderr.write('ERROR: LRC run failed: ' + str(e) + '\n')
+               sys.exit(1)
+         else:
+            sys.stderr.write('NOTE: LRC is not installed -> checks skipped!\n')
+
+         # ====== Add Changes file to summary ===============================
+         if summaryFile != None:
+            summaryFile.write('debBuildChangesFile: ' + foundChangesFiles[0] + ' ' + codename + ' ' + buildArchitecture + '\n')
+
+   return True
+
+
+# ###### Make SRPM source package ###########################################
+def makeSourceRPM(packageInfo, skipPackageSigning, summaryFile):
+
+   # ====== Make sure that the source tarball is available ==================
+   if makeSourceTarball(packageInfo, skipPackageSigning, summaryFile) == False:
+      return False
+
+   printSection('Creating SRPM source packages')
+
+   # ====== Initialise RPM build directories ================================
+   rpmbuildDir = os.environ.get('HOME') + '/rpmbuild'
+   for subdir in [ 'BUILD', 'BUILDROOT', 'RPMS', 'SOURCES', 'SPECS', 'SRPMS' ]:
+      os.makedirs(rpmbuildDir + '/' + subdir, exist_ok = True)
+
+   # ====== Copy source tarball =============================================
+   if skipPackageSigning == False:
+      result = os.system('gpg --verify ' + \
+                        packageInfo['source_tarball_signature'] + ' ' + \
+                        packageInfo['source_tarball_name'])
+      if result == 0:
+         sys.stderr.write('Signature verified.\n')
+      else:
+         sys.stderr.write('ERROR: Bad signature! Something is wrong!\n')
+         return False
+
+   try:
+      os.unlink(rpmbuildDir + '/SOURCES/' + packageInfo['source_tarball_name'])
+   except FileNotFoundError:
+      pass
+   shutil.copyfile(os.path.abspath(packageInfo['source_tarball_name']),
+                   rpmbuildDir + '/SOURCES/' + packageInfo['source_tarball_name'])
+
+   rpm_spec_names = glob.glob('rpm/*.spec')
+   if len(rpm_spec_names) == 1:
+      packageInfo['rpm_spec_name'] = rpm_spec_names[0]
+      shutil.copyfile(packageInfo['rpm_spec_name'],
+                      rpmbuildDir + '/SPECS/' + packageInfo['rpm_package_name'] + '.spec')
+   elif len(rpm_spec_names) > 1:
+      sys.stderr.write('ERROR: More than one spec file found: ' + str(rpm_spec_names) + '!\n')
+      sys.exit(1)
+   else:
+      sys.stderr.write('ERROR: No spec file found!\n')
+      sys.exit(1)
+
+   # ====== Create SRPM =====================================================
+   rpmbuild = [ 'rpmbuild', '-bs', packageInfo['rpm_spec_name'] ]
+   print(rpmbuild)
+   try:
+      subprocess.run(rpmbuild, check = True)
+   except Exception as e:
+      sys.stderr.write('ERROR: RPMBuild run failed: ' + str(e) + '\n')
+      sys.exit(1)
+
+   srpmFile = rpmbuildDir + '/SRPMS/' + \
+                 packageInfo['rpm_package_name'] + '-' + \
+                 packageInfo['rpm_version_string'] + '-' + str(packageInfo['rpm_version_packaging']) + \
+                 '.src.rpm'
+   if not os.path.isfile(srpmFile):
+      sys.stderr.write('ERROR: SRPM ' + srpmFile + ' not found!\n')
+      sys.exit(1)
+
+   # ====== Sign SRPM =======================================================
+   if skipPackageSigning == False:
+      rpmsign = [ 'rpmsign',
+                  '--define', '_gpg_name ' + packageInfo['packaging_maintainer_key'],
+                  '--addsign', srpmFile ]
+      print(rpmsign)
+      try:
+         subprocess.run(rpmsign, check = True)
+      except Exception as e:
+         sys.stderr.write('ERROR: RPMSign run failed: ' + str(e) + '\n')
+         sys.exit(1)
+
+   # ====== Run RPM Lint ====================================================
+   if shutil.which('rpmlint') != None:
+      rpmlintCommand = 'rpmlint -P ' + srpmFile
+      printSubsection('Running RPM Lint')
+      print('=> ' + rpmlintCommand)
+      try:
+         subprocess.run(rpmlintCommand, check=False, shell=True)
+      except Exception as e:
+         sys.stderr.write('ERROR: RPM Lint run failed: ' + str(e) + '\n')
+         sys.exit(1)
+   else:
+      sys.stderr.write('NOTE: RPM Lint is not installed -> checks skipped!\n')
+
+   # ====== Add SRPM file to summary ========================================
+   if summaryFile != None:
+      summaryFile.write('rpmSourceFile: ' + srpmFile + '\n')
+
+
+# ###### Build RPM binary package ###########################################
+def buildRPM(packageInfo, releases, architectures, skipPackageSigning, summaryFile):
+
+   # ====== Make sure that the source Debian files are available ============
+   if len(releases) == 0:
+      if distro.id() == 'fedora':
+         releases = [ 'fedora-' + distro.major_version() ]
+      else:
+         releases = [ 'rawhide' ]
+   if len(architectures) == 0:
+      architectures = [ getArchitecture() ]
+   makeSourceRPM(packageInfo, skipPackageSigning, summaryFile)
+
+   # ====== Build for each distribution codename ============================
+   printSection('Creating binary RPM packages')
+
+   # ====== Check SRPM ======================================================
+   rpmbuildDir = os.environ.get('HOME') + '/rpmbuild'
+   srpmFile = rpmbuildDir + '/SRPMS/' + \
+                 packageInfo['rpm_package_name'] + '-' + \
+                 packageInfo['rpm_version_string'] + '-' + str(packageInfo['rpm_version_packaging']) + \
+                 '.src.rpm'
+   if not os.path.isfile(srpmFile):
+      sys.stderr.write('ERROR: SRPM ' + srpmFile + ' not found!\n')
+      sys.exit(1)
+
+   if skipPackageSigning == False:
+      rpm = [ 'rpm',
+            '--define', '_gpg_name ' + packageInfo['packaging_maintainer_key'],
+            '--checksig', srpmFile ]
+      print(rpm)
+      try:
+         subprocess.run(rpm, check = True)
+      except Exception as e:
+         sys.stderr.write('ERROR: RPMSign run failed: ' + str(e) + '\n')
+         sys.exit(1)
+
+   # ====== Build for each release ==========================================
+   for buildArchitecture in architectures:
+      for release in releases:
+
+         printSubsection('Creating binary RPM package for ' + release + '/' + buildArchitecture)
+
+         # ====== Check for mock configuration file =========================
+         configuration = release + '-' + buildArchitecture
+         if not os.path.isfile('/etc/mock/' + configuration + '.cfg'):
+            sys.stderr.write('ERROR: Configuration ' + '/etc/mock/' + configuration + '.cfg does not exist!\n')
+            sys.exit(1)
+
+         # ====== Delete old RPM ============================================
+         rpmFile = '/var/lib/mock/' + configuration + '/result/' + \
+                      packageInfo['rpm_package_name'] + '-' + \
+                      packageInfo['rpm_version_string'] + '-' + str(packageInfo['rpm_version_packaging']) + '.' + \
+                      buildArchitecture + '.rpm'
+         try:
+            os.unlink(rpmFile)
+         except FileNotFoundError:
+            pass
+
+         # ====== Run mock ==================================================
+         try:
+            # NOTE: using old chroot instead of container, to allow running
+            #       mock inside a container!
+            commands = [
+                  [ 'mock', '-r', configuration, '--isolation=auto', '--init' ],
+                  [ 'mock', '-r', configuration, '--isolation=auto', '--installdeps', srpmFile ],
+                  [ 'mock', '-r', configuration, '--isolation=auto', '--rebuild', '--no-clean', srpmFile ]
+               ]
+            for command in commands:
+               print(command)
+               subprocess.run(command, check = True)
+         except Exception as e:
+            sys.stderr.write('ERROR: Mock run failed: ' + str(e) + '\n')
+            sys.exit(1)
+
+         # ------ Check resulting RPM =======================================
+         if not os.path.isfile(rpmFile):
+            sys.stderr.write('ERROR: RPM ' + rpmFile + ' not found!\n')
+            sys.exit(1)
+
+         # ====== Sign SRPM =================================================
+         if skipPackageSigning == False:
+            rpmsign = [ 'rpmsign',
+                        '--define', '_gpg_name ' + packageInfo['packaging_maintainer_key'],
+                        '--addsign', rpmFile ]
+            print(rpmsign)
+            try:
+               subprocess.run(rpmsign, check = True)
+            except Exception as e:
+               sys.stderr.write('ERROR: RPMSign run failed: ' + str(e) + '\n')
+               sys.exit(1)
+
+         # ====== Run RPM Lint ==============================================
+         if shutil.which('rpmlint') != None:
+            rpmlintCommand = 'rpmlint -P ' + rpmFile
+            printSubsection('Running RPM Lint')
+            print('=> ' + rpmlintCommand)
+            try:
+               subprocess.run(rpmlintCommand, check=False, shell=True)
+            except Exception as e:
+               sys.stderr.write('ERROR: RPM Lint run failed: ' + str(e) + '\n')
+               sys.exit(1)
+         else:
+            sys.stderr.write('NOTE: RPM Lint is not installed -> checks skipped!\n')
+
+         # ====== Add RPM file to summary ===================================
+         if summaryFile != None:
+            summaryFile.write('rpmFile: ' + rpmFile + ' ' + release + ' ' + buildArchitecture + '\n')
+
+
+
+# ###########################################################################
+# #### Main Program                                                      ####
+# ###########################################################################
+
+# ====== Check arguments ====================================================
+if len(sys.argv) < 2:
+   sys.stderr.write('Usage: ' + sys.argv[0] + ' tool [options ...]\n')
+   sys.stderr.write('\n* ' + sys.argv[0] + ' info\n')
+   sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-tarball [--skip-signing]\n')
+   sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-deb [--summary=file] [codename ...] [--skip-signing]\n')
+   sys.stderr.write('  ' + sys.argv[0] + ' build-deb [--summary=file]  [codename ...] [--skip-signing] [--architecture=arch[,...]]\n')
+   sys.stderr.write('  ' + sys.argv[0] + ' fetch-debian-changelog [codename]\n')
+   sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-rpm [--summary=file]  [release ...] [--skip-signing]\n')
+   sys.stderr.write('  ' + sys.argv[0] + ' build-rpm [--summary=file] [release ...] [--skip-signing] [--architecture=[,...]]\n')
+   sys.exit(1)
+
+
+packageInfo = readPackagingInformation()
+
+tool = sys.argv[1]
+
+# ====== Print information ==================================================
+if tool == 'info':
+   showInformation(packageInfo)
+
+# ====== Make source tarball ================================================
+elif tool == 'make-source-tarball':
+   skipPackageSigning = False
+   for i in range(2, len(sys.argv)):
+      if sys.argv[i] == '--skip-signing':
+         skipPackageSigning = True
+      else:
+         sys.stderr.write('ERROR: Bad make-source-tarball parameter ' + sys.argv[i] + '!\n')
+         sys.exit(1)
+   result = makeSourceTarball(packageInfo, skipPackageSigning, summaryFile)
+   if result == False:
+      sys.exit(1)
+
+# ====== Make source deb file ===============================================
+elif tool == 'make-source-deb':
+   obtainDistributionCodenames()
+   skipPackageSigning = False
+   codenames          = []
+   summaryFile        = None
+   for i in range(2, len(sys.argv)):
+      if sys.argv[i][0] != '-':
+         codenames.append(sys.argv[i])
+      elif sys.argv[i] == '--skip-signing':
+         skipPackageSigning = True
+      elif sys.argv[i][0:10] == '--summary=':
+         summaryFileName = sys.argv[i][10:]
+         try:
+            summaryFile = open(summaryFileName, 'w', encoding='utf-8')
+         except:
+            sys.stderr.write('ERROR: Unable to create summary file ' + summaryFileName + '!\n')
+            sys.exit(1)
+      else:
+         sys.stderr.write('ERROR: Bad make-source-debparameter ' + sys.argv[i] + '!\n')
+         sys.exit(1)
+   makeSourceDeb(packageInfo, codenames, skipPackageSigning, summaryFile)
+
+# ====== Build deb file =====================================================
+elif tool == 'build-deb':
+   obtainDistributionCodenames()
+   skipPackageSigning = False
+   summaryFile        = None
+   codenames          = []
+   architectures      = []
+   for i in range(2, len(sys.argv)):
+      if sys.argv[i][0] != '-':
+         codenames.append(sys.argv[i])
+      elif sys.argv[i] == '--skip-signing':
+         skipPackageSigning = True
+      elif sys.argv[i][0:10] == '--summary=':
+         summaryFileName = sys.argv[i][10:]
+         try:
+            summaryFile = open(summaryFileName, 'w', encoding='utf-8')
+         except:
+            sys.stderr.write('ERROR: Unable to create summary file ' + summaryFileName + '!\n')
+            sys.exit(1)
+      elif sys.argv[i][0:15] == '--architecture=':
+         for architecture in sys.argv[i][15:].split(','):
+            architectures.append(architecture)
+      else:
+         sys.stderr.write('ERROR: Bad build-deb parameter ' + sys.argv[i] + '!\n')
+         sys.exit(1)
+   buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile)
+
+# ====== Make source deb file ===============================================
+elif tool == 'make-source-rpm':
+   skipPackageSigning = False
+   summaryFile        = None
+   for i in range(2, len(sys.argv)):
+      if sys.argv[i] == '--skip-signing':
+         skipPackageSigning = True
+      elif sys.argv[i][0:10] == '--summary=':
+         summaryFileName = sys.argv[i][10:]
+         try:
+            summaryFile = open(summaryFileName, 'w', encoding='utf-8')
+         except:
+            sys.stderr.write('ERROR: Unable to create summary file ' + summaryFileName + '!\n')
+            sys.exit(1)
+      else:
+         sys.stderr.write('ERROR: Bad make-source-rpm parameter ' + sys.argv[i] + '!\n')
+         sys.exit(1)
+   makeSourceRPM(packageInfo, skipPackageSigning, summaryFile)
+
+# ====== Build deb file =====================================================
+elif tool == 'build-rpm':
+   skipPackageSigning = False
+   summaryFile        = None
+   releases           = []
+   architectures      = []
+   for i in range(2, len(sys.argv)):
+      if sys.argv[i][0] != '-':
+         releases.append(sys.argv[i])
+      elif sys.argv[i] == '--skip-signing':
+         skipPackageSigning = True
+      elif sys.argv[i][0:10] == '--summary=':
+         summaryFileName = sys.argv[i][10:]
+         try:
+            summaryFile = open(summaryFileName, 'w', encoding='utf-8')
+         except:
+            sys.stderr.write('ERROR: Unable to create summary file ' + summaryFileName + '!\n')
+            sys.exit(1)
+      elif sys.argv[i][0:15] == '--architecture=':
+         for architecture in sys.argv[i][15:].split(','):
+            architectures.append(architecture)
+      else:
+         sys.stderr.write('ERROR: Bad build-rpm parameter ' + sys.argv[i] + '!\n')
+         sys.exit(1)
+   buildRPM(packageInfo, releases, architectures, skipPackageSigning, summaryFile)
+
+# ====== Fetch Debian changelog file ========================================
+elif tool == 'fetch-debian-changelog':
+   obtainDistributionCodenames()
+   skipPackageSigning = False
+   codename           = 'unstable'
+   if len(sys.argv) >= 3:
+      codename = sys.argv[2]
+   result = fetchDebianChangelog(packageInfo, codename)
+   if result != None:
+      sys.stdout.write('\n')
+      for line in result:
+         sys.stdout.write(line)
+
+# ====== Invalid tool =======================================================
+else:
+   sys.stderr.write('ERROR: Invalid tool "' + tool + '"\n')
+   sys.exit(1)

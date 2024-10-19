@@ -19,47 +19,8 @@
 # Contact: thomas.dreibholz@gmail.com
 
 # Bash options:
-set -e
-
-DIRNAME=`dirname $0`
-UNAME=`uname`
-if [ "${UNAME}" == "Linux" ] ; then
-   DISTRIBUTION=`lsb_release -is`
-else
-   DISTRIBUTION="Unknown"
-fi
+set -eu
 
 
-# ###### Linux ##############################################################
-if [ "${UNAME}" == "Linux" ] ; then
-
-   # ====== Ubuntu ==========================================================
-   if [ "${DISTRIBUTION}" == "Ubuntu" ] ; then
-      DEBIAN_FRONTEND=noninteractive ${DIRNAME}/get-dependencies ubuntu --install
-
-   # ====== Debian ==========================================================
-   elif [ "${DISTRIBUTION}" == "Debian" ] ; then
-      DEBIAN_FRONTEND=noninteractive ${DIRNAME}/get-dependencies debian --install
-
-   # ====== Fedora ==========================================================
-   elif [ "${DISTRIBUTION}" == "Fedora" ] ; then
-      ${DIRNAME}/get-dependencies fedora --install
-
-   # ====== Unknown =========================================================
-   else
-      echo >&2 "ERROR: Unknown Linux distribution ${DISTRIBUTION}!"
-      exit 1
-   fi
-
-# ###### FreeBSD ############################################################
-elif [ "${UNAME}" == "FreeBSD" ] ; then
-
-   ${DIRNAME}/get-dependencies freebsd --install
-
-# ###### Unknown ############################################################
-else
-
-   echo >&2 "ERROR: Unexpected system ${UNAME}!"
-   exit 1
-
-fi
+DIRNAME="$(dirname "$0")"
+"${DIRNAME}"/get-dependencies --install
