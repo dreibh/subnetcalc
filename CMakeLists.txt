@@ -97,25 +97,19 @@ ENDIF()
 # REQUIREMENTS
 #############################################################################
 
+INCLUDE(FindPackageHandleStandardArgs)
+
 # ###### GeoIP ##############################################################
-FIND_PACKAGE(PkgConfig)
-PKG_SEARCH_MODULE(GEOIP geoip)
-
-FIND_PATH(GEOIP_INCLUDE_DIR GeoIP.h
-  HINTS
-    "${GEOIP_INCLUDEDIR}"
-    "${GEOIP_HINTS}/include"
-)
-FIND_LIBRARY(GEOIP_LIBRARY NAMES GeoIP
-  HINTS
-    "${GEOIP_LIBDIR}"
-    "${GEOIP_HINTS}/lib"
-  )
-
+FIND_LIBRARY(GeoIP_LIBRARY NAMES GeoIP)
+FIND_PATH(GeoIP_INCLUDE_DIR NAMES GeoIP.h GeoIPCity.h)
 IF (GEOIP_FOUND)
-   INCLUDE_DIRECTORIES(${GEOIP_INCLUDE_DIR})
+   INCLUDE_DIRECTORIES(${GeoIP_INCLUDE_DIR})
    ADD_DEFINITIONS(-DHAVE_GEOIP -DHAVE_GEOIP_IPV6)
+   MESSAGE(STATUS "GeoIP found.")
+ELSE()
+   MESSAGE(STATUS "GeoIP not found!")
 ENDIF()
+FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG GeoIP_LIBRARY GeoIP_INCLUDE_DIR)
 
 
 #############################################################################
@@ -124,10 +118,6 @@ ENDIF()
 
 FIND_PACKAGE (Intl)
 IF (Intl_FOUND)
-   MESSAGE(STATUS "Internationalization (i18n) found:")
-   MESSAGE(STATUS " INTL_INCLUDE_DIRS: ${Intl_INCLUDE_DIRS}")
-   MESSAGE(STATUS " INTL_LIBRARIES: ${Intl_LIBRARIES}")
-   MESSAGE(STATUS " Version: ${Intl_VERSION}")
    INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
    LINK_DIRECTORIES(${Intl_LIBRARY_DIRS})
 ELSE()
@@ -144,3 +134,4 @@ FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
 #############################################################################
 
 ADD_SUBDIRECTORY(src)
+ADD_SUBDIRECTORY(po)
