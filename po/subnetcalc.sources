@@ -1,0 +1,3 @@
+--language=C++ src/subnetcalc.cc
+--language=C++ src/tools.cc
+--language=C++ src/tools.h
