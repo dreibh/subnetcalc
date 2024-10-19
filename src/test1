@@ -25,3 +25,5 @@ $TEST ./subnetcalc ff3e:0::123:4 128
 
 $TEST ./subnetcalc 64:ff9b::1.2.3.4 96 -n
 $TEST ./subnetcalc 64:ff9b:1:2:3:4:5.6.7.8 96 -n
+
+$TEST ./subnetcalc www.heise.de 24

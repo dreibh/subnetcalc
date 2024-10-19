@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.5.2~rc0\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/system-tools/issues\"\n"
-"POT-Creation-Date: 2024-10-19 19:05+0200\n"
+"POT-Creation-Date: 2024-10-19 20:53+0200\n"
 "PO-Revision-Date: 2024-10-19 18:40+0200\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
 "Language-Team:\n"
@@ -216,89 +216,89 @@ msgid "Global Unicast Properties:"
 msgstr "Globale Unicast-Eigenschaften:"
 
 #: src/subnetcalc.cc:707
-msgid "6to4 address"
-msgstr "6to4-Adresse"
+msgid "6-to-4 Address"
+msgstr "6-to-4-Adresse"
 
-#: src/subnetcalc.cc:746
+#: src/subnetcalc.cc:745
 msgid "Usage:"
 msgstr "Aufruf:"
 
-#: src/subnetcalc.cc:757 src/subnetcalc.cc:772
+#: src/subnetcalc.cc:756 src/subnetcalc.cc:771
 #, c-format
 msgid "ERROR: Invalid address %s!"
 msgstr "FEHLER: Ungültige Adresse %s!"
 
-#: src/subnetcalc.cc:762 src/subnetcalc.cc:781 src/subnetcalc.cc:807
+#: src/subnetcalc.cc:761 src/subnetcalc.cc:780 src/subnetcalc.cc:806
 #, c-format
 msgid "ERROR: Invalid netmask %s!"
 msgstr "FEHLER: Ungültige Netzmaske %s!"
 
-#: src/subnetcalc.cc:813
+#: src/subnetcalc.cc:812
 #, c-format
 msgid "ERROR: Incompatible netmask %s!"
 msgstr "FEHLER: Inkompatible Netzmaske %s!"
 
-#: src/subnetcalc.cc:834
+#: src/subnetcalc.cc:833
 #, c-format
 msgid "ERROR: Invalid argument %s!"
 msgstr "FEHLER: Ungültiges Argument %s!"
 
-#: src/subnetcalc.cc:877
+#: src/subnetcalc.cc:876
 msgid "Address"
 msgstr "Adresse"
 
-#: src/subnetcalc.cc:880
+#: src/subnetcalc.cc:879
 msgid "Network"
 msgstr "Netzwerk"
 
-#: src/subnetcalc.cc:882
+#: src/subnetcalc.cc:881
 msgid "Netmask"
 msgstr "Netzmaske"
 
-#: src/subnetcalc.cc:885
+#: src/subnetcalc.cc:884
 msgid "Broadcast"
 msgstr "Broadcast"
 
-#: src/subnetcalc.cc:890
+#: src/subnetcalc.cc:889
 msgid "not needed on Point-to-Point links"
 msgstr "Bei Punkt-zu-Punkt-Links nicht erforderlich"
 
-#: src/subnetcalc.cc:894
+#: src/subnetcalc.cc:893
 msgid "Wildcard Mask"
 msgstr "Wildcardmaske"
 
-#: src/subnetcalc.cc:899
+#: src/subnetcalc.cc:898
 msgid "Hex. Address"
 msgstr "Hex. Adresse"
 
-#: src/subnetcalc.cc:902
+#: src/subnetcalc.cc:901
 msgid "Hosts Bits"
 msgstr "Hosts-Bits"
 
-#: src/subnetcalc.cc:914
+#: src/subnetcalc.cc:913
 msgid "Max. Hosts"
 msgstr "Hosts maximal"
 
-#: src/subnetcalc.cc:916
+#: src/subnetcalc.cc:915
 msgid "Host Range"
 msgstr "Hostbereich"
 
-#: src/subnetcalc.cc:940 src/subnetcalc.cc:981
+#: src/subnetcalc.cc:939 src/subnetcalc.cc:980
 msgid "GeoIP AS Info"
 msgstr "GeoIP AS-Info"
 
-#: src/subnetcalc.cc:948 src/subnetcalc.cc:989
+#: src/subnetcalc.cc:947 src/subnetcalc.cc:988
 msgid "GeoIP Country"
 msgstr "GeoIP-Land"
 
-#: src/subnetcalc.cc:959 src/subnetcalc.cc:1000
+#: src/subnetcalc.cc:958 src/subnetcalc.cc:999
 msgid "GeoIP Region"
 msgstr "GeoIP-Region"
 
-#: src/subnetcalc.cc:1025
+#: src/subnetcalc.cc:1024
 msgid "Performing reverse DNS lookup ..."
 msgstr "Reverse-DNS-Suche wird durchgeführt ..."
 
-#: src/subnetcalc.cc:1041
+#: src/subnetcalc.cc:1040
 msgid "DNS Hostname"
 msgstr "DNS-Hostname"

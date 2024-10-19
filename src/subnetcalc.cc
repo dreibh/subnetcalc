@@ -704,11 +704,10 @@ void printAddressProperties(std::ostream&         os,
             const uint32_t u = ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]);
             const uint32_t l = ntohs(((const uint16_t*)&ipv6address.s6_addr)[2]);
             sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
-            os << "      + " << gettext("6to4 address") << " = ";
+            os << "      + " << format("%-32s = ", gettext("6-to-4 Address"));
             printAddress(std::cout, &sixToFour.sa, false);
             os << "\n";
          }
-
       }
    }
 }
