@@ -7,8 +7,8 @@ Vcs-Git: https://github.com/dreibh/subnetcalc.git
 Vcs-Browser: https://github.com/dreibh/subnetcalc
 Build-Depends: cmake,
                debhelper (>= 12),
-               libgeoip-dev,
-               pkgconf | pkg-config
+               gettext,
+               libgeoip-dev
 Standards-Version: 4.7.0
 Rules-Requires-Root: no
 

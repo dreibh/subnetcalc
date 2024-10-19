@@ -3,7 +3,7 @@ Version: 2.5.2~rc0
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
-License: GPL-3+
+License: GPL-3.0-or-later
 URL: https://www.nntb.no/~dreibh/subnetcalc/
 Source: https://www.nntb.no/~dreibh/subnetcalc/download/%{name}-%{version}.tar.xz
 
@@ -11,11 +11,11 @@ AutoReqProv: on
 BuildRequires: cmake
 BuildRequires: gcc
 BuildRequires: gcc-c++
+BuildRequires: gettext
 BuildRequires: GeoIP-devel
 Requires: GeoIP
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
-%define _unpackaged_files_terminate_build 0
 
 %description
 SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6
@@ -39,7 +39,10 @@ interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
 
 %files
 %{_bindir}/subnetcalc
+%{_datadir}/bash-completion/completions/subnetcalc
+%{_datadir}/locale/*/LC_MESSAGES/subnetcalc.mo
 %{_mandir}/man1/subnetcalc.1.gz
+
 
 %doc
 

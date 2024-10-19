@@ -263,7 +263,7 @@ msgstr "ikke nødvendig på punkt-til-punkt-lenker"
 
 #: src/subnetcalc.cc:894
 msgid "Wildcard Mask"
-msgstr "Wildcard Mask"
+msgstr "Wildcardmaske"
 
 #: src/subnetcalc.cc:899
 msgid "Hex. Address"
