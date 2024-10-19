@@ -119,17 +119,24 @@ ENDIF()
 
 
 #############################################################################
-# COMPILER FLAGS
+#### INTERNATIONALISATION (I18N)                                         ####
 #############################################################################
 
-SET(CMAKE_C_FLAGS   "${CMAKE_C_FLAGS}   -Wall")
-SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall")
-
-IF (CMAKE_BUILD_TYPE MATCHES DEBUG)
-    MESSAGE(STATUS "Building in DEBUG mode")
-    # _FORTIFY_SOURCE requires compiling with optimization
-    SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -O")
+FIND_PACKAGE (Intl)
+IF (Intl_FOUND)
+   MESSAGE(STATUS "Internationalization (i18n) found:")
+   MESSAGE(STATUS " INTL_INCLUDE_DIRS: ${Intl_INCLUDE_DIRS}")
+   MESSAGE(STATUS " INTL_LIBRARIES: ${Intl_LIBRARIES}")
+   MESSAGE(STATUS " Version: ${Intl_VERSION}")
+   INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
+   LINK_DIRECTORIES(${Intl_LIBRARY_DIRS})
+ELSE()
+   MESSAGE(STATUS "Internationalization (i18n) not found!")
 ENDIF()
+
+FIND_PROGRAM(XGETTEXT xgettext REQUIRED)
+FIND_PROGRAM(MSGMERGE msgmerge REQUIRED)
+FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
 
 
 #############################################################################

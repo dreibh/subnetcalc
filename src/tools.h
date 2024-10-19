@@ -25,6 +25,7 @@
 #include <config.h>
 #endif
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -83,5 +84,6 @@ void printAddress(std::ostream&          os,
                   const struct sockaddr* address,
                   const bool             port      = true,
                   const bool             hideScope = false);
+std::string format(const char* fmt, ...);
 
 #endif

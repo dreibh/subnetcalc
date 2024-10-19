@@ -3,6 +3,7 @@
 #############################################################################
 
 ADD_EXECUTABLE(subnetcalc subnetcalc.cc tools.cc)
+TARGET_LINK_LIBRARIES(subnetcalc ${Intl_LIBRARIES})
 IF (GEOIP_FOUND)
    TARGET_LINK_LIBRARIES(subnetcalc ${GEOIP_LIBRARY})
 ENDIF()

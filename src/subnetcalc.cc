@@ -18,20 +18,21 @@
  * Contact: thomas.dreibholz@gmail.com
  */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <strings.h>
-#include <math.h>
 #include <assert.h>
+#include <libintl.h>
 #include <locale.h>
+#include <math.h>
 #include <netdb.h>
-#include <iostream>
-#include <cstring>
+#include <stdlib.h>
+#include <strings.h>
+#include <unistd.h>
 #ifdef HAVE_GEOIP
 #include <GeoIP.h>
 #include <GeoIPCity.h>
 #endif
+
+#include <iostream>
+#include <cstring>
 
 #include "tools.h"
 
@@ -140,7 +141,7 @@ void generateUniqueLocal(sockaddr_union& address,
 {
    uint8_t buffer[5];
    if(address.sa.sa_family != AF_INET6) {
-      std::cerr << "ERROR: An IPv6 address must be given to generate a unique local address!" << std::endl;
+      std::cerr << gettext("ERROR: An IPv6 address must be given to generate a unique local address!") << "\n";
       exit(1);
    }
 
@@ -149,16 +150,17 @@ void generateUniqueLocal(sockaddr_union& address,
    const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
    FILE* fh = fopen(randomFile, "r");
    if(fh != nullptr) {
-      std::cout << "Generating Unique Local IPv6 address (using " << randomFile << ") ..." << std::endl;
+      std::cout << format(gettext("Generating Unique Local IPv6 address (using %s) ..."),
+                          randomFile) << "\n";
 
       if(fread((char*)&buffer, 5, 1, fh) != 1) {
-         std::cerr << "ERROR: Unable to read from " << randomFile << "!" << std::endl;
+         std::cerr << format(gettext("ERROR: Unable to read from %s!"), randomFile) << "\n";
          exit(1);
       }
       fclose(fh);
    }
    else {
-      std::cerr << "ERROR: Unable to open " << randomFile << "!" << std::endl;
+      std::cerr << format(gettext("ERROR: Unable to open %s!"), randomFile) << "\n";
       exit(1);
    }
 #else
@@ -210,7 +212,7 @@ void printAddressBinary(std::ostream&         os,
             os << " . ";
          }
       }
-      os << std::endl;
+      os << "\n";
    }
    else {
       int      p           = 0;
@@ -245,7 +247,7 @@ void printAddressBinary(std::ostream&         os,
             }
             p++;
          }
-         os << std::endl;
+         os << "\n";
       }
    }
 }
@@ -422,7 +424,7 @@ void printUnicastProperties(std::ostream&   os,
                ntohs(ipv6address.s6_addr16[0]) & 0xff,
                ntohs(ipv6address.s6_addr16[1]),
                ntohs(ipv6address.s6_addr16[2]));
-      os << "      + Global ID    = " << globalIDString << std::endl;
+      os << "      + " << format("%-32s = %s", gettext("Global ID"), globalIDString) << "\n";
    }
 
    // ====== Subnet ID ======================================================
@@ -430,7 +432,7 @@ void printUnicastProperties(std::ostream&   os,
       char           subnetIDString[16];
       const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
       snprintf((char*)&subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
-      os << "      + Subnet ID    = " << subnetIDString << std::endl;
+      os << "      + " << format("%-32s = %s", gettext("Subnet ID"), subnetIDString) << "\n";
    }
 
    // ====== Interface ID ===================================================
@@ -446,7 +448,7 @@ void printUnicastProperties(std::ostream&   os,
             (interfaceID[1] & 0xff00) >> 8, (interfaceID[1] & 0x00ff),
             (interfaceID[2] & 0xff00) >> 8, (interfaceID[2] & 0x00ff),
             interfaceID[3]);
-   os << "      + Interface ID = " << interfaceIDString << std::endl;
+   os << "      + " << format("%-32s = %s", gettext("Interface ID"), interfaceIDString) << "\n";
 
    if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
        ((interfaceID[2] & 0xff00) == 0xfe00) ) {
@@ -459,7 +461,7 @@ void printUnicastProperties(std::ostream&   os,
                ipv6address.s6_addr[13],
                ipv6address.s6_addr[14],
                ipv6address.s6_addr[15]);
-      os << "      + MAC address  = " << interfaceIDString << std::endl;
+      os << "      + " << format("%-32s = %s", gettext("MAC Address"), interfaceIDString) << "\n";
    }
 
    // ====== Solicited Node Multicast Address ===============================
@@ -469,7 +471,7 @@ void printUnicastProperties(std::ostream&   os,
                                     "ff02::1:ff%02x:%04x"),
             ntohs(ipv6address.s6_addr16[6]) & 0xff,
             ntohs(ipv6address.s6_addr16[7]));
-   os << "      + Sol. Node MC = " << snmcAddressString << std::endl;
+   os << "      + " << format("%-32s = %s", gettext("Solicited Node Multicast Address"), snmcAddressString) << "\n";
 }
 
 
@@ -482,22 +484,31 @@ void printAddressProperties(std::ostream&         os,
                             const sockaddr_union& broadcast,
                             const bool            colourMode)
 {
+   char addressString[64];
+   address2string(&address.sa, addressString, sizeof(addressString), false, false);
+
    // ====== Common properties ==============================================
-   os << "Properties    =" << std::endl;
+   os << format("%-16s", gettext("Properties")) << " = \n";
+   os << "   - ";
    if(isMulticast(address)) {
-      os << "   - " << address << " is a MULTICAST address" << std::endl;
+      os << format(gettext("%s is a MULTICAST address"), addressString);
    }
    else if(address == network) {
-      os << "   - " << address << " is a NETWORK address" << std::endl;
+      os << format(gettext("%s is a NETWORK address"), addressString);
    }
    else if((isIPv4(address)) && (address == broadcast)) {
-      os << "   - " << address << " is the BROADCAST address of "
-         << network << "/" << prefix << std::endl;
+      char networkString[64];
+      address2string(&network.sa, networkString, sizeof(networkString), false, false);
+      os << format(gettext("%s is the BROADCAST address of %s/%u"),
+                   addressString, networkString, prefix);
    }
    else {
-      os << "   - " << address << " is a HOST address in "
-         << network << "/" << prefix << std::endl;
+      char networkString[64];
+      address2string(&network.sa, networkString, sizeof(networkString), false, false);
+      os << format(gettext("%s is a HOST address in %s/%u"),
+                   addressString, networkString, prefix);
    }
+   os << "\n";
 
 
    // ====== IPv4 properties ================================================
@@ -507,49 +518,49 @@ void printAddressProperties(std::ostream&         os,
       const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
 
       if(IN_CLASSA(ipv4address)) {
-         os << "   - Class A" << std::endl;
+         os << "   - " << gettext("Class A") << "\n";
          if(ipv4address == INADDR_LOOPBACK) {
-            os << "   - Loopback address" << std::endl;
+            os << "   - " << gettext("Loopback address") << "\n";
          }
          else if(a == IN_LOOPBACKNET) {
-            os << "   - In loopback network" << std::endl;
+            os << "   - " << gettext("In loopback network") << "\n";
          }
          else if(a == 10) {
-            os << "   - Private" << std::endl;
+            os << "   - " << gettext("Private") << "\n";
          }
       }
       else if(IN_CLASSB(ipv4address)) {
-         os << "   - Class B" << std::endl;
+         os << "   - " << gettext("Class B") << "\n";
          if((a == 172) && ((b >= 16) && (b <= 31))) {
-            os << "   - Private" << std::endl;
+            os << "   - " << gettext("Private") << "\n";
          }
          else if((a == 169) && (b == 254)) {
-            os << "   - Link-local address" << std::endl;
+            os << "   - " << gettext("Link-local address") << "\n";
          }
       }
       else if(IN_CLASSC(ipv4address)) {
-         os << "   - Class C" << std::endl;
+         os << "   - " << gettext("Class C") << "\n";
          if((a == 192) && (b == 168)) {
-            os << "   - Private" << std::endl;
+            os << "   - " << gettext("Private") << "\n";
          }
       }
       else if(IN_CLASSD(ipv4address)) {
-         os << "   - Class D (Multicast)" << std::endl;
+         os << "   - " << gettext("Class D (Multicast)") << "\n";
          // ------ Multicast scope ------------------------------------------
-         os << "      + Scope: ";
+         os << "      + " << gettext("Scope: ");
          if(a == 224) {
-            os << "link-local";
+            os << gettext("link-local");
          }
          else if((a == 239) && (b >= 192) && (b <= 251)) {
-            os << "organization-local";
+            os << gettext("organization-local");
          }
          else if((a == 239) && (b >= 252) && (b <= 255)) {
-            os << "site-local";
+            os << gettext("site-local");
          }
          else {
-            os << "global";
+            os << gettext("global");
          }
-         os << std::endl;
+         os << "\n";
 
          // ------ Corresponding MAC address --------------------------------
          char macAddressString[32];
@@ -558,15 +569,16 @@ void printAddressProperties(std::ostream&         os,
                   (ipv4address & 0x007f0000) >> 16,
                   (ipv4address & 0x0000ff00) >> 8,
                   (ipv4address & 0x000000ff));
-         os << "      + Corresponding multicast MAC address: " << macAddressString << std::endl;
+         os << "      + " << format(gettext("Corresponding multicast MAC address: %s"),
+                                    macAddressString) << "\n";
 
          // ------ Source-specific multicast --------------------------------
          if(a == 232) {
-            os << "      + Source-specific multicast" << std::endl;
+            os << "      + " << gettext("Source-specific multicast") << "\n";
          }
       }
       else {
-         os << "   - Invalid (not in class A, B, C or D)" << std::endl;
+         os << "   - " << gettext("Invalid (not in class A, B, C or D)") << "\n";
       }
    }
 
@@ -579,50 +591,50 @@ void printAddressProperties(std::ostream&         os,
 
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
-         os << "   - Loopback address" << std::endl;
+         os << "   - " << gettext("Loopback address") << "\n";
       }
       else if(IN6_IS_ADDR_UNSPECIFIED(&ipv6address)) {
-         os << "   - Unspecified address" << std::endl;
+         os << "   - " << gettext("Unspecified address") << "\n";
       }
       else if(IN6_IS_ADDR_V4COMPAT(&ipv6address)) {
-         os << "   - IPv4-compatible IPv6 address" << std::endl;
+         os << "   - " << gettext("IPv4-compatible IPv6 address") << "\n";
       }
       else if(IN6_IS_ADDR_V4MAPPED(&ipv6address)) {
-         os << "   - IPv4-mapped IPv6 address" << std::endl;
+         os << "   - " << gettext("IPv4-mapped IPv6 address") << "\n";
       }
       else if(hasTranslationPrefix(&address.in6)) {
-         os << "   - IPv4-embedded IPv6 address" << std::endl;
+         os << "   - " << gettext("IPv4-embedded IPv6 address") << "\n";
       }
 
       // ------ Multicast addresses -----------------------------------------
       else if(IN6_IS_ADDR_MULTICAST(&ipv6address)) {
          // ------ Multicast scope ------------------------------------------
-         os << "   - Multicast Properties" << std::endl;
-         os << "      + Scope: ";
+         os << "   - " << gettext("Multicast Properties") << "\n";
+         os << "      + " << gettext("Scope: ");
          if(IN6_IS_ADDR_MC_NODELOCAL(&ipv6address)) {
-            os << "node-local";
+            os << gettext("node-local");
          }
          else if(IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address)) {
-            os << "link-local";
+            os << gettext("link-local");
          }
          else if(IN6_IS_ADDR_MC_SITELOCAL(&ipv6address)) {
-            os << "site-local";
+            os << gettext("site-local");
          }
          else if(IN6_IS_ADDR_MC_ORGLOCAL(&ipv6address)) {
-            os << "organization-local";
+            os << gettext("organization-local");
          }
          else if(IN6_IS_ADDR_MC_GLOBAL(&ipv6address)) {
-            os << "global";
+            os << gettext("global");
          }
          else {
-            os << "unknown";
+            os << gettext("unknown");
          }
-         os << std::endl;
+         os << "\n";
 
          // ------ Multicast flags ------------------------------------------
          const uint8_t flags = (((uint8_t*)&ipv6address)[1] & 0xf0) >> 4;
          if(flags == 0x1) {
-            os << "      + Temporary-allocated address" << std::endl;
+            os << "      + " << gettext("Temporary-allocated address") << "\n";
          }
 
          // ------ Corresponding MAC address --------------------------------
@@ -633,12 +645,12 @@ void printAddressProperties(std::ostream&         os,
                   ipv6address.s6_addr[13],
                   ipv6address.s6_addr[14],
                   ipv6address.s6_addr[15]);
-         os << "      + Corresponding multicast MAC address: " << macAddressString << std::endl;
+         os << "      + " << gettext("Corresponding multicast MAC address: ") << macAddressString << "\n";
 
          // ------ Source-specific multicast --------------------------------
          if( ((a & 0xfff0) == 0xff30) && (b == 0x0000) ) {
             // FF0x:0::/32
-            os << "      + Source-specific multicast" << std::endl;
+            os << "      + " << gettext("Source-specific multicast") << "\n";
          }
 
          // ------ Solicited node multicast address -------------------------
@@ -651,50 +663,50 @@ void printAddressProperties(std::ostream&         os,
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
                      ntohs(ipv6address.s6_addr16[6]) & 0xff,
                      ntohs(ipv6address.s6_addr16[7]));
-            os << "      + Address is solicited node multicast address for "
-               << nodeAddressString << std::endl;
+            os << "      + " << gettext("Address is solicited node multicast address for")
+               << " " << nodeAddressString << "\n";
          }
       }
 
       // ------ Link-local Unicast ------------------------------------------
       else if(IN6_IS_ADDR_LINKLOCAL(&ipv6address)) {
-         os << "   - Link-Local Unicast Properties:" << std::endl;
+         os << "   - " << gettext("Link-Local Unicast Properties:") << "\n";
          printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
       }
 
       // ------ Site-Local Unicast ------------------------------------------
       else if(IN6_IS_ADDR_SITELOCAL(&ipv6address)) {
-         os << "   - Site-Local Unicast Properties:" << std::endl;
+         os << "   - " << gettext("Site-Local Unicast Properties:") << "\n";
          printUnicastProperties(std::cout, ipv6address, colourMode, true, false);
       }
 
       // ------ Unique Local Unicast ----------------------------------------
       else if((a & 0xfc00) == 0xfc00) {
-         os << "   - Unique Local Unicast Properties:" << std::endl;
+         os << "   - " << gettext("Unique Local Unicast Properties:") << "\n";
          if(a & 0x0100) {
-            os << "      + Locally chosen" << std::endl;
+            os << "      + " << gettext("Locally chosen") << "\n";
          }
          else {
-            os << "      + Assigned by global instance" << std::endl;
+            os << "      + " << gettext("Assigned by global instance") << "\n";
          }
          printUnicastProperties(std::cout, ipv6address, colourMode, true, true);
       }
 
       // ------ Global Unicast ----------------------------------------------
       else if((a & 0xe000) == 0x2000) {
-         os << "   - Global Unicast Properties:" << std::endl;
+         os << "   - " << gettext("Global Unicast Properties:") << "\n";
          printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
 
          // ------ 6to4 Address ---------------------------------------------
          if((a & 0x2002) == 0x2002) {
-            os << "      + 6to4 address = ";
+            os << "      + " << gettext("6to4 address = ");
             sockaddr_union sixToFour;
             sixToFour.sa.sa_family       = AF_INET;
             const uint32_t u = ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]);
             const uint32_t l = ntohs(((const uint16_t*)&ipv6address.s6_addr)[2]);
             sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
             printAddress(std::cout, &sixToFour.sa, false);
-            os << std::endl;
+            os << "\n";
          }
 
       }
@@ -722,13 +734,18 @@ int main(int argc, char** argv)
    sockaddr_union     host2;
 
 
-   // ====== Initialize locale ==============================================
-   setlocale(LC_ALL, "");   // Necessary to work with IDN names!
+   // ====== Initialise i18n support ========================================
+   if(setlocale(LC_ALL, "") == NULL) {
+      setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!
+   }
+   bindtextdomain("subnetcalc", NULL);
+   textdomain("subnetcalc");
 
    // ====== Print usage ====================================================
    if(argc < 2) {
-      printf("Usage: %s [Address{/{Netmask|Prefix}}] "
-             "{Netmask|Prefix} {-n} {-uniquelocal|-uniquelocalhq} {-nocolour|-nocolor}\n", argv[0]);
+      std::cerr << gettext("Usage:") << " "
+                <<  argv[0]
+                << " [Address|AddressPrefix|AddressNetmask|Address/Prefix|Address/Netmask] [-n] [-uniquelocal|-uniquelocalhq] [-nocolour|-nocolor]\n";
       exit(1);
    }
 
@@ -737,12 +754,12 @@ int main(int argc, char** argv)
    if(slash) {
       slash[0] = 0x00;
       if(string2address(argv[1], &address) == false) {
-         printf("ERROR: Bad address %s!\n", argv[1]);
+         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[1]) << "\n";
          exit(1);
       }
       if( readPrefix((const char*)&slash[1], address, netmask) < 0 ) {
          if(string2address((const char*)&slash[1], &netmask) == false) {
-            printf("ERROR: Bad netmask %s!\n", (const char*)&slash[1]);
+            std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[1]) << "\n";
             exit(1);
          }
       }
@@ -752,7 +769,7 @@ int main(int argc, char** argv)
    // ====== Get address and netmask from separate parameters ===============
    else if(slash == nullptr) {
       if(string2address(argv[1], &address) == false) {
-         printf("ERROR: Bad address %s!\n", argv[1]);
+         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[1]) << "\n";
          exit(1);
       }
       if(argc > 2) {
@@ -761,7 +778,7 @@ int main(int argc, char** argv)
          if(argv[2][0] != '-') {
             if( readPrefix(argv[2], address, netmask) < 0 ) {
                if(string2address(argv[2], &netmask) == false) {
-                  printf("ERROR: Bad netmask %s!\n", argv[2]);
+                  std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[2]) << "\n";
                   exit(1);
                }
             }
@@ -785,15 +802,15 @@ int main(int argc, char** argv)
    // ====== Get prefix length ==============================================
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
-      std::cerr << "ERROR: Invalid netmask ";
-      printAddress(std::cerr, &netmask.sa, false);
-      std::cerr << "!" << std::endl;
+      char addressString[64];
+      address2string(&netmask.sa, addressString, sizeof(addressString), false, false);
+      std::cerr << format(gettext("ERROR: Invalid netmask %s!"), addressString) << "\n";
       exit(1);
    }
    if(netmask.sa.sa_family != address.sa.sa_family) {
-      std::cerr << "ERROR: Incompatible netmask ";
-      printAddress(std::cerr, &netmask.sa, false);
-      std::cerr << "!" << std::endl;
+      char addressString[64];
+      address2string(&netmask.sa, addressString, sizeof(addressString), false, false);
+      std::cerr << format(gettext("ERROR: Incompatible netmask %s!"), addressString) << "\n";
       exit(1);
    }
 
@@ -806,14 +823,15 @@ int main(int argc, char** argv)
       else if(strcmp(argv[i], "-uniquelocalhq") == 0) {
          generateUniqueLocal(address, true);
       }
-      else if( (strcmp(argv[i], "-nocolour") == 0) || (strcmp(argv[i], "-nocolor") == 0) ) {
+      else if( (strcmp(argv[i], "-nocolour") == 0) ||
+               (strcmp(argv[i], "-nocolor")  == 0) ) {
          colourMode = false;
       }
       else if(strcmp(argv[i], "-n") == 0) {
          noReverseLookup = true;
       }
       else {
-         std::cerr << "ERROR: Bad argument " << argv[i] << "!" << std::endl;
+         std::cerr << format(gettext("ERROR: Invalid argument %s!"), argv[i]) << "\n";
          exit(1);
       }
    }
@@ -856,25 +874,33 @@ int main(int argc, char** argv)
 
 
    // ====== Print results ==================================================
-   std::cout << "Address       = " << address << std::endl;
+   std::cout << format("%-16s", gettext("Address")) << " = "
+             << address << "\n";
    printAddressBinary(std::cout, address, prefix, colourMode, "                   ");
-   std::cout << "Network       = " << network << " / " << prefix << std::endl;
-   std::cout << "Netmask       = " << netmask << std::endl;
+   std::cout << format("%-16s", gettext("Network")) << " = "
+             << network << " / " << prefix << "\n"
+             << format("%-16s", gettext("Netmask")) << " = "
+             << netmask << "\n";
    if(isIPv4(address)) {
+      std::cout << format("%-16s", gettext("Broadcast")) << " = ";
       if(reservedHosts == 2) {
-         std::cout << "Broadcast     = " << broadcast << std::endl;
+         std::cout << broadcast;
       }
       else {
-         std::cout << "Broadcast     = not needed on Point-to-Point links" << std::endl;
+         std::cout << gettext("not needed on Point-to-Point links");
       }
+      std::cout << "\n";
    }
-   std::cout << "Wildcard Mask = " << wildcard << std::endl;
+   std::cout << format("%-16s", gettext("Wildcard Mask"))
+             << " = " << wildcard << "\n";
    if(isIPv4(address)) {
       char hex[16];
       snprintf((char*)&hex, sizeof(hex), "%08X", ntohl(address.in.sin_addr.s_addr));
-      std::cout << "Hex. Address  = " << hex << std::endl;
+      std::cout << format("%-16s", gettext("Hex. Address"))
+                << " = " << hex << "\n";
    }
-   std::cout << "Hosts Bits    = " << hostBits << std::endl;
+   std::cout << format("%-16s", gettext("Hosts Bits")) << " = "
+             << hostBits << "\n";
    if(!isMulticast(address)) {
       char maxHostsString[128];
       if(maxHosts > 0) {
@@ -885,8 +911,10 @@ int main(int argc, char** argv)
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
                   "2^%u - %u", hostBits, reservedHosts);
       }
-      std::cout << "Max. Hosts    = " << maxHostsString << std::endl;
-      std::cout << "Host Range    = { " << host1 << " - " << host2 << " }" << std::endl;
+      std::cout << format("%-16s", gettext("Max. Hosts")) << " = "
+                << maxHostsString << "\n"
+                << format("%-16s", gettext("Host Range")) << " = { "
+                << host1 << " - " << host2 << " }" << "\n";
    }
 
 
@@ -909,17 +937,17 @@ int main(int argc, char** argv)
       GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION, GEOIP_STANDARD);
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << "GeoIP AS Info = "
-                   << ((org != nullptr) ? org : "Unknown") << std::endl;
+         std::cout << format("%-16s = ", gettext("GeoIP AS Info"))
+                   << ((org != nullptr) ? org : "Unknown") << "\n";
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION, GEOIP_STANDARD);
       if(geoIP) {
          country = GeoIP_country_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
          code    = GeoIP_country_code_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << "GeoIP Country = "
+         std::cout << format("%-16s = ", gettext("GeoIP Country"))
                    << ((country != nullptr) ? country: "Unknown")
-                   << " (" << ((code != nullptr) ? code : "??") << ")" << std::endl;
+                   << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1, GEOIP_STANDARD);
@@ -928,7 +956,7 @@ int main(int argc, char** argv)
          if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
-            std::cout << "GeoIP Region  = "
+            std::cout << format("%-16s = ", gettext("GeoIP Region"))
                       << ((gir->postal_code != nullptr) ? gir->postal_code : "")
                       << ((gir->postal_code != nullptr) ? " " : "")
                       << ((gir->city != nullptr) ? gir->city : "Unknown")
@@ -939,7 +967,7 @@ int main(int argc, char** argv)
                       << ((timeZone != nullptr) ? ", " : "")
                       << ((timeZone != nullptr) ? timeZone : "")
                       << ")"
-                      << std::endl;
+                      << "\n";
             GeoIPRecord_delete(gir);
          }
          GeoIP_delete(geoIP);
@@ -950,17 +978,17 @@ int main(int argc, char** argv)
       GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION_V6, GEOIP_STANDARD);
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << "GeoIP AS Info = "
-                   << ((org != nullptr) ? org : "Unknown") << std::endl;
+         std::cout << format("%-16s = ", gettext("GeoIP AS Info"))
+                   << ((org != nullptr) ? org : "Unknown") << "\n";
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION_V6, GEOIP_STANDARD);
       if(geoIP) {
          country = GeoIP_country_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
          code    = GeoIP_country_code_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << "GeoIP Country = "
+         std::cout << format("%-16s = ", gettext("GeoIP Country"))
                    << ((country != nullptr) ? country: "Unknown")
-                   << " (" << ((code != nullptr) ? code : "??") << ")" << std::endl;
+                   << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
          GeoIP_delete(geoIP);
       }
       geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1_V6, GEOIP_STANDARD);
@@ -969,7 +997,7 @@ int main(int argc, char** argv)
          if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
-            std::cout << "GeoIP Region  = "
+            std::cout << format("%-16s = ", gettext("GeoIP Region"))
                       << ((gir->postal_code != nullptr) ? gir->postal_code : "")
                       << ((gir->postal_code != nullptr) ? " " : "")
                       << ((gir->city != nullptr) ? gir->city : "Unknown")
@@ -980,7 +1008,7 @@ int main(int argc, char** argv)
                       << ((timeZone != nullptr) ? ", " : "")
                       << ((timeZone != nullptr) ? timeZone : "")
                       << ")"
-                      << std::endl;
+                      << "\n";
             GeoIPRecord_delete(gir);
          }
          GeoIP_delete(geoIP);
@@ -994,7 +1022,8 @@ int main(int argc, char** argv)
 
    // ====== Reverse lookup =================================================
    if(noReverseLookup == false) {
-      std::cout << "Performing reverse DNS lookup ..."; std::cout.flush();
+      std::cout << gettext("Performing reverse DNS lookup ...");
+      std::cout.flush();
       char hostname[NI_MAXHOST];
       int error = getnameinfo(&address.sa,
                               (address.sa.sa_family == AF_INET6) ?
@@ -1009,13 +1038,13 @@ int main(int argc, char** argv)
 #endif
                               );
       std::cout << "\r\x1b[K"
-                << "DNS Hostname  = ";
+                << format("%-16s = ", gettext("DNS Hostname"));
       std::cout.flush();
       if(error == 0) {
-         std::cout << hostname << std::endl;
+         std::cout << hostname << "\n";
       }
       else {
-         std::cout << "(" << gai_strerror(error) << ")" << std::endl;
+         std::cout << "(" << gai_strerror(error) << ")" << "\n";
       }
    }
 }

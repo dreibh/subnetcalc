@@ -403,3 +403,15 @@ void printAddress(std::ostream&          os,
       os << "(invalid!)";
    }
 }
+
+
+// ###### Create formatted string (printf-like) #############################
+std::string format(const char* fmt, ...)
+{
+   char buffer[16384];
+   va_list va;
+   va_start(va, fmt);
+   vsnprintf(buffer, sizeof(buffer), fmt, va);
+   va_end(va);
+   return(std::string(buffer));
+}
