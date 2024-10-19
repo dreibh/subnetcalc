@@ -11,9 +11,12 @@ WWW=		https://www.nntb.no/~dreibh/subnetcalc/
 LICENSE=	GPLv3+
 LICENSE_FILE=	${WRKSRC}/COPYING
 
-USES=		tar:xz cmake
+USES=		cmake gettext tar:xz
 
 PLIST_FILES=	bin/subnetcalc \
+                share/bash-completion/completions/subnetcalc \
+                share/locale/de/LC_MESSAGES/subnetcalc.mo \
+                share/locale/nb/LC_MESSAGES/subnetcalc.mo \
 		share/man/man1/subnetcalc.1.gz
 
 .include <bsd.port.mk>
