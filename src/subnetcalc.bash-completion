@@ -22,15 +22,34 @@ _example_program1()
 {
    # Based on: https://www.benningtons.net/index.php/bash-completion/
    local cur prev words cword
-   _init_completion || return
+   if type -t _comp_initialize >/dev/null; then
+      _comp_initialize || return
+   elif type -t _init_completion >/dev/null; then
+      _init_completion || return
+   else
+      # Manual initialization for older bash completion versions:
+      COMPREPLY=()
+      cur="${COMP_WORDS[COMP_CWORD]}"
+      prev="${COMP_WORDS[COMP_CWORD-1]}"
+      words="${COMP_WORDS}"
+      cword="${COMP_CWORD}"
+   fi
 
    # echo "cur=$cur prev=$prev words=${words[@]} cword=$cword"
    # echo ""
 
    # ====== Parameters ======================================================
    if [ $cword -le 1 ] ; then
-      # Suggest examples for IP address and network:
-      COMPREPLY=($(compgen -W "$(ip addr show | awk '/[ ]+inet/ { print $2 }')" -- "$cur"))
+      # Suggest IP addresses of local machine:
+      local addreses
+      if [ -x /usr/bin/ip ] ; then
+         addresses="$(/usr/bin/ip addr show | awk '/[ ]+inet/ { print $2 }')"
+      elif [ -x /sbin/ifconfig ] ; then
+         local addressesV4="$(/sbin/ifconfig | awk '/[ \t]+inet / { a=$4 ; print $2 "/" sprintf("%d.%d.%d.%d", "0x" substr(a, 3, 2), "0x" substr(a, 5, 2), "0x" substr(a, 7, 2), "0x" substr(a, 9, 2)) }')"
+         local addressesV6="$(/sbin/ifconfig | awk '/[ \t]+inet6 / { print $2 "/" $4 }' | sed -e 's#%.*/#/#')"
+         addresses="${addressesV4} ${addressesV6}"
+      fi
+      COMPREPLY=($(compgen -W "${addresses}" -- "${cur}"))
       return
    fi
 
