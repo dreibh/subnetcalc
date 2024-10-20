@@ -424,7 +424,7 @@ void printUnicastProperties(std::ostream&   os,
                ntohs(ipv6address.s6_addr16[0]) & 0xff,
                ntohs(ipv6address.s6_addr16[1]),
                ntohs(ipv6address.s6_addr16[2]));
-      os << "      + " << format("%-32s = %s", gettext("Global ID"), globalIDString) << "\n";
+      os << "      + " << format(gettext("%-32s"), gettext("Global ID")) << " = " << globalIDString << "\n";
    }
 
    // ====== Subnet ID ======================================================
@@ -432,7 +432,7 @@ void printUnicastProperties(std::ostream&   os,
       char           subnetIDString[16];
       const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
       snprintf((char*)&subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
-      os << "      + " << format("%-32s = %s", gettext("Subnet ID"), subnetIDString) << "\n";
+      os << "      + " << format(gettext("%-32s"), gettext("Subnet ID")) << " = " <<  subnetIDString << "\n";
    }
 
    // ====== Interface ID ===================================================
@@ -448,7 +448,7 @@ void printUnicastProperties(std::ostream&   os,
             (interfaceID[1] & 0xff00) >> 8, (interfaceID[1] & 0x00ff),
             (interfaceID[2] & 0xff00) >> 8, (interfaceID[2] & 0x00ff),
             interfaceID[3]);
-   os << "      + " << format("%-32s = %s", gettext("Interface ID"), interfaceIDString) << "\n";
+   os << "      + " << format(gettext("%-32s"), gettext("Interface ID")) << " = " <<  interfaceIDString << "\n";
 
    if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
        ((interfaceID[2] & 0xff00) == 0xfe00) ) {
@@ -461,7 +461,7 @@ void printUnicastProperties(std::ostream&   os,
                ipv6address.s6_addr[13],
                ipv6address.s6_addr[14],
                ipv6address.s6_addr[15]);
-      os << "      + " << format("%-32s = %s", gettext("MAC Address"), interfaceIDString) << "\n";
+      os << "      + " << format(gettext("%-32s"), gettext("MAC Address")) << " = " <<  interfaceIDString << "\n";
    }
 
    // ====== Solicited Node Multicast Address ===============================
@@ -471,7 +471,7 @@ void printUnicastProperties(std::ostream&   os,
                                     "ff02::1:ff%02x:%04x"),
             ntohs(ipv6address.s6_addr16[6]) & 0xff,
             ntohs(ipv6address.s6_addr16[7]));
-   os << "      + " << format("%-32s = %s", gettext("Solicited Node Multicast Address"), snmcAddressString) << "\n";
+   os << "      + " << format(gettext("%-32s"), gettext("Solicited Node Multicast Address")) << " = " <<  snmcAddressString << "\n";
 }
 
 
@@ -488,7 +488,7 @@ void printAddressProperties(std::ostream&         os,
    address2string(&address.sa, addressString, sizeof(addressString), false, false);
 
    // ====== Common properties ==============================================
-   os << format("%-16s", gettext("Properties")) << " = \n";
+   os << format(gettext("%-14s"), gettext("Properties")) << " = \n";
    os << "   - ";
    if(isMulticast(address)) {
       os << format(gettext("%s is a MULTICAST address"), addressString);
@@ -873,15 +873,16 @@ int main(int argc, char** argv)
 
 
    // ====== Print results ==================================================
-   std::cout << format("%-16s", gettext("Address")) << " = "
+   std::cout << format(gettext("%-14s"), gettext("Address")) << " = "
              << address << "\n";
-   printAddressBinary(std::cout, address, prefix, colourMode, "                   ");
-   std::cout << format("%-16s", gettext("Network")) << " = "
+   printAddressBinary(std::cout, address, prefix, colourMode,
+                      (format(gettext("%-14s"), " ") + "      ").c_str());
+   std::cout << format(gettext("%-14s"), gettext("Network")) << " = "
              << network << " / " << prefix << "\n"
-             << format("%-16s", gettext("Netmask")) << " = "
+             << format(gettext("%-14s"), gettext("Netmask")) << " = "
              << netmask << "\n";
    if(isIPv4(address)) {
-      std::cout << format("%-16s", gettext("Broadcast")) << " = ";
+      std::cout << format(gettext("%-14s"), gettext("Broadcast")) << " = ";
       if(reservedHosts == 2) {
          std::cout << broadcast;
       }
@@ -890,15 +891,15 @@ int main(int argc, char** argv)
       }
       std::cout << "\n";
    }
-   std::cout << format("%-16s", gettext("Wildcard Mask"))
+   std::cout << format(gettext("%-14s"), gettext("Wildcard Mask"))
              << " = " << wildcard << "\n";
    if(isIPv4(address)) {
       char hex[16];
       snprintf((char*)&hex, sizeof(hex), "%08X", ntohl(address.in.sin_addr.s_addr));
-      std::cout << format("%-16s", gettext("Hex. Address"))
+      std::cout << format(gettext("%-14s"), gettext("Hex. Address"))
                 << " = " << hex << "\n";
    }
-   std::cout << format("%-16s", gettext("Hosts Bits")) << " = "
+   std::cout << format(gettext("%-14s"), gettext("Hosts Bits")) << " = "
              << hostBits << "\n";
    if(!isMulticast(address)) {
       char maxHostsString[128];
@@ -910,9 +911,9 @@ int main(int argc, char** argv)
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
                   "2^%u - %u", hostBits, reservedHosts);
       }
-      std::cout << format("%-16s", gettext("Max. Hosts")) << " = "
+      std::cout << format(gettext("%-14s"), gettext("Max. Hosts")) << " = "
                 << maxHostsString << "\n"
-                << format("%-16s", gettext("Host Range")) << " = { "
+                << format(gettext("%-14s"), gettext("Host Range")) << " = { "
                 << host1 << " - " << host2 << " }" << "\n";
    }
 
@@ -936,7 +937,7 @@ int main(int argc, char** argv)
       GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION, GEOIP_STANDARD);
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << format("%-16s = ", gettext("GeoIP AS Info"))
+         std::cout << format("%-14s = ", gettext("GeoIP AS Info"))
                    << ((org != nullptr) ? org : "Unknown") << "\n";
          GeoIP_delete(geoIP);
       }
@@ -944,7 +945,7 @@ int main(int argc, char** argv)
       if(geoIP) {
          country = GeoIP_country_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
          code    = GeoIP_country_code_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << format("%-16s = ", gettext("GeoIP Country"))
+         std::cout << format("%-14s = ", gettext("GeoIP Country"))
                    << ((country != nullptr) ? country: "Unknown")
                    << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
          GeoIP_delete(geoIP);
@@ -955,7 +956,7 @@ int main(int argc, char** argv)
          if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
-            std::cout << format("%-16s = ", gettext("GeoIP Region"))
+            std::cout << format("%-14s = ", gettext("GeoIP Region"))
                       << ((gir->postal_code != nullptr) ? gir->postal_code : "")
                       << ((gir->postal_code != nullptr) ? " " : "")
                       << ((gir->city != nullptr) ? gir->city : "Unknown")
@@ -977,7 +978,7 @@ int main(int argc, char** argv)
       GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION_V6, GEOIP_STANDARD);
       if(geoIP) {
          const char* org = GeoIP_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << format("%-16s = ", gettext("GeoIP AS Info"))
+         std::cout << format("%-14s = ", gettext("GeoIP AS Info"))
                    << ((org != nullptr) ? org : "Unknown") << "\n";
          GeoIP_delete(geoIP);
       }
@@ -985,7 +986,7 @@ int main(int argc, char** argv)
       if(geoIP) {
          country = GeoIP_country_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
          code    = GeoIP_country_code_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << format("%-16s = ", gettext("GeoIP Country"))
+         std::cout << format("%-14s = ", gettext("GeoIP Country"))
                    << ((country != nullptr) ? country: "Unknown")
                    << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
          GeoIP_delete(geoIP);
@@ -996,7 +997,7 @@ int main(int argc, char** argv)
          if(gir != nullptr) {
             const char* timeZone = GeoIP_time_zone_by_country_and_region(
                                       gir->country_code, gir->region);
-            std::cout << format("%-16s = ", gettext("GeoIP Region"))
+            std::cout << format("%-14s = ", gettext("GeoIP Region"))
                       << ((gir->postal_code != nullptr) ? gir->postal_code : "")
                       << ((gir->postal_code != nullptr) ? " " : "")
                       << ((gir->city != nullptr) ? gir->city : "Unknown")
@@ -1037,7 +1038,7 @@ int main(int argc, char** argv)
 #endif
                               );
       std::cout << "\r\x1b[K"
-                << format("%-16s = ", gettext("DNS Hostname"));
+                << format("%-14s = ", gettext("DNS Hostname"));
       std::cout.flush();
       if(error == 0) {
          std::cout << hostname << "\n";

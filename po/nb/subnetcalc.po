@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.5.2~rc0\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/system-tools/issues\"\n"
-"POT-Creation-Date: 2024-10-19 20:53+0200\n"
+"POT-Creation-Date: 2024-10-20 17:56+0200\n"
 "PO-Revision-Date: 2024-10-19 18:40+0200\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
 "Language-Team:\n"
@@ -40,6 +40,12 @@ msgstr "FEIL: Kan ikke lese fra %s!"
 msgid "ERROR: Unable to open %s!"
 msgstr "FEIL: Kan ikke åpne %s!"
 
+#: src/subnetcalc.cc:427 src/subnetcalc.cc:435 src/subnetcalc.cc:451
+#: src/subnetcalc.cc:464 src/subnetcalc.cc:474
+#, c-format
+msgid "%-32s"
+msgstr "%-32s"
+
 #: src/subnetcalc.cc:427
 msgid "Global ID"
 msgstr "Global-ID"
@@ -59,6 +65,14 @@ msgstr "MAC-adresse"
 #: src/subnetcalc.cc:474
 msgid "Solicited Node Multicast Address"
 msgstr "Solicited Node Multicast-adresse"
+
+#: src/subnetcalc.cc:491 src/subnetcalc.cc:876 src/subnetcalc.cc:879
+#: src/subnetcalc.cc:881 src/subnetcalc.cc:884 src/subnetcalc.cc:893
+#: src/subnetcalc.cc:898 src/subnetcalc.cc:901 src/subnetcalc.cc:913
+#: src/subnetcalc.cc:915
+#, c-format
+msgid "%-14s"
+msgstr "%-14s"
 
 #: src/subnetcalc.cc:491
 msgid "Properties"
