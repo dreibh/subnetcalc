@@ -57,18 +57,18 @@ jobs:
           # ci/ci-test   <- Not running on Ubuntu!
 
   # ====== Fedora Linux =====================================================
-  # fedora-packaging:
-  #   name: Fedora Packaging
-  #   runs-on: ubuntu-latest
-  #   container:
-  #     image: fedora:39
-  #     options: --privileged --cap-add=SYS_ADMIN
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Packaging
-  #       shell: bash
-  #       run: |
-  #         CC=clang CXX=clang++ ARCH= ci/ci-setup   package
-  #         CC=clang CXX=clang++ ARCH= ci/ci-install package
-  #         CC=clang CXX=clang++ ARCH= ci/ci-build   package
-  #         ci/ci-test
+  fedora-packaging:
+    name: Fedora Packaging
+    runs-on: ubuntu-latest
+    container:
+      image: fedora:39
+      options: --privileged --cap-add=SYS_ADMIN
+    steps:
+      - uses: actions/checkout@v4
+      - name: Packaging
+        shell: bash
+        run: |
+          CC=clang CXX=clang++ ARCH= ci/ci-setup   package
+          CC=clang CXX=clang++ ARCH= ci/ci-install package
+          CC=clang CXX=clang++ ARCH= ci/ci-build   package
+          ci/ci-test
