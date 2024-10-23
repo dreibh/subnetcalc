@@ -145,7 +145,7 @@ void generateUniqueLocal(sockaddr_union& address,
       exit(1);
    }
 
-#if defined(__LINUX__) || defined(__linux__) || defined(__linux)
+#if defined(__LINUX__) || defined(__linux__) || defined(__linux) || defined(__FreeBSD__)
    // ====== Read random number from random device ==========================
    const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
    FILE* fh = fopen(randomFile, "r");
