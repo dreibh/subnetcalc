@@ -55,10 +55,6 @@ jobs:
             image: debian:bullseye
             cc: gcc
             cxx: g++
-          - label: "Debian 10 (Buster) with GCC"
-            image: debian:buster
-            cc: gcc
-            cxx: g++
 
           # ====== Fedora Linux =============================================
           - label: "Fedora 40 with Clang"
