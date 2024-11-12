@@ -762,7 +762,7 @@ int main(int argc, char** argv)
    if(argc < 2) {
       std::cerr << gettext("Usage:") << " "
                 <<  argv[0]
-                << " [Address|AddressPrefix|AddressNetmask|Address/Prefix|Address/Netmask] [-n] [-uniquelocal|-uniquelocalhq] [-nocolour|-nocolor]\n";
+                << " [Address|AddressPrefix|AddressNetmask|Address/Prefix|Address/Netmask] [-n] [-uniquelocal|-uniquelocalhq] [-nocolour|-nocolor] [-v|-version]\n";
       exit(1);
    }
 
