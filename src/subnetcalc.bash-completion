@@ -73,6 +73,8 @@ _example_program1()
 -nocolour
 -uniquelocal
 -uniquelocalhq
+-v
+-version
 "
    COMPREPLY=( $( compgen -W "${opts}" -- "${cur}" ) )
 
