@@ -42,26 +42,28 @@ _example_program1()
       # Manual initialization for older bash completion versions:
       COMPREPLY=()
       cur="${COMP_WORDS[COMP_CWORD]}"
+      # shellcheck disable=SC2034
       prev="${COMP_WORDS[COMP_CWORD-1]}"
-      words="${COMP_WORDS}"
+      # shellcheck disable=SC2034,SC2124
+      words="${COMP_WORDS[@]}"
       cword="${COMP_CWORD}"
    fi
 
-   # echo "cur=$cur prev=$prev words=${words[@]} cword=$cword"
-   # echo ""
-
    # ====== Parameters ======================================================
-   if [ $cword -le 1 ] ; then
+   if [ "${cword}" -le 1 ] ; then
       # Suggest IP addresses of local machine:
-      local addreses
+      local addresses
       if [ -x /usr/bin/ip ] ; then
          addresses="$(/usr/bin/ip addr show | awk '/[ ]+inet/ { print $2 }')"
       elif [ -x /sbin/ifconfig ] ; then
-         local addressesV4="$(/sbin/ifconfig | awk '/[ \t]+inet / { a=$4 ; print $2 "/" sprintf("%d.%d.%d.%d", "0x" substr(a, 3, 2), "0x" substr(a, 5, 2), "0x" substr(a, 7, 2), "0x" substr(a, 9, 2)) }')"
-         local addressesV6="$(/sbin/ifconfig | awk '/[ \t]+inet6 / { print $2 "/" $4 }' | sed -e 's#%.*/#/#')"
+         local addressesV4
+         local addressesV6
+         addressesV4="$(/sbin/ifconfig | awk '/[ \t]+inet / { a=$4 ; print $2 "/" sprintf("%d.%d.%d.%d", "0x" substr(a, 3, 2), "0x" substr(a, 5, 2), "0x" substr(a, 7, 2), "0x" substr(a, 9, 2)) }')"
+         addressesV6="$(/sbin/ifconfig | awk '/[ \t]+inet6 / { print $2 "/" $4 }' | sed -e 's#%.*/#/#')"
          addresses="${addressesV4} ${addressesV6}"
       fi
-      COMPREPLY=($(compgen -W "${addresses}" -- "${cur}"))
+      # shellcheck disable=SC2207
+      COMPREPLY=( $(compgen -W "${addresses}" -- "${cur}") )
       return
    fi
 
@@ -76,6 +78,7 @@ _example_program1()
 -v
 -version
 "
+   # shellcheck disable=SC2207
    COMPREPLY=( $( compgen -W "${opts}" -- "${cur}" ) )
 
    return 0
