@@ -46,6 +46,7 @@ _example_program1()
       prev="${COMP_WORDS[COMP_CWORD-1]}"
       # shellcheck disable=SC2034,SC2124
       words="${COMP_WORDS[@]}"
+      # shellcheck disable=SC2034
       cword="${COMP_CWORD}"
    fi
 
