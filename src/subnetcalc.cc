@@ -731,24 +731,35 @@ void printAddressProperties(std::ostream&         os,
 }
 
 
+// ###### Convert unsigned 128 bit integer to string ########################
+std::string toString(unsigned __int128 num) {
+   std::string str;
+   do {
+      const int digit = num % 10;
+      str = std::to_string(digit) + str;
+      num = (num - digit) / 10;
+   } while(num != 0);
+   return str;
+}
+
 
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-   bool               colourMode      = true;
-   bool               noReverseLookup = false;
-   int                options;
-   int                prefix;
-   unsigned int       hostBits;
-   unsigned int       reservedHosts;
-   unsigned long long maxHosts;
-   sockaddr_union     network;
-   sockaddr_union     address;
-   sockaddr_union     netmask;
-   sockaddr_union     broadcast;
-   sockaddr_union     wildcard;
-   sockaddr_union     host1;
-   sockaddr_union     host2;
+   bool              colourMode      = true;
+   bool              noReverseLookup = false;
+   int               options;
+   int               prefix;
+   unsigned int      hostBits;
+   unsigned int      reservedHosts;
+   unsigned __int128 maxHosts;
+   sockaddr_union    network;
+   sockaddr_union    address;
+   sockaddr_union    netmask;
+   sockaddr_union    broadcast;
+   sockaddr_union    wildcard;
+   sockaddr_union    host1;
+   sockaddr_union    host2;
 
 
    // ====== Initialise i18n support ========================================
@@ -880,23 +891,18 @@ int main(int argc, char** argv)
    }
    else {
       reservedHosts = 1;
+      hostBits      = 128 - prefix;
       if(prefix < 128) {
-         hostBits = 128 - prefix;
          host1    = network + 1;
          host2    = broadcast;   // There is no broadcast address for IPv6!
       }
       else {
-         hostBits = 1;
-         host1    = network;
-         host2    = broadcast;   // There is no broadcast address for IPv6!
+         reservedHosts = 0;
+         host1         = network;
+         host2         = broadcast;   // There is no broadcast address for IPv6!
       }
    }
-   if(hostBits <= 64) {
-      maxHosts = (unsigned long long)pow(2.0, (double)hostBits) - reservedHosts;
-   }
-   else {
-      maxHosts = 0;   // Not enough accuracy for such a large number!
-   }
+   maxHosts = (unsigned __int128)pow(2.0, (double)hostBits) - reservedHosts;
 
 
    // ====== Print results ==================================================
@@ -932,7 +938,7 @@ int main(int argc, char** argv)
       char maxHostsString[128];
       if(maxHosts > 0) {
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
-                  "%llu   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
+                  "%s   (2^%u - %u)", toString(maxHosts).c_str(), hostBits, reservedHosts);
       }
       else {
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
