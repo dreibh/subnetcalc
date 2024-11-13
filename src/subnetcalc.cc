@@ -511,14 +511,18 @@ void printAddressProperties(std::ostream&         os,
    if(isMulticast(address)) {
       os << format(gettext("%s is a MULTICAST address"), addressString);
    }
-   else if(address == network) {
-      os << format(gettext("%s is a NETWORK address"), addressString);
-   }
-   else if((isIPv4(address)) && (address == broadcast)) {
+   else if( (isIPv4(address)) &&
+            (prefix < 32) &&
+            (address == broadcast) ) {
       char networkString[64];
       address2string(&network.sa, networkString, sizeof(networkString), false, false);
       os << format(gettext("%s is the BROADCAST address of %s/%u"),
                    addressString, networkString, prefix);
+   }
+   else if( (address == network) &&
+            ( (isIPv4(address) && (prefix < 32))  ||
+              (!isIPv4(address) && (prefix < 128)) ) ) {
+      os << format(gettext("%s is a NETWORK address"), addressString);
    }
    else {
       char networkString[64];
