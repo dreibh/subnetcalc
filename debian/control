@@ -16,7 +16,8 @@ Package: subnetcalc
 Architecture: any
 Depends: ${misc:Depends},
          ${shlibs:Depends}
-Recommends: iputils-tracepath,
+Recommends: iproute2,
+            iputils-tracepath,
             ping | iputils-ping,
             rsplib-tools,
             traceroute | inetutils-traceroute,

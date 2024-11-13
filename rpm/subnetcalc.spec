@@ -14,6 +14,7 @@ BuildRequires: gcc-c++
 BuildRequires: gettext
 BuildRequires: GeoIP-devel
 Requires: GeoIP
+Recommends: iproute
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 
