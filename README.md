@@ -127,37 +127,36 @@ Properties     =
       + Interface ID                     = 0000:0000:0000:0002
       + Solicited Node Multicast Address = ff02::1:ff00:0002
       + 6-to-4 Address                   = 240.0.0.1
-GeoIP Country = China (CN)
-DNS Hostname  = bg-in-x68.1e100.net
+GeoIP Country  = China (CN)
+DNS Hostname   = bg-in-x68.1e100.net
 ```
 
 Which are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
 
 ```
 user@host:~$ subnetcalc 2001:638:501:4ef8:223:aeff:fea4:8ca9/64
-Address       = 2001:638:501:4ef8:223:aeff:fea4:8ca9
-                   2001 = 00100000 00000001
-                   0638 = 00000110 00111000
-                   0501 = 00000101 00000001
-                   4ef8 = 01001110 11111000
-                   0223 = 00000010 00100011
-                   aeff = 10101110 11111111
-                   fea4 = 11111110 10100100
-                   8ca9 = 10001100 10101001
-Network       = 2001:638:501:4ef8:: / 64
-Netmask       = ffff:ffff:ffff:ffff::
-Wildcard Mask = ::ffff:ffff:ffff:ffff
-Hosts Bits    = 64
-Max. Hosts    = 18446744073709551616   (2^64 - 1)
-Host Range    = { 2001:638:501:4ef8::1 - 2001:638:501:4ef8:ffff:ffff:ffff:ffff }
-Properties    =
+Address        = 2001:638:501:4ef8:223:aeff:fea4:8ca9
+                    2001 = 00100000 00000001
+                    0638 = 00000110 00111000
+                    0501 = 00000101 00000001
+                    4ef8 = 01001110 11111000
+                    0223 = 00000010 00100011
+                    aeff = 10101110 11111111
+                    fea4 = 11111110 10100100
+                    8ca9 = 10001100 10101001
+Network        = 2001:638:501:4ef8:: / 64
+Netmask        = ffff:ffff:ffff:ffff::
+Wildcard Mask  = ::ffff:ffff:ffff:ffff
+Hosts Bits     = 64
+Max. Hosts     = 18446744073709551615   (2^64 - 1)
+Host Range     = { 2001:638:501:4ef8::1 - 2001:638:501:4ef8:ffff:ffff:ffff:ffff }
+Properties     =
    - 2001:638:501:4ef8:223:aeff:fea4:8ca9 is a HOST address in 2001:638:501:4ef8::/64
    - Global Unicast Properties:
-      + Interface ID = 0223:aeff:fea4:8ca9
-      + MAC address  = 00:23:ae:a4:8c:a9
-      + Sol. Node MC = ff02::1:ffa4:8ca9
-GeoIP Country = Germany (DE)
-DNS Hostname  = (Name or service not known)
+      + Interface ID                     = 0223:aeff:fea4:8ca9
+      + MAC Address                      = 00:23:ae:a4:8c:a9
+      + Solicited Node Multicast Address = ff02::1:ffa4:8ca9
+DNS Hostname   = (Name or service not known)
 ```
 
 ## Binary Package Installation
