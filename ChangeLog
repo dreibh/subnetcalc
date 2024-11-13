@@ -1,3 +1,287 @@
+commit b3431b7e9f34bb2eea02de6b93118016701fa6b3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 19:58:38 2024 +0100
+
+    int128 is not available on 32-bit platforms => added 32-bit architecture case for printing the number of hosts if prefix < 64.
+
+commit cb19320d906d2066bbc17d852ddf1cf72f75f93b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 11:12:00 2024 +0100
+
+    Bash completion has recommendation for iproute package, to obtain the local address.
+
+commit c1384ad4e13a44cc01984b8e6821125293181695
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 11:00:49 2024 +0100
+
+    Fedora fix for Bash completion.
+
+commit 0ec3a049914d1401f9b60d5d47e382d1fca87582
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:53:37 2024 +0100
+
+    Bash completion clean-up.
+
+commit 23791dbe7d4e04f7e7b59a984db0658dbc229edb
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:28:21 2024 +0100
+
+    CMakeLists.txt updates, includling "uninstall" target.
+
+commit 3831dca333dcc1a89d3e81ed23e87f0b74ea5908
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:23:11 2024 +0100
+
+    Minor manpage clean-up.
+
+commit 1da6dce2cf7deffcc332f579c07df72e55c2bd21
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:07:36 2024 +0100
+
+    Another README.md update.
+
+commit 426f82ac22b8313f46691121bd5ecf8ce2486ec1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:05:17 2024 +0100
+
+    Updated README.md.
+
+commit f8985b37b6301e781fa1b0153e3966b677645337
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 10:05:07 2024 +0100
+
+    * Improved address type handling for special cases.
+    * Print number of hosts using unsigned __int128, to provide the exact number in all IPv6 cases.
+
+commit 59aebb3d8fbee2d730a378a067a487b435ff4bfe
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 09:36:45 2024 +0100
+
+    Using "unsigned __int128" for maxHosts, to show the exact number for all IPv6 networks.
+
+commit 7caff95489abd918c7f5401ad9605ba0b810c548
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 08:55:01 2024 +0100
+
+    Updated build script.
+
+commit d18c8ed301663698fa44da284e810beed669ada1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 20:35:43 2024 +0100
+
+    Improved Bash completion.
+
+commit 9b51661dd04ccb4a71bc2f47bc00c7f3f057bb70
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 20:30:04 2024 +0100
+
+    Improved Bash completions.
+
+commit 03d5fe615750ec821cdce0b29bbd46ca06fd8bc2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 11:29:29 2024 +0100
+
+    Updated build script.
+
+commit 8171d75cb93d5a23d939ba1d6b694c30f0fa7f34
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 11:29:02 2024 +0100
+
+    Minor clean-ups.
+
+commit bea90bf1430f6dd5b56d08475fd85e9f2e5f6a00
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 09:51:29 2024 +0100
+
+    Some clean-ups.
+
+commit 425e2d9e1092c1f4b89809ae9b8c15d08f7d012e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 09:47:57 2024 +0100
+
+    Updated Bash completion.
+
+commit b935c52f021458205dda525bbbb63f78684a5733
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Nov 12 09:47:16 2024 +0100
+
+    Added option to print program version.
+
+commit 6d5083244458a31b0e4a74c241efc82cdc5bd139
+Merge: 10a8ae5 d2712aa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 4 09:59:18 2024 +0100
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit 10a8ae5f269c7cfde39117a3530617ab1d3565be
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Nov 4 09:55:07 2024 +0100
+
+    Updated workflows.
+
+commit d2712aab9bed5e0ae323617dcaf7ce6567c0cd86
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 23 14:39:30 2024 +0200
+
+    Updated manpage.
+
+commit e1d17a0f6cf0f634a549b0f2b89c329c2ef29d43
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 23 14:37:55 2024 +0200
+
+    FreeBSD also has /dev/random and /dev/urandom.
+
+commit 6f24a16ddfd1fd4fe9b9c7c1bda08afe2566631d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 20 18:10:56 2024 +0200
+
+    Updated workflow.
+
+commit 5a5053181a6861b665f994cf1d60f68da1ea81a1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Oct 20 18:04:33 2024 +0200
+
+    Formatting improvements.
+
+commit 4db634f4d695f5d42f064d4660d22a5f59a31a1b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 23:04:11 2024 +0200
+
+    Improved CMakeLists.txt.
+
+commit 93b591c8baa5b5c5a6e28bd9281cd197147368d5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 21:42:04 2024 +0200
+
+    Bash completion now working under FreeBSD.
+
+commit 14261aeec63d46044f2c799eaa422d76071ed4fc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 21:05:53 2024 +0200
+
+    FreeBSD packaging update.
+
+commit 3a4410ed81aa62e90b8a583753f96b09303f700b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 20:56:26 2024 +0200
+
+    Further clean-ups.
+
+commit 2c061b5b18f4959d1d4cb029f54f4fd054af03e0
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 20:46:22 2024 +0200
+
+    FreeBSD CMakeLists.txt fix.
+
+commit fa1533e1c5cb7f777557d248f091676df9cd4807
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 19:13:14 2024 +0200
+
+    Some clean-ups.
+
+commit 98b9fe707392e9053cc26791303d947982e59924
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 19:06:13 2024 +0200
+
+    Added translations.
+
+commit 7ad1e4bad3760491cea704dbec94e26f9de0ad95
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 18:54:39 2024 +0200
+
+    Improved CMakeLists.txt.
+
+commit 7ca540b8ddf158a9e0d9497ea5b79d1831560877
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 18:54:13 2024 +0200
+
+    Improved CMakeLists.txt, removed dependency on PkgConfig.
+
+commit 1f74f09bffb2478de57bc8ff7fc2985f76895bab
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 18:03:21 2024 +0200
+
+    Added full I18N support.
+
+commit bfeaf26bb10d51bb437d2b01cb11ad8d13f6c7f4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 16:52:44 2024 +0200
+
+    Improved manpage.
+
+commit 30d019abcdec0bb155dce20cf15bd1f4ff7ae956
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 16:40:46 2024 +0200
+
+    Bugfix: Print correct hostname when nocolor mode is on.
+
+commit 5710fdb0b116cb60513a2333fef5c3557763d677
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 16:36:25 2024 +0200
+
+    Added Bash completion script.
+
+commit 5f05758a184ef240d95b518dc73727fd1e885c1f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Oct 19 16:21:54 2024 +0200
+
+    Updated CI scripts.
+
+commit 3f0bcc01224dd0c8ca09f6879a6c3a17d8a51f33
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 14:19:09 2024 +0200
+
+    Updated workflows.
+
+commit e8203ca0533577eb091e31e2d5a8768a90f306d8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 14:08:32 2024 +0200
+
+    Updated CI scripts
+
+commit a436ce08216ed2bcb803469e5129bacacd7858e7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 14:07:16 2024 +0200
+
+    Removed LSM entry.
+
+commit 6f78a412be0b65032d6d6024d07f73334c5db756
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 14:07:12 2024 +0200
+
+    Minor update.
+
+commit feaa35a68d469e9b7c4f1e45589c39f1c0a48877
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 13:47:04 2024 +0200
+
+    Updated CI scripts
+
+commit 98c67c76a84b1b9b8d70411cc27af7f740b38bf0
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 13:47:01 2024 +0200
+
+    Updated build scripts
+
+commit 98c8a525ca5eb96330ea309b0b46fc52d1694690
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Oct 9 13:46:48 2024 +0200
+
+    Updated autogen.sh script.
+
+commit 1e0e5e598551f1eeb8bc5fda852efd6951985242
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Feb 12 21:41:32 2024 +0100
+
+    Updated FreeBSD packaging.
+
+commit 181f1341b20abda99aa9b50ce755cbbe0f8ea89a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Feb 12 21:36:42 2024 +0100
+
+    New release subnetcalc-2.5.1.
+
 commit 22e2ef12f95bb1b55b858e5d44b1cce6bf91b75f
 Merge: 549f589 3c97215
 Author: Thomas Dreibholz <dreibh@simula.no>
