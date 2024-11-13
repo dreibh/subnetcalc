@@ -27,105 +27,106 @@ My host has IP 132.252.150.254 and netmask 255.255.255.240. What are the details
 
 ```
 user@host:~$ subnetcalc 132.252.150.254 255.255.255.240
-Address       = 132.252.150.254
-                   10000100 . 11111100 . 10010110 . 11111110
-Network       = 132.252.150.240 / 28
-Netmask       = 255.255.255.240
-Broadcast     = 132.252.150.255
-Wildcard Mask = 0.0.0.15
-Hosts Bits    = 4
-Max. Hosts    = 14   (2^4 - 2)
-Host Range    = { 132.252.150.241 - 132.252.150.254 }
-Properties    =
+Address        = 132.252.150.254
+                    10000100 . 11111100 . 10010110 . 11111110
+Network        = 132.252.150.240 / 28
+Netmask        = 255.255.255.240
+Broadcast      = 132.252.150.255
+Wildcard Mask  = 0.0.0.15
+Hex. Address   = 84FC96FE
+Hosts Bits     = 4
+Max. Hosts     = 14   (2^4 - 2)
+Host Range     = { 132.252.150.241 - 132.252.150.254 }
+Properties     =
    - 132.252.150.254 is a HOST address in 132.252.150.240/28
    - Class B
-GeoIP Country = Germany (DE)
-DNS Hostname  = dummy.iem.uni-duisburg-essen.de
+DNS Hostname   = dummy.iem.uni-due.de
 ```
 
-Consider host www.six.heise.de uses a 64-bit prefix length. What are the details of its network?
+Consider host www.heise.de uses a 64-bit prefix length. What are the details of its network?
 
 ```
-user@host:~$ subnetcalc www.six.heise.de 64
-Address       = 2a02:2e0:3fe:100::6
-                   2a02 = 00101010 00000010
-                   02e0 = 00000010 11100000
-                   03fe = 00000011 11111110
-                   0100 = 00000001 00000000
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0006 = 00000000 00000110
-Network       = 2a02:2e0:3fe:100:: / 64
-Netmask       = ffff:ffff:ffff:ffff::
-Wildcard Mask = ::ffff:ffff:ffff:ffff
-Hosts Bits    = 64
-Max. Hosts    = 18446744073709551616   (2^64 - 1)
-Host Range    = { 2a02:2e0:3fe:100::1 - 2a02:2e0:3fe:100:ffff:ffff:ffff:ffff }
-Properties    =
-   - 2a02:2e0:3fe:100::6 is a HOST address in 2a02:2e0:3fe:100::/64
+user@host:~$ subnetcalc www.heise.de 64
+Address        = 2a02:2e0:3fe:1001:7777:772e:2:85
+                    2a02 = 00101010 00000010
+                    02e0 = 00000010 11100000
+                    03fe = 00000011 11111110
+                    1001 = 00010000 00000001
+                    7777 = 01110111 01110111
+                    772e = 01110111 00101110
+                    0002 = 00000000 00000010
+                    0085 = 00000000 10000101
+Network        = 2a02:2e0:3fe:1001:: / 64
+Netmask        = ffff:ffff:ffff:ffff::
+Wildcard Mask  = ::ffff:ffff:ffff:ffff
+Hosts Bits     = 64
+Max. Hosts     = 18446744073709551615   (2^64 - 1)
+Host Range     = { 2a02:2e0:3fe:1001::1 - 2a02:2e0:3fe:1001:ffff:ffff:ffff:ffff }
+Properties     =
+   - 2a02:2e0:3fe:1001:7777:772e:2:85 is a HOST address in 2a02:2e0:3fe:1001::/64
    - Global Unicast Properties:
-      + Interface ID = 0000:0000:0000:0006
-      + Sol. Node MC = ff02::1:ff00:0006
-GeoIP Country = Germany (DE)
-DNS Hostname  = www.six.heise.de
+      + Interface ID                     = 7777:772e:0002:0085
+      + Solicited Node Multicast Address = ff02::1:ff02:0085
+      + 6-to-4 Address                   = 2.224.3.254
+DNS Hostname   = www.heise.de
 ```
 
 My new host should use Interface ID 0x100 and Subnet ID 0x1234. Generate a Unique Local IPv6 prefix (40-bit Global ID) for my intranet, using high-quality random numbers!
 
 ```
 user@host:~$ subnetcalc 0:0:0:1234::1 56 -uniquelocalhq
-Address       = fded:30d0:1072:1234::1
-                   fded = 11111101 11101101
-                   30d0 = 00110000 11010000
-                   1072 = 00010000 01110010
-                   1234 = 00010010 00110100
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0001 = 00000000 00000001
-Network       = fded:30d0:1072:1200:: / 56
-Netmask       = ffff:ffff:ffff:ff00::
-Wildcard Mask = ::ff:ffff:ffff:ffff:ffff
-Hosts Bits    = 72
-Max. Hosts    = 4722366482869645213696   (2^72 - 1)
-Host Range    = { fded:30d0:1072:1200::1 - fded:30d0:1072:12ff:ffff:ffff:ffff:ffff }
-Properties    =
-   - fded:30d0:1072:1234::1 is a HOST address in fded:30d0:1072:1200::/56
+Generating Unique Local IPv6 address (using /dev/random) ...
+Address        = fd97:1303:1402:1234::1
+                    fd97 = 11111101 10010111
+                    1303 = 00010011 00000011
+                    1402 = 00010100 00000010
+                    1234 = 00010010 00110100
+                    0000 = 00000000 00000000
+                    0000 = 00000000 00000000
+                    0000 = 00000000 00000000
+                    0001 = 00000000 00000001
+Network        = fd97:1303:1402:1200:: / 56
+Netmask        = ffff:ffff:ffff:ff00::
+Wildcard Mask  = ::ff:ffff:ffff:ffff:ffff
+Hosts Bits     = 72
+Max. Hosts     = 4722366482869645213695   (2^72 - 1)
+Host Range     = { fd97:1303:1402:1200::1 - fd97:1303:1402:12ff:ffff:ffff:ffff:ffff }
+Properties     =
+   - fd97:1303:1402:1234::1 is a HOST address in fd97:1303:1402:1200::/56
    - Unique Local Unicast Properties:
-      + Locally chose
-      + Global ID    = ed30d01072
-      + Subnet ID    = 1234
-      + Interface ID = 0000:0000:0000:0001
-      + Sol. Node MC = ff02::1:ff00:0001
-GeoIP Country = Unknown (??)
-DNS Hostname  = (Name or service not known)
+      + Locally chosen
+      + Global ID                        = 9713031402
+      + Subnet ID                        = 1234
+      + Interface ID                     = 0000:0000:0000:0001
+      + Solicited Node Multicast Address = ff02::1:ff00:0001
+DNS Hostname   = (Name or service not known)
 ```
 
-Which are DNS reverse lookup name and geo location country of IP 2401:3800:c001::68?
+Which are DNS reverse lookup name and geo location country of IP 2402:f000:1:400::2?
 
 ```
-user@host:~$ subnetcalc 2401:3800:c001::68
-Address       = 2401:3800:c001::68
-                   2401 = 00100100 00000001
-                   3800 = 00111000 00000000
-                   c001 = 11000000 00000001
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0000 = 00000000 00000000
-                   0068 = 00000000 01101000
-Network       = 2401:3800:c001::68 / 128
-Netmask       = ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
-Wildcard Mask = ::
-Hosts Bits    = 0
-Max. Hosts    = 0   (2^0 - 1)
-Host Range    = { 2401:3800:c001::69 - 2401:3800:c001::68 }
-Properties    =
-   - 2401:3800:c001::68 is a NETWORK address
+user@host:~$ subnetcalc 2402:f000:1:400::2
+Address        = 2402:f000:1:400::2
+                    2402 = 00100100 00000010
+                    f000 = 11110000 00000000
+                    0001 = 00000000 00000001
+                    0400 = 00000100 00000000
+                    0000 = 00000000 00000000
+                    0000 = 00000000 00000000
+                    0000 = 00000000 00000000
+                    0002 = 00000000 00000010
+Network        = 2402:f000:1:400::2 / 128
+Netmask        = ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+Wildcard Mask  = ::
+Hosts Bits     = 0
+Max. Hosts     = 1   (2^0 - 0)
+Host Range     = { 2402:f000:1:400::2 - 2402:f000:1:400::2 }
+Properties     =
+   - 2402:f000:1:400::2 is a HOST address in 2402:f000:1:400::2/128
    - Global Unicast Properties:
-      + Interface ID = 0000:0000:0000:0068
-      + Sol. Node MC = ff02::1:ff00:0068
+      + Interface ID                     = 0000:0000:0000:0002
+      + Solicited Node Multicast Address = ff02::1:ff00:0002
+      + 6-to-4 Address                   = 240.0.0.1
 GeoIP Country = China (CN)
 DNS Hostname  = bg-in-x68.1e100.net
 ```
