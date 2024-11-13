@@ -54,8 +54,8 @@ _subnetcalc()
    if [ "${cword}" -le 1 ] ; then
       # Suggest IP addresses of local machine:
       local addresses
-      if [ -x /usr/bin/ip ] ; then
-         addresses="$(/usr/bin/ip addr show | awk '/[ ]+inet/ { print $2 }')"
+      if [ -x  /usr/sbin/ip ] ; then
+         addresses="$( /usr/sbin/ip addr show | awk '/[ ]+inet/ { print $2 }')"
       elif [ -x /sbin/ifconfig ] ; then
          local addressesV4
          local addressesV6
