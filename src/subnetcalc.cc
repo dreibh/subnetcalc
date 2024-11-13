@@ -735,6 +735,7 @@ void printAddressProperties(std::ostream&         os,
 }
 
 
+#if defined(__SIZEOF_INT128__)
 // ###### Convert unsigned 128 bit integer to string ########################
 std::string toString(unsigned __int128 num) {
    std::string str;
@@ -745,25 +746,31 @@ std::string toString(unsigned __int128 num) {
    } while(num != 0);
    return str;
 }
+#endif
 
 
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-   bool              colourMode      = true;
-   bool              noReverseLookup = false;
-   int               options;
-   int               prefix;
-   unsigned int      hostBits;
-   unsigned int      reservedHosts;
-   unsigned __int128 maxHosts;
-   sockaddr_union    network;
-   sockaddr_union    address;
-   sockaddr_union    netmask;
-   sockaddr_union    broadcast;
-   sockaddr_union    wildcard;
-   sockaddr_union    host1;
-   sockaddr_union    host2;
+   bool               colourMode      = true;
+   bool               noReverseLookup = false;
+   int                options;
+   int                prefix;
+   unsigned int       hostBits;
+   unsigned int       reservedHosts;
+#if defined(__SIZEOF_INT128__)
+   unsigned __int128  maxHosts;
+#else
+   // There is no 128-bit type on 32-bit systems!
+   unsigned long long maxHosts;
+#endif
+   sockaddr_union     network;
+   sockaddr_union     address;
+   sockaddr_union     netmask;
+   sockaddr_union     broadcast;
+   sockaddr_union     wildcard;
+   sockaddr_union     host1;
+   sockaddr_union     host2;
 
 
    // ====== Initialise i18n support ========================================
@@ -906,7 +913,16 @@ int main(int argc, char** argv)
          host2         = broadcast;   // There is no broadcast address for IPv6!
       }
    }
+#if defined(__SIZEOF_INT128__)
    maxHosts = (unsigned __int128)pow(2.0, (double)hostBits) - reservedHosts;
+#else
+   if(hostBits <= 64) {
+      maxHosts = (unsigned long long)pow(2.0, (double)hostBits) - reservedHosts;
+   }
+   else {
+      maxHosts = 0;   // Not enough accuracy for such a large number!
+   }
+#endif
 
 
    // ====== Print results ==================================================
@@ -941,8 +957,13 @@ int main(int argc, char** argv)
    if(!isMulticast(address)) {
       char maxHostsString[128];
       if(maxHosts > 0) {
+#if defined(__SIZEOF_INT128__)
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
                   "%s   (2^%u - %u)", toString(maxHosts).c_str(), hostBits, reservedHosts);
+#else
+         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+                  "%llu   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
+#endif
       }
       else {
          snprintf((char*)&maxHostsString, sizeof(maxHostsString),
