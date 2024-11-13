@@ -30,7 +30,7 @@
 
 
 # ###### Bash completion for subnetcalc #####################################
-_example_program1()
+_subnetcalc()
 {
    # Based on: https://www.benningtons.net/index.php/bash-completion/
    local cur prev words cword
@@ -85,4 +85,4 @@ _example_program1()
    return 0
 }
 
-complete -F _example_program1 subnetcalc
+complete -F _subnetcalc subnetcalc
