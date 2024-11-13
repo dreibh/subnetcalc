@@ -37,7 +37,7 @@ SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
 
 
 #############################################################################
-# INSTALLATION_DIRECTORIES
+#### INSTALLATION_DIRECTORIES                                            ####
 #############################################################################
 
 # See: https://cmake.org/cmake/help/v3.0/module/GNUInstallDirs.html
@@ -45,7 +45,7 @@ INCLUDE(GNUInstallDirs)
 
 
 #############################################################################
-# PACKAGING
+#### PACKAGING                                                           ####
 #############################################################################
 
 SET(CPACK_SOURCE_GENERATOR "TXZ")
@@ -69,7 +69,22 @@ INCLUDE(CheckStructHasMember)
 
 
 #############################################################################
-# OS DEPENDENT
+#### UNINSTALL                                                           ####
+#############################################################################
+
+IF(NOT TARGET uninstall)
+   CONFIGURE_FILE(
+      "${CMAKE_CURRENT_SOURCE_DIR}/cmake_uninstall.cmake.in"
+      "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+      IMMEDIATE @ONLY)
+
+   ADD_CUSTOM_TARGET(uninstall
+      COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+ENDIF()
+
+
+#############################################################################
+#### OS DEPENDENT                                                        ####
 #############################################################################
 
 IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -100,7 +115,7 @@ ENDIF()
 
 
 #############################################################################
-# CHECK STRUCT MEMBERS
+#### CHECK STRUCT MEMBERS                                                ####
 #############################################################################
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr" "sa_len" "sys/types.h;sys/socket.h" HAVE_SA_LEN)
@@ -129,7 +144,7 @@ ENDIF()
 
 
 #############################################################################
-# REQUIREMENTS
+#### REQUIREMENTS                                                        ####
 #############################################################################
 
 INCLUDE(FindPackageHandleStandardArgs)
@@ -165,7 +180,7 @@ FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
 
 
 #############################################################################
-# SUBDIRECTORIES
+#### SUBDIRECTORIES                                                      ####
 #############################################################################
 
 ADD_SUBDIRECTORY(src)
