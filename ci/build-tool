@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 # Unified Build Tool
-# Copyright (C) 2021-2025 by Thomas Dreibholz
+# Copyright (C) 2021-2024 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -370,10 +370,12 @@ def readRPMPackagingInformation():
    rpm_spec_names = glob.glob('rpm/*.spec')
    if len(rpm_spec_names) == 1:
       packageInfo['rpm_spec_name'] = rpm_spec_names[0]
+      packageInfo['rpm_packages']  = [ ]
 
       re_rpm_name    = re.compile(r'^(Name:[ \t]*)(\S+)')
       re_rpm_version = re.compile(r'^(Version:[ \t]*)(\d+)\.(\d+)\.(\d+)(.*|)')
       re_rpm_release = re.compile(r'^(Release:[ \t]*)(\d+)')
+      re_rpm_package = re.compile(r'^(%package[ \t]+)([a-zA-Z0-9+-]+)')
       try:
          rpmSpecFile = open(packageInfo['rpm_spec_name'], 'r', encoding='utf-8')
          rpmSpecFileContents = rpmSpecFile.readlines()
@@ -397,6 +399,15 @@ def readRPMPackagingInformation():
                   match = re_rpm_name.match(line)
                   if match != None:
                      packageInfo['rpm_package_name'] = match.group(2)
+                  else:
+                     match = re_rpm_package.match(line)
+                     if match != None:
+                        packageInfo['rpm_packages'].append(
+                           packageInfo['rpm_package_name'] + '-' + \
+                           match.group(2) + '-' + \
+                           packageInfo['rpm_version_string'] + '-' + \
+                           str(packageInfo['rpm_version_packaging']))
+
          rpmSpecFile.close()
 
       except Exception as e:
@@ -404,10 +415,16 @@ def readRPMPackagingInformation():
          sys.exit(1)
 
       # ====== Check whether information is complete ========================
-      if ( (not 'rpm_package_name' in packageInfo) or
-           (not 'rpm_version_packaging' in packageInfo) ):
+      if ( (not 'rpm_package_name'      in packageInfo) or
+           (not 'rpm_version_packaging' in packageInfo) or
+           (not 'rpm_version_string'    in packageInfo) ):
          sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['rpm_spec_name'] + '!\n')
          sys.exit(1)
+      packageInfo['rpm_packages'].append(
+         packageInfo['rpm_package_name'] + '-' +
+         packageInfo['rpm_version_string'] + '-' +
+         str(packageInfo['rpm_version_packaging']))
+      print(packageInfo['rpm_packages'])
 
    elif len(rpm_spec_names) > 1:
       sys.stderr.write('ERROR: More than one spec file found: ' + str(rpm_spec_names) + '!\n')
@@ -1607,7 +1624,7 @@ def buildRPM(packageInfo, releases, architectures, skipPackageSigning, summaryFi
    for buildArchitecture in architectures:
       for release in releases:
 
-         printSubsection('Creating binary RPM package for ' + release + '/' + buildArchitecture)
+         printSubsection('Creating binary RPM package(s) for ' + release + '/' + buildArchitecture)
 
          # ====== Check for mock configuration file =========================
          configuration = release + '-' + buildArchitecture
@@ -1615,11 +1632,12 @@ def buildRPM(packageInfo, releases, architectures, skipPackageSigning, summaryFi
             sys.stderr.write('ERROR: Configuration ' + '/etc/mock/' + configuration + '.cfg does not exist!\n')
             sys.exit(1)
 
-         # ====== Delete old RPM ============================================
-         rpmFile = '/var/lib/mock/' + configuration + '/result/' + \
-                      packageInfo['rpm_package_name'] + '-' + \
-                      packageInfo['rpm_version_string'] + '-' + str(packageInfo['rpm_version_packaging']) + '.' + \
-                      buildArchitecture + '.rpm'
+         # ====== Delete old RPMs ===========================================
+         for rpmFilePrefix in packageInfo['rpm_packages']:
+            for architecture in [ 'noarch', buildArchitecture ]:
+               rpmFile = '/var/lib/mock/' + configuration + '/result/' + \
+                            rpmFilePrefix + '.' + \
+                            architecture + '.rpm'
          try:
             os.unlink(rpmFile)
          except FileNotFoundError:
@@ -1642,38 +1660,49 @@ def buildRPM(packageInfo, releases, architectures, skipPackageSigning, summaryFi
             sys.exit(1)
 
          # ------ Check resulting RPM =======================================
-         if not os.path.isfile(rpmFile):
-            sys.stderr.write('ERROR: RPM ' + rpmFile + ' not found!\n')
-            sys.exit(1)
-
-         # ====== Sign SRPM =================================================
-         if skipPackageSigning == False:
-            rpmsign = [ 'rpmsign',
-                        '--define', '_gpg_name ' + packageInfo['packaging_maintainer_key'],
-                        '--addsign', rpmFile ]
-            print(rpmsign)
-            try:
-               subprocess.run(rpmsign, check = True)
-            except Exception as e:
-               sys.stderr.write('ERROR: RPMSign run failed: ' + str(e) + '\n')
+         for rpmFilePrefix in packageInfo['rpm_packages']:
+            rpmArchitecture = None
+            found = False
+            for architecture in [ 'noarch', buildArchitecture ]:
+               rpmFile = '/var/lib/mock/' + configuration + '/result/' + \
+                           rpmFilePrefix + '.' + \
+                           architecture + '.rpm'
+               if os.path.isfile(rpmFile):
+                  rpmArchitecture = architecture
+                  found           = True
+                  break
+            if not found:
+               sys.stderr.write('ERROR: RPM ' + rpmFile + ' not found!\n')
                sys.exit(1)
 
-         # ====== Run RPM Lint ==============================================
-         if shutil.which('rpmlint') != None:
-            rpmlintCommand = 'rpmlint -P ' + rpmFile
-            printSubsection('Running RPM Lint')
-            print('=> ' + rpmlintCommand)
-            try:
-               subprocess.run(rpmlintCommand, check=False, shell=True)
-            except Exception as e:
-               sys.stderr.write('ERROR: RPM Lint run failed: ' + str(e) + '\n')
-               sys.exit(1)
-         else:
-            sys.stderr.write('NOTE: RPM Lint is not installed -> checks skipped!\n')
+            # ====== Sign SRPM ==============================================
+            if skipPackageSigning == False:
+               rpmsign = [ 'rpmsign',
+                           '--define', '_gpg_name ' + packageInfo['packaging_maintainer_key'],
+                           '--addsign', rpmFile ]
+               print(rpmsign)
+               try:
+                  subprocess.run(rpmsign, check = True)
+               except Exception as e:
+                  sys.stderr.write('ERROR: RPMSign run failed: ' + str(e) + '\n')
+                  sys.exit(1)
 
-         # ====== Add RPM file to summary ===================================
-         if summaryFile != None:
-            summaryFile.write('rpmFile: ' + rpmFile + ' ' + release + ' ' + buildArchitecture + '\n')
+            # ====== Run RPM Lint ===========================================
+            if shutil.which('rpmlint') != None:
+               rpmlintCommand = 'rpmlint -P ' + rpmFile
+               printSubsection('Running RPM Lint')
+               print('=> ' + rpmlintCommand)
+               try:
+                  subprocess.run(rpmlintCommand, check=False, shell=True)
+               except Exception as e:
+                  sys.stderr.write('ERROR: RPM Lint run failed: ' + str(e) + '\n')
+                  sys.exit(1)
+            else:
+               sys.stderr.write('NOTE: RPM Lint is not installed -> checks skipped!\n')
+
+            # ====== Add RPM file to summary ================================
+            if summaryFile != None:
+               summaryFile.write('rpmFile: ' + rpmFile + ' ' + release + ' ' + rpmArchitecture + '\n')
 
 
 
