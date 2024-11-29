@@ -61,7 +61,7 @@ jobs:
     name: Fedora Packaging
     runs-on: ubuntu-latest
     container:
-      image: fedora:39
+      image: fedora:41
       options: --privileged --cap-add=SYS_ADMIN
     steps:
       - uses: actions/checkout@v4
