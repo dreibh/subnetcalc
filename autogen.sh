@@ -73,27 +73,41 @@ while [ $# -gt 0 ] ; do
       shift
       break
    else
-      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|--use-gcc-analyzer] [--debug|--release|--release-with-debinfo] [--cores N] [--verbose] -- (further CMake options)"
+      echo >&2 "Usage: autogen.sh [--use-clang|--use-clang-scan-build|--use-gcc|--use-gcc-analyzer] [--debug|--release|--release-with-debinfo] [--cores N] [--verbose] -- (further CMake/Configure options)"
       exit 1
    fi
    shift
 done
 
-# ====== Configure with CMake ===============================================
-rm -f CMakeCache.txt
 if [ "$(uname)" != "FreeBSD" ] ; then
    installPrefix="/usr"
 else
    installPrefix="/usr/local"
 fi
-if [ "$*" != "" ] ; then
-   CMAKE_OPTIONS="${CMAKE_OPTIONS} $*"
-fi
-echo "CMake options:${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX=\"${installPrefix}\""
-# shellcheck disable=SC2048,SC2086
-${COMMAND} cmake ${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX="${installPrefix}"
 
-# ------ Obtain number of cores ---------------------------------------------
+
+# ====== Configure with CMake ===============================================
+if [ -e CMakeLists.txt ] ; then
+   rm -f CMakeCache.txt
+   if [ "$*" != "" ] ; then
+      CMAKE_OPTIONS="${CMAKE_OPTIONS} $*"
+   fi
+   echo "CMake options:${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX=\"${installPrefix}\""
+   # shellcheck disable=SC2048,SC2086
+   ${COMMAND} cmake ${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX="${installPrefix}"
+
+# ====== Configure with AutoConf/AutoMake ===================================
+elif [ -e bootstrap ] ; then
+   ./bootstrap
+   ./configure $*
+
+else
+   echo >&2 "ERROR: Failed to configure with CMake or AutoMake/AutoConf!"
+   exit 1
+fi
+
+
+# ====== Obtain number of cores =============================================
 # Try Linux
 if [ "${CORES}" == "" ] ; then
    CORES=$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)
@@ -106,6 +120,7 @@ if [ "${CORES}" == "" ] ; then
    fi
    echo "This system has ${CORES} cores!"
 fi
+
 
 # ====== Build ==============================================================
 ${COMMAND} make -j"${CORES}"
