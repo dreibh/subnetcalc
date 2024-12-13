@@ -61,7 +61,9 @@ jobs:
     name: Fedora Packaging
     runs-on: ubuntu-latest
     container:
-      image: fedora:41
+      # Using Fedora 39 here, due to problems with Mock!
+      # => https://github.com/rpm-software-management/mock/issues/1487
+      image: fedora:39
       options: --privileged --cap-add=SYS_ADMIN
     steps:
       - uses: actions/checkout@v4
