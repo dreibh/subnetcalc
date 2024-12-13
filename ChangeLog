@@ -1,3 +1,63 @@
+commit 3d65cb9e2a0c62669fbc16a8ffae875f4e7ffe80
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Dec 13 20:53:05 2024 +0100
+
+    Minor manpage update.
+
+commit a57d013fd38f7150e70459c4d2f526fe7055428a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Dec 13 15:25:43 2024 +0100
+
+    Workflow update.
+
+commit 60969aa935b3f2d3a715ceb75415dd79dc78417b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Dec 5 16:00:06 2024 +0100
+
+    Updated CI scripts
+
+commit f05ca25d3e60985c6865aec099ef9de7fee7227c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Dec 5 15:57:48 2024 +0100
+
+    Updated build scripts
+
+commit bd6a94f387e024f197592b01b2dde9325dfb49d4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Dec 3 22:00:02 2024 +0100
+
+    Workflow update.
+
+commit b36d325934b17cd093c56a49f7ac3280c9989464
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Nov 29 08:52:23 2024 +0100
+
+    Another try.
+
+commit aa525238b3df3611f679e57de302d6a6daf53eb8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Nov 28 17:31:58 2024 +0100
+
+    Improved CI script.
+
+commit f53dd254914e3e0efda6cd65b1d8750a5577cf91
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Nov 21 09:05:00 2024 +0100
+
+    Updated CI scripts.
+
+commit 2c15258a69e5f0599c99d7e378d9b11ad10119a9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Nov 21 09:04:02 2024 +0100
+
+    Updated script.
+
+commit 7a7bc58fcdd1a4449317c08139cec60238e2bc8f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Nov 13 20:33:15 2024 +0100
+
+    New release subnetcalc-2.6.0.
+
 commit b3431b7e9f34bb2eea02de6b93118016701fa6b3
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Wed Nov 13 19:58:38 2024 +0100
