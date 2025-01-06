@@ -28,7 +28,7 @@
 .\" Contact: thomas.dreibholz@gmail.com
 .\"
 .\" ###### Setup ############################################################
-.Dd December 13, 2024
+.Dd January 06, 2025
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -76,6 +76,8 @@ Just prints program version.
 .It subnetcalc 132.252.250.0/255.255.255.0 -nocolor
 .It subnetcalc 132.252.250.0 24
 .It subnetcalc 132.252.250.0/24 -nocolour
+.It subnetcalc fe80::2f0b:a04e:15c2:bc68 64
+.It subnetcalc fe80::2f0b:a04e:15c2:bc68%wlp4s0 64
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
 .It subnetcalc 2a00:1450:8007::69 64
 .It subnetcalc ff08::1:2:3
