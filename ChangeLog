@@ -1,3 +1,33 @@
+commit 7b2796d9d574356627c17a0b1f237de9d63e6564
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jan 6 21:37:24 2025 +1300
+
+    Updated manpage.
+
+commit 65b4b3f1086076374aca978557170dbc3df31723
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jan 6 21:36:42 2025 +1300
+
+    Fixed issue with handling IPv6 link-local addresses without interface.
+
+commit 32641186e4fee34afea8fbf5f5366f4ab79b91d5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Dec 20 16:23:50 2024 +0100
+
+    FreeBSD packaging update.
+
+commit a7255515f5c80f712675463a3f5173c5acc180f5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Dec 20 16:11:57 2024 +0100
+
+    Updated test script.
+
+commit aeadb564bef56c45d4181ffbdf8778f9b3e1d56c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Dec 13 21:33:56 2024 +0100
+
+    New release subnetcalc-2.6.1.
+
 commit 3d65cb9e2a0c62669fbc16a8ffae875f4e7ffe80
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri Dec 13 20:53:05 2024 +0100

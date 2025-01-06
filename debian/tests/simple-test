@@ -33,5 +33,6 @@ set -e
 
 subnetcalc 172.20.0.0/16
 subnetcalc fd00:1:2:3::ffff/64
+subnetcalc fe80::2f0b:a04e:15c2:bc68 64
 
 echo "Test passed!"
