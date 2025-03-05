@@ -1734,9 +1734,17 @@ if tool == 'info':
 # ====== Make source tarball ================================================
 elif tool == 'make-source-tarball':
    skipPackageSigning = False
+   summaryFile        = None
    for i in range(2, len(sys.argv)):
       if sys.argv[i] == '--skip-signing':
          skipPackageSigning = True
+      elif sys.argv[i][0:10] == '--summary=':
+         summaryFileName = sys.argv[i][10:]
+         try:
+            summaryFile = open(summaryFileName, 'w', encoding='utf-8')
+         except:
+            sys.stderr.write('ERROR: Unable to create summary file ' + summaryFileName + '!\n')
+            sys.exit(1)
       else:
          sys.stderr.write('ERROR: Bad make-source-tarball parameter ' + sys.argv[i] + '!\n')
          sys.exit(1)
