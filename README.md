@@ -184,7 +184,7 @@ sudo dnf install subnetcalc
 
 ### FreeBSD
 
-For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see Index of /head/net/subnetcalc/!
+For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
 
    pkg install subnetcalc
 
