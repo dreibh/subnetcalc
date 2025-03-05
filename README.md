@@ -229,4 +229,4 @@ Contributions:
 
 ### Current Stable Release
 
-See [https://www.nntb.no/~dreibh/subnetcalc/#Download](https://www.nntb.no/~dreibh/subnetcalc/#Download)!
+See [https://www.nntb.no/~dreibh/subnetcalc/#StableRelease](https://www.nntb.no/~dreibh/subnetcalc/#StableRelease)!
