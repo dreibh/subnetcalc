@@ -161,7 +161,7 @@ DNS Hostname   = (Name or service not known)
 
 ## Binary Package Installation
 
-Please use the issue tracker at https://github.com/dreibh/subnetcalc/issues to report bugs and issues!
+Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](https://github.com/dreibh/subnetcalc/issues) to report bugs and issues!
 
 ### Ubuntu Linux
 
