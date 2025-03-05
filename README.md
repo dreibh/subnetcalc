@@ -200,22 +200,31 @@ make install
 
 SubNetCalc is released under the GNU General Public Licence (GPL).
 
-Please use the issue tracker at https://github.com/dreibh/subnetcalc/issues to report bugs and issues!
+Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](https://github.com/dreibh/subnetcalc/issues) to report bugs and issues!
 
 ### Development Version
 
-The Git repository of the SubNetCalc sources can be found at https://github.com/dreibh/subnetcalc:
+The Git repository of the SubNetCalc sources can be found at [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc):
 
-- Issue tracker: https://github.com/dreibh/subnetcalc/issues.
+```
+git clone https://github.com/dreibh/subnetcalc
+cd subnetcalc
+cmake .
+make
+```
+
+Contributions:
+
+- Issue tracker: [https://github.com/dreibh/subnetcalc/issues](https://github.com/dreibh/subnetcalc/issues).
   Please submit bug reports, issues, questions, etc. in the issue tracker!
 
-- Pull Requests for SubNetCalc: https://github.com/dreibh/subnetcalc/pulls.
+- Pull Requests for SubNetCalc: [https://github.com/dreibh/subnetcalc/pulls](https://github.com/dreibh/subnetcalc/pulls).
   Your contributions to SubNetCalc are always welcome!
 
-- CI build tests of SubNetCalc: https://github.com/dreibh/subnetcalc/actions.
+- CI build tests of SubNetCalc: [https://github.com/dreibh/subnetcalc/actions](https://github.com/dreibh/subnetcalc/actions).
 
-- Coverity Scan analysis of SubNetCalc: https://scan.coverity.com/projects/dreibh-subnetcalc.
+- Coverity Scan analysis of SubNetCalc: [https://scan.coverity.com/projects/dreibh-td-subnetcalc](https://scan.coverity.com/projects/dreibh-td-subnetcalc).
 
 ### Current Stable Release
 
-See https://www.nntb.no/~dreibh/subnetcalc/#Download!
+See [https://www.nntb.no/~dreibh/subnetcalc/#Download](https://www.nntb.no/~dreibh/subnetcalc/#Download)!
