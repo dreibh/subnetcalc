@@ -165,7 +165,7 @@ Please use the issue tracker at https://github.com/dreibh/subnetcalc/issues to r
 
 ### Ubuntu Linux
 
-For ready-to-install Ubuntu Linux packages of SubNetCalc, see Launchpad PPA for Thomas Dreibholz!
+For ready-to-install Ubuntu Linux packages of SubNetCalc, see [Launchpad PPA for Thomas Dreibholz](https://launchpad.net/~dreibh/+archive/ubuntu/ppa/+packages?field.name_filter=subnetcalc&field.status_filter=published&field.series_filter=)!
 
 ```
 sudo apt-add-repository -sy ppa:dreibh/ppa
@@ -175,7 +175,7 @@ sudo apt-get install subnetcalc
 
 ### Fedora Linux
 
-For ready-to-install Fedora Linux packages of SubNetCalc, see COPR PPA for Thomas Dreibholz!
+For ready-to-install Fedora Linux packages of SubNetCalc, see [COPR PPA for Thomas Dreibholz](https://copr.fedorainfracloud.org/coprs/dreibh/ppa/package/subnetcalc/)!
 
 ```
 sudo dnf copr enable -y dreibh/ppa
@@ -184,9 +184,11 @@ sudo dnf install subnetcalc
 
 ### FreeBSD
 
-For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
+For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
 
-   pkg install subnetcalc
+```
+pkg install subnetcalc
+```
 
 Alternatively, to compile it from the ports sources:
 
@@ -223,7 +225,7 @@ Contributions:
 
 - CI build tests of SubNetCalc: [https://github.com/dreibh/subnetcalc/actions](https://github.com/dreibh/subnetcalc/actions).
 
-- Coverity Scan analysis of SubNetCalc: [https://scan.coverity.com/projects/dreibh-td-subnetcalc](https://scan.coverity.com/projects/dreibh-td-subnetcalc).
+- Coverity Scan analysis of SubNetCalc: [https://scan.coverity.com/projects/dreibh-subnetcalc](https://scan.coverity.com/projects/dreibh-subnetcalc).
 
 ### Current Stable Release
 
