@@ -1,3 +1,10 @@
+subnetcalc (2.6.3-1ubuntu1) trixie; urgency=medium
+
+  * New upstream release.
+  * debian/control: Updated standards version to 4.7.2.
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Sat, 26 Apr 2025 15:01:49 +0200
+
 subnetcalc (2.6.2-1ubuntu1) trixie; urgency=medium
 
   * New upstream release.

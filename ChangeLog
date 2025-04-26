@@ -1,3 +1,63 @@
+commit cbb56056f6358f64c0e1a8199058df7af84662eb
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Apr 26 15:01:36 2025 +0200
+
+    Updated CI configuration
+
+commit dcc1f7eba59848723286316743c0a17835e788e6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Apr 26 15:01:34 2025 +0200
+
+    Updated CI scripts
+
+commit 8665ea1188179617f8456c81deefd7e3f5bdfbf1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Apr 26 12:38:38 2025 +0200
+
+    Improved input file and options handling in CMakeLists.txt.
+
+commit 9a6d180c15dc9df6937aa9e88200e1c6c5b12363
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 13:34:44 2025 +0100
+
+    Updated CI scripts
+
+commit c3cf627aac78f0be9d7dd9db394deae60548f2ad
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 13:28:06 2025 +0100
+
+    Updated README.md
+
+commit 79a32ea9407b29730cf99fd808fb0a7906cdfb58
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 13:04:51 2025 +0100
+
+    Fixed link.
+
+commit 02a9413b26e2f87b4d902807dba36720329a8be3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 13:00:49 2025 +0100
+
+    Further improvements in README.md.
+
+commit 91aa420cd8715691625c35834daece5458da5abf
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 12:50:17 2025 +0100
+
+    Updated URL.
+
+commit 07645b694dec7627481d1c3668aa1d2a01898494
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Mar 5 12:48:17 2025 +0100
+
+    Improved README.md.
+
+commit 8d640fd399ecde68dc9f6624cd481c5218569db5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jan 6 21:44:22 2025 +1300
+
+    New release subnetcalc-2.6.2.
+
 commit 7b2796d9d574356627c17a0b1f237de9d63e6564
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Mon Jan 6 21:37:24 2025 +1300
