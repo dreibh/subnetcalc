@@ -1,5 +1,16 @@
-# System-Tools
-# Copyright (C) 2013-2024 by Thomas Dreibholz
+# ==========================================================================
+#             ____        _     _   _      _    ____      _
+#            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
+#            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
+#             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
+#            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
+#
+#                    ---  IPv4/IPv6 Subnet Calculator  ---
+#                   https://www.nntb.no/~dreibh/subnetcalc/
+# ==========================================================================
+#
+# SubNetCalc - IPv4/IPv6 Subnet Calculator
+# Copyright (C) 2024-2025 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,15 +25,15 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-# Contact: dreibh@simula.no
+# Contact: thomas.dreibholz@gmail.com
 
 
 #############################################################################
 #### TRANSLATIONS                                                        ####
 #############################################################################
 
-SET(copyrightHolder   "Copyright (C) 2013-2024 by Thomas Dreibholz")
-SET(bugTrackerAddress "https://github.com/dreibh/system-tools/issues")
+SET(copyrightHolder   "Copyright (C) 2013-2025 by Thomas Dreibholz")
+SET(bugTrackerAddress "https://github.com/dreibh/subnetcalc/issues")
 
 FILE(GLOB sources "*.sources")
 
@@ -37,16 +48,14 @@ FOREACH(source IN LISTS sources)
    # ====== Create POT file (translation template) ==========================
    FILE(READ "${source}" potInputFiles)
    STRING(REGEX REPLACE "[ \n]" ";" potInputFiles "${potInputFiles}")
+   # The input (in potInputFiles) contains file names and options
+   # (e.g. --language=C++). For the dependencies, just extract the list of
+   # files without the options:
    SET(LIST potInputFilesForDependency "")
-   SET(potInputFilesForGetText "")
    FOREACH(file ${potInputFiles})
       GET_FILENAME_COMPONENT(fileName ${file} NAME)
-      IF (${fileName} MATCHES "^[-][-]")
-         # Option -> Just add it for gettext
-         SET(potInputFilesForGetText "${potInputFilesForGetText} F=${fileName}")
-      ELSE()
+      IF (NOT ${fileName} MATCHES "^[-][-]")
          # File -> Add absolute file name
-         SET(potInputFilesForGetText "${potInputFilesForGetText} ${PROJECT_SOURCE_DIR}/${file}")
          LIST(APPEND potInputFilesForDependency ${potInputFilesAbsolute} "${PROJECT_SOURCE_DIR}/${file}")
       ENDIF()
    ENDFOREACH()
@@ -60,6 +69,7 @@ FOREACH(source IN LISTS sources)
                          --package-version="${BUILD_VERSION}"
                          --copyright-holder="${copyrightHolder}"
                          --msgid-bugs-address="${bugTrackerAddress}"
+                         --no-wrap
                          -p "${CMAKE_CURRENT_SOURCE_DIR}"
                          -o "${potFile}"
                          ${potInputFiles}
@@ -86,6 +96,7 @@ FOREACH(source IN LISTS sources)
       ADD_CUSTOM_COMMAND(OUTPUT "${poStampFile}"
                          COMMAND "${MSGMERGE}"
                             --update "${poFile}" "${potFile}"
+                            --no-wrap
                          COMMAND touch "${poStampFile}"
                          WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
                          DEPENDS ${generate_PotFile} "${potFile}")

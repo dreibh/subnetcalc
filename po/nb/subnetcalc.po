@@ -7,8 +7,8 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.5.2~rc0\"\n"
-"Report-Msgid-Bugs-To: \"https://github.com/dreibh/system-tools/issues\"\n"
-"POT-Creation-Date: 2024-11-13 18:55+0000\n"
+"Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
+"POT-Creation-Date: 2025-04-26 12:38+0200\n"
 "PO-Revision-Date: 2024-10-19 18:40+0200\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
 "Language-Team:\n"
@@ -21,8 +21,7 @@ msgstr ""
 "X-Source-Language: en_GB\n"
 
 #: src/subnetcalc.cc:162
-msgid ""
-"ERROR: An IPv6 address must be given to generate a unique local address!"
+msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "FEIL: En IPv6-adresse må oppgis for å generere en unik lokal adresse!"
 
 #: src/subnetcalc.cc:171
