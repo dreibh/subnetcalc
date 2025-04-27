@@ -229,7 +229,7 @@ bool address2string(const struct sockaddr* address,
              (IN6_IS_ADDR_LINKLOCAL(&ipv6address->sin6_addr) ||
               IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address->sin6_addr)) ) {
             ifname = if_indextoname(ipv6address->sin6_scope_id, (char*)&ifnamebuffer);
-            if(ifname = nullptr) {
+            if(ifname == nullptr) {
                snprintf((char*)&scope, sizeof(scope), "%%%s", ifname);
             }
             else {
