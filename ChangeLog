@@ -1,3 +1,28 @@
+commit 5df187b2e552027e7f166053700fd0c655646934
+Merge: 53f268e fb16e3d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 27 20:28:24 2025 +0200
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit 53f268ed299ca8fcc4f911bfb94edd77a2a02b81
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 27 20:28:05 2025 +0200
+
+    Bugfix: Fix for IPv6 scope handling.
+
+commit fb16e3d845bcaa69b7a1066e82715d4e32fe741f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 27 20:24:40 2025 +0200
+
+    Updated FreeBSD port.
+
+commit b531772b2c0e48ad775ffebcebd20608efb83051
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Apr 26 15:01:52 2025 +0200
+
+    New release subnetcalc-2.6.3.
+
 commit cbb56056f6358f64c0e1a8199058df7af84662eb
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sat Apr 26 15:01:36 2025 +0200
