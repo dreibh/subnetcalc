@@ -16,7 +16,6 @@ PLIST_FILES=	bin/subnetcalc \
 		share/bash-completion/completions/subnetcalc \
 		share/locale/de/LC_MESSAGES/subnetcalc.mo \
 		share/locale/nb/LC_MESSAGES/subnetcalc.mo \
-		share/bash-completion/completions/subnetcalc \
 		share/man/man1/subnetcalc.1.gz
 
 .include <bsd.port.mk>
