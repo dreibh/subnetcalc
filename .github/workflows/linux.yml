@@ -41,10 +41,6 @@ jobs:
             image: ubuntu:22.04
             cc: gcc
             cxx: g++
-          - label: "Ubuntu 20.04 (Focal Fossa) with GCC"
-            image: ubuntu:20.04
-            cc: gcc
-            cxx: g++
 
           # ====== Debian Linux =============================================
           - label: "Debian 12 (Bookworm) with GCC"
@@ -57,8 +53,8 @@ jobs:
             cxx: g++
 
           # ====== Fedora Linux =============================================
-          - label: "Fedora 40 with Clang"
-            image: fedora:40
+          - label: "Fedora 42 with Clang"
+            image: fedora:42
             cc: clang
             cxx: clang++
 

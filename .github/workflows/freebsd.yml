@@ -33,9 +33,9 @@ jobs:
       matrix:
         include:
 
-          # ====== FreeBSD 14.1 =============================================
-          - label: "FreeBSD 14.1: Clang/x86_64"
-            release: 14.1
+          # ====== FreeBSD 14.3 =============================================
+          - label: "FreeBSD 14.3: Clang/x86_64"
+            release: 14.3
             cc: clang
             cxx: clang++
 
