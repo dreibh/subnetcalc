@@ -843,32 +843,41 @@ def fetchDebianChangelog(packageInfo, codename = 'unstable'):
 
    # ====== Get package status =================================================
    statusPageContents = None
-   sys.stderr.write('Looking for package status on ' + statusPageURL + ' ... ')
-   sys.stderr.flush()
-   try:
-      statusPage = urllib.request.urlopen(statusPageURL)
-      statusPageContents = statusPage.readlines()
-      statusPage.close()
+   maxTrials          = 10
+   for trial in range(0, maxTrials):
+      if trial > 0:
+         sys.stderr.write('\n')
+      sys.stderr.write('Looking for package status on ' + statusPageURL +
+                     ' (trial ' + str(trial + 1) + '/' + str(maxTrials) + ') ... ')
+      sys.stderr.flush()
 
-      re_debian_package = re.compile(r'.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
-      re_debian_archive = re.compile(r'.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
-                                       packageInfo['debian_package_name'][0:1] + '/' + \
-                                       packageInfo['debian_package_name'] + '/' + \
-                                       r')(' + packageInfo['debian_package_name'] + r'_[0-9-+~\.a-z]+\.debian\.tar\.[a-zA-Z]+)"')
-      for line in statusPageContents:
-         line = line.decode('utf-8')
-         match = re_debian_package.match(line)
-         if match != None:
-            debianVersion = match.group(1)
-         else:
-            match = re_debian_archive.match(line)
+      try:
+         statusPage = urllib.request.urlopen(statusPageURL)
+         statusPageContents = statusPage.readlines()
+         statusPage.close()
+
+         re_debian_package = re.compile(r'.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
+         re_debian_archive = re.compile(r'.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
+                                          packageInfo['debian_package_name'][0:1] + '/' + \
+                                          packageInfo['debian_package_name'] + '/' + \
+                                          r')(' + packageInfo['debian_package_name'] + r'_[0-9-+~\.a-z]+\.debian\.tar\.[a-zA-Z]+)"')
+         for line in statusPageContents:
+            line = line.decode('utf-8')
+            match = re_debian_package.match(line)
             if match != None:
-               debianLocation = match.group(1)
-               debianArchive  = match.group(3)
+               debianVersion = match.group(1)
+            else:
+               match = re_debian_archive.match(line)
+               if match != None:
+                  debianLocation = match.group(1)
+                  debianArchive  = match.group(3)
 
-   except urllib.error.HTTPError as e:
-      sys.stderr.write('not found (HTTP ' + str(e.code) + ')!\n')
-      sys.exit(1)
+         # Done!
+         break
+
+      except urllib.error.HTTPError as e:
+         sys.stderr.write('not found (HTTP ' + str(e.code) + ')!\n')
+         sys.exit(1)
 
    if (debianVersion == None) or (debianArchive == None):
       sys.stderr.write('not found!\n')
@@ -1367,7 +1376,7 @@ def makeSourceDeb(packageInfo, codenames, skipPackageSigning, summaryFile):
 
 
 # ###### Build Debian binary package ########################################
-def buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile):
+def buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile, twice):
 
    # ====== Build for each distribution codename ============================
    printSection('Creating binary Debian packages')
@@ -1412,8 +1421,10 @@ def buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryF
                              'pbuilder',
                                 'build',
                                 '--basetgz', basetgz,
-                                '--logfile', buildlog,
-                             dscFileName ]
+                                '--logfile', buildlog ]
+         if twice:
+            pbuilderCommand.append('--twice')
+         pbuilderCommand.append(dscFileName)
          print(pbuilderCommand)
          try:
             subprocess.run(pbuilderCommand, check=True)
@@ -1716,7 +1727,7 @@ if len(sys.argv) < 2:
    sys.stderr.write('\n* ' + sys.argv[0] + ' info\n')
    sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-tarball [--skip-signing]\n')
    sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-deb [--summary=file] [codename ...] [--skip-signing]\n')
-   sys.stderr.write('  ' + sys.argv[0] + ' build-deb [--summary=file]  [codename ...] [--skip-signing] [--architecture=arch[,...]]\n')
+   sys.stderr.write('  ' + sys.argv[0] + ' build-deb [--summary=file]  [codename ...] [--skip-signing] [--architecture=arch[,...]] [--twice]\n')
    sys.stderr.write('  ' + sys.argv[0] + ' fetch-debian-changelog [codename]\n')
    sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-rpm [--summary=file]  [release ...] [--skip-signing]\n')
    sys.stderr.write('  ' + sys.argv[0] + ' build-rpm [--summary=file] [release ...] [--skip-signing] [--architecture=[,...]]\n')
@@ -1782,6 +1793,7 @@ elif tool == 'build-deb':
    summaryFile        = None
    codenames          = []
    architectures      = []
+   twice              = False
    for i in range(2, len(sys.argv)):
       if sys.argv[i][0] != '-':
          codenames.append(sys.argv[i])
@@ -1797,10 +1809,12 @@ elif tool == 'build-deb':
       elif sys.argv[i][0:15] == '--architecture=':
          for architecture in sys.argv[i][15:].split(','):
             architectures.append(architecture)
+      elif sys.argv[i] == '--twice':
+         twice = True
       else:
          sys.stderr.write('ERROR: Bad build-deb parameter ' + sys.argv[i] + '!\n')
          sys.exit(1)
-   buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile)
+   buildDeb(packageInfo, codenames, architectures, skipPackageSigning, summaryFile, twice)
 
 # ====== Make source deb file ===============================================
 elif tool == 'make-source-rpm':
