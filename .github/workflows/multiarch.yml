@@ -50,14 +50,14 @@ jobs:
             cxx: g++
 
           # ====== Debian Linux =============================================
-          - label: "Debian 12 (Bookworm): GCC/i386"
+          - label: "Debian 13 (Trixie): GCC/i386"
             arch: i386
-            distro: bookworm
+            distro: trixie
             cc: gcc
             cxx: g++
-          - label: "Debian 12 (Bookworm): Clang/ARMv7"
+          - label: "Debian 13 (Trixie): Clang/ARMv7"
             arch: arm32v7
-            distro: bookworm
+            distro: trixie
             cc: clang
             cxx: clang++
 

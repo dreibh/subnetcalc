@@ -43,12 +43,12 @@ jobs:
             cxx: g++
 
           # ====== Debian Linux =============================================
-          - label: "Debian 12 (Bookworm) with GCC"
-            image: debian:bookworm
+          - label: "Debian 13 (Trixie) with GCC"
+            image: debian:trixie
             cc: gcc
             cxx: g++
-          - label: "Debian 11 (Bullseye) with GCC"
-            image: debian:bullseye
+          - label: "Debian 12 (Bookworm) with GCC"
+            image: debian:bookworm
             cc: gcc
             cxx: g++
 
