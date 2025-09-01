@@ -15,7 +15,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 
 # 😀 Examples
 
-* My host has IP 132.252.150.151 and netmask 255.255.255.240. What are the details of its network?
+* My host has IP 132.252.150.154 and netmask 255.255.255.240. What are the details of its network?
 
   <pre>
   <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc 132.252.150.154 255.255.255.240</strong>
@@ -152,7 +152,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + Solicited Node Multicast Address = <strong><span style="color: green">ff02::1:ff</span>a4:8ca9</strong>
   GeoIP Country  = Germany (DE)
   DNS Hostname   = (Name or service not known)
-</pre>
+  </pre>
 
 * Take a look into the manual page of SubNetCalc for further information and options:
 
