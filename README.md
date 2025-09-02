@@ -200,7 +200,7 @@ make install
 
 # 💾 Build from Sources
 
-SubNetCalc is released under the [BSD License](https://opensource.org/licenses/BSD-3-Clause).
+SubNetCalc is released under the [GNU General Public Licence&nbsp;(GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text).
 
 Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](https://github.com/dreibh/subnetcalc/issues) to report bugs and issues!
 
