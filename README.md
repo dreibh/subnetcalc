@@ -1,7 +1,9 @@
 <h1 align="center">
- SubNetCalc\
- <span style="font-size: 75%">An IPv4/IPv6 Subnet Calculator</span>\
- <span style="font-size: 75%">[https://www.nntb.no/~dreibh/subnetcalc](https://www.nntb.no/~dreibh/subnetcalc/)</span>
+ SubNetCalc<br />
+ <span style="font-size: 75%">An IPv4/IPv6 Subnet Calculator</span><br />
+ <a href="https://www.nntb.no/~dreibh/subnetcalc/">
+  <span style="font-size: 75%;">https://www.nntb.no/~dreibh/subnetcalc</span>
+ </a>
 </h1>
 
 
