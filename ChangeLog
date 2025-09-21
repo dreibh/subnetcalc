@@ -1,3 +1,81 @@
+commit 974743c4af2f337385fd6ec92f6fe6c6405fd6b2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Sep 2 17:23:53 2025 +0200
+
+    Some updates.
+
+commit c6bd7ce5d1e349940081de85282b8c6883caf36c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Sep 2 16:33:50 2025 +0200
+
+    Fixed README.md.
+
+commit 2959aa5552877489ac82b668a41ec2e97d83a824
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Sep 2 15:31:20 2025 +0200
+
+    Updated README.md.
+
+commit 1d4c4e89d547ba0c48caf56974188cf7357079ed
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Sep 2 09:31:03 2025 +0200
+
+    URL fix.
+
+commit 579d5da09a1d341c64e19dcd9ec8afdd63b9d363
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Sep 1 23:06:20 2025 +0200
+
+    Minor documentation update.
+
+commit c8c31aa03f99be0c5af9ec44e671dddd562d5ed9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Sep 1 22:59:44 2025 +0200
+
+    Improved README.md.
+
+commit 73165a735a441777cdc77035ffe750af9b8eeaae
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Sep 1 22:31:40 2025 +0200
+
+    Bugfix: Fixed broken libGeoIP detection in CMakeLists.txt.
+
+commit 4b3f223ec9bce3011909f5e00f47f59b1d18c8d9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Aug 13 21:59:11 2025 +0200
+
+    Updated CI configuration
+
+commit cd265361b526ede987ebf903edb6eaeb9b10878f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 12 14:24:32 2025 +0200
+
+    Updated CI scripts
+
+commit 84e031ef7758ec56e95eadbad8a5b2cbf285942c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Aug 12 11:35:51 2025 +0200
+
+    Updated workflows.
+
+commit 39a8c3727635a341a054b4aacc3d6c845c6dcaa6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Aug 1 17:40:05 2025 +0200
+
+    Updated workflows.
+
+commit ea968434a44e6998e01b39ced3f53388e68d4b3e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 27 20:39:23 2025 +0200
+
+    Updated FreeBSD port.
+
+commit a84548ec2814e4748f763773e9a4ec2927a74222
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 27 20:28:38 2025 +0200
+
+    New release subnetcalc-2.6.4.
+
 commit 5df187b2e552027e7f166053700fd0c655646934
 Merge: 53f268e fb16e3d
 Author: Thomas Dreibholz <dreibh@simula.no>
