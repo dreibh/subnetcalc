@@ -16,8 +16,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 
 * My host has IP 132.252.150.154 and netmask 255.255.255.240. What are the details of its network?
 
-  <pre>
-  <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc 132.252.150.154 255.255.255.240</strong>
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 132.252.150.154 255.255.255.240</strong>
   Address        = 132.252.150.154
                       <span style="color: red;">10000100 . 11111100 . 10010110 . 1001</span><span style="color: blue;">1010</span>
   Network        = 132.252.150.144 / 28
@@ -33,12 +32,11 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
      - Class B
   GeoIP Country  = Germany (DE)
   DNS Hostname   = lupo.iem.uni-due.de
-  </pre>
+  </code></pre>
 
 * Consider host [www.heise.de](https://www.heise.de) uses a 64-bit prefix length. What are the details of its network?
 
-  <pre>
-  <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc www.heise.de 64</strong>
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> www.heise.de 64</strong>
   Address        = 2a02:2e0:3fe:1001:7777:772e:2:85
                       2a02 = <span style="color: red;">00101010 00000010</span>
                       02e0 = <span style="color: red;">00000010 11100000</span>
@@ -62,12 +60,11 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + 6-to-4 Address                   = 2.224.3.254
   GeoIP Country  = Germany (DE)
   DNS Hostname   = www.heise.de
-  </pre>
+  </code></pre>
 
 * My new host should use Interface ID 0x100 and Subnet ID 0x1234. Generate a Unique Local IPv6 prefix (40-bit Global ID) for my intranet, according to [RFC&nbsp;4193](https://www.rfc-editor.org/rfc/rfc4193), using high quality random numbers!
 
-  <pre>
-  <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc 0:0:0:1234::100 64 -uniquelocalhq</strong>
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 0:0:0:1234::100 64 -uniquelocalhq</strong>
   Generating Unique Local IPv6 address (using /dev/random) ...
   Address        = fd22:6892:1a2d:1234::100
                       fd22 = <span style="color: red;">11111101 00100010</span>
@@ -94,12 +91,11 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + Solicited Node Multicast Address = <span style="color: green">ff02::1:ff</span>00:0100
   GeoIP Country  = Unknown (??)
   DNS Hostname   = (Name or service not known)
-  </pre>
+  </code></pre>
 
 * Which are DNS reverse lookup name and geo-location country of IP 2401:3800:c001::68?
 
-  <pre>
-  <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc 2401:3800:c001::68</strong>
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2401:3800:c001::68</strong>
   Address        = 2401:3800:c001::68
                       2401 = <span style="color: red;">00100100 00000001</span>
                       3800 = <span style="color: red;">00111000 00000000</span>
@@ -122,12 +118,11 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
       + Solicited Node Multicast Address = ff02::1:ff00:0068
   GeoIP Country = <strong>China (CN)</strong>
   DNS Hostname  = <strong>bg-in-x68.1e100.net</strong>
-  </pre>
+  </code></pre>
 
 * Which are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
 
-  <pre>
-  <span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong>subnetcalc 2001:638:501:4ef8:223:aeff:fea4:8ca9/64</strong>
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2001:638:501:4ef8:223:aeff:fea4:8ca9/64</strong>
   Address        = 2001:638:501:4ef8:223:aeff:fea4:8ca9
                      2001 = <span style="color: red;">00100000 00000001</span>
                      0638 = <span style="color: red;">00000110 00111000</span>
@@ -151,13 +146,13 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + Solicited Node Multicast Address = <strong><span style="color: green">ff02::1:ff</span>a4:8ca9</strong>
   GeoIP Country  = Germany (DE)
   DNS Hostname   = (Name or service not known)
-  </pre>
+  </code></pre>
 
 * Take a look into the manual page of SubNetCalc for further information and options:
 
-  <pre>
+  ```bash
   man subnetcalc
-  </pre>
+  ```
 
 
 # 📦 Binary Package Installation
@@ -168,36 +163,36 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 
 For ready-to-install Ubuntu Linux packages of SubNetCalc, see [Launchpad PPA for Thomas Dreibholz](https://launchpad.net/~dreibh/+archive/ubuntu/ppa/+packages?field.name_filter=subnetcalc&field.status_filter=published&field.series_filter=)!
 
-<pre>
+```bash
 sudo apt-add-repository -sy ppa:dreibh/ppa
 sudo apt-get update
 sudo apt-get install subnetcalc
-</pre>
+```
 
 ## Fedora Linux
 
 For ready-to-install Fedora Linux packages of SubNetCalc, see [COPR PPA for Thomas Dreibholz](https://copr.fedorainfracloud.org/coprs/dreibh/ppa/package/subnetcalc/)!
 
-<pre>
+```bash
 sudo dnf copr enable -y dreibh/ppa
 sudo dnf install subnetcalc
-</pre>
+```
 
 ## FreeBSD
 
 For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
 
-<pre>
+```bash
 pkg install subnetcalc
-</pre>
+```
 
 Alternatively, to compile it from the ports sources:
 
-<pre>
+```bash
 cd /usr/ports/net/subnetcalc
 make
 make install
-</pre>
+```
 
 
 # 💾 Build from Sources
@@ -210,12 +205,12 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 
 The Git repository of the SubNetCalc sources can be found at [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc):
 
-<pre>
+```bash
 git clone https://github.com/dreibh/subnetcalc
 cd subnetcalc
 cmake .
 make
-</pre>
+```
 
 Contributions:
 
