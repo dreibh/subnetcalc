@@ -205,12 +205,11 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 
 The Git repository of the SubNetCalc sources can be found at [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc):
 
-```bash
-git clone https://github.com/dreibh/subnetcalc
-cd subnetcalc
-cmake .
-make
-```
+<pre><code><span class="fu">git</span> clone <a href="https://github.com/dreibh/subnetcalc">https://github.com/dreibh/subnetcalc</a>
+<span class="bu">cd</span> subnetcalc
+<span class="fu">cmake</span> .
+<span class="fu">make</span>
+</code></pre>
 
 Contributions:
 
