@@ -231,9 +231,9 @@ See [https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release](https://www
 
 # 🔗 Useful Links
 
-* [NetPerfMeter – A TCP/MPTCP/UDP/SCTP/DCCP Network Performance Meter Tool](https://www.nntb.no/~dreibh/netperfmeter/index.html)
-* [HiPerConTracer – High-Performance Connectivity Tracer](https://www.nntb.no/~dreibh/hipercontracer/index.html)
-* [System-Tools – Tools for Basic System Management](https://www.nntb.no/~dreibh/system-tools/index.html)
+* [NetPerfMeter – A TCP/MPTCP/UDP/SCTP/DCCP Network Performance Meter Tool](https://www.nntb.no/~dreibh/netperfmeter/)
+* [HiPerConTracer – High-Performance Connectivity Tracer](https://www.nntb.no/~dreibh/hipercontracer/)
+* [System-Tools – Tools for Basic System Management](https://www.nntb.no/~dreibh/system-tools/)
 * [Wireshark](https://www.wireshark.org/)
 * [Linux Weekly News](https://lwn.net)
 * [Linux.org](https://www.linux.org)
