@@ -205,11 +205,15 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 
 The Git repository of the SubNetCalc sources can be found at [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc):
 
-<pre><code><span class="fu">git</span> clone <a href="https://github.com/dreibh/subnetcalc">https://github.com/dreibh/subnetcalc</a>
-<span class="bu">cd</span> subnetcalc
-<span class="fu">cmake</span> .
-<span class="fu">make</span>
-</code></pre>
+```bash
+git clone https://github.com/dreibh/subnetcalc
+cd subnetcalc
+sudo ci/get-dependencies --install
+cmake .
+make
+```
+
+Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies for Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [debian/control](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [subnetcalc.spec](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [Makefile](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) FreeBSD.
 
 Contributions:
 
