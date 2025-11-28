@@ -26,30 +26,34 @@ import re
 import subprocess
 import sys
 
+from typing import Final, TextIO
+
 
 # ###### Extract Deb file dependencies ######################################
-debDepLine = re.compile(r'^(.*:[ \t]*)(.*)$')
-debDepItem = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\|.*|\(.*)[\s]*$')
-def extractDebDependencies(line, system):
-   dependencies = []
-   distribution = distro.codename()
+debDepLine : Final[re.Pattern[str]] = re.compile(r'^(.*:[ \t]*)(.*)$')
+debDepItem : Final[re.Pattern[str]] = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|\|.*|\(.*)[\s]*$')
+def extractDebDependencies(line   : str,
+                           system : str) -> list[str]:
+
+   dependencies : list[str]  = []
+   distribution : Final[str] = distro.codename()
 
    # Remove "build-depends:", etc.:
-   m = debDepLine.match(line)
-   if m != None:
-      line = m.group(2)
+   match : re.Match[str] | None = debDepLine.match(line)
+   if match is not None:
+      line = match.group(2)
    line = line.strip()
 
    # Split into segments
    for l in line.split(','):
       l = l.strip()
-      m = debDepItem.match(l)
-      if m != None:
+      match= debDepItem.match(l)
+      if match is not None:
          dependency = l
 
          # ------ Ugly work-around for cmake --------------------------------
          # We need cmake >= 3.0!
-         if ((m.group(1) == 'cmake') or (m.group(1) == 'cmake3')):
+         if ((match.group(1) == 'cmake') or (match.group(1) == 'cmake3')):
             if ((system == 'debian') or (system == 'ubuntu')):
                try:
                   if distribution in [ 'trusty' ]:
@@ -63,16 +67,18 @@ def extractDebDependencies(line, system):
 
 
 # ###### Extract RPM spec dependencies ######################################
-rpmDepLine = re.compile(r'^(.*:[ \t]*)(.*)$')
-rpmDepItem = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|or[ \t]*.*|\(.*)[\s]*$')
-def extractRPMDependencies(line, system):
-   dependencies = []
-   distribution = distro.codename()
+rpmDepLine : Final[re.Pattern[str]] = re.compile(r'^(.*:[ \t]*)(.*)$')
+rpmDepItem : Final[re.Pattern[str]] = re.compile(r'^([a-zA-Z0-9-+\.]+)[\s]*(|or[ \t]*.*|\(.*)[\s]*$')
+def extractRPMDependencies(line   : str,
+                           system : str) -> list[str]:
+
+   dependencies : list[str]  = []
+   distribution : Final[str] = distro.codename()
 
    # Remove "build-depends:", etc.:
-   m = rpmDepLine.match(line)
-   if m != None:
-      dependency = m.group(2).strip()
+   match : re.Match[str] | None = rpmDepLine.match(line)
+   if match is not None:
+      dependency = match.group(2).strip()
       dependencies.append(dependency)
 
    return dependencies
@@ -81,8 +87,8 @@ def extractRPMDependencies(line, system):
 # ###### Main program #######################################################
 
 # ====== Check arguments ====================================================
-system     = None
-runInstall = False
+system     : str  = ''
+runInstall : bool = False
 i = 1
 while i < len(sys.argv):
    if sys.argv[i] == '-s' or sys.argv[i] == '--system':
@@ -102,7 +108,7 @@ while i < len(sys.argv):
       sys.exit(1)
    i = i + 1
 
-if system == None:
+if system == '':
    with open("/etc/os-release") as osReleaseFile:
     osRelease = { }
     for line in osReleaseFile:
@@ -111,7 +117,7 @@ if system == None:
    system = osRelease['ID']
 
 # ====== Debian/Ubuntu ======================================================
-dependencies = [ ]
+dependencies : list[str] = [ ]
 if ((system == 'debian') or  (system == 'ubuntu')):
    if os.path.exists('debian/control'):
       with open('debian/control', 'r', encoding='utf-8') as fp:
@@ -200,7 +206,7 @@ elif system == 'freebsd':
          sys.stderr.write('ERROR: Getting FreeBSD dependencies failed: ' + str(e) + '\n')
          sys.exit(1)
 
-      if output != None:
+      if output is not None:
          ports = output.decode('utf-8').splitlines()
          for port in ports:
             if port[0:3] != '---':
