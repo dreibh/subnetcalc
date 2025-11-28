@@ -52,7 +52,7 @@ if [ "${ID}" == "ubuntu" ] || [ "${ID}" == "debian" ] ; then
    fi
    if [ ${USE_PACKAGING} -eq 1 ] ; then
       # Need to install pbuilder as well:
-      PACKAGES="${PACKAGES} build-essential debian-archive-keyring debian-ports-archive-keyring devscripts distro-info eatmydata fakeroot pbuilder qemu-user-static sudo"
+      PACKAGES="${PACKAGES} build-essential debian-archive-keyring debian-ports-archive-keyring devscripts distro-info eatmydata fakeroot pbuilder qemu-user qemu-user-binfmt sudo"
    fi
 
    apt-get update -qq
