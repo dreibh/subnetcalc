@@ -28,7 +28,7 @@ jobs:
   # ====== Ubuntu Linux =====================================================
   ubuntu-packaging:
     name: Ubuntu Packaging
-    runs-on: ubuntu-rolling
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v4
     - name: Packaging
@@ -42,7 +42,7 @@ jobs:
   # ====== Debian Linux =====================================================
   debian-packaging:
     name: Debian Packaging
-    runs-on: ubuntu-rolling
+    runs-on: ubuntu-latest
     container:
       image: debian:unstable
       options: --privileged
@@ -59,7 +59,7 @@ jobs:
   # ====== Fedora Linux =====================================================
   fedora-packaging:
     name: Fedora Packaging
-    runs-on: ubuntu-rolling
+    runs-on: ubuntu-latest
     container:
       # The GitHub runner issue with Mock seems to be fixed now:
       # => https://github.com/rpm-software-management/mock/issues/1487
