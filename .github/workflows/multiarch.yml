@@ -33,19 +33,19 @@ jobs:
         include:
 
           # ====== Ubuntu Linux =============================================
-          - label: "Ubuntu 22.04 (Noble Numbat): Clang/ARMv8"
+          - label: "Ubuntu 24.04 (Noble Numbat): Clang/ARMv8"
             arch: aarch64
-            distro: ubuntu22.04
+            distro: ubuntu24.04
             cc: clang
             cxx: clang++
-          - label: "Ubuntu 22.04 (Noble Numbat): GCC/S390x"
+          - label: "Ubuntu 24.04 (Noble Numbat): GCC/S390x"
             arch: s390x
-            distro: ubuntu22.04
+            distro: ubuntu24.04
             cc: gcc
             cxx: g++
-          - label: "Ubuntu 22.04 (Noble Numbat): GCC/RISC-V"
+          - label: "Ubuntu 24.04 (Noble Numbat): GCC/RISC-V"
             arch: riscv64
-            distro: ubuntu22.04
+            distro: ubuntu24.04
             cc: gcc
             cxx: g++
 
