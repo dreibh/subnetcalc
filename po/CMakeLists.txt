@@ -10,7 +10,7 @@
 # ==========================================================================
 #
 # SubNetCalc - IPv4/IPv6 Subnet Calculator
-# Copyright (C) 2024-2025 by Thomas Dreibholz
+# Copyright (C) 2024-2026 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@
 #### TRANSLATIONS                                                        ####
 #############################################################################
 
-SET(copyrightHolder   "Copyright (C) 2013-2025 by Thomas Dreibholz")
+SET(copyrightHolder   "Copyright (C) 2013-2026 by Thomas Dreibholz")
 SET(bugTrackerAddress "https://github.com/dreibh/subnetcalc/issues")
 
 FILE(GLOB sources "*.sources")

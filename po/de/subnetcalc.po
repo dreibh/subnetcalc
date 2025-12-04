@@ -1,5 +1,5 @@
 # SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR "Copyright (C) 2013-2025 by Thomas Dreibholz"
+# Copyright (C) YEAR "Copyright (C) 2013-2026 by Thomas Dreibholz"
 # This file is distributed under the same license as the "subnetcalc" package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
