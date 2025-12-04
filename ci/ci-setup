@@ -156,8 +156,7 @@ EOF
       if [ "${OS}" == "ubuntu" ] ; then
          # Add PPA dreibh/ppa for Ubuntu:
          OS="${OS}" DISTRIBUTION="${DIST}" ARCHITECTURE="${ARCH}" pbuilder login --save-after-login <<EOF
-DEBIAN_FRONTEND=noninteractive apt-get install -qqy -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends \
-software-properties-common
+DEBIAN_FRONTEND=noninteractive apt-get install -qqy -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends software-properties-common
 apt-add-repository -y ppa:dreibh/ppa
 apt-get update -q
 EOF
