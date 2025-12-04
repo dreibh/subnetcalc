@@ -6,7 +6,7 @@ Homepage: https://www.nntb.no/~dreibh/subnetcalc/
 Vcs-Git: https://github.com/dreibh/subnetcalc.git
 Vcs-Browser: https://github.com/dreibh/subnetcalc
 Build-Depends: cmake,
-               debhelper (>= 12),
+               debhelper-compat (= 13),
                gettext,
                libgeoip-dev
 Standards-Version: 4.7.2
