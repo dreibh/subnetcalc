@@ -53,8 +53,8 @@ jobs:
             cxx: g++
 
           # ====== Fedora Linux =============================================
-          - label: "Fedora 42 with Clang"
-            image: fedora:42
+          - label: "Fedora 43 with Clang"
+            image: fedora:43
             cc: clang
             cxx: clang++
 

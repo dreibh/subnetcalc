@@ -63,7 +63,7 @@ jobs:
     container:
       # The GitHub runner issue with Mock seems to be fixed now:
       # => https://github.com/rpm-software-management/mock/issues/1487
-      image: fedora:42
+      image: fedora:43
       options: --privileged --cap-add=SYS_ADMIN
     steps:
       - uses: actions/checkout@v4
