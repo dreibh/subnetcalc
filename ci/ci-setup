@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 #
 # GitHub Actions Scripts
-# Copyright (C) 2021-2025 by Thomas Dreibholz
+# Copyright (C) 2021-2026 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -173,6 +173,9 @@ elif [ "${ID}" == "fedora" ] ; then
       PACKAGES="${PACKAGES} fedora-release findutils mock nosync rpmdevtools   which strace sudo"
    fi
 
+   # Enable COPR PPA:
+   dnf copr enable -y dreibh/ppa
+
    # dnf upgrade -qy
    # shellcheck disable=SC2086
    dnf install -qy ${PACKAGES}
@@ -191,9 +194,10 @@ elif [ "${ID}" == "fedora" ] ; then
          ARCH="$(uname -m)"
       fi
 
+      # ====== Enable COPR PPA ==============================================
       if ! grep "^\[copr-dreibh-ppa\]" "/etc/mock/${OS}-${DIST}-${ARCH}.cfg" ; then
          shopt -s extglob
-         ppa="config_opts['dnf.conf'] += \"\"\"\n[copr-dreibh-ppa]\nname=Copr repo for ppa owned by dreibh\nbaseurl=https://copr-be.cloud.fedoraproject.org/results/dreibh/ppa/fedora-\$releasever-\$basearch/\ntype=rpm-md\nskip_if_unavailable=True\ngpgcheck=1\ngpgkey=https://copr-be.cloud.fedoraproject.org/results/dreibh/ppa/pubkey.gpg\nrepo_gpgcheck=0\nenabled=1\n\"\"\""
+         ppa="config_opts['dnf.conf'] += \"\"\"\n[copr-dreibh-ppa]\nname=Copr repo for ppa owned by dreibh\nbaseurl=https://download.copr.fedorainfracloud.org/results/dreibh/ppa/fedora-\$releasever-\$basearch/\ntype=rpm-md\nskip_if_unavailable=True\ngpgcheck=1\ngpgkey=https://copr-be.cloud.fedoraproject.org/results/dreibh/ppa/pubkey.gpg\nrepo_gpgcheck=0\nenabled=1\nenabled_metadata=1\n\"\"\""
          ppa="${ppa//+( )$/\\n}"
          echo -e "${ppa}" | tee -a "/etc/mock/${OS}-${DIST}-${ARCH}.cfg"
          if ! grep "^\[copr-dreibh-ppa\]" "/etc/mock/${OS}-${DIST}-${ARCH}.cfg" ; then

@@ -11,7 +11,7 @@
 # ==========================================================================
 #
 # Unified Build Tool
-# Copyright (C) 2021-2025 by Thomas Dreibholz
+# Copyright (C) 2021-2026 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -257,7 +257,8 @@ def readAutoConfPackagingInformation() -> dict[str,Any]:
       if os.path.isfile(autoconfConfigName):
          break
    if os.path.isfile(autoconfConfigName):
-      re_autoconffile_version : Final[re.Pattern[str]] = re.compile(r'^AC_INIT\([ \t]*\[(.*)\][ \t]*,[ \t]*\[(\d).(\d).(\d+)([~+][a-zA-Z0-9\.+]+|)\][ \t]*,[ \t]*\[(.*)\][ \t]*\)')
+      re_autoconffile_version : Final[re.Pattern[str]] = \
+         re.compile(r'^AC_INIT\([ \t]*\[(.*)\][ \t]*,[ \t]*\[(\d).(\d).(\d+)([~+][a-zA-Z0-9\.+]+|)\][ \t]*,[ \t]*\[(.*)\][ \t]*\)')
 
       packageInfo['autoconf_config_name'] = autoconfConfigName
       try:
@@ -266,7 +267,7 @@ def readAutoConfPackagingInformation() -> dict[str,Any]:
          for line in autoconfFileContents:
             match = re_autoconffile_version.match(line)
             if match is not None:
-               packageInfo['autoconf_package']       = match.group(1)
+               packageInfo['autoconf_package_name']  = match.group(1)
                packageInfo['autoconf_version_major'] = int(match.group(2))
                packageInfo['autoconf_version_minor'] = int(match.group(3))
                packageInfo['autoconf_version_patch'] = int(match.group(4))
@@ -283,7 +284,7 @@ def readAutoConfPackagingInformation() -> dict[str,Any]:
          sys.exit(1)
 
       # ====== Check whether information is complete ========================
-      if ( ( not 'autoconf_package' in packageInfo) or
+      if ( ( not 'autoconf_package_name'   in packageInfo) or
            ( not 'autoconf_version_string' in packageInfo ) ):
          sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['autoconf_config_name'] + '!\n')
          sys.exit(1)
@@ -452,7 +453,7 @@ def readRPMPackagingInformation() -> dict[str,Any]:
          packageInfo['rpm_package_name'] + '-' +
          packageInfo['rpm_version_string'] + '-' +
          str(packageInfo['rpm_version_packaging']))
-      print(packageInfo['rpm_packages'])
+      # print(packageInfo['rpm_packages'])
 
    elif len(rpmSpecNames) > 1:
       sys.stderr.write('ERROR: More than one spec file found: ' + str(rpmSpecNames) + '!\n')
@@ -521,7 +522,7 @@ def readOtherPackagingInformation() -> dict[str,Any]:
          line              : str                  = otherFileContents[0]
          match             : re.Match[str] | None = re_otherfile_version.match(line)
          if match is not None:
-            packageInfo['other_package']       = match.group(1)
+            packageInfo['other_package_name']  = match.group(1)
             packageInfo['other_version_major'] = int(match.group(2))
             packageInfo['other_version_minor'] = int(match.group(3))
             packageInfo['other_version_patch'] = int(match.group(4))
@@ -537,7 +538,7 @@ def readOtherPackagingInformation() -> dict[str,Any]:
          sys.exit(1)
 
       # ====== Check whether information is complete ========================
-      if not 'other_version_major' in packageInfo:
+      if not 'other_package_name' in packageInfo:
          sys.stderr.write('ERROR: Cannot find required package versioning details in ' + otherFileName + '!\n')
          sys.exit(1)
 
@@ -577,12 +578,13 @@ def readPackagingInformation() -> dict[str,Any]:
 
    # ====== Obtain master packaging information =============================
    for system in Systems:
-      systemPrefix     : str = system[0]
-      systemName       : str = system[1]
-      systemConfigFile : str = system[2]
+      systemPrefix : str = system[0]
       if hasPackagingFor(packageInfo, systemPrefix):
+         systemName       : str = system[1]
+         systemConfigFile : str = system[2]
          sys.stdout.write('Using master versioning from ' + systemName + '.\n')
          for entry in [ 'package_name', 'version_string',  'version_major',  'version_minor',  'version_patch',  'version_extra' ]:
+            assert systemPrefix + '_' + entry in packageInfo
             packageInfo['master_' + entry] = packageInfo[systemPrefix + '_' + entry]
          break
    if not hasPackagingFor(packageInfo, 'master'):
@@ -592,10 +594,10 @@ def readPackagingInformation() -> dict[str,Any]:
 
    # ====== Check master packaging information ==============================
    for system in Systems:
-      systemPrefix     = system[0]
-      systemName       = system[1]
-      systemConfigFile = system[2]
+      systemPrefix = system[0]
       if hasPackagingFor(packageInfo, systemPrefix):
+         systemName       = system[1]
+         systemConfigFile = system[2]
          sys.stdout.write(('Version from ' + systemName + ': ').ljust(32, ' ') + \
                           packageInfo[systemPrefix + '_version_string'] + \
                           ' (from ' + packageInfo[systemConfigFile] + ')\n')
@@ -891,6 +893,7 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
       # Ubuntu
       statusPageURL = 'https://packages.ubuntu.com/source/' + codename + '/' + packageInfo['debian_package_name']
 
+   debianNoSuchPackage : bool       = False
    debianVersion       : str | None = None
    debianLocation      : str | None = None
    debianArchive       : str | None = None
@@ -901,13 +904,15 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
    # HTTP 503 "No healthy backends"; see also
    # https://www.reddit.com/r/debian/comments/1e0foqv/is_packagesdebianorg_inaccessible/
    # => Work-around: Retry with random waiting time:
-   maxTrials         : int        = 50
-   avgWaitingTime    : Final[int] = 15
+   maxTrials      : Final[int] = 50
+   avgWaitingTime : Final[int] = 15
 
+   re_no_such_package : Final[re.Pattern[str]] = \
+      re.compile(r'^.*<p>No such package.</p>.*$')
    re_debian_package : Final[re.Pattern[str]] = \
-      re.compile(r'.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
+      re.compile(r'^.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
    re_debian_archive : Final[re.Pattern[str]] = \
-      re.compile(r'.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
+      re.compile(r'^.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
                   packageInfo['debian_package_name'][0:1] + '/' + \
                   packageInfo['debian_package_name'] + '/' + \
                   r')(' + packageInfo['debian_package_name'] + r'_[0-9-+~\.a-z]+\.debian\.tar\.[a-zA-Z]+)"')
@@ -930,14 +935,19 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
 
          for statusPageLine in statusPage:
             line  = statusPageLine.decode('utf-8')
-            match = re_debian_package.match(line)
+
+            match = re_no_such_package.match(line)
             if match is not None:
-               debianVersion = match.group(1)
+               debianNoSuchPackage = True
             else:
-               match = re_debian_archive.match(line)
+               match = re_debian_package.match(line)
                if match is not None:
-                  debianLocation = match.group(1)
-                  debianArchive  = match.group(3)
+                  debianVersion = match.group(1)
+               else:
+                  match = re_debian_archive.match(line)
+                  if match is not None:
+                     debianLocation = match.group(1)
+                     debianArchive  = match.group(3)
 
          statusPage.close()
 
@@ -951,11 +961,13 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
          if trial + 1 < maxTrials:
             time.sleep(random.uniform(0, 2 * avgWaitingTime))
 
-   if (debianVersion is None) or (debianArchive is None):
-      sys.stderr.write('not found!\n')
+   if debianNoSuchPackage == True:
+      sys.stderr.write('not in Debian!\n')
       return None
-   assert debianLocation is not None
-   assert debianArchive  is not None
+
+   if ( (debianVersion is None) or (debianLocation is None) or (debianArchive is None) ):
+      sys.stderr.write('ERROR: Unable to determinate package status in Debian (https://packages.ubuntu.com/ may be malfunctioning)!\n')
+      sys.exit(1)
 
    sys.stderr.write('Version in ' + codename + ' is ' + debianVersion + '\n')
 
