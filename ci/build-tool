@@ -43,7 +43,7 @@ import time
 import urllib.error
 import urllib.request
 
-from typing import Any, Final, TextIO
+from typing import Any, Final, TextIO, cast
 
 
 # ###########################################################################
@@ -781,7 +781,7 @@ def getDistributionCodenames(distribution : str = 'debian') -> list[str]:
    else:
       distroInfo = 'ubuntu-distro-info'
    try:
-      process : subprocess.Popen = \
+      process : subprocess.Popen[str] = \
          subprocess.Popen([ distroInfo, '--all'],
                           stdout=subprocess.PIPE, universal_newlines=True)
       assert process is not None
@@ -805,7 +805,7 @@ def getDistributionCodenames(distribution : str = 'debian') -> list[str]:
 # ###### Get Debian default architecture ####################################
 def getDebianDefaultArchitecture() -> str:
    try:
-      process : subprocess.Popen = \
+      process : subprocess.Popen[str] = \
          subprocess.Popen([ 'dpkg', '--print-architecture'],
                           stdout=subprocess.PIPE, universal_newlines=True)
       assert process is not None
@@ -879,8 +879,8 @@ def getDebianControlTarballName(packageInfo            : dict[str,Any],
 
 
 # ###### Fetch Debian changelog file ########################################
-def fetchDebianChangelog(packageInfo : dict[str,Any],
-                         codename    : str = 'unstable') -> list[str] | None:
+def fetchDebianChangelogAndControl(packageInfo : dict[str,Any],
+                                   codename    : str = 'unstable') -> tuple[list[str] | None, list[str] | None]:
    if not hasPackagingFor(packageInfo, 'debian'):
       sys.stderr.write('ERROR: Cannot find required Debian packaging information!\n')
       sys.exit(1)
@@ -963,7 +963,7 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
 
    if debianNoSuchPackage == True:
       sys.stderr.write('not in Debian!\n')
-      return None
+      return (None, None)
 
    if ( (debianVersion is None) or (debianLocation is None) or (debianArchive is None) ):
       sys.stderr.write('ERROR: Unable to determinate package status in Debian (https://packages.ubuntu.com/ may be malfunctioning)!\n')
@@ -978,28 +978,41 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
 
 
    # ====== Fetch debian archive ===============================================
-   archiveFileURL : Final[str]       = debianLocation + debianArchive
-   result         : list[str] | None = None
+   archiveFileURL  : Final[str]                               = debianLocation + debianArchive
+   result          : tuple[list[str] | None,list[str] | None] = (None, None)
    sys.stderr.write('Looking for \"debian\" archive at ' + archiveFileURL + ' ... ')
    sys.stderr.flush()
    try:
-      archiveFileRequest : urllib.request.Request         = urllib.request.Request(archiveFileURL,
-                                                                                   headers = httpHeders)
-      archiveFile        : http.client.HTTPResponse       = urllib.request.urlopen(archiveFileRequest)
-      debianArchiveFile  : tempfile._TemporaryFileWrapper = tempfile.NamedTemporaryFile(delete = False)
+      archiveFileRequest : urllib.request.Request   = urllib.request.Request(archiveFileURL,
+                                                                             headers = httpHeders)
+      archiveFile        : http.client.HTTPResponse = urllib.request.urlopen(archiveFileRequest)
+      debianArchiveFile  : tempfile._TemporaryFileWrapper[bytes] = \
+         tempfile.NamedTemporaryFile(delete = False)
 
-      shutil.copyfileobj(archiveFile, debianArchiveFile)
+      shutil.copyfileobj(cast(TextIO, archiveFile), debianArchiveFile)
       debianArchiveFile.close()
       archiveFile.close()
       sys.stderr.write('found!\n')
 
+      debianChangelog : list[str] = [ ]
+      debianControl   : list[str] = [ ]
       try:
-         process : subprocess.Popen = \
+         # ------ Extract debian/changelog ----------------------------------
+         process : subprocess.Popen[str] = \
             subprocess.Popen([ 'tar', 'x' + tarCompressionOption + 'fO', debianArchiveFile.name, 'debian/changelog'],
                              stdout=subprocess.PIPE, universal_newlines=True)
          if ( (process is not None) and (process.stdout is not None) ):
-            result = process.stdout.readlines()
+            debianChangelog = process.stdout.readlines()
+
+         # ------ Extract debian/control ------------------------------------
+         process = \
+            subprocess.Popen([ 'tar', 'x' + tarCompressionOption + 'fO', debianArchiveFile.name, 'debian/control'],
+                             stdout=subprocess.PIPE, universal_newlines=True)
+         if ( (process is not None) and (process.stdout is not None) ):
+            debianControl = process.stdout.readlines()
+
          os.unlink(debianArchiveFile.name)
+         result = (debianChangelog, debianControl)
 
       except Exception as e:
          sys.stderr.write('ERROR: Failed to extract debian/changelog from ' + debianArchiveFile.name + ': ' + str(e) + '\n')
@@ -1007,7 +1020,6 @@ def fetchDebianChangelog(packageInfo : dict[str,Any],
 
    except urllib.error.HTTPError as e:
       sys.stderr.write('not found (HTTP ' + str(e.code) + ')!\n')
-      return None
 
    return result
 
@@ -1212,6 +1224,7 @@ def makeSourceDeb(packageInfo        : dict[str,Any],
    re_launchpad : Final[re.Pattern[str]] = re.compile(r'^.*\(LP: #[0-9]+')
    re_dhcompat  : Final[re.Pattern[str]] = re.compile(r'^(Build-Depends:[ \t]*|[ \t]*)(debhelper-compat \(= [0-9]+\))(.*)$')
    re_parallel  : Final[re.Pattern[str]] = re.compile(r' --parallel')
+   re_vcs       : Final[re.Pattern[str]] = re.compile(r'^(Vcs-[a-zA-Z]+)(:[ t]*)(.*)$')
 
    printSection('Creating source Debian packages')
 
@@ -1282,9 +1295,10 @@ def makeSourceDeb(packageInfo        : dict[str,Any],
 
 
       # ====== Adapt packaging ==============================================
-      changeLogContents : list[str] = readTextFile(packageInfo['debian_changelog_name'])
-      controlContents   : list[str] = readTextFile(packageInfo['debian_control_name'])
-      rulesContents     : list[str] = readTextFile(packageInfo['debian_rules_name'])
+      changeLogContents       : list[str] = readTextFile(packageInfo['debian_changelog_name'])
+      controlContents         : list[str] = readTextFile(packageInfo['debian_control_name'])
+      rulesContents           : list[str] = readTextFile(packageInfo['debian_rules_name'])
+      upstreamControlContents : list[str] | None = None
 
       newDebianVersionPackaging : str = modifyDebianVersionPackaging(packageInfo, codename)
       sys.stdout.write('Modifying packaging version from ' + \
@@ -1307,14 +1321,48 @@ def makeSourceDeb(packageInfo        : dict[str,Any],
          changeLogContents = \
             [ line for line in changeLogContents if not re_launchpad.match(line) ]
 
-         # ------ Fetch distributor's latest changelog ----------------------
-         distributorChangelogContents = fetchDebianChangelog(packageInfo, codename)
+         # ------ Fetch distributor's latest changelog and control file -----
+         distributorChangelogContents, distributorControlContents = \
+            fetchDebianChangelogAndControl(packageInfo, codename)
+
+         # ------ Update debian/changelog -----------------------------------
          if distributorChangelogContents is not None:
             # Merge new entries from changelog into a single entry, and append
             # the distributor's changelog with the rest:
-            changeLogContents = mergeDebianChangelogs(changeLogContents, distributorChangelogContents)
+            changeLogContents = \
+               mergeDebianChangelogs(changeLogContents, distributorChangelogContents)
 
          changeLogContents = filterDebianChangelog(changeLogContents)
+
+         # ------ Update debian/control -------------------------------------
+         if distributorControlContents is not None:
+            # Find Vcs-* defined by distributor:
+            vcsGit     : str | None = None
+            vcsBrowser : str | None = None
+            for line in distributorControlContents:
+               match : re.Match[str] | None = re_vcs.match(line)
+               if match:
+                  if match.group(1) == 'Vcs-Git':
+                     vcsGit = match.group(3)
+                  elif match.group(1) == 'Vcs-Browser':
+                     vcsBrowser = match.group(3)
+
+            # Replace Vcs-* with versions from distributor:
+            if ( (vcsGit is not None) or (vcsBrowser is not None) ):
+               for i in range(0, len(controlContents)):
+                  match = re_vcs.match(controlContents[i])
+                  if match:
+                     if vcsGit is not None:
+                        controlContents[i] = re.sub(r'^Vcs-Git:.*$', 'Vcs-Git: ' + vcsGit, controlContents[i])
+                     if vcsBrowser is not None:
+                        controlContents[i] = re.sub(r'^Vcs-Browser:.*$', 'Vcs-Browser: ' + vcsBrowser, controlContents[i])
+            else:
+               # No distributor Vcs-* fields -> remove them!
+               controlContents = \
+                  [ line for line in controlContents if not re_vcs.match(line) ]
+         else:
+            controlContents = \
+               [ line for line in controlContents if not re_vcs.match(line) ]
 
       # ------- Ubuntu ------------------------------------------------------
       else:
@@ -1325,7 +1373,7 @@ def makeSourceDeb(packageInfo        : dict[str,Any],
          if codename in DebhelperCompatFixes:
             dhcompatVersion : int = DebhelperCompatFixes[codename]
             for i in range(0, len(controlContents)):
-               match : re.Match[str] | None = re_dhcompat.match(controlContents[i])
+               match = re_dhcompat.match(controlContents[i])
                if match:
                   controlContents[i] = match.group(1) +  \
                                          'debhelper (>= ' + str(dhcompatVersion) + ')' + \
@@ -1352,6 +1400,10 @@ def makeSourceDeb(packageInfo        : dict[str,Any],
       writeTextFile(upstreamSourceDir + '/debian/changelog', changeLogContents)
       writeTextFile(upstreamSourceDir + '/debian/control',   controlContents)
       writeTextFile(upstreamSourceDir + '/debian/rules',     rulesContents)
+
+      # print(upstreamSourceDir + '/debian/changelog')
+      # print(upstreamSourceDir + '/debian/control')
+      # sys.exit(2)
 
       sys.stdout.write('Updated Debian changelog:\n')
       showDiff(packageInfo['debian_changelog_name'], upstreamSourceDir + '/debian/changelog')
@@ -1962,7 +2014,8 @@ elif tool == 'fetch-debian-changelog':
    codename : str = 'unstable'
    if len(sys.argv) >= 3:
       codename = sys.argv[2]
-   changelogContents : list[str] | None = fetchDebianChangelog(packageInfo, codename)
+   changelogContents, controlContents = \
+      fetchDebianChangelogAndControl(packageInfo, codename)
    if changelogContents is not None:
       sys.stdout.write('\n')
       for line in changelogContents:
