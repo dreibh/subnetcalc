@@ -16,7 +16,7 @@
 #
 # Contact: dreibh@simula.no
 
-name: FreeBSD CI Tests
+name: Debian Linux CI Tests
 
 on:
   push:
@@ -36,32 +36,30 @@ jobs:
     strategy:
       matrix:
         include:
-          # ====== FreeBSD ==================================================
-          # - label: "FreeBSD 15.0 with Clang/x86_64"
-          #   release: 15.0
-          #   cc: clang
-          #   cxx: clang++
-          - label: "FreeBSD 14.3 with Clang/x86_64"
-            release: 14.3
-            cc: clang
-            cxx: clang++
+          # ====== Debian Linux =============================================
+          - label: "Debian 13 (Trixie) with GCC"
+            image: debian:trixie
+            cc: gcc
+            cxx: g++
+          - label: "Debian 12 (Bookworm) with GCC"
+            image: debian:bookworm
+            cc: gcc
+            cxx: g++
 
     # ###### Build commands #################################################
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.image }}
     steps:
+      # NOTE: actions/checkout@v6 does not work for old Ubuntu 18.04!
       - uses: actions/checkout@v6
-      - name: Test in FreeBSD
-        id: test
-        uses: vmactions/freebsd-vm@v1
-        with:
-          release: ${{ matrix.release }}
-          usesh: true
-          run: |
-            ASSUME_ALWAYS_YES=yes pkg install -y bash
-            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-setup   compile
-            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-install compile
-            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-build   compile
+      - name: Build
+        shell: bash
+        run: |
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-setup   compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-install compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-build   compile
 
 
   # #########################################################################
@@ -72,15 +70,15 @@ jobs:
     strategy:
       matrix:
         include:
-          # ====== FreeBSD ==================================================
-          - label: "FreeBSD 14.3 with Clang/ARMv8"
-            release: 14.3
-            architecture: aarch64
-            cc: clang
-            cxx: clang++
-          - label: "FreeBSD 14.3 with Clang/RISC-V"
-            release: 14.3
-            architecture: riscv64
+          # ====== Debian Linux =============================================
+          - label: "Debian 13 (Trixie) with GCC/i386"
+            arch: i386
+            distro: trixie
+            cc: gcc
+            cxx: g++
+          - label: "Debian 13 (Trixie) with Clang/ARMv7"
+            arch: arm32v7
+            distro: trixie
             cc: clang
             cxx: clang++
 
@@ -89,14 +87,36 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
-      - name: Test in FreeBSD
-        id: test
-        uses: vmactions/freebsd-vm@v1
+      # NOTE: dreibh/run-on-arch-action provides the upstream
+      #       uraimo/run-on-arch-action action, with additional dockerfiles
+      #       needed for the builds here!
+      - uses: dreibh/run-on-arch-action@dreibh/tests
+        name: Build
+        id: build
         with:
-          release: ${{ matrix.release }}
-          usesh: true
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
           run: |
-            ASSUME_ALWAYS_YES=yes pkg install -y bash
             CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-setup   compile
             CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-install compile
             CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-build   compile
+
+
+  # #########################################################################
+  # #### Build Packages                                                  ####
+  # #########################################################################
+  Package:
+    name: Debian Packaging
+    runs-on: ubuntu-latest
+    container:
+      image: debian:unstable
+      options: --privileged
+    steps:
+      - uses: actions/checkout@v6
+      - name: Packaging
+        shell: bash
+        run: |
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-setup   package
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-install package
+          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-build   package
+          # ci/ci-test   <- Not running on Ubuntu!

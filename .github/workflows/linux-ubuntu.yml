@@ -1,0 +1,124 @@
+# GitHub Actions Scripts
+# Copyright (C) 2021-2026 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: dreibh@simula.no
+
+name: Ubuntu Linux CI Tests
+
+on:
+  push:
+    branches:
+      - master
+      - main
+      - dreibh/github-actions
+
+jobs:
+
+  # #########################################################################
+  # #### Build from Sources                                              ####
+  # #########################################################################
+  Build:
+
+    # ###### Build matrix ###################################################
+    strategy:
+      matrix:
+        include:
+          # ====== Ubuntu Linux =============================================
+          - label: "Ubuntu 25.10 (Questing Quokka) with GCC"
+            image: ubuntu:25.10
+            cc: gcc
+            cxx: g++
+          - label: "Ubuntu 24.04 (Noble Numbat) with GCC"
+            image: ubuntu:24.04
+            cc: gcc
+            cxx: g++
+
+    # ###### Build commands #################################################
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    container:
+      image: ${{ matrix.image }}
+    steps:
+      # NOTE: actions/checkout@v6 does not work for old Ubuntu 18.04!
+      - uses: actions/checkout@v6
+      - name: Build
+        shell: bash
+        run: |
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-setup   compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-install compile
+          CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ARCH= ci/ci-build   compile
+
+
+  # #########################################################################
+  # #### Multi-Architecture Builds                                       ####
+  # #########################################################################
+  Architectures:
+    # ###### Build matrix ###################################################
+    strategy:
+      matrix:
+        include:
+          # ====== Ubuntu Linux =============================================
+          - label: "Ubuntu 24.04 (Noble Numbat) with Clang/ARMv8"
+            arch: aarch64
+            distro: ubuntu24.04
+            cc: clang
+            cxx: clang++
+          - label: "Ubuntu 24.04 (Noble Numbat) with GCC/S390x"
+            arch: s390x
+            distro: ubuntu24.04
+            cc: gcc
+            cxx: g++
+          - label: "Ubuntu 24.04 (Noble Numbat) with GCC/RISC-V"
+            arch: riscv64
+            distro: ubuntu24.04
+            cc: gcc
+            cxx: g++
+
+    # ###### Build commands #################################################
+    name: ${{ matrix.label }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      # NOTE: dreibh/run-on-arch-action provides the upstream
+      #       uraimo/run-on-arch-action action, with additional dockerfiles
+      #       needed for the builds here!
+      - uses: dreibh/run-on-arch-action@dreibh/tests
+        name: Build
+        id: build
+        with:
+          arch: ${{ matrix.arch }}
+          distro: ${{ matrix.distro }}
+          run: |
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-setup   compile
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-install compile
+            CC=${{ matrix.cc }} CXX=${{ matrix.cxx }} ci/ci-build   compile
+
+
+  # #########################################################################
+  # #### Build Packages                                                  ####
+  # #########################################################################
+  Package:
+    name: Ubuntu Packaging
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Packaging
+        shell: bash
+        run: |
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-setup   package
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-install package
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-build   package
+          sudo ci/ci-test
