@@ -61,6 +61,8 @@ if [ "${ID}" == "ubuntu" ] || [ "${ID}" == "debian" ] ; then
    DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends \
       ${PACKAGES}
 
+   # ====== Add COPR PPA dreibh/ppa =========================================
+   # NOTE: This is only available for Ubuntu!
    if [ "${ID}" == "ubuntu" ] ; then
       # Add PPA dreibh/ppa for Ubuntu:
       DEBIAN_FRONTEND=noninteractive apt-get install -y -o Dpkg::Options::=--force-confold -o Dpkg::Options::=--force-confdef --no-install-recommends \
@@ -152,7 +154,7 @@ EOF
       echo "echo \"force-unsafe-io\" > /etc/dpkg/dpkg.cfg.d/02apt-speedup" | \
          OS="${OS}" DISTRIBUTION="${DIST}" ARCHITECTURE="${ARCH}" pbuilder login --save-after-exec
 
-      # ====== Add ppa:dreibh/ppa, updates and backports =================
+      # ====== Add PPA dreibh/ppa ===========================================
       if [ "${OS}" == "ubuntu" ] ; then
          # Add PPA dreibh/ppa for Ubuntu:
          OS="${OS}" DISTRIBUTION="${DIST}" ARCHITECTURE="${ARCH}" pbuilder login --save-after-login <<EOF
@@ -172,7 +174,7 @@ elif [ "${ID}" == "fedora" ] ; then
       PACKAGES="${PACKAGES} fedora-release findutils mock nosync rpmdevtools   which strace sudo"
    fi
 
-   # Enable COPR PPA:
+   # ====== Add COPR PPA dreibh/ppa =========================================
    dnf copr enable -y dreibh/ppa
 
    # dnf upgrade -qy
