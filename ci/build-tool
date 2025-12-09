@@ -1888,6 +1888,7 @@ if len(sys.argv) < 2:
    sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-deb [--summary=file] [codename ...] [--skip-signing]\n')
    sys.stderr.write('  ' + sys.argv[0] + ' build-deb [--summary=file]  [codename ...] [--skip-signing] [--architecture=arch[,...]] [--twice]\n')
    sys.stderr.write('  ' + sys.argv[0] + ' fetch-debian-changelog [codename]\n')
+   sys.stderr.write('  ' + sys.argv[0] + ' fetch-debian-control [codename]\n')
    sys.stderr.write('\n* ' + sys.argv[0] + ' make-source-rpm [--summary=file]  [release ...] [--skip-signing]\n')
    sys.stderr.write('  ' + sys.argv[0] + ' build-rpm [--summary=file] [release ...] [--skip-signing] [--architecture=[,...]]\n')
    sys.exit(1)
@@ -2019,6 +2020,19 @@ elif tool == 'fetch-debian-changelog':
    if changelogContents is not None:
       sys.stdout.write('\n')
       for line in changelogContents:
+         sys.stdout.write(line)
+
+# ====== Fetch Debian control file ==========================================
+elif tool == 'fetch-debian-control':
+   obtainDistributionCodenames()
+   codename = 'unstable'
+   if len(sys.argv) >= 3:
+      codename = sys.argv[2]
+   changelogContents, controlContents = \
+      fetchDebianChangelogAndControl(packageInfo, codename)
+   if controlContents is not None:
+      sys.stdout.write('\n')
+      for line in controlContents:
          sys.stdout.write(line)
 
 # ====== Invalid tool =======================================================
