@@ -28,7 +28,6 @@
 #
 # Contact: thomas.dreibholz@gmail.com
 
-import distro
 import glob
 import http.client
 import os
@@ -43,7 +42,17 @@ import time
 import urllib.error
 import urllib.request
 
+if sys.version_info < (3, 9):
+   sys.stderr.write('ERROR: ' + sys.argv[0] + ' requires Python 3.9 or later!\n')
+   sys.exit(1)
+
 from typing import Any, Final, TextIO, cast
+
+try:
+   import distro
+except ImportError:
+   sys.stderr.write('ERROR: ' + sys.argv[0] + ' requires the Python distro package!\n')
+   sys.exit(1)
 
 
 # ###########################################################################

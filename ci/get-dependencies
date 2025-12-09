@@ -28,14 +28,23 @@
 #
 # Contact: thomas.dreibholz@gmail.com
 
-import distro
 import glob
 import os
 import re
 import subprocess
 import sys
 
+if sys.version_info < (3, 9):
+   sys.stderr.write('ERROR: ' + sys.argv[0] + ' requires Python 3.9 or later!\n')
+   sys.exit(1)
+
 from typing import Final, TextIO
+
+try:
+   import distro
+except ImportError:
+   sys.stderr.write('ERROR: ' + sys.argv[0] + ' requires the Python distro package!\n')
+   sys.exit(1)
 
 
 # ###### Extract Deb file dependencies ######################################

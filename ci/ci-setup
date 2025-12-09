@@ -33,10 +33,23 @@ set -eu
 
 
 # ====== Check arguments ====================================================
+if [ $# -lt 1 ] ; then
+   echo >&2 "Usage: $0 compile|package ..."
+   exit 1
+fi
+
+
+# ====== Check arguments ====================================================
 USE_PACKAGING=0
 while [ $# -gt 0 ] ; do
-   if [ "$1" == "package" ] ; then
+   TOOL="$1"
+   if [ "${TOOL}" == "compile" ] ; then
+      USE_PACKAGING=0
+   elif [ "$1" == "package" ] ; then
       USE_PACKAGING=1
+   else
+      echo >&2 "ERROR: Invalid setting of TOOL=${TOOL}!"
+      exit 1
    fi
    shift
 done
