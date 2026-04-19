@@ -15,6 +15,7 @@ USES=		cmake gettext tar:xz
 PLIST_FILES=	bin/subnetcalc \
 		share/bash-completion/completions/subnetcalc \
 		share/locale/de/LC_MESSAGES/subnetcalc.mo \
+		share/locale/ka/LC_MESSAGES/subnetcalc.mo \
 		share/locale/nb/LC_MESSAGES/subnetcalc.mo \
 		share/man/man1/subnetcalc.1.gz
 
