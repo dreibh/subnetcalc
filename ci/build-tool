@@ -31,6 +31,7 @@
 import glob
 import http.client
 import os
+import packaging.version
 import pprint
 import random
 import re
@@ -214,7 +215,7 @@ def readCMakePackagingInformation() -> dict[str,Any]:
          cmakeFile         : TextIO           = open(packageInfo['cmake_lists_name'], 'r', encoding='utf-8')
          cmakeFileContents : Final[list[str]] = cmakeFile.readlines()
          for line in cmakeFileContents:
-            match = re_cmakefile_major.match(line)
+            match : re.Match[str] | None = re_cmakefile_major.match(line)
             if match is not None:
                packageInfo['cmake_version_major'] = int(match.group(3))
             else:
@@ -267,14 +268,14 @@ def readAutoConfPackagingInformation() -> dict[str,Any]:
          break
    if os.path.isfile(autoconfConfigName):
       re_autoconffile_version : Final[re.Pattern[str]] = \
-         re.compile(r'^AC_INIT\([ \t]*\[(.*)\][ \t]*,[ \t]*\[(\d).(\d).(\d+)([~+][a-zA-Z0-9\.+]+|)\][ \t]*,[ \t]*\[(.*)\][ \t]*\)')
+         re.compile(r'^AC_INIT\([ \t]*\[(.*)\][ \t]*,[ \t]*\[(\d+).(\d+).(\d+)([~+][a-zA-Z0-9\.+]+|)\][ \t]*,[ \t]*\[(.*)\][ \t]*\)')
 
       packageInfo['autoconf_config_name'] = autoconfConfigName
       try:
          autoconfFile         : TextIO           = open(packageInfo['autoconf_config_name'], 'r', encoding='utf-8')
          autoconfFileContents : Final[list[str]] = autoconfFile.readlines()
          for line in autoconfFileContents:
-            match = re_autoconffile_version.match(line)
+            match : re.Match[str] | None = re_autoconffile_version.match(line)
             if match is not None:
                packageInfo['autoconf_package_name']  = match.group(1)
                packageInfo['autoconf_version_major'] = int(match.group(2))
@@ -296,6 +297,7 @@ def readAutoConfPackagingInformation() -> dict[str,Any]:
       if ( ( not 'autoconf_package_name'   in packageInfo) or
            ( not 'autoconf_version_string' in packageInfo ) ):
          sys.stderr.write('ERROR: Cannot find required package versioning details in ' + packageInfo['autoconf_config_name'] + '!\n')
+         print(packageInfo)
          sys.exit(1)
 
    return packageInfo
@@ -335,7 +337,7 @@ def readDebianPackagingInformation() -> dict[str,Any]:
          for line in debianChangeLogFileContents:
             n = n + 1
             if n == 1:
-               match = re_debian_version.match(line)
+               match : re.Match[str] | None = re_debian_version.match(line)
                if match is not None:
                   packageInfo['debian_package_name']      = match.group(1)
                   packageInfo['debian_version_prefix']    = match.group(2)
@@ -893,104 +895,86 @@ def fetchDebianChangelogAndControl(packageInfo : dict[str,Any],
    if not hasPackagingFor(packageInfo, 'debian'):
       sys.stderr.write('ERROR: Cannot find required Debian packaging information!\n')
       sys.exit(1)
+   packageName = packageInfo['debian_package_name']
 
+   # ====== Set download directory URL ======================================
    assert DebianCodenames is not None
+   downloadDirectoryURL : str
    if codename in DebianCodenames:
-      # Debian
-      statusPageURL : str = 'https://packages.debian.org/source/' + codename + '/' + packageInfo['debian_package_name']
+      # Debian:
+      downloadDirectoryURL = \
+         'https://ftp.debian.org/debian/pool/main/' + \
+            packageName[0:1] + '/' + packageName + '/'
    else:
-      # Ubuntu
-      statusPageURL = 'https://packages.ubuntu.com/source/' + codename + '/' + packageInfo['debian_package_name']
+      # Ubuntu:
+      downloadDirectoryURL = \
+         'https://archive.ubuntu.com/ubuntu/pool/universe/' + \
+            packageName[0:1] + '/' + packageName + '/'
 
-   debianNoSuchPackage : bool       = False
-   debianVersion       : str | None = None
-   debianLocation      : str | None = None
-   debianArchive       : str | None = None
-   debianArchiveFormat : str | None = None
-
-   # ====== Get package status =================================================
-   # NOTE: https://packages.debian.org is well-known for being quite unreliable:
-   # HTTP 503 "No healthy backends"; see also
-   # https://www.reddit.com/r/debian/comments/1e0foqv/is_packagesdebianorg_inaccessible/
-   # => Work-around: Retry with random waiting time:
-   maxTrials      : Final[int] = 50
-   avgWaitingTime : Final[int] = 15
-
-   re_no_such_package : Final[re.Pattern[str]] = \
-      re.compile(r'^.*<p>No such package.</p>.*$')
-   re_debian_package : Final[re.Pattern[str]] = \
-      re.compile(r'^.*Source Package: ' + packageInfo['debian_package_name'] + r' \(([0-9-+~\.a-z]+)\)')
-   re_debian_archive : Final[re.Pattern[str]] = \
-      re.compile(r'^.*href="((http|https)://[a-zA-Z0-9\./+-]+/' + \
-                  packageInfo['debian_package_name'][0:1] + '/' + \
-                  packageInfo['debian_package_name'] + '/' + \
-                  r')(' + packageInfo['debian_package_name'] + r'_[0-9-+~\.a-z]+\.debian\.tar\.[a-zA-Z]+)"')
+   # ====== Get package status ==============================================
+   maxTrials            : Final[int] = 50
+   avgWaitingTime       : Final[int] = 15
+   re_debian_tarball    : Final[re.Pattern[str]] = \
+      re.compile(r'(<tr>.*)(<a href=")(' + packageName + r')(_)([0-9+~\.a-z]+)(-)([0-9+~\.a-z]+)(\.debian\.tar\.[a-zA-Z0-9]+)(")')
    httpHeders : Final[dict[str,str]] = {
-                                          'User-Agent': 'Build-Tool/0.2.0',
-                                          'Accept':     '*/*'
-                                       }
+      'User-Agent': 'Build-Tool/0.4.0 (AmigaOS; MC680x0)',
+      'Accept':     '*/*'
+   }
 
    for trial in range(0, maxTrials):
       if trial > 0:
          sys.stderr.write('\n')
-      sys.stderr.write('Looking for package status on ' + statusPageURL +
+      sys.stderr.write('Looking for package status on ' + downloadDirectoryURL +
                      ' (trial ' + str(trial + 1) + '/' + str(maxTrials) + ') ... ')
       sys.stderr.flush()
 
+      versions = [ ]
       try:
-         statusPageRequest : urllib.request.Request   = urllib.request.Request(statusPageURL,
+         statusPageRequest : urllib.request.Request   = urllib.request.Request(downloadDirectoryURL,
                                                                                headers = httpHeders)
          statusPage        : http.client.HTTPResponse = urllib.request.urlopen(statusPageRequest)
 
          for statusPageLine in statusPage:
-            line  = statusPageLine.decode('utf-8')
-
-            match = re_no_such_package.match(line)
+            line  : str                  = statusPageLine.decode('utf-8')
+            match : re.Match[str] | None = re_debian_tarball.match(line)
             if match is not None:
-               debianNoSuchPackage = True
-            else:
-               match = re_debian_package.match(line)
-               if match is not None:
-                  debianVersion = match.group(1)
-               else:
-                  match = re_debian_archive.match(line)
-                  if match is not None:
-                     debianLocation = match.group(1)
-                     debianArchive  = match.group(3)
+               # Break the version into Python-compatible segments:
+               version = ( packaging.version.parse(match.group(5).replace('~', '+')),
+                           packaging.version.parse(re.sub(r'(\d)([a-zA-Z])', r'\1+\2', match.group(7))),
+                           match.group(5) + match.group(6) + match.group(7) + match.group(8) )
+               versions.append(version)
 
          statusPage.close()
-
-         # A status page has been downloaded successfully -> Done!
-         # NOTE: The status page may say "No such package", if there is no package.
-         #       There is *no* HTTP 404 in this case!
          break
 
       except urllib.error.HTTPError as e:
-         sys.stderr.write('not found (HTTP ' + str(e.code) + ')')
+         sys.stderr.write('not found (HTTP ' + str(e.code) + ') ... ')
+         if e.code == 404:
+            # Not found -> done!
+            break
          if trial + 1 < maxTrials:
             time.sleep(random.uniform(0, 2 * avgWaitingTime))
 
-   if debianNoSuchPackage == True:
-      sys.stderr.write('not in Debian!\n')
-      return (None, None)
+   if len(versions) == 0:
+      sys.stderr.write('not found!\n')
+      return ( None, None )
 
-   if ( (debianVersion is None) or (debianLocation is None) or (debianArchive is None) ):
-      sys.stderr.write('ERROR: Unable to determinate package status in Debian (https://packages.ubuntu.com/ may be malfunctioning)!\n')
-      sys.exit(1)
-
-   sys.stderr.write('Version in ' + codename + ' is ' + debianVersion + '\n')
-
+   # ====== Obtain latest version ===========================================
+   versions = sorted(versions, reverse = True)
+   debianVersion  : Final[str] = versions[0][2]
+   debianArchive  : Final[str] = packageName + '_' + debianVersion
+   archiveFileURL : Final[str] = downloadDirectoryURL + debianArchive
+   sys.stderr.write('latest version is ' + debianVersion + '\n')
 
    # ====== Determine necessary compression option =============================
    debianArchiveFormat  = debianArchive[len(debianArchive) - 2 : len(debianArchive)]
    tarCompressionOption = TarOptions[debianArchiveFormat]
 
-
    # ====== Fetch debian archive ===============================================
-   archiveFileURL  : Final[str]                               = debianLocation + debianArchive
-   result          : tuple[list[str] | None,list[str] | None] = (None, None)
    sys.stderr.write('Looking for \"debian\" archive at ' + archiveFileURL + ' ... ')
    sys.stderr.flush()
+
+   result : tuple[list[str] | None,list[str] | None] = ( None, None )
    try:
       archiveFileRequest : urllib.request.Request   = urllib.request.Request(archiveFileURL,
                                                                              headers = httpHeders)
@@ -1003,6 +987,7 @@ def fetchDebianChangelogAndControl(packageInfo : dict[str,Any],
       archiveFile.close()
       sys.stderr.write('found!\n')
 
+      # ====== Extract changelog and control ================================
       debianChangelog : list[str] = [ ]
       debianControl   : list[str] = [ ]
       try:
@@ -1021,7 +1006,7 @@ def fetchDebianChangelogAndControl(packageInfo : dict[str,Any],
             debianControl = process.stdout.readlines()
 
          os.unlink(debianArchiveFile.name)
-         result = (debianChangelog, debianControl)
+         result = ( debianChangelog, debianControl )
 
       except Exception as e:
          sys.stderr.write('ERROR: Failed to extract debian/changelog from ' + debianArchiveFile.name + ': ' + str(e) + '\n')

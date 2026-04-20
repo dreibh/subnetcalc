@@ -9,7 +9,7 @@ Build-Depends: cmake,
                debhelper-compat (= 13),
                gettext,
                libgeoip-dev
-Standards-Version: 4.7.2
+Standards-Version: 4.7.4
 Rules-Requires-Root: no
 
 Package: subnetcalc
