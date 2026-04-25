@@ -982,7 +982,7 @@ def fetchDebianChangelogAndControl(packageInfo : dict[str,Any],
       debianArchiveFile  : tempfile._TemporaryFileWrapper[bytes] = \
          tempfile.NamedTemporaryFile(delete = False)
 
-      shutil.copyfileobj(cast(TextIO, archiveFile), debianArchiveFile)
+      shutil.copyfileobj(archiveFile, debianArchiveFile)
       debianArchiveFile.close()
       archiveFile.close()
       sys.stderr.write('found!\n')
