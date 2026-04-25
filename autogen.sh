@@ -19,7 +19,7 @@
 # Contact: thomas.dreibholz@gmail.com
 
 # Bash options:
-set -eu
+set -euo pipefail
 
 
 CMAKE_OPTIONS=""
