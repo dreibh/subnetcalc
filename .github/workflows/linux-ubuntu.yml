@@ -37,8 +37,8 @@ jobs:
       matrix:
         include:
           # ====== Ubuntu Linux =============================================
-          - label: "Ubuntu 25.10 (Questing Quokka) with GCC"
-            image: ubuntu:25.10
+          - label: "Ubuntu 26.04 (Resolute Raccoon) with GCC"
+            image: ubuntu:26.04
             cc: gcc
             cxx: g++
           - label: "Ubuntu 24.04 (Noble Numbat) with GCC"
@@ -71,19 +71,19 @@ jobs:
       matrix:
         include:
           # ====== Ubuntu Linux =============================================
-          - label: "Ubuntu 24.04 (Noble Numbat) with Clang/ARMv8"
+          - label: "Ubuntu 26.04 (Noble Numbat) with Clang/ARMv8"
             arch: aarch64
-            distro: ubuntu24.04
+            distro: ubuntu26.04
             cc: clang
             cxx: clang++
-          - label: "Ubuntu 24.04 (Noble Numbat) with GCC/S390x"
+          - label: "Ubuntu 26.04 (Noble Numbat) with GCC/S390x"
             arch: s390x
-            distro: ubuntu24.04
+            distro: ubuntu26.04
             cc: gcc
             cxx: g++
-          - label: "Ubuntu 24.04 (Noble Numbat) with GCC/RISC-V"
+          - label: "Ubuntu 26.04 (Noble Numbat) with GCC/RISC-V"
             arch: riscv64
-            distro: ubuntu24.04
+            distro: ubuntu26.04
             cc: gcc
             cxx: g++
 
