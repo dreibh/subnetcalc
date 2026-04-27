@@ -63,8 +63,7 @@ _subnetcalc()
          addressesV6="$(/sbin/ifconfig | awk '/[ \t]+inet6 / { print $2 "/" $4 }' | sed -e 's#%.*/#/#')"
          addresses="${addressesV4} ${addressesV6}"
       fi
-      # shellcheck disable=SC2207
-      COMPREPLY=( $(compgen -W "${addresses}" -- "${cur}") )
+      mapfile -t COMPREPLY < <(compgen -W "${addresses}" -- "${cur}")
       return
    fi
 
@@ -79,8 +78,7 @@ _subnetcalc()
 -v
 -version
 "
-   # shellcheck disable=SC2207
-   COMPREPLY=( $( compgen -W "${opts}" -- "${cur}" ) )
+   mapfile -t COMPREPLY < <(compgen -W "${opts}" -- "${cur}" )
 
    return 0
 }
