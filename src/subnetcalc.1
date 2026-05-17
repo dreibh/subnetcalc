@@ -28,7 +28,7 @@
 .\" Contact: thomas.dreibholz@gmail.com
 .\"
 .\" ###### Setup ############################################################
-.Dd January 06, 2025
+.Dd May 17, 2026
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -37,8 +37,8 @@
 .Nd IPv4/IPv6 Subnet Calculator
 .\" ###### Synopsis #########################################################
 .Sh SYNOPSIS
-.Nm subnetcalc
-.Op Address | Address Prefix | Address Netmask | Address/Prefix | Address/Netmask
+.Nm subnetcalc Ar address | Ar address Ar prefix | Ar address Ar netmask | Ar address/prefix | Ar address/netmask
+.br
 .Op Fl n
 .Op Fl uniquelocal
 .Op Fl uniquelocalhq
@@ -53,29 +53,36 @@ is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and ne
 .Sh ARGUMENTS
 The following arguments have to be provided:
 .Bl -tag -width indent
-.It Address
+.It Ar address
 The IP address. If a hostname is provided here, it is tried to resolve the address by a DNS server and the first returned address is used. Internationalized Domain Names (IDN) are supported.
-.It Netmask/Prefix
-The netmask or prefix length (0-32 for IPv4; 0-128 for IPv6).
+.It Ar netmask
+The netmask.
+.It Ar prefix
+The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
 .It Fl n
 Skip trying a reverse DNS lookup.
 .It Fl uniquelocal
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux and FreeBSD, /dev/urandom is used for random number generation.
 .It Fl uniquelocalhq
-Like \-uniquelocal, but using /dev/random instead on Linux and FreeBSD systems for highest-quality random number generation. On other systems, this option is equal to \-uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
+Like \-uniquelocal, but using /dev/random instead on Linux and FreeBSD systems for highest\-quality random number generation. On other systems, this option is equal to \-uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
 .It Fl nocolour | Fl nocolor
 Turns colourised output off.
 .It Fl v | Fl version
 Just prints program version.
 .El
+.\" ###### Exit status ######################################################
+.Sh EXIT STATUS
+The
+.Nm
+tool exits with 0 on success, and >0 in case of an error.
 .\" ###### Examples #########################################################
 .Sh EXAMPLES
 .Bl -tag -width indent
-.It subnetcalc -v
+.It subnetcalc \-v
 .It subnetcalc 132.252.250.0 255.255.255.0
-.It subnetcalc 132.252.250.0/255.255.255.0 -nocolor
+.It subnetcalc 132.252.250.0/255.255.255.0 \-nocolor
 .It subnetcalc 132.252.250.0 24
-.It subnetcalc 132.252.250.0/24 -nocolour
+.It subnetcalc 132.252.250.0/24 \-nocolour
 .It subnetcalc fe80::2f0b:a04e:15c2:bc68 64
 .It subnetcalc fe80::2f0b:a04e:15c2:bc68%wlp4s0 64
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
@@ -83,7 +90,7 @@ Just prints program version.
 .It subnetcalc ff08::1:2:3
 .It subnetcalc 131.220.6.5/24
 .It subnetcalc 132.252.181.87 \-n
-.It subnetcalc www.iem.uni-due.de 24
+.It subnetcalc www.iem.uni\-due.de 24
 .It subnetcalc www.six.heise.de
 .It subnetcalc fd00:: 64 \-uniquelocal
 .It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-uniquelocalhq
@@ -99,3 +106,11 @@ https://www.nntb.no/~dreibh/subnetcalc
 .br
 mailto://thomas.dreibholz@gmail.com
 .br
+.\" ###### Notes ############################################################
+.Sh NOTES
+The latest version of SubNetCalc can be found on the SubNetCalc Homepage at
+.Lk https://www.nntb.no/\(tidreibh/subnetcalc/ "SubNetCalc Homepage" .
+.\" ###### Authors ##########################################################
+.Sh AUTHORS
+Thomas Dreibholz,
+.Lk https://www.nntb.no/\(tidreibh "Homepage"
