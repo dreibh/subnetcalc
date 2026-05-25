@@ -35,7 +35,8 @@
 #endif
 
 #include <cstdarg>
-#include <iostream>
+#include <iosfwd>
+#include <string>
 
 #include <arpa/inet.h>
 #include <netinet/in.h>

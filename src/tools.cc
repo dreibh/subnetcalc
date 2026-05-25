@@ -113,13 +113,10 @@ size_t getSocklen(const struct sockaddr* address)
    switch(address->sa_family) {
       case AF_INET:
          return sizeof(struct sockaddr_in);
-       break;
       case AF_INET6:
          return sizeof(struct sockaddr_in6);
-       break;
       default:
          return sizeof(struct sockaddr);
-       break;
    }
 }
 
@@ -191,12 +188,12 @@ bool address2string(const struct sockaddr* address,
          if( (!hideScope) &&
              (IN6_IS_ADDR_LINKLOCAL(&ipv6address->sin6_addr) ||
               IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address->sin6_addr)) ) {
-            ifname = if_indextoname(ipv6address->sin6_scope_id, (char*)&ifnamebuffer);
-            if(ifname == nullptr) {
-               snprintf((char*)&scope, sizeof(scope), "%%%s", ifname);
+            ifname = if_indextoname(ipv6address->sin6_scope_id, ifnamebuffer);
+            if(ifname != nullptr) {
+               snprintf(scope, sizeof(scope), "%%%s", ifname);
             }
             else {
-               scope[0] = 0x00;
+               snprintf(scope, sizeof(scope), "%%%u", ipv6address->sin6_scope_id);
             }
          }
          else {
@@ -238,13 +235,11 @@ bool string2address(const char*           string,
    struct addrinfo* res;
    bool isNumeric;
    bool isIPv6;
-   size_t hostLength;
-   size_t i;
 
-   if(strlen(string) > sizeof(host)) {
+   if(strlen(string) >= sizeof(host)) {
       return false;
    }
-   strcpy(host,string);
+   strcpy(host, string);
    strcpy(port, "0");
 
    // ====== Handle RFC2732-compliant addresses =============================
@@ -254,8 +249,8 @@ bool string2address(const char*           string,
          if((p1[1] == ':') || (p1[1] == '!')) {
             strcpy(port, &p1[2]);
          }
-         memmove(host, (char*)&host[1], (long)p1 - (long)host - 1);
-         host[(long)p1 - (long)host - 1] = 0x00;
+         memmove(host, &host[1], p1 - host - 1);
+         host[p1 - host - 1] = 0x00;
       }
    }
 
@@ -294,29 +289,29 @@ bool string2address(const char*           string,
    // ====== Create address structure =======================================
 
    // ====== Get information for host =======================================
-   res        = nullptr;
-   isNumeric  = true;
-   isIPv6     = false;
-   hostLength = strlen(host);
+   res               = nullptr;
+   isNumeric         = true;
+   isIPv6            = false;
+   size_t hostLength = strlen(host);
 #ifndef AI_IDN
    char* punycode = nullptr;
 #endif
 
-   memset((char*)&hints, 0, sizeof(hints));
+   memset(&hints, 0, sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
    hints.ai_flags    = AI_IDN;
 #endif
 
-   for(i = 0; i < hostLength; i++) {
+   for(size_t i = 0; i < hostLength; i++) {
       if(host[i] == ':') {
          isIPv6 = true;
          break;
       }
    }
    if(!isIPv6) {
-      for(i = 0; i < hostLength; i++) {
-         if(!(isdigit(host[i]) || (host[i] == '.'))) {
+      for(size_t i = 0; i < hostLength; i++) {
+         if(!(isdigit(static_cast<unsigned char>(host[i])) || (host[i] == '.'))) {
             isNumeric = false;
             break;
          }
@@ -351,12 +346,22 @@ bool string2address(const char*           string,
                      (punycode != nullptr) ? punycode : host,
 #endif
                      nullptr, &hints, &res) != 0) {
+#ifndef AI_IDN
+         if(punycode) {
+            free(punycode);
+         }
+#endif
          return false;
       }
    }
+#ifndef AI_IDN
+   if(punycode) {
+      free(punycode);
+   }
+#endif
 
-   memset((char*)address,0,sizeof(union sockaddr_union));
-   memcpy((char*)address,res->ai_addr,res->ai_addrlen);
+   memset(address, 0, sizeof(union sockaddr_union));
+   memcpy(address, res->ai_addr, res->ai_addrlen);
 
    switch(ipv4address->sin_family) {
       case AF_INET:
@@ -373,12 +378,8 @@ bool string2address(const char*           string,
        break;
       default:
          return false;
-       break;
    }
 
-#ifndef AI_IDN
-   free(punycode);
-#endif
    freeaddrinfo(res);
    return true;
 }
@@ -390,9 +391,8 @@ void printAddress(std::ostream&          os,
                   const bool             port,
                   const bool             hideScope)
 {
-   static char str[128];
-
-   if(address2string(address, (char*)&str, sizeof(str), port, hideScope)) {
+   char str[128];
+   if(address2string(address, str, sizeof(str), port, hideScope)) {
       os << str;
    }
    else {
@@ -404,10 +404,10 @@ void printAddress(std::ostream&          os,
 // ###### Create formatted string (printf-like) #############################
 std::string format(const char* fmt, ...)
 {
-   char buffer[16384];
+   char buffer[2048];
    va_list va;
    va_start(va, fmt);
    vsnprintf(buffer, sizeof(buffer), fmt, va);
    va_end(va);
-   return(std::string(buffer));
+   return std::string(buffer);
 }
