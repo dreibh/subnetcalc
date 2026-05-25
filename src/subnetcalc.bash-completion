@@ -70,13 +70,21 @@ _subnetcalc()
 
    # ====== All options =====================================================
    local opts="
+-u
+--uniquelocal
+-U
+--uniquelocalhq
 -n
--nocolor
--nocolour
--uniquelocal
--uniquelocalhq
+--noreverselookup
+-g
+--nogeoiplookup
+-c
+--nocolour
+--nocolor
+-h
+--help
 -v
--version
+--version
 "
    mapfile -t COMPREPLY < <(compgen -W "${opts}" -- "${cur}" )
 
