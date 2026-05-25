@@ -1,14 +1,37 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR "Copyright (C) 2013-2026 by Thomas Dreibholz"
-# This file is distributed under the same license as the "subnetcalc" package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# ==========================================================================
+#             ____        _     _   _      _    ____      _
+#            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
+#            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
+#             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
+#            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
 #
-#, fuzzy
+#                    ---  IPv4/IPv6 Subnet Calculator  ---
+#                   https://www.nntb.no/~dreibh/subnetcalc/
+# ==========================================================================
+#
+# SubNetCalc - IPv4/IPv6 Subnet Calculator
+# Copyright (C) 2024-2026 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: thomas.dreibholz@gmail.com
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.5.2~rc0\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-05-25 11:00+0200\n"
+"POT-Creation-Date: 2026-05-25 15:20+0200\n"
 "PO-Revision-Date: 2024-10-19 18:40+0200\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
 "Language-Team:\n"
@@ -20,294 +43,298 @@ msgstr ""
 "X-Language: nb\n"
 "X-Source-Language: en_GB\n"
 
-#: src/subnetcalc.cc:163
+#: src/subnetcalc.cc:170
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "FEIL: En IPv6-adresse må oppgis for å generere en unik lokal adresse!"
 
-#: src/subnetcalc.cc:172
+#: src/subnetcalc.cc:180
 #, c-format
 msgid "Generating Unique Local IPv6 address (using %s) ..."
 msgstr "Genererer unik lokal IPv6-adresse (ved hjelp av %s) ..."
 
-#: src/subnetcalc.cc:176
+#: src/subnetcalc.cc:183
 #, c-format
 msgid "ERROR: Unable to read from %s!"
 msgstr "FEIL: Kan ikke lese fra %s!"
 
-#: src/subnetcalc.cc:182
+#: src/subnetcalc.cc:188
 #, c-format
 msgid "ERROR: Unable to open %s!"
 msgstr "FEIL: Kan ikke åpne %s!"
 
-#: src/subnetcalc.cc:446 src/subnetcalc.cc:454 src/subnetcalc.cc:470
-#: src/subnetcalc.cc:483 src/subnetcalc.cc:493
+#: src/subnetcalc.cc:452 src/subnetcalc.cc:460 src/subnetcalc.cc:476
+#: src/subnetcalc.cc:489 src/subnetcalc.cc:499
 #, c-format
 msgid "%-32s"
 msgstr "%-32s"
 
-#: src/subnetcalc.cc:446
+#: src/subnetcalc.cc:452
 msgid "Global ID"
 msgstr "Global-ID"
 
-#: src/subnetcalc.cc:454
+#: src/subnetcalc.cc:460
 msgid "Subnet ID"
 msgstr "Subnett-ID"
 
-#: src/subnetcalc.cc:470
+#: src/subnetcalc.cc:476
 msgid "Interface ID"
 msgstr "Interface-ID"
 
-#: src/subnetcalc.cc:483
+#: src/subnetcalc.cc:489
 msgid "MAC Address"
 msgstr "MAC-adresse"
 
-#: src/subnetcalc.cc:493
+#: src/subnetcalc.cc:499
 msgid "Solicited Node Multicast Address"
 msgstr "Solicited Node Multicast-adresse"
 
-#: src/subnetcalc.cc:510 src/subnetcalc.cc:970 src/subnetcalc.cc:973
-#: src/subnetcalc.cc:974 src/subnetcalc.cc:976 src/subnetcalc.cc:979
-#: src/subnetcalc.cc:988 src/subnetcalc.cc:993 src/subnetcalc.cc:996
-#: src/subnetcalc.cc:1013 src/subnetcalc.cc:1015
+#: src/subnetcalc.cc:516 src/subnetcalc.cc:1007 src/subnetcalc.cc:1010
+#: src/subnetcalc.cc:1011 src/subnetcalc.cc:1013 src/subnetcalc.cc:1016
+#: src/subnetcalc.cc:1025 src/subnetcalc.cc:1030 src/subnetcalc.cc:1033
+#: src/subnetcalc.cc:1050 src/subnetcalc.cc:1052
 #, c-format
 msgid "%-14s"
 msgstr "%-14s"
 
-#: src/subnetcalc.cc:510
+#: src/subnetcalc.cc:516
 msgid "Properties"
 msgstr "Egenskaper"
 
-#: src/subnetcalc.cc:513
+#: src/subnetcalc.cc:519
 #, c-format
 msgid "%s is a MULTICAST address"
 msgstr "%s er en MULTICAST-adresse"
 
-#: src/subnetcalc.cc:520
+#: src/subnetcalc.cc:526
 #, c-format
 msgid "%s is the BROADCAST address of %s/%u"
 msgstr "%s er BROADCAST-adressen til %s/%u"
 
-#: src/subnetcalc.cc:526
+#: src/subnetcalc.cc:532
 #, c-format
 msgid "%s is a NETWORK address"
 msgstr "%s er en NETTVERK-adresse"
 
-#: src/subnetcalc.cc:531
+#: src/subnetcalc.cc:537
 #, c-format
 msgid "%s is a HOST address in %s/%u"
 msgstr "%s er en HOST-adresse i %s/%u"
 
-#: src/subnetcalc.cc:544
+#: src/subnetcalc.cc:550
 msgid "Class A"
 msgstr "Klasse A"
 
-#: src/subnetcalc.cc:546 src/subnetcalc.cc:617
+#: src/subnetcalc.cc:552 src/subnetcalc.cc:623
 msgid "Loopback address"
 msgstr "Loopback-adresse"
 
-#: src/subnetcalc.cc:549
+#: src/subnetcalc.cc:555
 msgid "In loopback network"
 msgstr "In loopback-nettverk"
 
-#: src/subnetcalc.cc:552 src/subnetcalc.cc:558 src/subnetcalc.cc:567
+#: src/subnetcalc.cc:558 src/subnetcalc.cc:564 src/subnetcalc.cc:573
 msgid "Private"
 msgstr "Privat"
 
-#: src/subnetcalc.cc:556
+#: src/subnetcalc.cc:562
 msgid "Class B"
 msgstr "Klasse B"
 
-#: src/subnetcalc.cc:561
+#: src/subnetcalc.cc:567
 msgid "Link-local address"
 msgstr "Link-lokal adresse"
 
-#: src/subnetcalc.cc:565
+#: src/subnetcalc.cc:571
 msgid "Class C"
 msgstr "Klasse C"
 
-#: src/subnetcalc.cc:571
+#: src/subnetcalc.cc:577
 msgid "Class D (Multicast)"
 msgstr "Klasse D (Multicast)"
 
-#: src/subnetcalc.cc:573 src/subnetcalc.cc:636
+#: src/subnetcalc.cc:579 src/subnetcalc.cc:642
 msgid "Scope: "
 msgstr "Omfang: "
 
-#: src/subnetcalc.cc:575 src/subnetcalc.cc:641
+#: src/subnetcalc.cc:581 src/subnetcalc.cc:647
 msgid "link-local"
 msgstr "link-lokal"
 
-#: src/subnetcalc.cc:578 src/subnetcalc.cc:647
+#: src/subnetcalc.cc:584 src/subnetcalc.cc:653
 msgid "organization-local"
 msgstr "organisasjon-lokal"
 
-#: src/subnetcalc.cc:581 src/subnetcalc.cc:644
+#: src/subnetcalc.cc:587 src/subnetcalc.cc:650
 msgid "site-local"
 msgstr "sted-lokal"
 
-#: src/subnetcalc.cc:584 src/subnetcalc.cc:650
+#: src/subnetcalc.cc:590 src/subnetcalc.cc:656
 msgid "global"
 msgstr "global"
 
-#: src/subnetcalc.cc:595
+#: src/subnetcalc.cc:601 src/subnetcalc.cc:677
 #, c-format
 msgid "Corresponding multicast MAC address: %s"
 msgstr "Tilsvarende multicast MAC-adresse: %s"
 
-#: src/subnetcalc.cc:600 src/subnetcalc.cc:676
+#: src/subnetcalc.cc:606 src/subnetcalc.cc:683
 msgid "Source-specific multicast"
 msgstr "Kildespesifikk multicast"
 
-#: src/subnetcalc.cc:604
+#: src/subnetcalc.cc:610
 msgid "Invalid (not in class A, B, C or D)"
 msgstr "Ugyldig (ikke i klasse A, B, C eller D)"
 
-#: src/subnetcalc.cc:620
+#: src/subnetcalc.cc:626
 msgid "Unspecified address"
 msgstr "Uspesifisert adresse"
 
-#: src/subnetcalc.cc:623
+#: src/subnetcalc.cc:629
 msgid "IPv4-compatible IPv6 address"
 msgstr "IPv4-kompatibel IPv6-adresse"
 
-#: src/subnetcalc.cc:626
+#: src/subnetcalc.cc:632
 msgid "IPv4-mapped IPv6 address"
 msgstr "IPv4-tilordnet IPv6-adresse"
 
-#: src/subnetcalc.cc:629
+#: src/subnetcalc.cc:635
 msgid "IPv4-embedded IPv6 address"
 msgstr "IPv4-innebygd IPv6-adresse"
 
-#: src/subnetcalc.cc:635
+#: src/subnetcalc.cc:641
 msgid "Multicast Properties"
 msgstr "Multicast-egenskaper"
 
-#: src/subnetcalc.cc:638
+#: src/subnetcalc.cc:644
 msgid "node-local"
 msgstr "node-lokalt"
 
-#: src/subnetcalc.cc:653
+#: src/subnetcalc.cc:659
 msgid "unknown"
 msgstr "ukjent"
 
-#: src/subnetcalc.cc:660
-msgid "Temporary-allocated address"
+#: src/subnetcalc.cc:666
+msgid "Temporarily-allocated address"
 msgstr "Midlertidig tildelt adresse"
 
-#: src/subnetcalc.cc:671
-msgid "Corresponding multicast MAC address: "
-msgstr "Tilsvarende multicast MAC-adresse: "
-
-#: src/subnetcalc.cc:689
+#: src/subnetcalc.cc:696
 msgid "Address is solicited node multicast address for"
 msgstr "Adressen er solicited node multicast-adresse for"
 
-#: src/subnetcalc.cc:696
+#: src/subnetcalc.cc:703
 msgid "Link-Local Unicast Properties:"
 msgstr "Link-Local Unicast-egenskaper:"
 
-#: src/subnetcalc.cc:702
+#: src/subnetcalc.cc:709
 msgid "Site-Local Unicast Properties:"
 msgstr "Site-Local Unicast-egenskaper:"
 
-#: src/subnetcalc.cc:708
+#: src/subnetcalc.cc:715
 msgid "Unique Local Unicast Properties:"
 msgstr "Unique Local Unicast-egenskaper:"
 
-#: src/subnetcalc.cc:710
+#: src/subnetcalc.cc:717
 msgid "Locally chosen"
 msgstr "Lokalt valgt"
 
-#: src/subnetcalc.cc:713
+#: src/subnetcalc.cc:720
 msgid "Assigned by global instance"
 msgstr "Tilordnet av global forekomst"
 
-#: src/subnetcalc.cc:720
+#: src/subnetcalc.cc:727
 msgid "Global Unicast Properties:"
 msgstr "Global Unicast-egenskaper:"
 
-#: src/subnetcalc.cc:730
+#: src/subnetcalc.cc:737
 msgid "6-to-4 Address"
 msgstr "6-to-4-adresse"
 
-#: src/subnetcalc.cc:770
+#: src/subnetcalc.cc:801
 msgid "Usage:"
 msgstr "Bruk:"
 
-#: src/subnetcalc.cc:866 src/subnetcalc.cc:880
+#: src/subnetcalc.cc:903 src/subnetcalc.cc:917
 #, c-format
 msgid "ERROR: Invalid address %s!"
 msgstr "FEIL: Ugyldig adresse %s!"
 
-#: src/subnetcalc.cc:871 src/subnetcalc.cc:888 src/subnetcalc.cc:912
+#: src/subnetcalc.cc:908 src/subnetcalc.cc:925 src/subnetcalc.cc:949
 #, c-format
 msgid "ERROR: Invalid netmask %s!"
 msgstr "FEIL: Ugyldig nettmaske %s!"
 
-#: src/subnetcalc.cc:918
+#: src/subnetcalc.cc:955
 #, c-format
 msgid "ERROR: Incompatible netmask %s!"
 msgstr "FEIL: Inkompatibel nettmaske %s!"
 
-#: src/subnetcalc.cc:970
+#: src/subnetcalc.cc:1007
 msgid "Address"
 msgstr "Adresse"
 
-#: src/subnetcalc.cc:974
+#: src/subnetcalc.cc:1011
 msgid "Network"
 msgstr "Nettverk"
 
-#: src/subnetcalc.cc:976
+#: src/subnetcalc.cc:1013
 msgid "Netmask"
 msgstr "Nettverksmaske"
 
-#: src/subnetcalc.cc:979
+#: src/subnetcalc.cc:1016
 msgid "Broadcast"
 msgstr "Broadcast"
 
-#: src/subnetcalc.cc:984
+#: src/subnetcalc.cc:1021
 msgid "not needed on Point-to-Point links"
 msgstr "ikke nødvendig på punkt-til-punkt-lenker"
 
-#: src/subnetcalc.cc:988
+#: src/subnetcalc.cc:1025
 msgid "Wildcard Mask"
 msgstr "Wildcardmaske"
 
-#: src/subnetcalc.cc:993
+#: src/subnetcalc.cc:1030
 msgid "Hex. Address"
 msgstr "Hex. adresse"
 
-#: src/subnetcalc.cc:996
-msgid "Hosts Bits"
+#: src/subnetcalc.cc:1033
+msgid "Host Bits"
 msgstr "Host bits"
 
-#: src/subnetcalc.cc:1013
+#: src/subnetcalc.cc:1050
 msgid "Max. Hosts"
 msgstr "Maks. hosts "
 
-#: src/subnetcalc.cc:1015
+#: src/subnetcalc.cc:1052
 msgid "Host Range"
 msgstr "Host range"
 
-#: src/subnetcalc.cc:1039 src/subnetcalc.cc:1080
+#: src/subnetcalc.cc:1077 src/subnetcalc.cc:1100 src/subnetcalc.cc:1125
+#: src/subnetcalc.cc:1132
+msgid "Unknown"
+msgstr "Ukjent"
+
+#: src/subnetcalc.cc:1083
 msgid "GeoIP AS Info"
 msgstr "GeoIP AS-info"
 
-#: src/subnetcalc.cc:1047 src/subnetcalc.cc:1088
+#: src/subnetcalc.cc:1114
 msgid "GeoIP Country"
 msgstr "GeoIP-land"
 
-#: src/subnetcalc.cc:1058 src/subnetcalc.cc:1099
+#: src/subnetcalc.cc:1160
 msgid "GeoIP Region"
 msgstr "GeoIP-regionen"
 
-#: src/subnetcalc.cc:1124
+#: src/subnetcalc.cc:1179
 msgid "Performing reverse DNS lookup ..."
 msgstr "Utfører omvendt DNS-oppslag ..."
 
-#: src/subnetcalc.cc:1140
+#: src/subnetcalc.cc:1197
 msgid "DNS Hostname"
 msgstr "DNS-vertsnavn"
+
+#~ msgid "Corresponding multicast MAC address: "
+#~ msgstr "Tilsvarende multicast MAC-adresse: "
 
 #, c-format
 #~ msgid "ERROR: Invalid argument %s!"
