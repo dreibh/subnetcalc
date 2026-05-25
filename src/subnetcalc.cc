@@ -195,7 +195,7 @@ void generateUniqueLocal(sockaddr_union& address,
 
    // ====== Create IPv6 Unique Local address ===============================
    address.in6.sin6_addr.s6_addr[0] = 0xfd;
-   memcpy((char*)&address.in6.sin6_addr.s6_addr[1], (const char*)&buffer, sizeof(buffer));
+   memcpy(&address.in6.sin6_addr.s6_addr[1], buffer, sizeof(buffer));
 }
 
 
@@ -659,7 +659,7 @@ void printAddressProperties(std::ostream&         os,
          // ------ Multicast flags ------------------------------------------
          const uint8_t flags = (((uint8_t*)&ipv6address)[1] & 0xf0) >> 4;
          if(flags == 0x1) {
-            os << "      + " << gettext("Temporary-allocated address") << "\n";
+            os << "      + " << gettext("Temporarily-allocated address") << "\n";
          }
 
          // ------ Corresponding MAC address --------------------------------
@@ -899,7 +899,7 @@ int main(int argc, char** argv)
          std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[optind]) << "\n";
          exit(1);
       }
-      if( readPrefix((const char*)&slash[1], address, netmask) < 0 ) {
+      if(readPrefix((const char*)&slash[1], address, netmask) < 0) {
          if(string2address((const char*)&slash[1], &netmask) == false) {
             std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[optind]) << "\n";
             exit(1);
@@ -1064,7 +1064,7 @@ int main(int argc, char** argv)
 
    // ------ ASN Lookup -----------------------------------------------------
    if(!noGeoIPLookup) {
-      const std::string    mmdbASNDatabasePath = find_mmdb_path("GeoLite2-ASN.mmdb");
+      const std::string mmdbASNDatabasePath = find_mmdb_path("GeoLite2-ASN.mmdb");
       if(!mmdbASNDatabasePath.empty()) {
          mmdbStatusCode = MMDB_open(mmdbASNDatabasePath.c_str(), MMDB_MODE_MMAP, &mmdb);
          if(mmdbStatusCode == MMDB_SUCCESS) {
@@ -1073,15 +1073,13 @@ int main(int argc, char** argv)
                std::string organisation = gettext("Unknown");
                if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
                                  "autonomous_system_organization", nullptr) == MMDB_SUCCESS) &&
-                  (mmdbEntryData.has_data) ) {
+                   (mmdbEntryData.has_data) ) {
                   organisation = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
                }
                std::cout << format("%-14s = ", gettext("GeoIP AS Info")) << organisation << "\n";
             }
             MMDB_close(&mmdb);
          }
-      } else {
-         std::cerr << gettext("WARNING: GeoLite2-ASN.mmdb not found in standard directories.") << "\n";
       }
    }
 
@@ -1159,15 +1157,13 @@ int main(int argc, char** argv)
                         << postalCode << (!postalCode.empty() ? " " : "")
                         << city << ", " << region
                         << " ("
-                        << std::fabs(latitude)  << "°" << ((latitude > 0)  ? "N" : "S") << ", "
-                        << std::fabs(longitude) << "°" << ((longitude > 0) ? "E" : "W")
+                        << std::fabs(latitude)  << "°" << ((latitude >= 0.0)  ? "N" : "S") << ", "
+                        << std::fabs(longitude) << "°" << ((longitude >= 0.0) ? "E" : "W")
                         << (!timeZone.empty() ? ", " : "") << timeZone
                         << ")\n";
             }
             MMDB_close(&mmdb);
          }
-      } else {
-         std::cerr << "WARNING: GeoLite2-City.mmdb not found in standard directories.\n";
       }
    }
 #endif
