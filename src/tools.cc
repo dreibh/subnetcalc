@@ -179,8 +179,9 @@ bool address2string(const struct sockaddr* address,
       case AF_INET:
          ipv4address = (const struct sockaddr_in*)address;
          if(port) {
-            snprintf(buffer, length,
-                     "%s:%d", inet_ntoa(ipv4address->sin_addr), ntohs(ipv4address->sin_port));
+            snprintf(buffer, length, "%s:%d",
+                     inet_ntoa(ipv4address->sin_addr),
+                     ntohs(ipv4address->sin_port));
          }
          else {
             snprintf(buffer, length, "%s", inet_ntoa(ipv4address->sin_addr));
@@ -228,17 +229,8 @@ bool string2address(const char*           string,
                     union sockaddr_union* address,
                     const bool            readPort)
 {
-   char                 host[128];
-   char                 port[128];
-   struct sockaddr_in*  ipv4address = (struct sockaddr_in*)address;
-   struct sockaddr_in6* ipv6address = (struct sockaddr_in6*)address;
-   int                  portNumber  = 0;
-   char*                p1;
-
-   struct addrinfo  hints;
-   struct addrinfo* res;
-   bool isNumeric;
-   bool isIPv6;
+   char host[128];
+   char port[128];
 
    if(strlen(string) >= sizeof(host)) {
       return false;
@@ -248,7 +240,7 @@ bool string2address(const char*           string,
 
    // ====== Handle RFC2732-compliant addresses =============================
    if(string[0] == '[') {
-      p1 = strchr(host, ']');
+      const char* p1 = strchr(host, ']');
       if(p1 != nullptr) {
          if(p1[1] == ':') {
             strcpy(port, &p1[2]);
@@ -269,7 +261,7 @@ bool string2address(const char*           string,
             }
          }
          if(colons == 1) {
-            p1 = strrchr(host, ':');
+            char* p1 = strrchr(host, ':');
             if(p1 != nullptr) {
                p1[0] = 0x00;
                strcpy(port, &p1[1]);
@@ -279,25 +271,24 @@ bool string2address(const char*           string,
    }
 
    // ====== Check port number ==============================================
-   portNumber = ~0;
+   int portNumber = ~0;
    if((sscanf(port, "%d", &portNumber) != 1) ||
       (portNumber < 0) ||
       (portNumber > 65535)) {
       return false;
    }
 
-
    // ====== Create address structure =======================================
-
-   // ====== Get information for host =======================================
-   res               = nullptr;
-   isNumeric         = true;
-   isIPv6            = false;
-   size_t hostLength = strlen(host);
+   struct addrinfo      hints;
+   struct addrinfo*     result     = nullptr;
+   bool                 isNumeric  = true;
+   bool                 isIPv6     = false;
+   size_t               hostLength = strlen(host);
 #ifndef AI_IDN
-   char* punycode = nullptr;
+   char*                punycode   = nullptr;
 #endif
 
+   // ====== Get information for host =======================================
    memset(&hints, 0, sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
@@ -337,7 +328,7 @@ bool string2address(const char*           string,
 #else
                   (punycode != nullptr) ? punycode : host,
 #endif
-                  nullptr, &hints, &res) != 0) {
+                  nullptr, &hints, &result) != 0) {
       // ... then (if there is no AAAA record), try also IPv4
       hints.ai_family = AF_UNSPEC;
       if(getaddrinfo(
@@ -346,7 +337,7 @@ bool string2address(const char*           string,
 #else
                      (punycode != nullptr) ? punycode : host,
 #endif
-                     nullptr, &hints, &res) != 0) {
+                     nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
          if(punycode) {
             free(punycode);
@@ -362,8 +353,10 @@ bool string2address(const char*           string,
 #endif
 
    memset(address, 0, sizeof(union sockaddr_union));
-   memcpy(address, res->ai_addr, res->ai_addrlen);
+   memcpy(address, result->ai_addr, result->ai_addrlen);
 
+   struct sockaddr_in*  ipv4address = (struct sockaddr_in*)address;
+   struct sockaddr_in6* ipv6address = (struct sockaddr_in6*)address;
    switch(ipv4address->sin_family) {
       case AF_INET:
          ipv4address->sin_port = htons(portNumber);
@@ -378,11 +371,11 @@ bool string2address(const char*           string,
 #endif
          break;
       default:
-         freeaddrinfo(res);
+         freeaddrinfo(result);
          return false;
    }
 
-   freeaddrinfo(res);
+   freeaddrinfo(result);
    return true;
 }
 
