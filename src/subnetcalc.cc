@@ -28,13 +28,20 @@
 // Contact: thomas.dreibholz@gmail.com
 
 #include <assert.h>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <filesystem>
 #include <getopt.h>
+#include <iostream>
 #include <locale.h>
-#include <math.h>
 #include <netdb.h>
-#include <stdlib.h>
-#include <strings.h>
 #include <unistd.h>
+#include <vector>
+
+#ifdef HAVE_MAXMINDDB
+#include <maxminddb.h>
+#endif
 
 #ifdef ENABLE_NLS
 #include <libintl.h>
@@ -44,13 +51,6 @@
 #define gettext(string) string
 #define ngettext(singular, plural, n) ((n) == 1 ? (singular) : (plural))
 #endif
-#ifdef HAVE_GEOIP
-#include <GeoIP.h>
-#include <GeoIPCity.h>
-#endif
-
-#include <iostream>
-#include <cstring>
 
 #include "tools.h"
 #include "package-version.h"
@@ -750,6 +750,30 @@ std::string toString(unsigned __int128 num) {
 #endif
 
 
+#ifdef HAVE_MAXMINDDB
+// ###### Find location of MaxMindDB .mmdb file #############################
+std::string find_mmdb_path(const std::string& mmdbFileName) {
+   static const std::vector<std::string> mmdbDirectories = {
+      "/usr/share/GeoIP",          // Debian, Ubuntu
+      "/var/lib/GeoIP",            // CentOS, Fedora, RedHat
+      "/usr/local/share/GeoIP",    // FreeBSD
+      "/opt/homebrew/var/GeoIP",   // MacOS (Homebrew Apple Silicon)
+      "/usr/local/var/GeoIP",      // MacOS (Homebrew Intel)
+      "/etc/GeoIP"                 // Legacy
+   };
+
+   for (const auto& directory : mmdbDirectories) {
+      const std::filesystem::path absolutePath =
+         std::filesystem::path(directory) / mmdbFileName;
+      if(std::filesystem::exists(absolutePath)) {
+         return absolutePath.string();
+      }
+    }
+    return "";
+}
+#endif
+
+
 // ###### Version ###########################################################
 #if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 202000L)
 [[ noreturn ]]
@@ -771,6 +795,7 @@ static void usage(const char* program, const int exitCode)
              << program
              << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
                 " [-n|--noreverselookup]\n"
+                " [-g|--nogeoiplookup]\n"
                 " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
                 " [-c|--nocolour|--nocolor]\n"
                 " [-h|--help] [-v|--version]\n";
@@ -782,10 +807,10 @@ static void usage(const char* program, const int exitCode)
 int main(int argc, char** argv)
 {
    // ====== Initialise i18n support ========================================
-   if(setlocale(LC_ALL, "") == NULL) {
+   if(setlocale(LC_ALL, "") == nullptr) {
       setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!
    }
-   bindtextdomain("subnetcalc", NULL);
+   bindtextdomain("subnetcalc", nullptr);
    textdomain("subnetcalc");
 
    // ====== Handle arguments ===============================================
@@ -795,6 +820,7 @@ int main(int argc, char** argv)
       { "nocolour",        no_argument, 0, 'c' },
       { "nocolor",         no_argument, 0, 'c' },
       { "noreverselookup", no_argument, 0, 'n' },
+      { "nogeoiplookup",   no_argument, 0, 'g' },
       { "help",            no_argument, 0, 'h' },
       { "version",         no_argument, 0, 'v' },
       {  nullptr,          0,           0, 0   }
@@ -802,13 +828,17 @@ int main(int argc, char** argv)
 
    bool         colourMode      = true;
    bool         noReverseLookup = false;
+   bool         noGeoIPLookup   = false;
    unsigned int uniqueLocal     = 0;
    int option;
    int longIndex;
-   while( (option = getopt_long_only(argc, argv, "uUcnhv", long_options, &longIndex)) != -1 ) {
+   while( (option = getopt_long_only(argc, argv, "uUcnghv", long_options, &longIndex)) != -1 ) {
       switch(option) {
          case 'n':
             noReverseLookup = true;
+          break;
+         case 'g':
+            noGeoIPLookup = true;
           break;
          case 'c':
             colourMode = false;
@@ -1022,100 +1052,121 @@ int main(int argc, char** argv)
 
 
    // ====== GeoIP ==========================================================
-#ifdef HAVE_GEOIP
-   // libGeoIP prints an error message each time it cannot open a database.
-   // Unfortunately, packaging of these databases is very confusing: some
-   // distributions include some of them, etc.. Just avoid annoying the user
-   // by printing these errors to /dev/null. The error condition of a
-   // non-existing database is handled by subnetcalc anyway.
-   if(freopen("/dev/null", "w", stderr) == nullptr) { }
+#ifdef HAVE_MAXMINDDB
+   MMDB_s               mmdb;
+   MMDB_lookup_result_s mmdbLookupResult;
+   MMDB_entry_data_s    mmdbEntryData;
+   int                  mmdbErrorCode;
+   int                  mmdbStatusCode;
 
-   const char* country = nullptr;
-   const char* code    = nullptr;
-   if(address.sa.sa_family == AF_INET) {
-      GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION, GEOIP_STANDARD);
-      if(geoIP) {
-         const char* org = GeoIP_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << format("%-14s = ", gettext("GeoIP AS Info"))
-                   << ((org != nullptr) ? org : "Unknown") << "\n";
-         GeoIP_delete(geoIP);
-      }
-      geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION, GEOIP_STANDARD);
-      if(geoIP) {
-         country = GeoIP_country_name_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         code    = GeoIP_country_code_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         std::cout << format("%-14s = ", gettext("GeoIP Country"))
-                   << ((country != nullptr) ? country: "Unknown")
-                   << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
-         GeoIP_delete(geoIP);
-      }
-      geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1, GEOIP_STANDARD);
-      if(geoIP) {
-         GeoIPRecord* gir = GeoIP_record_by_ipnum(geoIP, ntohl(address.in.sin_addr.s_addr));
-         if(gir != nullptr) {
-            const char* timeZone = GeoIP_time_zone_by_country_and_region(
-                                      gir->country_code, gir->region);
-            std::cout << format("%-14s = ", gettext("GeoIP Region"))
-                      << ((gir->postal_code != nullptr) ? gir->postal_code : "")
-                      << ((gir->postal_code != nullptr) ? " " : "")
-                      << ((gir->city != nullptr) ? gir->city : "Unknown")
-                      << ", " << ((gir->region != nullptr) ? gir->region : "Unknown")
-                      << " ("
-                      << fabs(gir->latitude)  << "°" << ((gir->latitude > 0)  ? "N" : "S") << ", "
-                      << fabs(gir->longitude) << "°" << ((gir->longitude > 0) ? "E" : "W")
-                      << ((timeZone != nullptr) ? ", " : "")
-                      << ((timeZone != nullptr) ? timeZone : "")
-                      << ")"
-                      << "\n";
-            GeoIPRecord_delete(gir);
+   // ------ ASN Lookup -----------------------------------------------------
+   if(!noGeoIPLookup) {
+      const std::string    mmdbASNDatabasePath = find_mmdb_path("GeoLite2-ASN.mmdb");
+      if(!mmdbASNDatabasePath.empty()) {
+         mmdbStatusCode = MMDB_open(mmdbASNDatabasePath.c_str(), MMDB_MODE_MMAP, &mmdb);
+         if(mmdbStatusCode == MMDB_SUCCESS) {
+            mmdbLookupResult = MMDB_lookup_sockaddr(&mmdb, &address.sa, &mmdbErrorCode);
+            if(mmdbLookupResult.found_entry) {
+               std::string organisation = gettext("Unknown");
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "autonomous_system_organization", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  organisation = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+               std::cout << format("%-14s = ", gettext("GeoIP AS Info")) << organisation << "\n";
+            }
+            MMDB_close(&mmdb);
          }
-         GeoIP_delete(geoIP);
+      } else {
+         std::cerr << gettext("WARNING: GeoLite2-ASN.mmdb not found in standard directories.") << "\n";
       }
    }
-#ifdef HAVE_GEOIP_IPV6
-   else if(address.sa.sa_family == AF_INET6) {
-      GeoIP* geoIP = GeoIP_open_type(GEOIP_ASNUM_EDITION_V6, GEOIP_STANDARD);
-      if(geoIP) {
-         const char* org = GeoIP_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << format("%-14s = ", gettext("GeoIP AS Info"))
-                   << ((org != nullptr) ? org : "Unknown") << "\n";
-         GeoIP_delete(geoIP);
-      }
-      geoIP = GeoIP_open_type(GEOIP_COUNTRY_EDITION_V6, GEOIP_STANDARD);
-      if(geoIP) {
-         country = GeoIP_country_name_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         code    = GeoIP_country_code_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         std::cout << format("%-14s = ", gettext("GeoIP Country"))
-                   << ((country != nullptr) ? country: "Unknown")
-                   << " (" << ((code != nullptr) ? code : "??") << ")" << "\n";
-         GeoIP_delete(geoIP);
-      }
-      geoIP = GeoIP_open_type(GEOIP_CITY_EDITION_REV1_V6, GEOIP_STANDARD);
-      if(geoIP) {
-         GeoIPRecord* gir = GeoIP_record_by_ipnum_v6(geoIP, address.in6.sin6_addr);
-         if(gir != nullptr) {
-            const char* timeZone = GeoIP_time_zone_by_country_and_region(
-                                      gir->country_code, gir->region);
-            std::cout << format("%-14s = ", gettext("GeoIP Region"))
-                      << ((gir->postal_code != nullptr) ? gir->postal_code : "")
-                      << ((gir->postal_code != nullptr) ? " " : "")
-                      << ((gir->city != nullptr) ? gir->city : "Unknown")
-                      << ", " << ((gir->region != nullptr) ? gir->region : "Unknown")
-                      << " ("
-                      << fabs(gir->latitude)  << "°" << ((gir->latitude > 0)  ? "N" : "S") << ", "
-                      << fabs(gir->longitude) << "°" << ((gir->longitude > 0) ? "E" : "W")
-                      << ((timeZone != nullptr) ? ", " : "")
-                      << ((timeZone != nullptr) ? timeZone : "")
-                      << ")"
-                      << "\n";
-            GeoIPRecord_delete(gir);
+
+   // ------ Country and City Lookup ----------------------------------------
+   if(!noGeoIPLookup) {
+      const std::string mmdbCityDatabasePath = find_mmdb_path("GeoLite2-City.mmdb");
+      if(!mmdbCityDatabasePath.empty()) {
+         mmdbStatusCode = MMDB_open(mmdbCityDatabasePath.c_str(), MMDB_MODE_MMAP, &mmdb);
+         if(mmdbStatusCode == MMDB_SUCCESS) {
+            mmdbLookupResult = MMDB_lookup_sockaddr(&mmdb, &address.sa, &mmdbErrorCode);
+            if(mmdbLookupResult.found_entry) {
+
+               // ------ Country --------------------------------------------
+               std::string country = gettext(gettext("Unknown"));
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "country", "names", "en", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  country = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               std::string code = "??";
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "country", "iso_code", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  code = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               std::cout << format("%-14s = ", gettext("GeoIP Country"))
+                        << country << " (" << code << ")\n";
+
+               // ------ Region and City ------------------------------------
+               std::string postal_code = "";
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "postal", "code", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  postal_code = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               std::string city = gettext("Unknown");
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "city", "names", "en", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  city = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               std::string region = gettext("Unknown");
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "subdivisions", "0", "names", "en", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  region = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               std::string timeZone = "";
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "location", "time_zone", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  timeZone = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+               }
+
+               double latitude = 0.0;
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "location", "latitude", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  latitude = mmdbEntryData.double_value;
+               }
+
+               double longitude = 0.0;
+               if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
+                                 "location", "longitude", nullptr) == MMDB_SUCCESS) &&
+                  (mmdbEntryData.has_data) ) {
+                  longitude = mmdbEntryData.double_value;
+               }
+
+               std::cout << format("%-14s = ", gettext("GeoIP Region"))
+                        << postal_code << (!postal_code.empty() ? " " : "")
+                        << city << ", " << region
+                        << " ("
+                        << std::fabs(latitude)  << "°" << ((latitude > 0)  ? "N" : "S") << ", "
+                        << std::fabs(longitude) << "°" << ((longitude > 0) ? "E" : "W")
+                        << (!timeZone.empty() ? ", " : "") << timeZone
+                        << ")\n";
+            }
+            MMDB_close(&mmdb);
          }
-         GeoIP_delete(geoIP);
+      } else {
+         std::cerr << "WARNING: GeoLite2-City.mmdb not found in standard directories.\n";
       }
    }
-#else
-#warning This used version of GeoIP does not yet support IPv6!
-#endif
 #endif
 
 

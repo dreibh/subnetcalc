@@ -144,21 +144,37 @@ ENDIF()
 
 
 #############################################################################
+#### OPTIONS                                                             ####
+#############################################################################
+
+OPTION(WITH_I18N  "Build with Internationalization (i18n) support" 1)
+OPTION(WITH_GEOIP "Build with GeoIP support"                       1)
+
+
+#############################################################################
 #### REQUIREMENTS                                                        ####
 #############################################################################
 
 INCLUDE(FindPackageHandleStandardArgs)
 
 # ###### GeoIP ##############################################################
-FIND_LIBRARY(GEOIP_LIBRARY NAMES GeoIP)
-FIND_PATH(GEOIP_INCLUDE_DIR NAMES GeoIP.h GeoIPCity.h)
-IF ((GEOIP_LIBRARY) AND (GEOIP_INCLUDE_DIR))
-   FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG GEOIP_LIBRARY GEOIP_INCLUDE_DIR)
-   INCLUDE_DIRECTORIES(${GEOIP_INCLUDE_DIR})
-   ADD_DEFINITIONS(-DHAVE_GEOIP -DHAVE_GEOIP_IPV6)
-   MESSAGE(STATUS "GeoIP found.")
-ELSE()
-   MESSAGE(STATUS "GeoIP not found!")
+IF (WITH_GEOIP)
+    FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)
+    FIND_PATH(MAXMINDDB_INCLUDE_DIR NAMES maxminddb.h)
+    IF ((MAXMINDDB_LIBRARY) AND (MAXMINDDB_INCLUDE_DIR))
+        FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG MAXMINDDB_LIBRARY MAXMINDDB_INCLUDE_DIR)
+        INCLUDE_DIRECTORIES(${MAXMINDDB_INCLUDE_DIR})
+        ADD_DEFINITIONS(-DHAVE_MAXMINDDB)
+        MESSAGE(STATUS "MaxMindDB library found.")
+    ELSE()
+      MESSAGE(FATAL_ERROR
+              " Cannot find MaxMindDB library! Try:\n"
+              " * Ubuntu/Debian: sudo apt install -y libmaxminddb-dev\n"
+              " * Fedora:        sudo dnf install -y GeoIP-devel\n"
+              " * SuSE:          sudo zypper install -y GeoIP-devel\n"
+              " * Alpine:        sudo apk add geoip-dev\n"
+              " * FreeBSD:       sudo pkg install -y libmaxminddb")
+    ENDIF()
 ENDIF()
 
 
@@ -166,17 +182,31 @@ ENDIF()
 #### INTERNATIONALISATION (I18N)                                         ####
 #############################################################################
 
-FIND_PACKAGE (Intl)
-IF (Intl_FOUND)
-   INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
-   LINK_DIRECTORIES(${Intl_LIBRARY_DIRS})
-ELSE()
-   MESSAGE(STATUS "Internationalization (i18n) not found!")
-ENDIF()
+IF (WITH_I18N)
+   FIND_PACKAGE(Intl)
+   IF (Intl_FOUND)
+      MESSAGE(STATUS "Internationalization (i18n) support found:")
+      MESSAGE(STATUS " INTL_INCLUDE_DIRS: ${Intl_INCLUDE_DIRS}")
+      MESSAGE(STATUS " INTL_LIBRARIES: ${Intl_LIBRARIES}")
+      MESSAGE(STATUS " Version: ${Intl_VERSION}")
+      INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
+      LINK_DIRECTORIES(${Intl_LIBRARY_DIRS})
+   ELSE()
+      MESSAGE(FATAL_ERROR
+            " Cannot find Internationalization (i18n) support! Try:\n"
+            " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
+            " * Fedora:        sudo dnf install -y gettext-devel\n"
+            " * SuSE:          sudo zypper install -y gettext-devel\n"
+            " * Alpine:        sudo apk add gettext-dev\n"
+            " * FreeBSD:       sudo pkg install -y gettext-runtime")
+   ENDIF()
 
-FIND_PROGRAM(XGETTEXT xgettext REQUIRED)
-FIND_PROGRAM(MSGMERGE msgmerge REQUIRED)
-FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
+   FIND_PROGRAM(XGETTEXT xgettext REQUIRED)
+   FIND_PROGRAM(MSGMERGE msgmerge REQUIRED)
+   FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
+
+   ADD_DEFINITIONS(-DENABLE_NLS)
+ENDIF()
 
 
 #############################################################################
