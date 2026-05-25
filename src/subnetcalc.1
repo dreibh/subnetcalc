@@ -37,48 +37,60 @@
 .Nd IPv4/IPv6 Subnet Calculator
 .\" ###### Synopsis #########################################################
 .Sh SYNOPSIS
-.Nm subnetcalc Ar address/prefix | Ar address/netmask | Ar address Ar prefix | Ar address Ar netmask
+.Nm subnetcalc Ar address/prefix
+.Sy |
+.Ar address/netmask
+.Sy |
+.Ar address Ar prefix
+.Sy |
+.Ar address Ar netmask
 .br
-.Op Fl u | Fl Fl uniquelocal
-.Op Fl U | Fl Fl uniquelocalhq
+.Op Fl u | Fl \-uniquelocal
+.Op Fl U | Fl \-uniquelocalhq
 .br
-.Op Fl n | Fl Fl noreverselookup
+.Op Fl n | Fl \-noreverselookup
 .br
-.Op Fl g | Fl Fl nogeoiplookup
+.Op Fl g | Fl \-nogeoiplookup
 .br
-.Op Fl c | Fl Fl nocolour | Fl Fl nocolor
+.Op Fl c | Fl \-nocolour | Fl \-nocolor
 .Nm subnetcalc
-.Op Fl h | Fl Fl help
+.Op Fl h | Fl \-help
 .Nm subnetcalc
-.Op Fl v | Fl Fl version
+.Op Fl v | Fl \-version
 .\" ###### Description ######################################################
 .Sh DESCRIPTION
 .Nm subnetcalc
-is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
+is an IPv4/IPv6 subnet address calculator. For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g., type, scope, interface ID, etc.).
 .Pp
 .\" ###### Arguments ########################################################
 .Sh ARGUMENTS
-The following arguments have to be provided:
+The following arguments may be provided:
 .Bl -tag -width indent
 .It Ar address
-The IP address. If a hostname is provided here, it is tried to resolve the address by a DNS server and the first returned address is used. Internationalized Domain Names (IDN) are supported.
+The IP address. If a hostname is provided here, the program attempts to resolve the hostname via a DNS server, and the first returned address is used. Internationalized Domain Names (IDN) are supported.
 .It Ar netmask
 The netmask.
 .It Ar prefix
 The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
-.It Fl u | Fl Fl uniquelocal
-Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux and FreeBSD, /dev/urandom is used for random number generation.
-.It Fl U | Fl Fl uniquelocalhq
-Like \-uniquelocal, but using /dev/random instead on Linux and FreeBSD systems for highest\-quality random number generation. On other systems, this option is equal to \-uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
-.It Fl n | Fl Fl noreverselookup
+.It Fl u | Fl \-uniquelocal
+Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux and FreeBSD,
+.Pa /dev/urandom
+is used for random number generation.
+.It Fl U | Fl \-uniquelocalhq
+Like \-\-uniquelocal, but using
+.Pa /dev/random
+instead on Linux and FreeBSD systems for highest\-quality random number generation. On other systems, this option is equal to \-\-uniquelocal. Note that reading from
+.Pa /dev/random
+may take some time. You can speed up this process by delivering random input, e.g., by pressing keys or moving the mouse.
+.It Fl n | Fl \-noreverselookup
 Turns reverse DNS lookup off.
-.It Fl n | Fl Fl nogeoiplookup
+.It Fl g | Fl \-nogeoiplookup
 Turns GeoIP lookup off.
-.It Fl c | Fl Fl nocolour | Fl Fl nocolor
+.It Fl c | Fl \-nocolour | Fl \-nocolor
 Turns colourised output off.
-.It Fl h | Fl Fl help
+.It Fl h | Fl \-help
 Prints command-line parameters.
-.It Fl v | Fl Fl version
+.It Fl v | Fl \-version
 Prints program version.
 .El
 .\" ###### Exit status ######################################################
@@ -88,35 +100,50 @@ The
 tool exits with 0 on success, and >0 in case of an error.
 .\" ###### Examples #########################################################
 .Sh EXAMPLES
-.Bl -tag -width indent
-.It subnetcalc \-v
-.It subnetcalc 132.252.250.0 255.255.255.0
-.It subnetcalc 132.252.250.0/255.255.255.0 \-\-nocolor
-.It subnetcalc 132.252.250.0 24
-.It subnetcalc 132.252.250.0/24 \-\-nocolour
-.It subnetcalc fe80::2f0b:a04e:15c2:bc68 64
-.It subnetcalc fe80::2f0b:a04e:15c2:bc68%wlp4s0 64
-.It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
-.It subnetcalc 2a00:1450:8007::69 64
-.It subnetcalc ff08::1:2:3
-.It subnetcalc 131.220.6.5/24
-.It subnetcalc 132.252.181.87 \-n
-.It subnetcalc www.iem.uni\-due.de 24
-.It subnetcalc www.six.heise.de
-.It subnetcalc fd00:: 64 \-\-uniquelocal
-.It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-\-uniquelocalhq
-.It subnetcalc düsseldorf.de 28
-.It subnetcalc www.köln.de
-.It subnetcalc räksmörgås.josefsson.org 24
+.Bl -bullet -offset indent
+.It
+subnetcalc \-v
+.It
+subnetcalc 132.252.250.0 255.255.255.0
+.It
+subnetcalc 132.252.250.0/255.255.255.0 \-\-nocolor
+.It
+subnetcalc 132.252.250.0 24
+.It
+subnetcalc 132.252.250.0/24 \-\-nocolour
+.It
+subnetcalc fe80::2f0b:a04e:15c2:bc68 64
+.It
+subnetcalc fe80::2f0b:a04e:15c2:bc68%wlp4s0 64
+.It
+subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
+.It
+subnetcalc 2a00:1450:8007::69 64
+.It
+subnetcalc ff08::1:2:3
+.It
+subnetcalc 131.220.6.5/24
+.It
+subnetcalc 132.252.181.87 \-n
+.It
+subnetcalc www.iem.uni\-due.de 24
+.It
+subnetcalc www.six.heise.de
+.It
+subnetcalc fd00:: 64 \-\-uniquelocal
+.It
+subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-\-uniquelocalhq
+.It
+subnetcalc düsseldorf.de 28
+.It
+subnetcalc www.köln.de
+.It
+subnetcalc räksmörgås.josefsson.org 24
+.It
+subnetcalc xn--smrgstrta-82ac2r.xn--domne-ira.example 26
+.It
+subnetcalc smörgåstårta.domäne.example 255.255.255.240
 .El
-.\" ###### Authors ##########################################################
-.Sh AUTHORS
-Thomas Dreibholz
-.br
-https://www.nntb.no/~dreibh/subnetcalc
-.br
-mailto://thomas.dreibholz@gmail.com
-.br
 .\" ###### Notes ############################################################
 .Sh NOTES
 The latest version of SubNetCalc can be found on the SubNetCalc Homepage at
