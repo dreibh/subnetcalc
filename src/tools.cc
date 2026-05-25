@@ -104,9 +104,11 @@ bool checkIPv6()
 // ###### Does the given address have a translation prefix? #################
 bool hasTranslationPrefix(const sockaddr_in6* address)
 {
-   return (ntohs(address->sin6_addr.s6_addr16[0]) == 0x64   &&
-           ntohs(address->sin6_addr.s6_addr16[1]) == 0xff9b &&
-           ntohs(address->sin6_addr.s6_addr16[2]) <= 1);
+   const uint16_t word0 = (address->sin6_addr.s6_addr[0] << 8) | address->sin6_addr.s6_addr[1];
+   const uint16_t word1 = (address->sin6_addr.s6_addr[2] << 8) | address->sin6_addr.s6_addr[3];
+   const uint16_t word2 = (address->sin6_addr.s6_addr[4] << 8) | address->sin6_addr.s6_addr[5];
+
+   return ( (word0 == 0x64) && (word1 == 0xff9b) && (word2 <= 1) );
 }
 
 
@@ -132,15 +134,18 @@ inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
    struct in6_addr prefix = ipv6address->sin6_addr;
 
    // Set the suffix to a predictable value.
-   prefix.s6_addr32[3] = 0xffffffff;
+   prefix.s6_addr[12] = 0xff;
+   prefix.s6_addr[13] = 0xff;
+   prefix.s6_addr[14] = 0xff;
+   prefix.s6_addr[15] = 0xff;
    if(inet_ntop(AF_INET6, &prefix, str, maxlen) == nullptr) {
       return false;
    }
 
    // Overwrite the predictable suffix with the IPv4 address.
    const size_t   pl    = strnlen(str, maxlen) - 9;
-   const uint32_t upper = ntohs(ipv6address->sin6_addr.s6_addr16[6]);
-   const uint32_t lower = ntohs(ipv6address->sin6_addr.s6_addr16[7]);
+   const uint32_t upper = (ipv6address->sin6_addr.s6_addr[12] << 8) | ipv6address->sin6_addr.s6_addr[13];
+   const uint32_t lower = (ipv6address->sin6_addr.s6_addr[14] << 8) | ipv6address->sin6_addr.s6_addr[15];
 
    const struct in_addr suffix = { .s_addr = htonl((upper << 16) | lower) };
    return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != nullptr;

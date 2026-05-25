@@ -225,11 +225,11 @@ void printAddressBinary(std::ostream&         os,
       os << "\n";
    }
    else {
-      int      p           = 0;
-      in6_addr ipv6Address = getIPv6Address(address);
+      int            p           = 0;
+      const in6_addr ipv6Address = getIPv6Address(address);
       for(int j = 0; j < 8; j++) {
-         uint16_t a = ntohs(ipv6Address.s6_addr16[j]);
-         char str[16];
+         uint16_t a = (ipv6Address.s6_addr[j * 2] << 8) | ipv6Address.s6_addr[j * 2 + 1];
+         char     str[16];
          snprintf(str, sizeof(str), "%04x", a);
          os << indent << str << " = ";
          for(int i = 15; i >= 0; i--) {
@@ -286,8 +286,12 @@ int getPrefixLength(const sockaddr_union& netmask)
    }
    else {
       prefixLength = 128;
+      const in6_addr ip6 = getIPv6Address(netmask);
       for(int j = 0; j < 4; j++) {
-         const uint32_t a = ntohl(getIPv6Address(netmask).s6_addr32[j]);
+         const uint32_t a = ((uint32_t)ip6.s6_addr[j * 4]     << 24) |
+                            ((uint32_t)ip6.s6_addr[j * 4 + 1] << 16) |
+                            ((uint32_t)ip6.s6_addr[j * 4 + 2] << 8)  |
+                            ((uint32_t)ip6.s6_addr[j * 4 + 3]);
          for(int i = 31; i >= 0; i--) {
             if(!(a & (1U << (uint32_t)i))) {
                belongsToNetwork = false;
@@ -313,10 +317,9 @@ sockaddr_union operator&(const sockaddr_union& a1, const sockaddr_union& a2)
    sockaddr_union a = a1;
    if(a.sa.sa_family == AF_INET) {
       a.in.sin_addr.s_addr &= a2.in.sin_addr.s_addr;
-   }
-   else {
-      for(int j = 0; j < 4; j++) {
-         a.in6.sin6_addr.s6_addr32[j] &= a2.in6.sin6_addr.s6_addr32[j];
+   } else {
+      for(int j = 0; j < 16; j++) {
+         a.in6.sin6_addr.s6_addr[j] &= a2.in6.sin6_addr.s6_addr[j];
       }
    }
    return a;
@@ -333,8 +336,8 @@ sockaddr_union operator|(const sockaddr_union& a1, const sockaddr_union& a2)
       a.in.sin_addr.s_addr |= a2.in.sin_addr.s_addr;
    }
    else {
-      for(int j = 0; j < 4; j++) {
-         a.in6.sin6_addr.s6_addr32[j] |= a2.in6.sin6_addr.s6_addr32[j];
+      for(int j = 0; j < 16; j++) {
+         a.in6.sin6_addr.s6_addr[j] |= a2.in6.sin6_addr.s6_addr[j];
       }
    }
    return a;
@@ -349,8 +352,8 @@ sockaddr_union operator~(const sockaddr_union& a1)
       a.in.sin_addr.s_addr = ~a1.in.sin_addr.s_addr;
    }
    else {
-      for(int j = 0; j < 4; j++) {
-         a.in6.sin6_addr.s6_addr32[j] = ~a1.in6.sin6_addr.s6_addr32[j];
+      for(int j = 0; j < 16; j++) {
+         a.in6.sin6_addr.s6_addr[j] = ~a1.in6.sin6_addr.s6_addr[j];
       }
    }
    return a;
@@ -373,11 +376,17 @@ sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
       a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) + n);
    }
    else {
+      union {
+         uint8_t  b[16];
+         uint32_t w[4];
+      } local;
+      std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
-         const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) + (uint64_t)n;
-         a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
-         n = (uint32_t)(sum >> 32);
+         const uint64_t sum = static_cast<uint64_t>(ntohl(local.w[j])) + static_cast<uint64_t>(n);
+         local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
+         n = static_cast<uint32_t>(sum >> 32);
       }
+      std::memcpy(a.in6.sin6_addr.s6_addr, local.b, 16);
    }
    return a;
 }
@@ -391,11 +400,17 @@ sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
       a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) - n);
    }
    else {
+      union {
+         uint8_t  b[16];
+         uint32_t w[4];
+      } local;
+      std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
-         const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) - (uint64_t)n;
-         a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
-         n = (uint32_t)(sum >> 32);
+         const uint64_t sum = static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
+         local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
+         n = static_cast<uint32_t>(sum >> 32);
       }
+      std::memcpy(a.in6.sin6_addr.s6_addr, local.b, 16);
    }
    return a;
 }
@@ -410,8 +425,8 @@ bool operator==(const sockaddr_union& a1, const sockaddr_union& a2)
       return (a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
    }
    else {
-      for(int j = 3; j >= 0; j--) {
-         if(a1.in6.sin6_addr.s6_addr32[j] != a2.in6.sin6_addr.s6_addr32[j]) {
+      for(int j = 0; j < 16; j++) {
+         if(a1.in6.sin6_addr.s6_addr[j] != a2.in6.sin6_addr.s6_addr[j]) {
             return false;
          }
       }
@@ -427,30 +442,30 @@ void printUnicastProperties(std::ostream&   os,
                             const bool      hasSubnetID = true,
                             const bool      hasGlobalID = false)
 {
+   uint16_t word[8];
+   for(int i = 0; i < 8; i++) {
+      word[i] = (ipv6address.s6_addr[i * 2] << 8) | ipv6address.s6_addr[i * 2 + 1];
+   }
+
    // ====== Global ID ======================================================
    if(hasGlobalID) {
       char globalIDString[16];
       snprintf(globalIDString, sizeof(globalIDString), "%02x%04x%04x",
-               ntohs(ipv6address.s6_addr16[0]) & 0xff,
-               ntohs(ipv6address.s6_addr16[1]),
-               ntohs(ipv6address.s6_addr16[2]));
+               word[0] & 0xff, word[1], word[2]);
       os << "      + " << format(gettext("%-32s"), gettext("Global ID")) << " = " << globalIDString << "\n";
    }
 
    // ====== Subnet ID ======================================================
    if(hasSubnetID) {
       char           subnetIDString[16];
-      const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
+      const uint16_t subnetID = word[3];
       snprintf(subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
       os << "      + " << format(gettext("%-32s"), gettext("Subnet ID")) << " = " <<  subnetIDString << "\n";
    }
 
    // ====== Interface ID ===================================================
    char           interfaceIDString[128];
-   const uint16_t interfaceID[4] = { ntohs(ipv6address.s6_addr16[4]),
-                                     ntohs(ipv6address.s6_addr16[5]),
-                                     ntohs(ipv6address.s6_addr16[6]),
-                                     ntohs(ipv6address.s6_addr16[7]) };
+   const uint16_t interfaceID[4] = { word[4], word[5], word[6], word[7] };
    snprintf(interfaceIDString, sizeof(interfaceIDString),
             ((colourMode == true) ? "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m" :
                                     "%04x:%02x%02x:%02x%02x:%04x"),
@@ -479,8 +494,8 @@ void printUnicastProperties(std::ostream&   os,
    snprintf(snmcAddressString, sizeof(snmcAddressString),
             ((colourMode == true) ? "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m" :
                                     "ff02::1:ff%02x:%04x"),
-            ntohs(ipv6address.s6_addr16[6]) & 0xff,
-            ntohs(ipv6address.s6_addr16[7]));
+            word[6] & 0xff,
+            word[7]);
    os << "      + " << format(gettext("%-32s"), gettext("Solicited Node Multicast Address")) << " = " <<  snmcAddressString << "\n";
 }
 
@@ -600,8 +615,11 @@ void printAddressProperties(std::ostream&         os,
    // ====== IPv6 properties ================================================
    else {
       const in6_addr ipv6address = getIPv6Address(address);
-      const uint16_t a           = ntohs(ipv6address.s6_addr16[0]);
-      const uint16_t b           = ntohs(ipv6address.s6_addr16[1]);
+      const uint16_t word0       = (ipv6address.s6_addr[0] << 8) | ipv6address.s6_addr[1];
+      const uint16_t word1       = (ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3];
+      const uint16_t word5       = (ipv6address.s6_addr[10] << 8) | ipv6address.s6_addr[11];
+      const uint16_t word6       = (ipv6address.s6_addr[12] << 8) | ipv6address.s6_addr[13];
+      const uint16_t word7       = (ipv6address.s6_addr[14] << 8) | ipv6address.s6_addr[15];
 
       // ------ Special addresses -------------------------------------------
       if(IN6_IS_ADDR_LOOPBACK(&ipv6address)) {
@@ -646,7 +664,7 @@ void printAddressProperties(std::ostream&         os,
          os << "\n";
 
          // ------ Multicast flags ------------------------------------------
-         const uint8_t flags = (((uint8_t*)&ipv6address)[1] & 0xf0) >> 4;
+         const uint8_t flags = (ipv6address.s6_addr[1] & 0xf0) >> 4;
          if(flags == 0x1) {
             os << "      + " << gettext("Temporarily-allocated address") << "\n";
          }
@@ -663,21 +681,20 @@ void printAddressProperties(std::ostream&         os,
                                     macAddressString) << "\n";
 
          // ------ Source-specific multicast --------------------------------
-         if( ((a & 0xfff0) == 0xff30) && (b == 0x0000) ) {
+         if( ((word0 & 0xfff0) == 0xff30) && (word1 == 0x0000) ) {
             // FF0x:0::/32
             os << "      + " << gettext("Source-specific multicast") << "\n";
          }
 
          // ------ Solicited node multicast address -------------------------
          // FF02::1:FF00:0/104
-         if((a == 0xff02) &&
-            (ntohs(ipv6address.s6_addr16[5]) == 0x0001) &&
-            (ntohs(ipv6address.s6_addr16[6]) & 0xff00) == 0xff00) {
+         if( (word0 == 0xff02) &&
+             (word5 == 0x0001) &&
+             ((word6 & 0xff00) == 0xff00) ) {
             char nodeAddressString[64];
             snprintf(nodeAddressString, sizeof(nodeAddressString),
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
-                     ntohs(ipv6address.s6_addr16[6]) & 0xff,
-                     ntohs(ipv6address.s6_addr16[7]));
+                     word6 & 0xff, word7);
             os << "      + " << gettext("Address is solicited node multicast address for")
                << " " << nodeAddressString << "\n";
          }
@@ -696,9 +713,9 @@ void printAddressProperties(std::ostream&         os,
       }
 
       // ------ Unique Local Unicast ----------------------------------------
-      else if((a & 0xfc00) == 0xfc00) {
+      else if((word0 & 0xfc00) == 0xfc00) {
          os << "   - " << gettext("Unique Local Unicast Properties:") << "\n";
-         if(a & 0x0100) {
+         if(word0 & 0x0100) {
             os << "      + " << gettext("Locally chosen") << "\n";
          }
          else {
@@ -708,16 +725,16 @@ void printAddressProperties(std::ostream&         os,
       }
 
       // ------ Global Unicast ----------------------------------------------
-      else if((a & 0xe000) == 0x2000) {
+      else if((word0 & 0xe000) == 0x2000) {
          os << "   - " << gettext("Global Unicast Properties:") << "\n";
          printUnicastProperties(std::cout, ipv6address, colourMode, false, false);
 
          // ------ 6to4 Address ---------------------------------------------
-         if((a & 0x2002) == 0x2002) {
+         if((word0 & 0x2002) == 0x2002) {
             sockaddr_union sixToFour;
             sixToFour.sa.sa_family       = AF_INET;
-            const uint32_t u = ntohs(((const uint16_t*)&ipv6address.s6_addr)[1]);
-            const uint32_t l = ntohs(((const uint16_t*)&ipv6address.s6_addr)[2]);
+            const uint32_t u = (ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3];
+            const uint32_t l = (ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5];
             sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
             os << "      + " << format("%-32s = ", gettext("6-to-4 Address"));
             printAddress(std::cout, &sixToFour.sa, false);
@@ -828,35 +845,34 @@ int main(int argc, char** argv)
       switch(option) {
          case 'n':
             noReverseLookup = true;
-          break;
+            break;
          case 'g':
             noGeoIPLookup = true;
-          break;
+            break;
          case 'c':
             colourMode = false;
-          break;
+            break;
          case 'u':
             uniqueLocal = 1;
-          break;
+            break;
          case 'U':
             uniqueLocal = 2;
-          break;
+            break;
          case 'v':
             version();
-          break;
+            break;
          case 'h':
          case '?':
             // Exit with 0 on h/help, exit with 1 on '?' (unknown option):
             usage(argv[0], (option == 'h') ? 0 : 1);
-          break;
+            break;
          case '-':
-          break;
+            break;
          default:
             // This should not happen: wrong getopt parameters, or missing case?
             fprintf(stderr, "INTERNAL ERROR: Unhandled option c=%c code=%x!\n",
                     (isprint(option) ? (char)option : ' '), option);
             return 1;
-          break;
       }
    }
    if( (optind + 1 != argc) && (optind + 2 != argc) ) {
@@ -888,8 +904,8 @@ int main(int argc, char** argv)
          std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[optind]) << "\n";
          exit(1);
       }
-      if(readPrefix((const char*)&slash[1], address, netmask) < 0) {
-         if(string2address((const char*)&slash[1], &netmask) == false) {
+      if(readPrefix(&slash[1], address, netmask) < 0) {
+         if(string2address(&slash[1], &netmask) == false) {
             std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[optind]) << "\n";
             exit(1);
          }
