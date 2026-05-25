@@ -27,15 +27,16 @@
 //
 // Contact: thomas.dreibholz@gmail.com
 
-#include <assert.h>
+#include <cassert>
 #include <cctype>
+#include <clocale>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
 #include <getopt.h>
 #include <iostream>
-#include <locale.h>
 #include <netdb.h>
 #include <unistd.h>
 #include <vector>
@@ -114,7 +115,7 @@ int readPrefix(const char*           parameter,
 {
    const size_t parameterLength = strlen(parameter);
    for(size_t i = 0; i < parameterLength; i++) {
-      if(!isdigit(parameter[i])) {
+      if(!isdigit(static_cast<unsigned char>(parameter[i]))) {
          return -1;
       }
    }
@@ -168,17 +169,16 @@ void generateUniqueLocal(sockaddr_union& address,
 
 #if defined(__LINUX__) || defined(__linux__) || defined(__linux) || defined(__FreeBSD__)
    // ====== Read random number from random device ==========================
-   const char* randomFile = (highQualityRng == true) ? "/dev/random" : "/dev/urandom";
-   FILE* fh = fopen(randomFile, "r");
-   if(fh != nullptr) {
+   const char* randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
+
+   std::ifstream randomStream(randomFile, std::ios::binary);
+   if(randomStream) {
       std::cout << format(gettext("Generating Unique Local IPv6 address (using %s) ..."),
                           randomFile) << "\n";
-
-      if(fread((char*)&buffer, 5, 1, fh) != 1) {
+      if(!randomStream.read(reinterpret_cast<char*>(buffer), sizeof(buffer))) {
          std::cerr << format(gettext("ERROR: Unable to read from %s!"), randomFile) << "\n";
          exit(1);
       }
-      fclose(fh);
    }
    else {
       std::cerr << format(gettext("ERROR: Unable to open %s!"), randomFile) << "\n";
@@ -186,8 +186,8 @@ void generateUniqueLocal(sockaddr_union& address,
    }
 #else
    // ====== Get random number using random() function ======================
-#warning Using default random number generator on non-Linux system!
-   srandom((unsigned int)getMicroTime());
+#warning Using default random number generator!
+   srandom((unsigned int)getMicroTime() ^ getpid());
    for(size_t i = 0; i < sizeof(buffer); i++) {
       buffer[i] = (uint8_t)(random() % 0xff);
    }
@@ -413,7 +413,7 @@ sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
 
 
 // ###### "==" operator for addresses #######################################
-int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
+bool operator==(const sockaddr_union& a1, const sockaddr_union& a2)
 {
    assert(a1.sa.sa_family == a2.sa.sa_family);
 
@@ -1113,11 +1113,11 @@ int main(int argc, char** argv)
                         << country << " (" << code << ")\n";
 
                // ------ Region and City ------------------------------------
-               std::string postal_code ;
+               std::string postalCode;
                if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
                                  "postal", "code", nullptr) == MMDB_SUCCESS) &&
                   (mmdbEntryData.has_data) ) {
-                  postal_code = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
+                  postalCode = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
                }
 
                std::string city = gettext("Unknown");
@@ -1156,7 +1156,7 @@ int main(int argc, char** argv)
                }
 
                std::cout << format("%-14s = ", gettext("GeoIP Region"))
-                        << postal_code << (!postal_code.empty() ? " " : "")
+                        << postalCode << (!postalCode.empty() ? " " : "")
                         << city << ", " << region
                         << " ("
                         << std::fabs(latitude)  << "°" << ((latitude > 0)  ? "N" : "S") << ", "
