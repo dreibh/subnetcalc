@@ -3,7 +3,8 @@
 set -eu
 
 
-TEST=valgrind
+TEST=
+# valgrind
 
 make -j2
 

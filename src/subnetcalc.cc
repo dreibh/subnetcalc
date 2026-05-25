@@ -28,13 +28,22 @@
 // Contact: thomas.dreibholz@gmail.com
 
 #include <assert.h>
-#include <libintl.h>
+#include <getopt.h>
 #include <locale.h>
 #include <math.h>
 #include <netdb.h>
 #include <stdlib.h>
 #include <strings.h>
 #include <unistd.h>
+
+#ifdef ENABLE_NLS
+#include <libintl.h>
+#else
+#define bindtextdomain(domain, dirname) { }
+#define textdomain(domain) { }
+#define gettext(string) string
+#define ngettext(singular, plural, n) ((n) == 1 ? (singular) : (plural))
+#endif
 #ifdef HAVE_GEOIP
 #include <GeoIP.h>
 #include <GeoIPCity.h>
@@ -94,14 +103,6 @@ inline bool isMulticast(const sockaddr_union& address)
       const in6_addr ipv6address = getIPv6Address(address);
       return IN6_IS_ADDR_MULTICAST(&ipv6address);
    }
-}
-
-
-// ###### Show version ######################################################
-void showVersion()
-{
-   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << "\n";
-   exit(0);
 }
 
 
@@ -749,12 +750,97 @@ std::string toString(unsigned __int128 num) {
 #endif
 
 
+// ###### Version ###########################################################
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 202000L)
+[[ noreturn ]]
+#endif
+static void version(void)
+{
+   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << "\n";
+   exit(0);
+}
+
+
+// ###### Usage #############################################################
+#if defined(__STDC_VERSION__) && (__STDC_VERSION__ >= 202000L)
+[[ noreturn ]]
+#endif
+static void usage(const char* program, const int exitCode)
+{
+   std::cerr << gettext("Usage:") << " "
+             << program
+             << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
+                " [-n|--noreverselookup]\n"
+                " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
+                " [-c|--nocolour|--nocolor]\n"
+                " [-h|--help] [-v|--version]\n";
+   exit(exitCode);
+}
+
+
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-   bool               colourMode      = true;
-   bool               noReverseLookup = false;
-   int                options;
+   // ====== Initialise i18n support ========================================
+   if(setlocale(LC_ALL, "") == NULL) {
+      setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!
+   }
+   bindtextdomain("subnetcalc", NULL);
+   textdomain("subnetcalc");
+
+   // ====== Handle arguments ===============================================
+   static const struct option long_options[] = {
+      { "uniquelocal",     no_argument, 0, 'u' },
+      { "uniquelocalhq",   no_argument, 0, 'U' },
+      { "nocolour",        no_argument, 0, 'c' },
+      { "nocolor",         no_argument, 0, 'c' },
+      { "noreverselookup", no_argument, 0, 'n' },
+      { "help",            no_argument, 0, 'h' },
+      { "version",         no_argument, 0, 'v' },
+      {  nullptr,          0,           0, 0   }
+   };
+
+   bool         colourMode      = true;
+   bool         noReverseLookup = false;
+   unsigned int uniqueLocal     = 0;
+   int option;
+   int longIndex;
+   while( (option = getopt_long_only(argc, argv, "uUcnhv", long_options, &longIndex)) != -1 ) {
+      switch(option) {
+         case 'n':
+            noReverseLookup = true;
+          break;
+         case 'c':
+            colourMode = false;
+          break;
+         case 'u':
+            uniqueLocal = 1;
+          break;
+         case 'U':
+            uniqueLocal = 2;
+          break;
+         case 'v':
+            version();
+          break;
+         case 'h':
+         case '?':
+            // Exit with 0 on h/help, exit with 1 on '?' (unknown option):
+            usage(argv[0], (option == 'h') ? 0 : 1);
+          break;
+         case '-':
+          break;
+         default:
+            // This should not happen: wrong getopt parameters, or missing case?
+            fprintf(stderr, "INTERNAL ERROR: Unhandled option c=%c code=%x!\n",
+                    (isprint(option) ? (char)option : ' '), option);
+            return 1;
+          break;
+      }
+   }
+   if( (optind + 1 != argc) && (optind + 2 != argc) ) {
+      usage(argv[0], 1);
+   }
+
    int                prefix;
    unsigned int       hostBits;
    unsigned int       reservedHosts;
@@ -772,71 +858,46 @@ int main(int argc, char** argv)
    sockaddr_union     host1;
    sockaddr_union     host2;
 
-
-   // ====== Initialise i18n support ========================================
-   if(setlocale(LC_ALL, "") == NULL) {
-      setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!
-   }
-   bindtextdomain("subnetcalc", NULL);
-   textdomain("subnetcalc");
-
-   // ====== Print usage ====================================================
-   if(argc < 2) {
-      std::cerr << gettext("Usage:") << " "
-                <<  argv[0]
-                << " [Address|AddressPrefix|AddressNetmask|Address/Prefix|Address/Netmask] [-n] [-uniquelocal|-uniquelocalhq] [-nocolour|-nocolor] [-v|-version]\n";
-      exit(1);
-   }
-
-   // ====== Show version ===================================================
-   if((strcmp(argv[1], "-v") == 0) || (strcmp(argv[1], "-version") == 0) ) {
-      showVersion();
-   }
-
    // ====== Get address and netmask from one parameter =====================
-   char* slash = index(argv[1], '/');
+   char* slash = index(argv[optind], '/');
    if(slash) {
       slash[0] = 0x00;
-      if(string2address(argv[1], &address) == false) {
-         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[1]) << "\n";
+      if(string2address(argv[optind], &address) == false) {
+         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[optind]) << "\n";
          exit(1);
       }
       if( readPrefix((const char*)&slash[1], address, netmask) < 0 ) {
          if(string2address((const char*)&slash[1], &netmask) == false) {
-            std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[1]) << "\n";
+            std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[optind]) << "\n";
             exit(1);
          }
       }
-      options = 2;
    }
 
    // ====== Get address and netmask from separate parameters ===============
    else if(slash == nullptr) {
-      if(string2address(argv[1], &address) == false) {
-         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[1]) << "\n";
+      if(string2address(argv[optind], &address) == false) {
+         std::cerr << format(gettext("ERROR: Invalid address %s!"), argv[optind]) << "\n";
          exit(1);
       }
-      if(argc > 2) {
-         options = 3;
+      if(optind + 1 < argc) {
          // ------ Get netmask or prefix ------------------------------------
-         if(argv[2][0] != '-') {
-            if( readPrefix(argv[2], address, netmask) < 0 ) {
-               if(string2address(argv[2], &netmask) == false) {
-                  std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[2]) << "\n";
+         if(argv[optind + 1][0] != '-') {
+            if( readPrefix(argv[optind + 1], address, netmask) < 0 ) {
+               if(string2address(argv[optind + 1], &netmask) == false) {
+                  std::cerr << format(gettext("ERROR: Invalid netmask %s!"), argv[optind + 1]) << "\n";
                   exit(1);
                }
             }
          }
          else {
             // ------ No netmask or prefix => use default for convenience ---
-            options = 2;
             prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
             assert(prefix >= 0);
          }
       }
       else {
          // ------ No netmask or prefix => use default for convenience ------
-         options = 2;
          prefix = readPrefix((address.sa.sa_family == AF_INET) ? "32" : "128", address, netmask);
          assert(prefix >= 0);
       }
@@ -859,29 +920,9 @@ int main(int argc, char** argv)
    }
 
 
-   // ====== Handle optional parameters =====================================
-   for(int i = options;i < argc;i++) {
-      if(strcmp(argv[i], "-uniquelocal") == 0) {
-         generateUniqueLocal(address);
-      }
-      else if(strcmp(argv[i], "-uniquelocalhq") == 0) {
-         generateUniqueLocal(address, true);
-      }
-      else if( (strcmp(argv[i], "-nocolour") == 0) ||
-               (strcmp(argv[i], "-nocolor")  == 0) ) {
-         colourMode = false;
-      }
-      else if(strcmp(argv[i], "-n") == 0) {
-         noReverseLookup = true;
-      }
-      else if((strcmp(argv[i], "-v") == 0) ||
-              (strcmp(argv[i], "-version") == 0) ) {
-         showVersion();
-      }
-      else {
-         std::cerr << format(gettext("ERROR: Invalid argument %s!"), argv[i]) << "\n";
-         exit(1);
-      }
+   // ====== Unique Local IPv4 address generation ===========================
+   if(uniqueLocal > 0) {
+      generateUniqueLocal(address, (uniqueLocal > 1));
    }
 
 
