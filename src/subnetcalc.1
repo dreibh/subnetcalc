@@ -28,7 +28,7 @@
 .\" Contact: thomas.dreibholz@gmail.com
 .\"
 .\" ###### Setup ############################################################
-.Dd May 17, 2026
+.Dd May 25, 2026
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -37,13 +37,20 @@
 .Nd IPv4/IPv6 Subnet Calculator
 .\" ###### Synopsis #########################################################
 .Sh SYNOPSIS
-.Nm subnetcalc Ar address | Ar address Ar prefix | Ar address Ar netmask | Ar address/prefix | Ar address/netmask
+.Nm subnetcalc Ar address/prefix | Ar address/netmask | Ar address Ar prefix | Ar address Ar netmask
 .br
-.Op Fl n
-.Op Fl uniquelocal
-.Op Fl uniquelocalhq
-.Op Fl nocolour | Fl nocolor
-.Op Fl v | Fl version
+.Op Fl u | Fl Fl uniquelocal
+.Op Fl U | Fl Fl uniquelocalhq
+.br
+.Op Fl n | Fl Fl noreverselookup
+.br
+.Op Fl g | Fl Fl nogeoiplookup
+.br
+.Op Fl c | Fl Fl nocolour | Fl Fl nocolor
+.Nm subnetcalc
+.Op Fl h | Fl Fl help
+.Nm subnetcalc
+.Op Fl v | Fl Fl version
 .\" ###### Description ######################################################
 .Sh DESCRIPTION
 .Nm subnetcalc
@@ -59,16 +66,20 @@ The IP address. If a hostname is provided here, it is tried to resolve the addre
 The netmask.
 .It Ar prefix
 The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
-.It Fl n
-Skip trying a reverse DNS lookup.
-.It Fl uniquelocal
+.It Fl u | Fl Fl uniquelocal
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux and FreeBSD, /dev/urandom is used for random number generation.
-.It Fl uniquelocalhq
+.It Fl U | Fl Fl uniquelocalhq
 Like \-uniquelocal, but using /dev/random instead on Linux and FreeBSD systems for highest\-quality random number generation. On other systems, this option is equal to \-uniquelocal. Note, that reading from /dev/random may take some time. You can speed up this process by delivering random input e.g. by pressing keys or moving the mouse.
-.It Fl nocolour | Fl nocolor
+.It Fl n | Fl Fl noreverselookup
+Turns reverse DNS lookup off.
+.It Fl n | Fl Fl nogeoiplookup
+Turns GeoIP lookup off.
+.It Fl c | Fl Fl nocolour | Fl Fl nocolor
 Turns colourised output off.
-.It Fl v | Fl version
-Just prints program version.
+.It Fl h | Fl Fl help
+Prints command-line parameters.
+.It Fl v | Fl Fl version
+Prints program version.
 .El
 .\" ###### Exit status ######################################################
 .Sh EXIT STATUS
@@ -80,9 +91,9 @@ tool exits with 0 on success, and >0 in case of an error.
 .Bl -tag -width indent
 .It subnetcalc \-v
 .It subnetcalc 132.252.250.0 255.255.255.0
-.It subnetcalc 132.252.250.0/255.255.255.0 \-nocolor
+.It subnetcalc 132.252.250.0/255.255.255.0 \-\-nocolor
 .It subnetcalc 132.252.250.0 24
-.It subnetcalc 132.252.250.0/24 \-nocolour
+.It subnetcalc 132.252.250.0/24 \-\-nocolour
 .It subnetcalc fe80::2f0b:a04e:15c2:bc68 64
 .It subnetcalc fe80::2f0b:a04e:15c2:bc68%wlp4s0 64
 .It subnetcalc fec0:2345:6789:1111:221:6aff:fe0b:2674 56
@@ -92,8 +103,8 @@ tool exits with 0 on success, and >0 in case of an error.
 .It subnetcalc 132.252.181.87 \-n
 .It subnetcalc www.iem.uni\-due.de 24
 .It subnetcalc www.six.heise.de
-.It subnetcalc fd00:: 64 \-uniquelocal
-.It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-uniquelocalhq
+.It subnetcalc fd00:: 64 \-\-uniquelocal
+.It subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-\-uniquelocalhq
 .It subnetcalc düsseldorf.de 28
 .It subnetcalc www.köln.de
 .It subnetcalc räksmörgås.josefsson.org 24

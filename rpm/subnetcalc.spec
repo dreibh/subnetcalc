@@ -12,8 +12,8 @@ BuildRequires: cmake
 BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gettext
-BuildRequires: GeoIP-devel
-Requires: GeoIP
+BuildRequires: libmaxminddb-devel
+Requires: libmaxminddb
 Recommends: iproute
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 

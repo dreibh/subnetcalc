@@ -170,9 +170,9 @@ IF (WITH_GEOIP)
       MESSAGE(FATAL_ERROR
               " Cannot find MaxMindDB library! Try:\n"
               " * Ubuntu/Debian: sudo apt install -y libmaxminddb-dev\n"
-              " * Fedora:        sudo dnf install -y GeoIP-devel\n"
-              " * SuSE:          sudo zypper install -y GeoIP-devel\n"
-              " * Alpine:        sudo apk add geoip-dev\n"
+              " * Fedora:        sudo dnf install -y libmaxminddb-devel\n"
+              " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
+              " * Alpine:        sudo apk add libmaxminddb-dev\n"
               " * FreeBSD:       sudo pkg install -y libmaxminddb")
     ENDIF()
 ENDIF()
