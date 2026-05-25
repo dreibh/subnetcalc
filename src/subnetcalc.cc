@@ -282,7 +282,7 @@ int getPrefixLength(const sockaddr_union& netmask)
       prefixLength     = 32;
       const uint32_t a = ntohl(getIPv4Address(netmask));
       for(int i = 31;i >= 0;i--) {
-         if(!(a & (1 << (uint32_t)i))) {
+         if(!(a & (1U << (uint32_t)i))) {
             belongsToNetwork = false;
             prefixLength--;
          }
@@ -298,7 +298,7 @@ int getPrefixLength(const sockaddr_union& netmask)
       for(int j = 0;j < 4;j++) {
          const uint32_t a = ntohl(getIPv6Address(netmask).s6_addr32[j]);
          for(int i = 31;i >= 0;i--) {
-            if(!(a & (1 << (uint32_t)i))) {
+            if(!(a & (1U << (uint32_t)i))) {
                belongsToNetwork = false;
                prefixLength--;
             }
