@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.6.5\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-05-25 15:20+0200\n"
+"POT-Creation-Date: 2026-05-25 21:43+0200\n"
 "PO-Revision-Date: 2026-02-26 08:50+0100\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -17,36 +17,36 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Poedit 3.8\n"
 
-#: src/subnetcalc.cc:170
+#: src/subnetcalc.cc:155
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "შეცდომა: უნიკალური ლოკალური მისამართის გენერაციისთვის IPv6 მისამართი უნდა გადმოგვცეთ!"
 
-#: src/subnetcalc.cc:180
+#: src/subnetcalc.cc:165
 #, c-format
 msgid "Generating Unique Local IPv6 address (using %s) ..."
 msgstr "მიმდინარეობს უნიკალური ლოკალური IPv6 მისამართის გენერაცია (გამოიყენება %s) ..."
 
-#: src/subnetcalc.cc:183
+#: src/subnetcalc.cc:168
 #, c-format
 msgid "ERROR: Unable to read from %s!"
 msgstr "შეცდომა: %s-იდან წაკითხვა შეუძლებელია!"
 
-#: src/subnetcalc.cc:188
+#: src/subnetcalc.cc:173
 #, c-format
 msgid "ERROR: Unable to open %s!"
 msgstr "შეცდომა: %s-ის გახსნა შეუძლებელია!"
 
-#: src/subnetcalc.cc:452 src/subnetcalc.cc:460 src/subnetcalc.cc:476
+#: src/subnetcalc.cc:455 src/subnetcalc.cc:463 src/subnetcalc.cc:476
 #: src/subnetcalc.cc:489 src/subnetcalc.cc:499
 #, c-format
 msgid "%-32s"
 msgstr "%-32s"
 
-#: src/subnetcalc.cc:452
+#: src/subnetcalc.cc:455
 msgid "Global ID"
 msgstr "გლობალური ID"
 
-#: src/subnetcalc.cc:460
+#: src/subnetcalc.cc:463
 msgid "Subnet ID"
 msgstr "ქვექსელის ID"
 
@@ -62,10 +62,10 @@ msgstr "MAC მისამართი"
 msgid "Solicited Node Multicast Address"
 msgstr "მოთხოვნილი კვანძის ჯგუფური მისამართი"
 
-#: src/subnetcalc.cc:516 src/subnetcalc.cc:1007 src/subnetcalc.cc:1010
-#: src/subnetcalc.cc:1011 src/subnetcalc.cc:1013 src/subnetcalc.cc:1016
-#: src/subnetcalc.cc:1025 src/subnetcalc.cc:1030 src/subnetcalc.cc:1033
-#: src/subnetcalc.cc:1050 src/subnetcalc.cc:1052
+#: src/subnetcalc.cc:516 src/subnetcalc.cc:1008 src/subnetcalc.cc:1011
+#: src/subnetcalc.cc:1012 src/subnetcalc.cc:1014 src/subnetcalc.cc:1017
+#: src/subnetcalc.cc:1026 src/subnetcalc.cc:1031 src/subnetcalc.cc:1034
+#: src/subnetcalc.cc:1051 src/subnetcalc.cc:1053
 #, c-format
 msgid "%-14s"
 msgstr "%-14s"
@@ -98,7 +98,7 @@ msgstr "%s წარმოადგენს ჰოსტის მისამ�
 msgid "Class A"
 msgstr "კლასი A"
 
-#: src/subnetcalc.cc:552 src/subnetcalc.cc:623
+#: src/subnetcalc.cc:552 src/subnetcalc.cc:626
 msgid "Loopback address"
 msgstr "მარყუჟი მისამართი"
 
@@ -126,32 +126,32 @@ msgstr "კლასი C"
 msgid "Class D (Multicast)"
 msgstr "კლასი D (ტრანსლაცია)"
 
-#: src/subnetcalc.cc:579 src/subnetcalc.cc:642
+#: src/subnetcalc.cc:579 src/subnetcalc.cc:645
 msgid "Scope: "
 msgstr "ფარგლები: "
 
-#: src/subnetcalc.cc:581 src/subnetcalc.cc:647
+#: src/subnetcalc.cc:581 src/subnetcalc.cc:650
 msgid "link-local"
 msgstr "ლოკალური-კავშირი"
 
-#: src/subnetcalc.cc:584 src/subnetcalc.cc:653
+#: src/subnetcalc.cc:584 src/subnetcalc.cc:656
 msgid "organization-local"
 msgstr "ორგანიზაციის-ლოკალური"
 
-#: src/subnetcalc.cc:587 src/subnetcalc.cc:650
+#: src/subnetcalc.cc:587 src/subnetcalc.cc:653
 msgid "site-local"
 msgstr "საიტის-ლოკალური"
 
-#: src/subnetcalc.cc:590 src/subnetcalc.cc:656
+#: src/subnetcalc.cc:590 src/subnetcalc.cc:659
 msgid "global"
 msgstr "გლობალური"
 
-#: src/subnetcalc.cc:601 src/subnetcalc.cc:677
+#: src/subnetcalc.cc:601 src/subnetcalc.cc:680
 #, c-format
 msgid "Corresponding multicast MAC address: %s"
 msgstr "შესაბამისი ჯგუფური MAC მისამართი: %s"
 
-#: src/subnetcalc.cc:606 src/subnetcalc.cc:683
+#: src/subnetcalc.cc:606 src/subnetcalc.cc:686
 msgid "Source-specific multicast"
 msgstr "წყაროს სპეციფიკური ჯგუფური მისამართი"
 
@@ -159,151 +159,151 @@ msgstr "წყაროს სპეციფიკური ჯგუფურ�
 msgid "Invalid (not in class A, B, C or D)"
 msgstr "არასწორი (არაა კლასებში A, B, C, ან D)"
 
-#: src/subnetcalc.cc:626
+#: src/subnetcalc.cc:629
 msgid "Unspecified address"
 msgstr "მიუთითებელი მისამართი"
 
-#: src/subnetcalc.cc:629
+#: src/subnetcalc.cc:632
 msgid "IPv4-compatible IPv6 address"
 msgstr "IPv4-თან თავსებადი IPv6 მისამართი"
 
-#: src/subnetcalc.cc:632
+#: src/subnetcalc.cc:635
 msgid "IPv4-mapped IPv6 address"
 msgstr "IPv4-ში ასახული IPv6 მისამართი"
 
-#: src/subnetcalc.cc:635
+#: src/subnetcalc.cc:638
 msgid "IPv4-embedded IPv6 address"
 msgstr "IPv4-ში ჩაშენებული IPv6 მისამართი"
 
-#: src/subnetcalc.cc:641
+#: src/subnetcalc.cc:644
 msgid "Multicast Properties"
 msgstr "ჯგუფური ქსელის თვისებები"
 
-#: src/subnetcalc.cc:644
+#: src/subnetcalc.cc:647
 msgid "node-local"
 msgstr "კვანძის-ლოკალური"
 
-#: src/subnetcalc.cc:659
+#: src/subnetcalc.cc:662
 msgid "unknown"
 msgstr "უცნობი"
 
-#: src/subnetcalc.cc:666
+#: src/subnetcalc.cc:669
 msgid "Temporarily-allocated address"
 msgstr "დროებითი გამოყოფილი მისამართი"
 
-#: src/subnetcalc.cc:696
+#: src/subnetcalc.cc:698
 msgid "Address is solicited node multicast address for"
 msgstr "მისამართი მოთხოვნილი კვანძის ჯგუფური მისამართია მოწყობილობისთვის"
 
-#: src/subnetcalc.cc:703
+#: src/subnetcalc.cc:705
 msgid "Link-Local Unicast Properties:"
 msgstr "ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
-#: src/subnetcalc.cc:709
+#: src/subnetcalc.cc:711
 msgid "Site-Local Unicast Properties:"
 msgstr "საიტის ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
-#: src/subnetcalc.cc:715
+#: src/subnetcalc.cc:717
 msgid "Unique Local Unicast Properties:"
 msgstr "უნიკალური ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
-#: src/subnetcalc.cc:717
+#: src/subnetcalc.cc:719
 msgid "Locally chosen"
 msgstr "ლოკალურად არჩეული"
 
-#: src/subnetcalc.cc:720
+#: src/subnetcalc.cc:722
 msgid "Assigned by global instance"
 msgstr "მინიჭებულია გლობალური გაშვებული ასლის მიერ"
 
-#: src/subnetcalc.cc:727
+#: src/subnetcalc.cc:729
 msgid "Global Unicast Properties:"
 msgstr "გლობალური ერთმხრივი გადაცემის თვისებები:"
 
-#: src/subnetcalc.cc:737
+#: src/subnetcalc.cc:739
 msgid "6-to-4 Address"
 msgstr "6-დან-4-ში მისამართი"
 
-#: src/subnetcalc.cc:801
+#: src/subnetcalc.cc:803
 msgid "Usage:"
 msgstr "გამოყენება:"
 
-#: src/subnetcalc.cc:903 src/subnetcalc.cc:917
+#: src/subnetcalc.cc:904 src/subnetcalc.cc:918
 #, c-format
 msgid "ERROR: Invalid address %s!"
 msgstr "შეცდომა: არასწორი მისამართი %s!"
 
-#: src/subnetcalc.cc:908 src/subnetcalc.cc:925 src/subnetcalc.cc:949
+#: src/subnetcalc.cc:909 src/subnetcalc.cc:926 src/subnetcalc.cc:950
 #, c-format
 msgid "ERROR: Invalid netmask %s!"
 msgstr "შეცდომა: არასწორი ქსელის ნიღაბი %s!"
 
-#: src/subnetcalc.cc:955
+#: src/subnetcalc.cc:956
 #, c-format
 msgid "ERROR: Incompatible netmask %s!"
 msgstr "შეცდომა: შეუთავსებელი ქსელური ნიღაბი %s!"
 
-#: src/subnetcalc.cc:1007
+#: src/subnetcalc.cc:1008
 msgid "Address"
 msgstr "მისამართი"
 
-#: src/subnetcalc.cc:1011
+#: src/subnetcalc.cc:1012
 msgid "Network"
 msgstr "ქსელი"
 
-#: src/subnetcalc.cc:1013
+#: src/subnetcalc.cc:1014
 msgid "Netmask"
 msgstr "ქსელის ნიღაბი"
 
-#: src/subnetcalc.cc:1016
+#: src/subnetcalc.cc:1017
 msgid "Broadcast"
 msgstr "ტრანსლაცია"
 
-#: src/subnetcalc.cc:1021
+#: src/subnetcalc.cc:1022
 msgid "not needed on Point-to-Point links"
 msgstr "არაა საჭირო ორწერტილიან კავშირებზე"
 
-#: src/subnetcalc.cc:1025
+#: src/subnetcalc.cc:1026
 msgid "Wildcard Mask"
 msgstr "ვაილდკარდის ნიღაბი"
 
-#: src/subnetcalc.cc:1030
+#: src/subnetcalc.cc:1031
 msgid "Hex. Address"
 msgstr "თექვსმ. მისამართი"
 
-#: src/subnetcalc.cc:1033
+#: src/subnetcalc.cc:1034
 msgid "Host Bits"
 msgstr "ჰოსტის ბიტები"
 
-#: src/subnetcalc.cc:1050
+#: src/subnetcalc.cc:1051
 msgid "Max. Hosts"
 msgstr "მაქს. ჰოსტები"
 
-#: src/subnetcalc.cc:1052
+#: src/subnetcalc.cc:1053
 msgid "Host Range"
 msgstr "ჰოსტის შუალედი"
 
-#: src/subnetcalc.cc:1077 src/subnetcalc.cc:1100 src/subnetcalc.cc:1125
-#: src/subnetcalc.cc:1132
+#: src/subnetcalc.cc:1078 src/subnetcalc.cc:1101 src/subnetcalc.cc:1126
+#: src/subnetcalc.cc:1133
 msgid "Unknown"
 msgstr "უცნობი"
 
-#: src/subnetcalc.cc:1083
+#: src/subnetcalc.cc:1084
 msgid "GeoIP AS Info"
 msgstr "GeoIP AS ინფორმაცია"
 
-#: src/subnetcalc.cc:1114
+#: src/subnetcalc.cc:1115
 msgid "GeoIP Country"
 msgstr "GeoIP ქვეყანა"
 
-#: src/subnetcalc.cc:1160
+#: src/subnetcalc.cc:1161
 msgid "GeoIP Region"
 msgstr "GeoIP რეგიონი"
 
-#: src/subnetcalc.cc:1179
+#: src/subnetcalc.cc:1180
 msgid "Performing reverse DNS lookup ..."
 msgstr "რევერსული DNS-ის ძებნა..."
 
-#: src/subnetcalc.cc:1197
+#: src/subnetcalc.cc:1198
 msgid "DNS Hostname"
 msgstr "DNS ჰოსტის სახელი"
 

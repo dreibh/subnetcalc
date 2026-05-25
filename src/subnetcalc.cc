@@ -1191,7 +1191,7 @@ int main(int argc, char** argv)
 #else
                               NI_NAMEREQD
 #endif
-                              );
+                             );
       if(isatty(fileno(stdout))) {
          std::cout << "\r\x1b[K";
       }
