@@ -47,8 +47,7 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
-
-#ifdef __FreeBSD__
+#ifndef NI_IDN
 #include <idn2.h>
 #endif
 

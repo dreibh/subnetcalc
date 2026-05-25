@@ -40,8 +40,7 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <vector>
-
-#ifdef __FreeBSD__
+#ifndef NI_IDN
 #include <idn2.h>
 #endif
 
