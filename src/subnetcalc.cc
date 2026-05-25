@@ -28,6 +28,7 @@
 // Contact: thomas.dreibholz@gmail.com
 
 #include <assert.h>
+#include <cctype>
 #include <cmath>
 #include <cstdlib>
 #include <cstring>
@@ -111,7 +112,8 @@ int readPrefix(const char*           parameter,
                const sockaddr_union& forAddress,
                sockaddr_union&       netmask)
 {
-   for(size_t i = 0;i < strlen(parameter);i++) {
+   const size_t parameterLength = strlen(parameter);
+   for(size_t i = 0; i < parameterLength; i++) {
       if(!isdigit(parameter[i])) {
          return -1;
       }
@@ -127,9 +129,9 @@ int readPrefix(const char*           parameter,
       }
       int p = prefix;
       netmask.in.sin_addr.s_addr = 0;
-      for(int i = 31;i >= 0;i--) {
+      for(int i = 31; i >= 0; i--) {
          if(p > 0) {
-            netmask.in.sin_addr.s_addr |= (1 << i);
+            netmask.in.sin_addr.s_addr |= (1U << i);
          }
          p--;
       }
@@ -140,11 +142,11 @@ int readPrefix(const char*           parameter,
          return -1;
       }
       int p = prefix;
-      for(int j = 0;j < 16;j++) {
+      for(int j = 0; j < 16; j++) {
          netmask.in6.sin6_addr.s6_addr[j] = 0;
-         for(int i = 7;i >= 0;i--) {
+         for(int i = 7; i >= 0; i--) {
             if(p > 0) {
-               netmask.in6.sin6_addr.s6_addr[j] |= (1 << i);
+               netmask.in6.sin6_addr.s6_addr[j] |= (1U << i);
             }
             p--;
          }
@@ -186,7 +188,7 @@ void generateUniqueLocal(sockaddr_union& address,
    // ====== Get random number using random() function ======================
 #warning Using default random number generator on non-Linux system!
    srandom((unsigned int)getMicroTime());
-   for(size_t i = 0;i < sizeof(buffer);i++) {
+   for(size_t i = 0; i < sizeof(buffer); i++) {
       buffer[i] = (uint8_t)(random() % 0xff);
    }
 #endif
@@ -207,7 +209,7 @@ void printAddressBinary(std::ostream&         os,
    if(address.sa.sa_family == AF_INET) {
       os << indent;
       uint32_t a = ntohl(getIPv4Address(address));
-      for(int i = 31;i >= 0;i--) {
+      for(int i = 31; i >= 0; i--) {
          const uint32_t v = (uint32_t)1 << i;
          if(colourMode) {
             if(32 - i > (int)prefix) {   // Colourize output
@@ -236,12 +238,12 @@ void printAddressBinary(std::ostream&         os,
    else {
       int      p           = 0;
       in6_addr ipv6Address = getIPv6Address(address);
-      for(int j = 0;j < 8;j++) {
+      for(int j = 0; j < 8; j++) {
          uint16_t a = ntohs(ipv6Address.s6_addr16[j]);
          char str[16];
-         snprintf((char*)&str, sizeof(str), "%04x", a);
+         snprintf(str, sizeof(str), "%04x", a);
          os << indent << str << " = ";
-         for(int i = 15;i >= 0;i--) {
+         for(int i = 15; i >= 0; i--) {
             const uint32_t v = (uint32_t)1 << i;
             if(colourMode) {
                if(p < (int)prefix) {   // Colourize output
@@ -281,7 +283,7 @@ int getPrefixLength(const sockaddr_union& netmask)
    if(netmask.sa.sa_family == AF_INET) {
       prefixLength     = 32;
       const uint32_t a = ntohl(getIPv4Address(netmask));
-      for(int i = 31;i >= 0;i--) {
+      for(int i = 31; i >= 0; i--) {
          if(!(a & (1U << (uint32_t)i))) {
             belongsToNetwork = false;
             prefixLength--;
@@ -295,9 +297,9 @@ int getPrefixLength(const sockaddr_union& netmask)
    }
    else {
       prefixLength = 128;
-      for(int j = 0;j < 4;j++) {
+      for(int j = 0; j < 4; j++) {
          const uint32_t a = ntohl(getIPv6Address(netmask).s6_addr32[j]);
-         for(int i = 31;i >= 0;i--) {
+         for(int i = 31; i >= 0; i--) {
             if(!(a & (1U << (uint32_t)i))) {
                belongsToNetwork = false;
                prefixLength--;
@@ -324,7 +326,7 @@ sockaddr_union operator&(const sockaddr_union& a1, const sockaddr_union& a2)
       a.in.sin_addr.s_addr &= a2.in.sin_addr.s_addr;
    }
    else {
-      for(int j = 0;j < 4;j++) {
+      for(int j = 0; j < 4; j++) {
          a.in6.sin6_addr.s6_addr32[j] &= a2.in6.sin6_addr.s6_addr32[j];
       }
    }
@@ -342,7 +344,7 @@ sockaddr_union operator|(const sockaddr_union& a1, const sockaddr_union& a2)
       a.in.sin_addr.s_addr |= a2.in.sin_addr.s_addr;
    }
    else {
-      for(int j = 0;j < 4;j++) {
+      for(int j = 0; j < 4; j++) {
          a.in6.sin6_addr.s6_addr32[j] |= a2.in6.sin6_addr.s6_addr32[j];
       }
    }
@@ -358,7 +360,7 @@ sockaddr_union operator~(const sockaddr_union& a1)
       a.in.sin_addr.s_addr = ~a1.in.sin_addr.s_addr;
    }
    else {
-      for(int j = 0;j < 4;j++) {
+      for(int j = 0; j < 4; j++) {
          a.in6.sin6_addr.s6_addr32[j] = ~a1.in6.sin6_addr.s6_addr32[j];
       }
    }
@@ -382,7 +384,7 @@ sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
       a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) + n);
    }
    else {
-      for(int j = 3;j >= 0;j--) {
+      for(int j = 3; j >= 0; j--) {
          const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) + (uint64_t)n;
          a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
          n = (uint32_t)(sum >> 32);
@@ -400,7 +402,7 @@ sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
       a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) - n);
    }
    else {
-      for(int j = 3;j >= 0;j--) {
+      for(int j = 3; j >= 0; j--) {
          const uint64_t sum = (uint64_t)ntohl(a.in6.sin6_addr.s6_addr32[j]) - (uint64_t)n;
          a.in6.sin6_addr.s6_addr32[j] = htonl((uint32_t)(sum & 0xffffffffULL));
          n = (uint32_t)(sum >> 32);
@@ -419,7 +421,7 @@ int operator==(const sockaddr_union& a1, const sockaddr_union& a2)
       return (a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
    }
    else {
-      for(int j = 3;j >= 0;j--) {
+      for(int j = 3; j >= 0; j--) {
          if(a1.in6.sin6_addr.s6_addr32[j] != a2.in6.sin6_addr.s6_addr32[j]) {
             return false;
          }
@@ -439,7 +441,7 @@ void printUnicastProperties(std::ostream&   os,
    // ====== Global ID ======================================================
    if(hasGlobalID) {
       char globalIDString[16];
-      snprintf((char*)&globalIDString, sizeof(globalIDString), "%02x%04x%04x",
+      snprintf(globalIDString, sizeof(globalIDString), "%02x%04x%04x",
                ntohs(ipv6address.s6_addr16[0]) & 0xff,
                ntohs(ipv6address.s6_addr16[1]),
                ntohs(ipv6address.s6_addr16[2]));
@@ -450,7 +452,7 @@ void printUnicastProperties(std::ostream&   os,
    if(hasSubnetID) {
       char           subnetIDString[16];
       const uint16_t subnetID = ntohs(ipv6address.s6_addr16[3]);
-      snprintf((char*)&subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
+      snprintf(subnetIDString, sizeof(subnetIDString), "%04x", subnetID);
       os << "      + " << format(gettext("%-32s"), gettext("Subnet ID")) << " = " <<  subnetIDString << "\n";
    }
 
@@ -460,7 +462,7 @@ void printUnicastProperties(std::ostream&   os,
                                      ntohs(ipv6address.s6_addr16[5]),
                                      ntohs(ipv6address.s6_addr16[6]),
                                      ntohs(ipv6address.s6_addr16[7]) };
-   snprintf((char*)&interfaceIDString, sizeof(interfaceIDString),
+   snprintf(interfaceIDString, sizeof(interfaceIDString),
             ((colourMode == true) ? "\x1b[36m%04x:%02x\x1b[37m%02x:%02x\x1b[38m%02x:%04x\x1b[0m" :
                                     "%04x:%02x%02x:%02x%02x:%04x"),
             interfaceID[0],
@@ -471,7 +473,7 @@ void printUnicastProperties(std::ostream&   os,
 
    if( ((interfaceID[1] & 0x00ff) == 0x00ff) &&
        ((interfaceID[2] & 0xff00) == 0xfe00) ) {
-      snprintf((char*)&interfaceIDString, sizeof(interfaceIDString),
+      snprintf(interfaceIDString, sizeof(interfaceIDString),
                ((colourMode == true) ? "\x1b[36m%02x:%02x:%02x\x1b[0m:\x1b[38m%02x:%02x:%02x\x1b[0m" :
                                        "%02x:%02x:%02x:%02x:%02x:%02x"),
                ipv6address.s6_addr[8] ^ 0x02,
@@ -485,7 +487,7 @@ void printUnicastProperties(std::ostream&   os,
 
    // ====== Solicited Node Multicast Address ===============================
    char snmcAddressString[32];
-   snprintf((char*)&snmcAddressString, sizeof(snmcAddressString),
+   snprintf(snmcAddressString, sizeof(snmcAddressString),
             ((colourMode == true) ? "\x1b[32mff02::1:ff\x1b[38m%02x:%04x\x1b[0m" :
                                     "ff02::1:ff%02x:%04x"),
             ntohs(ipv6address.s6_addr16[6]) & 0xff,
@@ -587,7 +589,7 @@ void printAddressProperties(std::ostream&         os,
 
          // ------ Corresponding MAC address --------------------------------
          char macAddressString[32];
-         snprintf((char*)&macAddressString, sizeof(macAddressString),
+         snprintf(macAddressString, sizeof(macAddressString),
                   "01:00:5e:%02x:%02x:%02x",
                   (ipv4address & 0x007f0000) >> 16,
                   (ipv4address & 0x0000ff00) >> 8,
@@ -662,13 +664,14 @@ void printAddressProperties(std::ostream&         os,
 
          // ------ Corresponding MAC address --------------------------------
          char macAddressString[32];
-         snprintf((char*)&macAddressString, sizeof(macAddressString),
+         snprintf(macAddressString, sizeof(macAddressString),
                   "33:33:%02x:%02x:%02x:%02x",
                   ipv6address.s6_addr[12],
                   ipv6address.s6_addr[13],
                   ipv6address.s6_addr[14],
                   ipv6address.s6_addr[15]);
-         os << "      + " << gettext("Corresponding multicast MAC address: ") << macAddressString << "\n";
+         os << "      + " << format(gettext("Corresponding multicast MAC address: %s"),
+                                    macAddressString) << "\n";
 
          // ------ Source-specific multicast --------------------------------
          if( ((a & 0xfff0) == 0xff30) && (b == 0x0000) ) {
@@ -682,7 +685,7 @@ void printAddressProperties(std::ostream&         os,
             (ntohs(ipv6address.s6_addr16[5]) == 0x0001) &&
             (ntohs(ipv6address.s6_addr16[6]) & 0xff00) == 0xff00) {
             char nodeAddressString[64];
-            snprintf((char*)&nodeAddressString, sizeof(nodeAddressString),
+            snprintf(nodeAddressString, sizeof(nodeAddressString),
                      "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx%02x:%04x",
                      ntohs(ipv6address.s6_addr16[6]) & 0xff,
                      ntohs(ipv6address.s6_addr16[7]));
@@ -889,7 +892,7 @@ int main(int argc, char** argv)
    sockaddr_union     host2;
 
    // ====== Get address and netmask from one parameter =====================
-   char* slash = index(argv[optind], '/');
+   char* slash = strchr(argv[optind], '/');
    if(slash) {
       slash[0] = 0x00;
       if(string2address(argv[optind], &address) == false) {
@@ -1019,25 +1022,25 @@ int main(int argc, char** argv)
              << " = " << wildcard << "\n";
    if(isIPv4(address)) {
       char hex[16];
-      snprintf((char*)&hex, sizeof(hex), "%08X", ntohl(address.in.sin_addr.s_addr));
+      snprintf(hex, sizeof(hex), "%08X", ntohl(address.in.sin_addr.s_addr));
       std::cout << format(gettext("%-14s"), gettext("Hex. Address"))
                 << " = " << hex << "\n";
    }
-   std::cout << format(gettext("%-14s"), gettext("Hosts Bits")) << " = "
+   std::cout << format(gettext("%-14s"), gettext("Host Bits")) << " = "
              << hostBits << "\n";
    if(!isMulticast(address)) {
       char maxHostsString[128];
       if(maxHosts > 0) {
 #if defined(__SIZEOF_INT128__)
-         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+         snprintf(maxHostsString, sizeof(maxHostsString),
                   "%s   (2^%u - %u)", toString(maxHosts).c_str(), hostBits, reservedHosts);
 #else
-         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+         snprintf(maxHostsString, sizeof(maxHostsString),
                   "%llu   (2^%u - %u)", maxHosts, hostBits, reservedHosts);
 #endif
       }
       else {
-         snprintf((char*)&maxHostsString, sizeof(maxHostsString),
+         snprintf(maxHostsString, sizeof(maxHostsString),
                   "2^%u - %u", hostBits, reservedHosts);
       }
       std::cout << format(gettext("%-14s"), gettext("Max. Hosts")) << " = "
@@ -1092,7 +1095,7 @@ int main(int argc, char** argv)
             if(mmdbLookupResult.found_entry) {
 
                // ------ Country --------------------------------------------
-               std::string country = gettext(gettext("Unknown"));
+               std::string country = gettext("Unknown");
                if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
                                  "country", "names", "en", nullptr) == MMDB_SUCCESS) &&
                   (mmdbEntryData.has_data) ) {
@@ -1110,7 +1113,7 @@ int main(int argc, char** argv)
                         << country << " (" << code << ")\n";
 
                // ------ Region and City ------------------------------------
-               std::string postal_code = "";
+               std::string postal_code ;
                if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
                                  "postal", "code", nullptr) == MMDB_SUCCESS) &&
                   (mmdbEntryData.has_data) ) {
@@ -1131,7 +1134,7 @@ int main(int argc, char** argv)
                   region = std::string(mmdbEntryData.utf8_string, mmdbEntryData.data_size);
                }
 
-               std::string timeZone = "";
+               std::string timeZone;
                if( (MMDB_get_value(&mmdbLookupResult.entry, &mmdbEntryData,
                                  "location", "time_zone", nullptr) == MMDB_SUCCESS) &&
                   (mmdbEntryData.has_data) ) {
@@ -1172,13 +1175,15 @@ int main(int argc, char** argv)
 
    // ====== Reverse lookup =================================================
    if(noReverseLookup == false) {
-      std::cout << gettext("Performing reverse DNS lookup ...");
-      std::cout.flush();
+      if(isatty(fileno(stdout))) {
+         std::cout << gettext("Performing reverse DNS lookup ...");
+         std::cout.flush();
+      }
       char hostname[NI_MAXHOST];
       int error = getnameinfo(&address.sa,
                               (address.sa.sa_family == AF_INET6) ?
                                  sizeof(sockaddr_in6) : sizeof(sockaddr_in),
-                              (char*)&hostname, sizeof(hostname),
+                              hostname, sizeof(hostname),
                               nullptr, 0,
 #ifdef NI_IDN
                               NI_NAMEREQD|NI_IDN
@@ -1187,8 +1192,10 @@ int main(int argc, char** argv)
                               NI_NAMEREQD
 #endif
                               );
-      std::cout << "\r\x1b[K"
-                << format("%-14s = ", gettext("DNS Hostname"));
+      if(isatty(fileno(stdout))) {
+         std::cout << "\r\x1b[K";
+      }
+      std::cout << format("%-14s = ", gettext("DNS Hostname"));
       std::cout.flush();
       if(error == 0) {
          std::cout << hostname << "\n";
