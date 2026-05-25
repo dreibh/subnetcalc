@@ -44,7 +44,7 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #############################################################################
 
 ADD_EXECUTABLE(subnetcalc subnetcalc.cc tools.cc)
-TARGET_LINK_LIBRARIES(subnetcalc ${Intl_LIBRARIES})
+TARGET_LINK_LIBRARIES(subnetcalc ${Intl_LIBRARIES} ${LIBIDN2_LIBRARY})
 IF (WITH_GEOIP)
    TARGET_LINK_LIBRARIES(subnetcalc ${MAXMINDDB_LIBRARY})
 ENDIF()

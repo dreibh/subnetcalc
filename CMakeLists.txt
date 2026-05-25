@@ -157,6 +157,19 @@ OPTION(WITH_GEOIP "Build with GeoIP support"                       1)
 
 INCLUDE(FindPackageHandleStandardArgs)
 
+# ###### IDN2 under FreeBSD is necessary to support IDN #####################
+IF (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
+   FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
+   FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
+   IF ((LIBIDN2_LIBRARY) AND (LIBIDN2_INCLUDE_DIR))
+      MESSAGE(STATUS "IDN2 library found.")
+   ELSE()
+      MESSAGE(FATAL_ERROR
+              " Cannot find IDN2 library! Try:\n"
+              " * FreeBSD: sudo pkg install -y libidn")
+   ENDIF()
+ENDIF()
+
 # ###### GeoIP ##############################################################
 IF (WITH_GEOIP)
     FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)

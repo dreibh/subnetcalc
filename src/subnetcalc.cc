@@ -41,6 +41,10 @@
 #include <unistd.h>
 #include <vector>
 
+#ifdef __FreeBSD__
+#include <idn2.h>
+#endif
+
 #ifdef HAVE_MAXMINDDB
 #include <maxminddb.h>
 #endif
@@ -1184,7 +1188,6 @@ int main(int argc, char** argv)
 #ifdef NI_IDN
                               NI_NAMEREQD|NI_IDN
 #else
-#warning No IDN support for getnameinfo()!
                               NI_NAMEREQD
 #endif
                               );
@@ -1194,7 +1197,18 @@ int main(int argc, char** argv)
       std::cout << format("%-14s = ", gettext("DNS Hostname"));
       std::cout.flush();
       if(error == 0) {
-         std::cout << hostname << "\n";
+#ifndef NI_IDN
+         char* utf8hostname = nullptr;
+         if(idn2_to_unicode_8z8z(hostname, &utf8hostname, 0) == IDN2_OK) {
+            std::cout << utf8hostname << "\n";
+            idn2_free(utf8hostname);
+         }
+         else {
+#endif
+            std::cout << hostname << "\n";
+#ifndef NI_IDN
+         }
+#endif
       }
       else {
          std::cout << "(" << gai_strerror(error) << ")" << "\n";
