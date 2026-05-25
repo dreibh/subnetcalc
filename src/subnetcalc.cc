@@ -794,9 +794,9 @@ static void usage(const char* program, const int exitCode)
    std::cerr << gettext("Usage:") << " "
              << program
              << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
+                " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
                 " [-n|--noreverselookup]\n"
                 " [-g|--nogeoiplookup]\n"
-                " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
                 " [-c|--nocolour|--nocolor]\n"
                 " [-h|--help] [-v|--version]\n";
    exit(exitCode);
