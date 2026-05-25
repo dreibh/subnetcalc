@@ -86,42 +86,6 @@ int safestrcat(char* dest, const char* src, const size_t size)
 }
 
 
-// ###### Find first occurrence of character in string #######################
-char* strindex(char* string, const char character)
-{
-   if(string != nullptr) {
-      while(*string != character) {
-         if(*string == 0x00) {
-            return nullptr;
-         }
-         string++;
-      }
-      return string;
-   }
-   return nullptr;
-}
-
-
-
-// ###### Find last occurrence of character in string #######################
-char* strrindex(char* string, const char character)
-{
-   const char* original = string;
-
-   if(original != nullptr) {
-      string = (char*)&string[strlen(string)];
-      while(*string != character) {
-         if(string == original) {
-            return nullptr;
-         }
-         string--;
-      }
-      return string;
-   }
-   return nullptr;
-}
-
-
 // ###### Check for support of IPv6 #########################################
 bool checkIPv6()
 {
@@ -280,17 +244,17 @@ bool string2address(const char*           string,
    if(strlen(string) > sizeof(host)) {
       return false;
    }
-   strcpy((char*)&host,string);
-   strcpy((char*)&port, "0");
+   strcpy(host,string);
+   strcpy(port, "0");
 
    // ====== Handle RFC2732-compliant addresses =============================
    if(string[0] == '[') {
-      p1 = strindex(host,']');
+      p1 = strchr(host, ']');
       if(p1 != nullptr) {
          if((p1[1] == ':') || (p1[1] == '!')) {
-            strcpy((char*)&port, &p1[2]);
+            strcpy(port, &p1[2]);
          }
-         memmove((char*)&host, (char*)&host[1], (long)p1 - (long)host - 1);
+         memmove(host, (char*)&host[1], (long)p1 - (long)host - 1);
          host[(long)p1 - (long)host - 1] = 0x00;
       }
    }
@@ -299,19 +263,20 @@ bool string2address(const char*           string,
    else {
       if(readPort) {
          unsigned int colons = 0;
-         for(size_t i = 0;i < strlen(host);i++) {
+         const size_t hostLength = strlen(host);
+         for(size_t i = 0; i < hostLength; i++) {
             if(host[i] == ':') {
                colons++;
             }
          }
          if(colons == 1) {
-            p1 = strrindex(host,':');
+            p1 = strrchr(host, ':');
             if(p1 == nullptr) {
-               p1 = strrindex(host,'!');
+               p1 = strrchr(host, '!');
             }
             if(p1 != nullptr) {
                p1[0] = 0x00;
-               strcpy((char*)&port, &p1[1]);
+               strcpy(port, &p1[1]);
             }
          }
       }
@@ -343,14 +308,14 @@ bool string2address(const char*           string,
    hints.ai_flags    = AI_IDN;
 #endif
 
-   for(i = 0;i < hostLength;i++) {
+   for(i = 0; i < hostLength; i++) {
       if(host[i] == ':') {
          isIPv6 = true;
          break;
       }
    }
    if(!isIPv6) {
-      for(i = 0;i < hostLength;i++) {
+      for(i = 0; i < hostLength; i++) {
          if(!(isdigit(host[i]) || (host[i] == '.'))) {
             isNumeric = false;
             break;

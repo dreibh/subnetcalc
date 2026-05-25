@@ -34,18 +34,13 @@
 #include <config.h>
 #endif
 
-#include <stdarg.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <errno.h>
+#include <cstdarg>
+#include <iostream>
 
+#include <arpa/inet.h>
+#include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-
-#include <iostream>
 
 
 #ifdef __FreeBSD__   // FreeBSD
@@ -67,8 +62,6 @@ unsigned long long getMicroTime();
 
 int safestrcpy(char* dest, const char* src, const size_t size);
 int safestrcat(char* dest, const char* src, const size_t size);
-char* strindex(char* string, const char character);
-char* strrindex(char* string, const char character);
 
 
 union sockaddr_union {
