@@ -61,8 +61,8 @@
 unsigned long long getMicroTime();
 
 
-int safestrcpy(char* dest, const char* src, const size_t size);
-int safestrcat(char* dest, const char* src, const size_t size);
+bool safestrcpy(char* dest, const char* src, const size_t size);
+bool safestrcat(char* dest, const char* src, const size_t size);
 
 
 union sockaddr_union {

@@ -56,15 +56,15 @@
 // ###### Get current time ##################################################
 unsigned long long getMicroTime()
 {
-  struct timeval tv;
-  gettimeofday(&tv, nullptr);
-  return (((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
-          (unsigned long long)tv.tv_usec);
+   struct timeval tv;
+   gettimeofday(&tv, nullptr);
+   return (((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
+           (unsigned long long)tv.tv_usec);
 }
 
 
 // ###### Length-checking strcpy() ##########################################
-int safestrcpy(char* dest, const char* src, const size_t size)
+bool safestrcpy(char* dest, const char* src, const size_t size)
 {
    assert(size > 0);
    strncpy(dest, src, size);
@@ -74,12 +74,16 @@ int safestrcpy(char* dest, const char* src, const size_t size)
 
 
 // ###### Length-checking strcat() ##########################################
-int safestrcat(char* dest, const char* src, const size_t size)
+bool safestrcat(char* dest, const char* src, const size_t size)
 {
    const size_t l1 = strlen(dest);
    const size_t l2 = strlen(src);
 
    assert(size > 0);
+   if(l1 >= size) {
+      return false;
+   }
+
    strncat(dest, src, size - l1 - 1);
    dest[size - 1] = 0x00;
    return (l1 + l2 < size);
@@ -182,7 +186,7 @@ bool address2string(const struct sockaddr* address,
             snprintf(buffer, length, "%s", inet_ntoa(ipv4address->sin_addr));
          }
          return true;
-       break;
+
       case AF_INET6:
          ipv6address = (const struct sockaddr_in6*)address;
          if( (!hideScope) &&
@@ -209,11 +213,11 @@ bool address2string(const struct sockaddr* address,
             }
             return true;
          }
-       break;
+         break;
+
       case AF_UNSPEC:
          safestrcpy(buffer, "(unspecified)", length);
          return true;
-       break;
    }
    return false;
 }
@@ -246,7 +250,7 @@ bool string2address(const char*           string,
    if(string[0] == '[') {
       p1 = strchr(host, ']');
       if(p1 != nullptr) {
-         if((p1[1] == ':') || (p1[1] == '!')) {
+         if(p1[1] == ':') {
             strcpy(port, &p1[2]);
          }
          memmove(host, &host[1], p1 - host - 1);
@@ -266,9 +270,6 @@ bool string2address(const char*           string,
          }
          if(colons == 1) {
             p1 = strrchr(host, ':');
-            if(p1 == nullptr) {
-               p1 = strrchr(host, '!');
-            }
             if(p1 != nullptr) {
                p1[0] = 0x00;
                strcpy(port, &p1[1]);
@@ -369,14 +370,15 @@ bool string2address(const char*           string,
 #ifdef HAVE_SIN_LEN
          ipv4address->sin_len  = sizeof(struct sockaddr_in);
 #endif
-       break;
+         break;
       case AF_INET6:
          ipv6address->sin6_port = htons(portNumber);
 #ifdef HAVE_SIN6_LEN
          ipv6address->sin6_len  = sizeof(struct sockaddr_in6);
 #endif
-       break;
+         break;
       default:
+         freeaddrinfo(res);
          return false;
    }
 
