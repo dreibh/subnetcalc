@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.6.6
+Version: 2.7.0~rc0
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -13,7 +13,6 @@ BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gettext
 BuildRequires: libmaxminddb-devel
-Requires: libmaxminddb
 Recommends: iproute
 BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
