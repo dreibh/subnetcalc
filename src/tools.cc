@@ -29,29 +29,28 @@
 
 #include "tools.h"
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <string.h>
-#include <assert.h>
+#include <arpa/inet.h>
+#include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <fcntl.h>
+#include <iostream>
+#include <netdb.h>
+#include <net/if.h>
+#include <netinet/in.h>
 #include <signal.h>
-#include <math.h>
-
-#include <ctype.h>
+#include <sys/ioctl.h>
+#include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-#include <sys/socket.h>
-#include <sys/ioctl.h>
 #include <sys/uio.h>
-#include <netinet/in.h>
-#include <arpa/inet.h>
-#include <net/if.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <netdb.h>
-#include <time.h>
+#include <unistd.h>
 
-#include <iostream>
+#ifdef __FreeBSD__
+#include <idn2.h>
+#endif
 
 
 // ###### Get current time ##################################################
@@ -334,14 +333,14 @@ bool string2address(const char*           string,
    isNumeric  = true;
    isIPv6     = false;
    hostLength = strlen(host);
+#ifndef AI_IDN
+   char* punycode = nullptr;
+#endif
 
    memset((char*)&hints, 0, sizeof(hints));
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
    hints.ai_flags    = AI_IDN;
-#else
-#warning No IDN support for getaddrinfo()!
-   hints.ai_flags    = 0;
 #endif
 
    for(i = 0;i < hostLength;i++) {
@@ -361,13 +360,32 @@ bool string2address(const char*           string,
    if(isNumeric) {
       hints.ai_flags |= AI_NUMERICHOST;
    }
+#ifndef AI_IDN
+   else {
+      if(idn2_to_ascii_8z(host, &punycode, 0) != IDN2_OK) {
+         punycode = nullptr;
+      }
+   }
+#endif
 
    // First try IPv6 ...
    hints.ai_family = AF_INET6;
-   if(getaddrinfo(host, nullptr, &hints, &res) != 0) {
+   if(getaddrinfo(
+#ifdef AI_IDN
+                  host,
+#else
+                  (punycode != nullptr) ? punycode : host,
+#endif
+                  nullptr, &hints, &res) != 0) {
       // ... then (if there is no AAAA record), try also IPv4
       hints.ai_family = AF_UNSPEC;
-      if(getaddrinfo(host, nullptr, &hints, &res) != 0) {
+      if(getaddrinfo(
+#ifdef AI_IDN
+                     host,
+#else
+                     (punycode != nullptr) ? punycode : host,
+#endif
+                     nullptr, &hints, &res) != 0) {
          return false;
       }
    }
@@ -393,6 +411,9 @@ bool string2address(const char*           string,
        break;
    }
 
+#ifndef AI_IDN
+   free(punycode);
+#endif
    freeaddrinfo(res);
    return true;
 }
