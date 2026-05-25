@@ -171,7 +171,8 @@ IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
    ELSE()
       MESSAGE(FATAL_ERROR
               " Cannot find IDN2 library! Try:\n"
-              " * FreeBSD: sudo pkg install -y libidn")
+              " * FreeBSD: sudo pkg install -y libidn\n"
+              " * Apple:   brew install libidn\n")
    ENDIF()
 ENDIF()
 
@@ -191,7 +192,8 @@ IF (WITH_GEOIP)
               " * Fedora:        sudo dnf install -y libmaxminddb-devel\n"
               " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
               " * Alpine:        sudo apk add libmaxminddb-dev\n"
-              " * FreeBSD:       sudo pkg install -y libmaxminddb")
+              " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
+              " * Apple:         brew install libmaxminddb")
     ENDIF()
 ENDIF()
 
@@ -216,7 +218,8 @@ IF (WITH_I18N)
             " * Fedora:        sudo dnf install -y gettext-devel\n"
             " * SuSE:          sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
-            " * FreeBSD:       sudo pkg install -y gettext-runtime")
+            " * FreeBSD:       sudo pkg install -y gettext-runtime\n"
+            " * Apple:         brew install gettext")
    ENDIF()
 
    FIND_PROGRAM(XGETTEXT xgettext REQUIRED)
