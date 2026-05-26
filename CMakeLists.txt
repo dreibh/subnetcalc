@@ -162,6 +162,8 @@ OPTION(WITH_GEOIP "Build with GeoIP support"                       1)
 INCLUDE(FindPackageHandleStandardArgs)
 
 # ###### IDN2 necessary to support IDN if not provided by libc ##############
+# NOTE: Linux provides IDN support directly in
+#       getaddrinfo() and getnameinfo()!
 IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
      (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") )
    FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
