@@ -25,6 +25,7 @@ GEOIP_DESC=		Build with GeoIP support
 
 I18N_CMAKE_BOOL=	WITH_I18N
 GEOIP_CMAKE_BOOL=	WITH_GEOIP
+GEOIP_LIB_DEPENDS=	libmaxminddb.so:net/libmaxminddb
 
 PLIST_FILES=	bin/subnetcalc \
 		share/bash-completion/completions/subnetcalc \
