@@ -1,4 +1,4 @@
-subnetcalc (2.7.0~rc0-1ubuntu1) trixie; urgency=medium
+subnetcalc (2.7.0-1ubuntu1) trixie; urgency=medium
 
   * New upstream release.
   * debian/control:
@@ -6,7 +6,7 @@ subnetcalc (2.7.0~rc0-1ubuntu1) trixie; urgency=medium
   * debian/source/lintian-overrides:
     Override very-long-line-length-in-source-file for long lines in README.md.
 
- -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Mon, 25 May 2026 20:11:04 +0200
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Thu, 28 May 2026 16:13:59 +0200
 
 subnetcalc (2.6.6-1ubuntu1) trixie; urgency=medium
 

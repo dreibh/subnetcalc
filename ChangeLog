@@ -1,8 +1,225 @@
+commit 65edfba7cd00e27e427a3a4e90d83a9231b26a80
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue May 26 23:26:51 2026 +0200
+
+    Updated FreeBSD dependencies.
+
+commit f22e29147897c398bc03662064b7748229e50eb4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue May 26 22:30:00 2026 +0200
+
+    Added comment.
+
+commit aae084b92ef31d714d42fe82c15def7f86c60f83
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue May 26 16:42:54 2026 +0200
+
+    Minor manpage update.
+
+commit b821375a6432742eceac3ee4e253d80cc688a4e0
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 22:16:36 2026 +0200
+
+    Updated CMakeLists.txt.
+
+commit 5ed2d8d86d4ffcaa8c662f4a3889e6fcf46b4b4a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 22:01:15 2026 +0200
+
+    Updated PO files.
+
+commit 2958726f48a438b71461e3c5499e6cba74699224
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 21:58:04 2026 +0200
+
+    Code portability improvements.
+
+commit 4dbdfe42826f0fd3a2c11fbe16b77c19bbbcb847
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 21:11:26 2026 +0200
+
+    Further clean-ups.
+
+commit d94c51c0de9d5348d66a05b9df0e932d55464d23
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 21:02:48 2026 +0200
+
+    MacOS build fix.
+
+commit 405ca14836c524cc57ae6ce027709de4ba3fb554
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 20:40:47 2026 +0200
+
+    Packaging updates.
+
+commit 02a84b6c5b3f1b288cd8f9ac9b689d86651d15e2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 20:37:53 2026 +0200
+
+    Updated manpage.
+
+commit 090e317c217a1a295df630768dc9041c5beba26d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 15:42:23 2026 +0200
+
+    Updated PO files.
+
+commit a2ad4af4114b1841001469193f6121c1b7888b4d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 15:42:17 2026 +0200
+
+    Minor clean-ups.
+
+commit 9424ba0a241a1afb9b24ff51f55d8ae8f9d50755
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 15:28:16 2026 +0200
+
+    Yet another set of small clean-ups.
+
+commit 1c32be3a3558bebf99a430529a7a367881bb2fbe
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 15:12:41 2026 +0200
+
+    Another set of code clean-ups.
+
+commit 742b0d8590c14e0c24f3139b06fdbbc41133e6c8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 14:49:00 2026 +0200
+
+    Further code clean-ups.
+
+commit 47a841b16d018678f89c7d5908783a8a67eb48e9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 14:39:17 2026 +0200
+
+    Updated FreeBSD port.
+
+commit 9da41b1da9eaa850dcea9db05fd2c8c05eeb4900
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 14:38:55 2026 +0200
+
+    Added IDN support for lookup under FreeBSD.
+
+commit 192cbc3b59b414efb07c4a6accc5bc39b2d88a2b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 14:26:41 2026 +0200
+
+    Added IDN support for reverse lookup under FreeBSD.
+
+commit 6658857f8cbedf1883cf391036c671808ed74936
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 13:32:31 2026 +0200
+
+    Yet another code clean-up.
+
+commit 96d4c557cb138238a99ac04bae83d7fa8eab5247
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 13:23:13 2026 +0200
+
+    Further code clean-ups.
+
+commit 88321d48ab8e6c4acdbef2835c408424cd3e2234
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 13:05:08 2026 +0200
+
+    Some code clean-ups.
+
+commit e656663b4fa9193d70f646a815f1acf6c537347c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 12:49:33 2026 +0200
+
+    Fixed signed/unsigned conversion.
+
+commit 858f1550e15ac3bfdf06e573d21bcd401f498c79
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 12:22:40 2026 +0200
+
+    Updated shell completion.
+
+commit c832511c2af199a81b80150925112c72090d5230
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 12:21:58 2026 +0200
+
+    Updated manpage.
+
+commit 4db74d6b19779c851c152f3a80098fe2bd631357
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 12:21:46 2026 +0200
+
+    Further improvements.
+
+commit c6acf4bcc7aa19c34f8c0f8984ac6c3138df3046
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 12:09:00 2026 +0200
+
+    Replaced legacy GeoIP library by MaxMindDB library.
+
+commit 4f509ea3ad72efd27deafbe137f7dc638e3f432f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon May 25 11:01:11 2026 +0200
+
+    POSIX-compliant options handling.
+
+commit 3669cfd23d12a40672ea8c190ed69ce977e00dc6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun May 17 20:39:40 2026 +0200
+
+    Improved manpage.
+
+commit bfb4c015c619da6b5f254330fc1d32bd88357961
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 27 11:48:48 2026 +0200
+
+    ShellCheck clean-up for shell completions.
+
+commit 0fbb4114aea07e2ac19f1b983d16e4e31de8de9b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 27 11:44:12 2026 +0200
+
+    Updated build script.
+
+commit 7d6dfbbfc517b6285ae8295eb225e78f436d22c1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 27 11:42:30 2026 +0200
+
+    Updated CI configuration
+
+commit a467b2571089bc958ea48fc062e11f842b941711
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 27 11:42:29 2026 +0200
+
+    Updated CI scripts
+
+commit 63a680020be7486db335f7b9e31d2fa5398c6e95
+Merge: de887da 857c43c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Apr 20 11:14:45 2026 +0200
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit 857c43c6a388fbdd93dd7987672476c3600feea2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 19 13:29:44 2026 +0200
+
+    Updated FreeBSD port.
+
+commit fe54cb0901bbe856a147d6d36c7663ee6bd3f717
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sun Apr 19 12:39:24 2026 +0200
+
+    New release subnetcalc-2.6.6.
+
 commit 5459e0ba58b7430b08847470818308f9638c9fd2
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sun Apr 19 12:27:36 2026 +0200
 
     Updated CI scripts
+
+commit de887da1101676e536860fbc62d8ea663671f7ca
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Mar 12 11:13:14 2026 +0100
+
+    Updated URLs.
 
 commit 9e33ba3710aedd52e6eaa757e9d27ec2c2b15235
 Author: Ekaterine Papava <papava.e@gtu.ge>
