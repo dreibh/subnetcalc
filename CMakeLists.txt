@@ -173,8 +173,8 @@ IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
    ELSE()
       MESSAGE(FATAL_ERROR
               " Cannot find IDN2 library! Try:\n"
-              " * FreeBSD: sudo pkg install -y libidn\n"
-              " * Apple:   brew install libidn\n")
+              " * FreeBSD: sudo pkg install -y libidn2\n"
+              " * Apple:   brew install libidn2\n")
    ENDIF()
 ENDIF()
 
@@ -220,7 +220,7 @@ IF (WITH_I18N)
             " * Fedora:        sudo dnf install -y gettext-devel\n"
             " * SuSE:          sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
-            " * FreeBSD:       sudo pkg install -y gettext-runtime\n"
+            " * FreeBSD:       sudo pkg install -y gettext\n"
             " * Apple:         brew install gettext")
    ENDIF()
 

@@ -12,7 +12,7 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 
 LIB_DEPENDS=	libidn2.so:dns/libidn2
 
-USES=		cmake gettext tar:xz
+USES=		cmake tar:xz
 
 OPTIONS_DEFINE= 	I18N \
 			GEOIP
@@ -23,6 +23,8 @@ I18N_DESC=		Build with Internationalization (i18n) support
 GEOIP_DESC=		Build with GeoIP support
 
 I18N_CMAKE_BOOL=	WITH_I18N
+I18N_USES=		gettext
+
 GEOIP_CMAKE_BOOL=	WITH_GEOIP
 GEOIP_LIB_DEPENDS=	libmaxminddb.so:net/libmaxminddb
 
