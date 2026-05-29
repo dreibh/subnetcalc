@@ -238,6 +238,36 @@ Contributions:
 See [https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release](https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release) for the release packages!
 
 
+# 🌏 Internationalisation
+
+To provide a translation of SubNetCalc into your language, apply the following steps:
+
+1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e.&nbsp;use the "master" branch with the latest development version. The build will create a `.pot` (translation template) file under [`po`](po).
+
+2. Create a new Git branch for your translations, e.g.&nbsp;`my_username/translations_language_XX` (with `XX` the language code for your language, e.g. `da` for Danish):
+
+   ```bash
+   git branch my_username/translations_language_XX
+   git checkout my_username/translations_language_XX
+   ```
+
+3. Take a look at the existing `.po` files (translations files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g.&nbsp;[`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
+
+   ```bash
+   mkdir -p XX
+   msginit --input subnetcalc.pot \
+           --locale XX.UTF-8 \
+           --output-file XX/subnetcalc.po
+   git add XX/subnetcalc.po
+   ```
+
+4. Add your translations into `XX/subnetcalc.po`, with a text editor or PO file editor like [Poedit](https://poedit.com/).
+
+5. Test, commit and push your changes.
+
+6. Finally, make a pull request: [https://github.com/dreibh/subnetcalc/pulls](https://github.com/dreibh/subnetcalc/pulls).
+
+
 # 🔗 Useful Links
 
 * [NetPerfMeter – A TCP/MPTCP/UDP/SCTP/DCCP Network Performance Meter Tool](https://www.nntb.no/~dreibh/netperfmeter/)
