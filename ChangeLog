@@ -1,3 +1,33 @@
+commit 7f3bcc02a191abdb7fd94a56615f6ea66372baad
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 16:57:55 2026 +0200
+
+    Build file clean-ups.
+
+commit 6a360421528232075994bde808065e8743a7deab
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 16:40:00 2026 +0200
+
+    Improved README.md.
+
+commit c03e0ec85266221179d95a0b9edd913dd8a89ac2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 16:32:00 2026 +0200
+
+    Minor clean-up.
+
+commit 4e7905f99f950a1551331d20457190a1cb622cf6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 16:30:48 2026 +0200
+
+    Improved FreeBSD port.
+
+commit 7061baadb941f5ce08c087bf75a1e3708b604737
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu May 28 16:14:03 2026 +0200
+
+    New release subnetcalc-2.7.0.
+
 commit 65edfba7cd00e27e427a3a4e90d83a9231b26a80
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Tue May 26 23:26:51 2026 +0200
