@@ -1,0 +1,6 @@
+bin/subnetcalc
+share/bash-completion/completions/subnetcalc
+%%I18N%%share/locale/de/LC_MESSAGES/subnetcalc.mo
+%%I18N%%share/locale/ka/LC_MESSAGES/subnetcalc.mo
+%%I18N%%share/locale/nb/LC_MESSAGES/subnetcalc.mo
+share/man/man1/subnetcalc.1.gz

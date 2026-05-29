@@ -16,9 +16,8 @@ USES=		cmake gettext tar:xz
 
 OPTIONS_DEFINE= 	I18N \
 			GEOIP
-
-OPTIONS_DEFAULT=	I18N \
-			GEOIP
+OPTIONS_DEFAULT=	${OPTIONS_DEFINE}
+OPTIONS_SUB=		yes
 
 I18N_DESC=		Build with Internationalization (i18n) support
 GEOIP_DESC=		Build with GeoIP support
@@ -26,12 +25,5 @@ GEOIP_DESC=		Build with GeoIP support
 I18N_CMAKE_BOOL=	WITH_I18N
 GEOIP_CMAKE_BOOL=	WITH_GEOIP
 GEOIP_LIB_DEPENDS=	libmaxminddb.so:net/libmaxminddb
-
-PLIST_FILES=	bin/subnetcalc \
-		share/bash-completion/completions/subnetcalc \
-		share/locale/de/LC_MESSAGES/subnetcalc.mo \
-		share/locale/ka/LC_MESSAGES/subnetcalc.mo \
-		share/locale/nb/LC_MESSAGES/subnetcalc.mo \
-		share/man/man1/subnetcalc.1.gz
 
 .include <bsd.port.mk>

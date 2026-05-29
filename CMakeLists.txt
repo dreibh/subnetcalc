@@ -237,4 +237,6 @@ ENDIF()
 #############################################################################
 
 ADD_SUBDIRECTORY(src)
-ADD_SUBDIRECTORY(po)
+IF (WITH_I18N)
+   ADD_SUBDIRECTORY(po)
+ENDIF()
