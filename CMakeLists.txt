@@ -152,19 +152,40 @@ INCLUDE(FindPackageHandleStandardArgs)
 # ###### IDN2 necessary to support IDN if not provided by libc ##############
 # NOTE: Linux provides IDN support directly in
 #       getaddrinfo() and getnameinfo()!
-IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
-     (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") )
+IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
+     (CMAKE_SYSTEM_NAME MATCHES "NetBSD")  OR
+     (CMAKE_SYSTEM_NAME MATCHES "Darwin") )
    FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
    FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
    IF ((LIBIDN2_LIBRARY) AND (LIBIDN2_INCLUDE_DIR))
-      MESSAGE(STATUS "IDN2 library found.")
+      MESSAGE(STATUS "IDN2 library found:")
+      MESSAGE(STATUS " LIBIDN2_LIBRARY:     ${LIBIDN2_LIBRARY}")
+      MESSAGE(STATUS " LIBIDN2_INCLUDE_DIR: ${LIBIDN2_INCLUDE_DIR}")
    ELSE()
       MESSAGE(FATAL_ERROR
               " Cannot find IDN2 library! Try:\n"
               " * FreeBSD: sudo pkg install -y libidn2\n"
+              " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * Apple:   brew install libidn2\n")
    ENDIF()
 ENDIF()
+
+# ###### Liberty ############################################################
+IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
+   FIND_LIBRARY(LIBIBERTY_LIBRARY NAMES iberty PATHS /usr/pkg/lib)
+   FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
+   IF ((LIBIBERTY_LIBRARY) AND (LIBIBERTY_INCLUDE_DIR))
+      ADD_DEFINITIONS(-DHAVE_LIBIBERTY)
+      MESSAGE(STATUS "Libiberty library found:")
+      MESSAGE(STATUS " LIBIBERTY_LIBRARY:     ${LIBIBERTY_LIBRARY}")
+      MESSAGE(STATUS " LIBIBERTY_INCLUDE_DIR: ${LIBIBERTY_INCLUDE_DIR}")
+   ELSE()
+      MESSAGE(FATAL_ERROR
+              " Cannot find Libiberty library! Try:\n"
+              " * NetBSD: sudo pkgin -y install liberty")
+   ENDIF()
+ENDIF()
+
 
 # ###### GeoIP ##############################################################
 IF (WITH_GEOIP)
@@ -173,7 +194,9 @@ IF (WITH_GEOIP)
     IF ((MAXMINDDB_LIBRARY) AND (MAXMINDDB_INCLUDE_DIR))
         FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG MAXMINDDB_LIBRARY MAXMINDDB_INCLUDE_DIR)
         ADD_DEFINITIONS(-DHAVE_MAXMINDDB)
-        MESSAGE(STATUS "MaxMindDB library found.")
+        MESSAGE(STATUS "MaxMindDB library found:")
+        MESSAGE(STATUS " MAXMINDDB_LIBRARY:     ${MAXMINDDB_LIBRARY}")
+        MESSAGE(STATUS " MAXMINDDB_INCLUDE_DIR: ${MAXMINDDB_INCLUDE_DIR}")
     ELSE()
       MESSAGE(FATAL_ERROR
               " Cannot find MaxMindDB library! Try:\n"
@@ -182,6 +205,7 @@ IF (WITH_GEOIP)
               " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
               " * Alpine:        sudo apk add libmaxminddb-dev\n"
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
+              " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
               " * Apple:         brew install libmaxminddb")
     ENDIF()
 ENDIF()
@@ -206,12 +230,54 @@ IF (WITH_I18N)
             " * SuSE:          sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
             " * FreeBSD:       sudo pkg install -y gettext\n"
+            " * NetBSD:        sudo pkgin -y install gettext\n"
+            " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
             " * Apple:         brew install gettext")
    ENDIF()
 
-   FIND_PROGRAM(XGETTEXT xgettext REQUIRED)
-   FIND_PROGRAM(MSGMERGE msgmerge REQUIRED)
-   FIND_PROGRAM(MSGFMT   msgfmt   REQUIRED)
+   FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGMERGE msgmerge HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGFMT   msgfmt   HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+
+   IF (XGETTEXT AND MSGMERGE AND MSGFMT)
+      MESSAGE(STATUS "GNU gettext support found:")
+
+      EXECUTE_PROCESS(COMMAND ${XGETTEXT} --version
+                      OUTPUT_VARIABLE XGETTEXT_OUTPUT
+                      ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+      STRING(REGEX MATCH "([0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+)" XGETTEXT_VERSION "${XGETTEXT_OUTPUT}")
+
+      EXECUTE_PROCESS(COMMAND ${MSGMERGE} --version
+                      OUTPUT_VARIABLE MSGMERGE_OUTPUT
+                      ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+      STRING(REGEX MATCH "([0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+)" MSGMERGE_VERSION "${MSGMERGE_OUTPUT}")
+
+      EXECUTE_PROCESS(COMMAND ${MSGFMT} --version
+                      OUTPUT_VARIABLE MSGFMT_OUTPUT
+                      ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
+      STRING(REGEX MATCH "([0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+)" MSGFMT_VERSION "${MSGFMT_OUTPUT}")
+
+      MESSAGE(STATUS " xgettext: ${XGETTEXT} (version ${XGETTEXT_VERSION})")
+      MESSAGE(STATUS " msgmerge: ${MSGMERGE} (version ${MSGMERGE_VERSION})")
+      MESSAGE(STATUS " msgfmt:   ${MSGFMT} (version ${MSGFMT_VERSION})")
+   ENDIF()
+
+   SET(GETTEXT_MIN_VERSION 0.19)
+   IF ((NOT XGETTEXT) OR (NOT MSGMERGE) OR (NOT MSGFMT)       OR
+       (XGETTEXT_VERSION VERSION_LESS ${GETTEXT_MIN_VERSION}) OR
+       (MSGMERGE_VERSION VERSION_LESS ${GETTEXT_MIN_VERSION}) OR
+       (MSGFMT_VERSION   VERSION_LESS ${GETTEXT_MIN_VERSION}))
+      MESSAGE(FATAL_ERROR
+              "Cannot find gettext tools >= ${GETTEXT_MIN_VERSION}! Try:\n"
+              " * Ubuntu/Debian: sudo apt install -y gettext\n"
+              " * Fedora:        sudo dnf install -y gettext\n"
+              " * SuSE:          sudo zypper install -y gettext\n"
+              " * Alpine:        sudo apk add gettext-dev\n"
+              " * FreeBSD:       sudo pkg install -y gettext-tools\n"
+              " * NetBSD:        sudo pkgin -y install gettext-tools\n"
+              " * OpenBSD:       sudo pkg_add gettext-tools\n"
+              " * Apple:         brew install gettext")
+   ENDIF()
 
    ADD_DEFINITIONS(-DENABLE_NLS)
 ENDIF()

@@ -40,12 +40,21 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <vector>
-#ifndef NI_IDN
-#include <idn2.h>
+
+#if defined(HAVE_LIBIBERTY)
+#include <libiberty.h>
+extern "C" {
+int getopt_long_only(int argc, char* const* argv, const char* optstring,
+                     const struct option* longopts, int* longindex);
+}
 #endif
 
 #ifdef HAVE_MAXMINDDB
 #include <maxminddb.h>
+#endif
+
+#if !defined(NI_IDN)
+#include <idn2.h>
 #endif
 
 #ifdef ENABLE_NLS
@@ -156,10 +165,9 @@ void generateUniqueLocal(sockaddr_union& address,
       exit(1);
    }
 
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#if 1
    // ====== Read random number from random device ==========================
-   const char* randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
-
+   const char*   randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
    std::ifstream randomStream(randomFile, std::ios::binary);
    if(randomStream) {
       std::cout << format(gettext("Generating Unique Local IPv6 address (using %s) ..."),
