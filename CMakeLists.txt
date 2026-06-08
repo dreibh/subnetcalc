@@ -150,8 +150,9 @@ INCLUDE(FindPackageHandleStandardArgs)
 # ###### IDN2 necessary to support IDN if not provided by libc ##############
 # NOTE: Linux provides IDN support directly in
 #       getaddrinfo() and getnameinfo()!
-IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
-     (${CMAKE_SYSTEM_NAME} MATCHES "Darwin") )
+IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
+     (CMAKE_SYSTEM_NAME MATCHES "NetBSD")  OR
+     (CMAKE_SYSTEM_NAME MATCHES "Darwin") )
    FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
    FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
    IF ((LIBIDN2_LIBRARY) AND (LIBIDN2_INCLUDE_DIR))
@@ -160,9 +161,25 @@ IF ( (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD") OR
       MESSAGE(FATAL_ERROR
               " Cannot find IDN2 library! Try:\n"
               " * FreeBSD: sudo pkg install -y libidn2\n"
+              " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * Apple:   brew install libidn2\n")
    ENDIF()
 ENDIF()
+
+# ###### Liberty ############################################################
+IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
+   FIND_LIBRARY(LIBIBERTY_LIBRARY NAMES iberty PATHS /usr/pkg/lib)
+   FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
+   IF ((LIBIBERTY_LIBRARY) AND (LIBIBERTY_INCLUDE_DIR))
+      ADD_DEFINITIONS(-DHAVE_LIBIBERTY)
+      MESSAGE(STATUS "Liberty library found.")
+   ELSE()
+      MESSAGE(FATAL_ERROR
+              " Cannot find Liberty library! Try:\n"
+              " * NetBSD:  sudo pkgin -y install liberty")
+   ENDIF()
+ENDIF()
+
 
 # ###### GeoIP ##############################################################
 IF (WITH_GEOIP)
@@ -180,6 +197,7 @@ IF (WITH_GEOIP)
               " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
               " * Alpine:        sudo apk add libmaxminddb-dev\n"
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
+              " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
               " * Apple:         brew install libmaxminddb")
     ENDIF()
 ENDIF()
@@ -204,6 +222,7 @@ IF (WITH_I18N)
             " * SuSE:          sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
             " * FreeBSD:       sudo pkg install -y gettext\n"
+            " * NetBSD:        sudo pkgin -y install gettext\n"
             " * Apple:         brew install gettext")
    ENDIF()
 

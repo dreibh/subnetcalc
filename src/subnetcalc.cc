@@ -40,12 +40,17 @@
 #include <netdb.h>
 #include <unistd.h>
 #include <vector>
-#ifndef NI_IDN
-#include <idn2.h>
+
+#if defined(HAVE_LIBIBERTY)
+#include <liberty.h>
 #endif
 
 #ifdef HAVE_MAXMINDDB
 #include <maxminddb.h>
+#endif
+
+#if !defined(NI_IDN)
+#include <idn2.h>
 #endif
 
 #ifdef ENABLE_NLS
