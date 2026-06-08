@@ -165,10 +165,9 @@ void generateUniqueLocal(sockaddr_union& address,
       exit(1);
    }
 
-#if defined(__linux__) || defined(__FreeBSD__) || defined(__APPLE__)
+#if 1
    // ====== Read random number from random device ==========================
-   const char* randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
-
+   const char*   randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
    std::ifstream randomStream(randomFile, std::ios::binary);
    if(randomStream) {
       std::cout << format(gettext("Generating Unique Local IPv6 address (using %s) ..."),
