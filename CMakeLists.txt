@@ -229,12 +229,13 @@ IF (WITH_I18N)
             " * Alpine:        sudo apk add gettext-dev\n"
             " * FreeBSD:       sudo pkg install -y gettext\n"
             " * NetBSD:        sudo pkgin -y install gettext\n"
+            " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
             " * Apple:         brew install gettext")
    ENDIF()
 
-   FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin)
-   FIND_PROGRAM(MSGMERGE msgmerge HINTS /usr/pkg/bin)
-   FIND_PROGRAM(MSGFMT   msgfmt   HINTS /usr/pkg/bin)
+   FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGMERGE msgmerge HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGFMT   msgfmt   HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
 
    IF (XGETTEXT AND MSGMERGE AND MSGFMT)
       MESSAGE(STATUS "GNU gettext support found:")
@@ -254,9 +255,9 @@ IF (WITH_I18N)
                       ERROR_QUIET OUTPUT_STRIP_TRAILING_WHITESPACE)
       STRING(REGEX MATCH "([0-9]+\\.[0-9]+\\.[0-9]+|[0-9]+\\.[0-9]+)" MSGFMT_VERSION "${MSGFMT_OUTPUT}")
 
-      MESSAGE(STATUS " xgettext: ${XGETTEXT} ${XGETTEXT_VERSION}")
-      MESSAGE(STATUS " msgmerge: ${MSGMERGE} ${MSGMERGE_VERSION}")
-      MESSAGE(STATUS " msgfmt:   ${MSGFMT} ${MSGFMT_VERSION}")
+      MESSAGE(STATUS " xgettext: ${XGETTEXT} (version ${XGETTEXT_VERSION})")
+      MESSAGE(STATUS " msgmerge: ${MSGMERGE} (version ${MSGMERGE_VERSION})")
+      MESSAGE(STATUS " msgfmt:   ${MSGFMT} (version ${MSGFMT_VERSION})")
    ENDIF()
 
    SET(GETTEXT_MIN_VERSION 0.19)
@@ -265,13 +266,14 @@ IF (WITH_I18N)
        (MSGMERGE_VERSION VERSION_LESS ${GETTEXT_MIN_VERSION}) OR
        (MSGFMT_VERSION   VERSION_LESS ${GETTEXT_MIN_VERSION}))
       MESSAGE(FATAL_ERROR
-              "Cannot find gettext tools >=! Try:\n"
+              "Cannot find gettext tools >= ${GETTEXT_MIN_VERSION}! Try:\n"
               " * Ubuntu/Debian: sudo apt install -y gettext\n"
               " * Fedora:        sudo dnf install -y gettext\n"
               " * SuSE:          sudo zypper install -y gettext\n"
-              " * Alpine:        sudo apk add gettext\n"
-              " * FreeBSD:       sudo pkg install -y gettext\n"
-              " * NetBSD:        sudo pkgin -y install gettext\n"
+              " * Alpine:        sudo apk add gettext-dev\n"
+              " * FreeBSD:       sudo pkg install -y gettext-tools\n"
+              " * NetBSD:        sudo pkgin -y install gettext-tools\n"
+              " * OpenBSD:       sudo pkg_add gettext-tools\n"
               " * Apple:         brew install gettext")
    ENDIF()
 
