@@ -43,6 +43,10 @@
 
 #if defined(HAVE_LIBIBERTY)
 #include <libiberty.h>
+extern "C" {
+int getopt_long_only(int argc, char* const* argv, const char* optstring,
+                     const struct option* longopts, int* longindex);
+}
 #endif
 
 #ifdef HAVE_MAXMINDDB
