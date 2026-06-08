@@ -24,7 +24,6 @@ set -euo pipefail
 
 CMAKE_OPTIONS=""
 COMMAND=""
-CORES=
 
 while [ $# -gt 0 ] ; do
    if [[ "$1" =~ ^(-|--)use-clang$ ]] ; then
@@ -109,19 +108,20 @@ fi
 
 
 # ====== Obtain number of cores =============================================
-# Try Linux
-if [ "${CORES}" == "" ] ; then
-   CORES=$(getconf _NPROCESSORS_ONLN 2>/dev/null || true)
-   if [ "${CORES}" == "" ] ; then
-      # Try FreeBSD
-      CORES=$(sysctl -a | grep 'hw.ncpu' | cut -d ':' -f2 | tr -d ' ' || true)
-   fi
-   if [ "${CORES}" == "" ] ; then
-      CORES="1"
-   fi
-   echo "This system has ${CORES} cores!"
+system="$(uname)"
+if [ "${system}" == "Linux" ] ; then
+   cores="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo "1")"
+elif [ "${system}" == "FreeBSD" ] ; then
+   cores="$(sysctl -n hw.ncpu || echo "1")"
+elif [ "${system}" == "NetBSD" ] || [ "${system}" == "OpenBSD" ] ; then
+   cores="$(sysctl -n hw.ncpuonline || echo "1")"
+elif [ "${system}" == "Darwin" ] ; then
+   cores="$(sysctl -n machdep.cpu.core_count)"
+else
+   cores=1
 fi
+echo "This system has ${cores} cores!"
 
 
 # ====== Build ==============================================================
-${COMMAND} make -j"${CORES}"
+${COMMAND} make -j"${cores}"
