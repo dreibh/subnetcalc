@@ -91,30 +91,16 @@ ENDIF()
 #### OS DEPENDENT                                                        ####
 #############################################################################
 
-IF (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
-
-ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "FreeBSD")
-    MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
-    SET(CMAKE_REQUIRED_INCLUDES "/usr/local/include" "/usr/include")
-    SET(CMAKE_LIBRARY_PATH "/usr/local/lib")
-    INCLUDE_DIRECTORIES("/usr/local/include")
-
-ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
-    SET(CMAKE_REQUIRED_INCLUDES "/usr/local/include" "/usr/include" "/usr/local/opt/openssl/include")
-    SET(CMAKE_LIBRARY_PATH "/usr/local/lib")
-    INCLUDE_DIRECTORIES("/usr/local/include" "/usr/local/opt/openssl/include")
-
-ELSEIF (${CMAKE_SYSTEM_NAME} MATCHES "NetBSD")
-    MESSAGE(STATUS ${CMAKE_SYSTEM_NAME} " supported")
-    SET(CMAKE_REQUIRED_INCLUDES "/usr/pkg/include" "/usr/include" "/usr/local/include")
-    SET(CMAKE_LIBRARY_PATH "/usr/local/lib")
-    INCLUDE_DIRECTORIES("/usr/pkg/include" "/usr/local/include")
-
+IF (CMAKE_SYSTEM_NAME MATCHES "Linux")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "FreeBSD")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSE()
-    MESSAGE(FATAL_ERROR ${CMAKE_SYSTEM_NAME} " not supported (yet?)")
-
+   MESSAGE(FATAL_ERROR "${CMAKE_SYSTEM_NAME} not supported (yet?)")
 ENDIF()
 
 
@@ -184,7 +170,6 @@ IF (WITH_GEOIP)
     FIND_PATH(MAXMINDDB_INCLUDE_DIR NAMES maxminddb.h)
     IF ((MAXMINDDB_LIBRARY) AND (MAXMINDDB_INCLUDE_DIR))
         FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG MAXMINDDB_LIBRARY MAXMINDDB_INCLUDE_DIR)
-        INCLUDE_DIRECTORIES(${MAXMINDDB_INCLUDE_DIR})
         ADD_DEFINITIONS(-DHAVE_MAXMINDDB)
         MESSAGE(STATUS "MaxMindDB library found.")
     ELSE()
@@ -208,11 +193,9 @@ IF (WITH_I18N)
    FIND_PACKAGE(Intl)
    IF (Intl_FOUND)
       MESSAGE(STATUS "Internationalization (i18n) support found:")
-      MESSAGE(STATUS " INTL_INCLUDE_DIRS: ${Intl_INCLUDE_DIRS}")
-      MESSAGE(STATUS " INTL_LIBRARIES: ${Intl_LIBRARIES}")
-      MESSAGE(STATUS " Version: ${Intl_VERSION}")
-      INCLUDE_DIRECTORIES(${Intl_INCLUDE_DIRS})
-      LINK_DIRECTORIES(${Intl_LIBRARY_DIRS})
+      MESSAGE(STATUS " Intl_INCLUDE_DIRS: ${Intl_INCLUDE_DIRS}")
+      MESSAGE(STATUS " Intl_LIBRARIES:    ${Intl_LIBRARIES}")
+      MESSAGE(STATUS " Version:           ${Intl_VERSION}")
    ELSE()
       MESSAGE(FATAL_ERROR
             " Cannot find Internationalization (i18n) support! Try:\n"
