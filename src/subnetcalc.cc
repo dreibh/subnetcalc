@@ -42,7 +42,7 @@
 #include <vector>
 
 #if defined(HAVE_LIBIBERTY)
-#include <liberty.h>
+#include <libiberty.h>
 #endif
 
 #ifdef HAVE_MAXMINDDB

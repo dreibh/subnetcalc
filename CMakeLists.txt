@@ -174,13 +174,13 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
    IF ((LIBIBERTY_LIBRARY) AND (LIBIBERTY_INCLUDE_DIR))
       ADD_DEFINITIONS(-DHAVE_LIBIBERTY)
-      MESSAGE(STATUS "Liberty library found:")
+      MESSAGE(STATUS "Libiberty library found:")
       MESSAGE(STATUS " LIBIBERTY_LIBRARY:     ${LIBIBERTY_LIBRARY}")
       MESSAGE(STATUS " LIBIBERTY_INCLUDE_DIR: ${LIBIBERTY_INCLUDE_DIR}")
    ELSE()
       MESSAGE(FATAL_ERROR
-              " Cannot find Liberty library! Try:\n"
-              " * NetBSD:  sudo pkgin -y install liberty")
+              " Cannot find Libiberty library! Try:\n"
+              " * NetBSD: sudo pkgin -y install liberty")
    ENDIF()
 ENDIF()
 
