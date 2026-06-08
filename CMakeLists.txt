@@ -154,6 +154,7 @@ INCLUDE(FindPackageHandleStandardArgs)
 #       getaddrinfo() and getnameinfo()!
 IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
      (CMAKE_SYSTEM_NAME MATCHES "NetBSD")  OR
+     (CMAKE_SYSTEM_NAME MATCHES "OpenBSD") OR
      (CMAKE_SYSTEM_NAME MATCHES "Darwin") )
    FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
    FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
@@ -166,6 +167,7 @@ IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
               " Cannot find IDN2 library! Try:\n"
               " * FreeBSD: sudo pkg install -y libidn2\n"
               " * NetBSD:  sudo pkgin -y install libidn2\n"
+              " * OpenBSD: sudo pkg_add libidn2\n"
               " * Apple:   brew install libidn2\n")
    ENDIF()
 ENDIF()
