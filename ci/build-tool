@@ -1065,7 +1065,7 @@ def filterDebianChangelog(changeLogContents : list[str]) -> list[str]:
                   i = 0
                   for itpLine in splittedITPEntry:
                      i = i + 1
-                     if (i <= 2) or (i >= len(splittedITPEntry) - 2):
+                     if (i <= 2) or (i >= len(splittedITPEntry) - 1):
                         resultingChangelog.append(itpLine + '\n')
                      elif re_item_is_itp.match(itpLine) is not None:
                         resultingChangelog.append(itpLine + '\n')
