@@ -149,7 +149,7 @@ OPTION(WITH_GEOIP "Build with GeoIP support"                       1)
 
 INCLUDE(FindPackageHandleStandardArgs)
 
-# ###### IDN2 necessary to support IDN if not provided by libc ##############
+# ====== IDN2 necessary to support IDN if not provided by libc ==============
 # NOTE: Linux provides IDN support directly in
 #       getaddrinfo() and getnameinfo()!
 IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
@@ -164,7 +164,7 @@ IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
       MESSAGE(STATUS " LIBIDN2_INCLUDE_DIR: ${LIBIDN2_INCLUDE_DIR}")
    ELSE()
       MESSAGE(FATAL_ERROR
-              " Cannot find IDN2 library! Try:\n"
+              "Cannot find IDN2 library! Try:\n"
               " * FreeBSD: sudo pkg install -y libidn2\n"
               " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * OpenBSD: sudo pkg_add libidn2\n"
@@ -172,7 +172,7 @@ IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
    ENDIF()
 ENDIF()
 
-# ###### Liberty ############################################################
+# ====== Liberty ============================================================
 IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    FIND_LIBRARY(LIBIBERTY_LIBRARY NAMES iberty PATHS /usr/pkg/lib)
    FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
@@ -183,13 +183,13 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
       MESSAGE(STATUS " LIBIBERTY_INCLUDE_DIR: ${LIBIBERTY_INCLUDE_DIR}")
    ELSE()
       MESSAGE(FATAL_ERROR
-              " Cannot find Libiberty library! Try:\n"
+              "Cannot find Libiberty library! Try:\n"
               " * NetBSD: sudo pkgin -y install liberty")
    ENDIF()
 ENDIF()
 
 
-# ###### GeoIP ##############################################################
+# ====== GeoIP ==============================================================
 IF (WITH_GEOIP)
     FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)
     FIND_PATH(MAXMINDDB_INCLUDE_DIR NAMES maxminddb.h)
@@ -201,7 +201,7 @@ IF (WITH_GEOIP)
         MESSAGE(STATUS " MAXMINDDB_INCLUDE_DIR: ${MAXMINDDB_INCLUDE_DIR}")
     ELSE()
       MESSAGE(FATAL_ERROR
-              " Cannot find MaxMindDB library! Try:\n"
+              "Cannot find MaxMindDB library! Try:\n"
               " * Ubuntu/Debian: sudo apt install -y libmaxminddb-dev\n"
               " * Fedora:        sudo dnf install -y libmaxminddb-devel\n"
               " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
@@ -226,7 +226,7 @@ IF (WITH_I18N)
       MESSAGE(STATUS " Version:           ${Intl_VERSION}")
    ELSE()
       MESSAGE(FATAL_ERROR
-            " Cannot find Internationalization (i18n) support! Try:\n"
+            "Cannot find Internationalization (i18n) support! Try:\n"
             " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
             " * Fedora:        sudo dnf install -y gettext-devel\n"
             " * SuSE:          sudo zypper install -y gettext-devel\n"
