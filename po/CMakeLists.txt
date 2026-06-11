@@ -54,7 +54,7 @@ FOREACH(source IN LISTS sources)
    SET(LIST potInputFilesForDependency "")
    FOREACH(file ${potInputFiles})
       GET_FILENAME_COMPONENT(fileName ${file} NAME)
-      IF (NOT ${fileName} MATCHES "^[-][-]")
+      IF (NOT fileName MATCHES "^[-][-]")
          # File -> Add absolute file name
          LIST(APPEND potInputFilesForDependency ${potInputFilesAbsolute} "${PROJECT_SOURCE_DIR}/${file}")
       ENDIF()
