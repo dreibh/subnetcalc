@@ -1,3 +1,112 @@
+commit 8b996dd53fdae15cc316ffcaa762be7d5d7667d5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 11 18:28:29 2026 +0200
+
+    Updated build helper script.
+
+commit f2b216474532c2fcadc912b7d3642c0385bec91a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 11 11:32:12 2026 +0200
+
+    Improved CMakeLists.txt.
+
+commit e2910aef594086bbc37eea44de37b05e98d063e4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jun 10 16:42:49 2026 +0200
+
+    Minor CMakeLists.txt clean-ups.
+
+commit f159efe57de28025d5ec840d0669c57c092f9e3d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Jun 9 08:36:55 2026 +0200
+
+    Updated CI scripts
+
+commit 8e039cdc1f47fea8777e0a99c7b44010212682dc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Jun 9 08:36:10 2026 +0200
+
+    CMakeLists.txt clean-ups.
+
+commit 99586a7b4747a689b14e3dacd467721ca0e30b17
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 15:02:29 2026 +0200
+
+    Added OpenBSD support.
+
+commit f474b4b63bfdd3655c66da8f3b07804cd334199a
+Merge: 2e2d661 7b21119
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 14:57:07 2026 +0200
+
+    Merge branch 'dreibh/netbsd'
+
+commit 7b2111926d6475e011f68128585e4fda16d5feae
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 14:56:36 2026 +0200
+
+    Simplified #if block.
+
+commit ca253e584dd595c2cfc8f59675b8a46d272efecf
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 14:50:54 2026 +0200
+
+    Further CMakeLists.txt update.
+
+commit 2e2d6619a5132f8caebaf69409a26801a1767efc
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 14:49:22 2026 +0200
+
+    Improved build configuration to support OpenBSD.
+
+commit bdedec479533104a142b9a220d23d2177d79c737
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 11:53:06 2026 +0000
+
+    Improved gettext tools detection.
+
+commit 579b6dc0834f20021759f6a7b99315f5e47f8ab4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 13:29:05 2026 +0200
+
+    Another try.
+
+commit f474e2e80c1ce305e6e4f58ffe1de2a7f6569a6f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 13:08:21 2026 +0200
+
+    Further progress.
+
+commit f514a52e74004e55c2d93f3a2e8babbef4698e1d
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 13:02:25 2026 +0200
+
+    Further CMakeLists.txt improvements.
+
+commit a22f677d7157021095b67967404d2c77e7ad945a
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 12:59:45 2026 +0200
+
+    Fixing the NetBSD support.
+
+commit d71b6a8bdd81706ede50325c50afb5762cc55ee0
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 8 12:26:05 2026 +0200
+
+    Improved CMakeLists.txt.
+
+commit df3d53b1f271e95ac536324ef983a23c8d690bf2
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 17:42:51 2026 +0200
+
+    Updated FreeBSD port.
+
+commit bd253aca9582ec85914fb89fcc340d38008dadd8
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri May 29 16:58:09 2026 +0200
+
+    New release subnetcalc-2.7.1.
+
 commit 7f3bcc02a191abdb7fd94a56615f6ea66372baad
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Fri May 29 16:57:55 2026 +0200
