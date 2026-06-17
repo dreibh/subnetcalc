@@ -14,7 +14,6 @@ BuildRequires: gcc-c++
 BuildRequires: gettext
 BuildRequires: libmaxminddb-devel
 Recommends: iproute
-BuildRoot: %{_tmppath}/%{name}-%{version}-build
 
 
 %description
