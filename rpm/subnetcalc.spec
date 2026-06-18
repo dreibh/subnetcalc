@@ -36,11 +36,11 @@ interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
 
 %install
 %cmake_install
+%find_lang %{name} --all-name
 
-%files
+%files -f  %{name}.lang
 %{_bindir}/subnetcalc
 %{_datadir}/bash-completion/completions/subnetcalc
-%{_datadir}/locale/*/LC_MESSAGES/subnetcalc.mo
 %{_mandir}/man1/subnetcalc.1.gz
 
 
