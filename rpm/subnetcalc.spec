@@ -30,7 +30,7 @@ interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
 %setup -q
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=/usr .
+%cmake -DCMAKE_INSTALL_PREFIX=/usr
 %cmake_build
 
 %install
