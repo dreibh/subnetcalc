@@ -1,4 +1,4 @@
-# Maintainer: Thomas Dreibholz <dreibh@simula.no>
+# Maintainer: Thomas Dreibholz <thomas.dreibholz@gmail.com>
 pkgname=subnetcalc
 pkgver=2.7.4
 pkgrel=1
@@ -8,7 +8,7 @@ arch="all"
 license="GPL-3.0-or-later"
 depends=""
 makedepends="cmake build-base gettext-dev libidn2-dev libmaxminddb-dev ninja"
-subpackages="$pkgname-doc $pkgname-lang"
+subpackages="$pkgname-bash-completion $pkgname-doc $pkgname-lang"
 source="https://www.nntb.no/~dreibh/subnetcalc/download/subnetcalc-$pkgver.tar.xz"
 
 build() {
