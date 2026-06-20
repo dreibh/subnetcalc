@@ -1,3 +1,39 @@
+commit 9a5f7bd6c9e24490b04abfcc96ed5c20ae2f7938
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jun 20 16:07:51 2026 +0200
+
+    Updated dependency installation hint messages.
+
+commit e434f93d8dc98176a7ffe8437ade3d9ffc9f51ce
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jun 20 15:59:56 2026 +0200
+
+    CMakeLists.txt fix: Check for NI_IDN in netdb.h, to determine whether libidn2 is required for IDN support.
+
+commit c2cf3cee48ce2d814389fb2cbbb38cf7deedb6a7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 18 17:51:53 2026 +0200
+
+    Yet another RPM spec update.
+
+commit 4946f739582bd362785646af5568d509634eac59
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jun 18 13:14:14 2026 +0200
+
+    Improved RPM spec.
+
+commit 6d021a2a9a4f87eea71fd0baf4fd05a8e3d54a84
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jun 17 17:35:59 2026 +0200
+
+    Improved RPM spec.
+
+commit 46b805f0833a960c6997b08b12374680c17141f5
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jun 12 17:57:29 2026 +0200
+
+    New release subnetcalc-2.7.2.
+
 commit 8b996dd53fdae15cc316ffcaa762be7d5d7667d5
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Thu Jun 11 18:28:29 2026 +0200

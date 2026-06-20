@@ -1,3 +1,9 @@
+subnetcalc (2.7.3-1ubuntu1) trixie; urgency=medium
+
+  * New upstream release.
+
+ -- Thomas Dreibholz <thomas.dreibholz@gmail.com>  Sat, 20 Jun 2026 16:09:08 +0200
+
 subnetcalc (2.7.2-1ubuntu1) trixie; urgency=medium
 
   * New upstream release.
