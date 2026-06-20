@@ -149,13 +149,20 @@ OPTION(WITH_GEOIP "Build with GeoIP support"                       1)
 #### REQUIREMENTS                                                        ####
 #############################################################################
 
+CHECK_C_SOURCE_COMPILES("
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netdb.h>
+int main() {
+    int x = NI_IDN;
+    return 0;
+}
+" HAVE_NI_IDN)
+
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
-# NOTE: Linux provides IDN support directly in
-#       getaddrinfo() and getnameinfo()!
-IF ( (CMAKE_SYSTEM_NAME MATCHES "FreeBSD") OR
-     (CMAKE_SYSTEM_NAME MATCHES "NetBSD")  OR
-     (CMAKE_SYSTEM_NAME MATCHES "OpenBSD") OR
-     (CMAKE_SYSTEM_NAME MATCHES "Darwin") )
+IF (NOT HAVE_NI_IDN)
+   # There is no IDN support directly in getaddrinfo() and getnameinfo()
+   # => libidn2 is required for IDN support
    FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
    FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
    IF ((LIBIDN2_LIBRARY) AND (LIBIDN2_INCLUDE_DIR))

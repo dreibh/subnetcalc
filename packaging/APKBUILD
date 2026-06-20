@@ -1,4 +1,4 @@
-# Maintainer: Thomas Dreibholz <simula.no>
+# Maintainer: Thomas Dreibholz <dreibh@simula.no>
 pkgname=subnetcalc
 pkgver=2.7.2
 pkgrel=1
@@ -7,7 +7,7 @@ url="https://www.nntb.no/~dreibh/subnetcalc/"
 arch="all"
 license="GPL-3.0-or-later"
 depends=""
-makedepends="cmake build-base gettext-dev libmaxminddb-dev"
+makedepends="cmake build-base gettext-dev libidn2-dev libmaxminddb-dev ninja"
 subpackages="$pkgname-doc $pkgname-lang"
 source="https://www.nntb.no/~dreibh/subnetcalc/download/subnetcalc-$pkgver.tar.xz"
 
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-# You will need to generate the SHA512 sum using 'abuild checksum'
+45e240ea85e6aebdf88758a7e105bfd70f3456e0d54ddba5464c11edd5737df7141615f313031195efa9d579268b2054cfb1a015a83ff576f171ef173699e73d  subnetcalc-2.7.2.tar.xz
 "
