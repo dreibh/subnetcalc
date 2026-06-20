@@ -1,0 +1,27 @@
+# Maintainer: Thomas Dreibholz <dreibh@simula.no>
+pkgname=subnetcalc
+pkgver=2.7.4
+pkgrel=1
+pkgdesc="IPv4/IPv6 Subnet Calculator"
+url="https://www.nntb.no/~dreibh/subnetcalc/"
+arch="all"
+license="GPL-3.0-or-later"
+depends=""
+makedepends="cmake build-base gettext-dev libidn2-dev libmaxminddb-dev ninja"
+subpackages="$pkgname-doc $pkgname-lang"
+source="https://www.nntb.no/~dreibh/subnetcalc/download/subnetcalc-$pkgver.tar.xz"
+
+build() {
+	cmake -B build \
+		-DCMAKE_INSTALL_PREFIX=/usr \
+		-DCMAKE_BUILD_TYPE=None
+	cmake --build build
+}
+
+package() {
+	DESTDIR="$pkgdir" cmake --install build
+}
+
+sha512sums="
+60efe6d4b7da70b1008961131ba4871e7911a8478fdf272f4e8f24b1be11269088b20ccf123ff8fdccb5691e4a158c484ba63ed4db97a74888333d338d0a5502  subnetcalc-2.7.4.tar.xz
+"
