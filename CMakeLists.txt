@@ -114,26 +114,26 @@ ENDIF()
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr" "sa_len" "sys/types.h;sys/socket.h" HAVE_SA_LEN)
 IF (HAVE_SA_LEN)
-    MESSAGE(STATUS "HAVE_SA_LEN")
-    ADD_DEFINITIONS(-DHAVE_SA_LEN)
+   MESSAGE(STATUS "HAVE_SA_LEN")
+   ADD_DEFINITIONS(-DHAVE_SA_LEN)
 ENDIF()
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in" "sin_len" "sys/types.h;netinet/in.h" HAVE_SIN_LEN)
 IF (HAVE_SIN_LEN)
-    MESSAGE(STATUS "HAVE_SIN_LEN")
-    ADD_DEFINITIONS(-DHAVE_SIN_LEN)
+   MESSAGE(STATUS "HAVE_SIN_LEN")
+   ADD_DEFINITIONS(-DHAVE_SIN_LEN)
 ENDIF()
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in6" "sin6_len" "sys/types.h;netinet/in.h" HAVE_SIN6_LEN)
 IF (HAVE_SIN6_LEN)
-    MESSAGE(STATUS "HAVE_SIN6_LEN")
-    ADD_DEFINITIONS(-DHAVE_SIN6_LEN)
+   MESSAGE(STATUS "HAVE_SIN6_LEN")
+   ADD_DEFINITIONS(-DHAVE_SIN6_LEN)
 ENDIF()
 
 CHECK_STRUCT_HAS_MEMBER("struct sockaddr_storage" "ss_len" "sys/types.h;sys/socket.h" HAVE_SS_LEN)
 IF (HAVE_SS_LEN)
-    MESSAGE(STATUS "HAVE_SS_LEN")
-    ADD_DEFINITIONS(-DHAVE_SS_LEN)
+   MESSAGE(STATUS "HAVE_SS_LEN")
+   ADD_DEFINITIONS(-DHAVE_SS_LEN)
 ENDIF()
 
 
@@ -199,25 +199,26 @@ ENDIF()
 
 # ====== GeoIP ==============================================================
 IF (WITH_GEOIP)
-    FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)
-    FIND_PATH(MAXMINDDB_INCLUDE_DIR NAMES maxminddb.h)
-    IF ((MAXMINDDB_LIBRARY) AND (MAXMINDDB_INCLUDE_DIR))
-        FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG MAXMINDDB_LIBRARY MAXMINDDB_INCLUDE_DIR)
-        ADD_DEFINITIONS(-DHAVE_MAXMINDDB)
-        MESSAGE(STATUS "MaxMindDB library found:")
-        MESSAGE(STATUS " MAXMINDDB_LIBRARY:     ${MAXMINDDB_LIBRARY}")
-        MESSAGE(STATUS " MAXMINDDB_INCLUDE_DIR: ${MAXMINDDB_INCLUDE_DIR}")
-    ELSE()
+   FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)
+   FIND_PATH(MAXMINDDB_INCLUDE_DIR NAMES maxminddb.h)
+   IF ((MAXMINDDB_LIBRARY) AND (MAXMINDDB_INCLUDE_DIR))
+      FIND_PACKAGE_HANDLE_STANDARD_ARGS(GeoIP DEFAULT_MSG MAXMINDDB_LIBRARY MAXMINDDB_INCLUDE_DIR)
+      ADD_DEFINITIONS(-DHAVE_MAXMINDDB)
+      MESSAGE(STATUS "MaxMindDB library found:")
+      MESSAGE(STATUS " MAXMINDDB_LIBRARY:     ${MAXMINDDB_LIBRARY}")
+      MESSAGE(STATUS " MAXMINDDB_INCLUDE_DIR: ${MAXMINDDB_INCLUDE_DIR}")
+   ELSE()
       MESSAGE(FATAL_ERROR
               "Cannot find MaxMindDB library! Try:\n"
               " * Ubuntu/Debian: sudo apt install -y libmaxminddb-dev\n"
               " * Fedora:        sudo dnf install -y libmaxminddb-devel\n"
-              " * SuSE:          sudo zypper install -y libmaxminddb-devel\n"
+              " * OpenSUSE:      sudo zypper install -y libmaxminddb-devel\n"
               " * Alpine:        sudo apk add libmaxminddb-dev\n"
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
               " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
+              " * OpenBSD:       sudo pkg_add libmaxminddb\n"
               " * Apple:         brew install libmaxminddb")
-    ENDIF()
+   ENDIF()
 ENDIF()
 
 
@@ -237,7 +238,7 @@ IF (WITH_I18N)
             "Cannot find Internationalization (i18n) support! Try:\n"
             " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
             " * Fedora:        sudo dnf install -y gettext-devel\n"
-            " * SuSE:          sudo zypper install -y gettext-devel\n"
+            " * OpenSUSE:      sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
             " * FreeBSD:       sudo pkg install -y gettext\n"
             " * NetBSD:        sudo pkgin -y install gettext\n"
@@ -281,7 +282,7 @@ IF (WITH_I18N)
               "Cannot find gettext tools >= ${GETTEXT_MIN_VERSION}! Try:\n"
               " * Ubuntu/Debian: sudo apt install -y gettext\n"
               " * Fedora:        sudo dnf install -y gettext\n"
-              " * SuSE:          sudo zypper install -y gettext\n"
+              " * OpenSUSE:      sudo zypper install -y gettext\n"
               " * Alpine:        sudo apk add gettext-dev\n"
               " * FreeBSD:       sudo pkg install -y gettext-tools\n"
               " * NetBSD:        sudo pkgin -y install gettext-tools\n"
