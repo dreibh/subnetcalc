@@ -234,7 +234,7 @@ elif [ "${ID}" == "fedora" ] ; then
 
 # ====== FreeBSD ============================================================
 elif [ "${ID}" == "freebsd" ] ; then
-   PACKAGES="autoconf automake bash gcc libtool git python3 py311-distro py311-packaging py311-urllib3"
+   PACKAGES="autoconf automake bash gcc libtool git python3 py312-distro py312-packaging py312-urllib3"
 
    # shellcheck disable=SC2086
    ASSUME_ALWAYS_YES=yes pkg install -y ${PACKAGES}
