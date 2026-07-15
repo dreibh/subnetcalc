@@ -121,6 +121,8 @@ if [ "${CORES}" -lt 1 ] ; then
       CORES="$(sysctl -n hw.ncpu || echo "1")"
    elif [ "${UNAME}" == "NetBSD" ] || [ "${UNAME}" == "OpenBSD" ] ; then
       CORES="$(sysctl -n hw.ncpuonline || echo "1")"
+   elif [ "${UNAME}" == "SunOS" ] ; then
+      CORES="$(psrinfo -t)"
    elif [ "${UNAME}" == "Darwin" ] ; then
       CORES="$(sysctl -n machdep.cpu.core_count)"
    else
@@ -132,4 +134,4 @@ fi
 
 # ====== Build ==============================================================
 echo "Starting build using up to ${CORES} cores ..."
-${COMMAND} make -j"${CORES}"
+${COMMAND} make -j "${CORES}"

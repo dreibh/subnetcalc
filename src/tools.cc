@@ -147,7 +147,7 @@ inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
    const uint32_t upper = (ipv6address->sin6_addr.s6_addr[12] << 8) | ipv6address->sin6_addr.s6_addr[13];
    const uint32_t lower = (ipv6address->sin6_addr.s6_addr[14] << 8) | ipv6address->sin6_addr.s6_addr[15];
 
-   const struct in_addr suffix = { .s_addr = htonl((upper << 16) | lower) };
+   const uint32_t suffix = htonl((upper << 16) | lower);
    return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != nullptr;
 }
 

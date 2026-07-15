@@ -101,6 +101,8 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "OpenBSD")
    MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "SunOS")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
    MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSE()
@@ -160,12 +162,18 @@ int main(int argc, char** argv)
 }
 " HAVE_NI_IDN)
 
+# ====== Solaris: libsocket and libnsl ======================================
+IF (CMAKE_SYSTEM_NAME MATCHES "SunOS")
+   FIND_LIBRARY(SOCKET_LIBRARY socket)
+   FIND_LIBRARY(NSL_LIBRARY    nsl)
+ENDIF()
+
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
 IF (NOT HAVE_NI_IDN)
    # There is no IDN support directly in getaddrinfo() and getnameinfo()
    # => libidn2 is required for IDN support
-   FIND_LIBRARY(LIBIDN2_LIBRARY NAMES idn2 PATHS /usr/local/lib)
-   FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include)
+   FIND_LIBRARY(LIBIDN2_LIBRARY  NAMES idn2   PATHS /usr/local/lib)
+   FIND_PATH(LIBIDN2_INCLUDE_DIR NAMES idn2.h PATHS /usr/local/include /usr/include/idn2)
    IF ((LIBIDN2_LIBRARY) AND (LIBIDN2_INCLUDE_DIR))
       MESSAGE(STATUS "IDN2 library found:")
       MESSAGE(STATUS " LIBIDN2_LIBRARY:     ${LIBIDN2_LIBRARY}")
@@ -176,6 +184,7 @@ IF (NOT HAVE_NI_IDN)
               " * FreeBSD: sudo pkg install -y libidn2\n"
               " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * OpenBSD: sudo pkg_add libidn2\n"
+              " * Solaris: sudo pkg install libidn2\n"
               " * Apple:   brew install libidn2\n")
    ENDIF()
 ENDIF()
@@ -217,7 +226,8 @@ IF (WITH_GEOIP)
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
               " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
               " * OpenBSD:       sudo pkg_add libmaxminddb\n"
-              " * Apple:         brew install libmaxminddb")
+              " * Apple:         brew install libmaxminddb\n"
+              "If GeoIP support is not required, it can be disabled by setting WITH_GEOIP=OFF (add -DWITH_GEOIP=OFF to CMake options)!")
    ENDIF()
 ENDIF()
 
@@ -243,12 +253,13 @@ IF (WITH_I18N)
             " * FreeBSD:       sudo pkg install -y gettext\n"
             " * NetBSD:        sudo pkgin -y install gettext\n"
             " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
+            " * Solaris:       sudo pkg install gnu-gettext\n"
             " * Apple:         brew install gettext")
    ENDIF()
 
-   FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
-   FIND_PROGRAM(MSGMERGE msgmerge HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
-   FIND_PROGRAM(MSGFMT   msgfmt   HINTS /usr/pkg/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin /usr/gnu/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGMERGE msgmerge HINTS /usr/pkg/bin /usr/gnu/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
+   FIND_PROGRAM(MSGFMT   msgfmt   HINTS /usr/pkg/bin /usr/gnu/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
 
    IF (XGETTEXT AND MSGMERGE AND MSGFMT)
       MESSAGE(STATUS "GNU gettext support found:")
@@ -280,13 +291,14 @@ IF (WITH_I18N)
        (MSGFMT_VERSION   VERSION_LESS ${GETTEXT_MIN_VERSION}))
       MESSAGE(FATAL_ERROR
               "Cannot find gettext tools >= ${GETTEXT_MIN_VERSION}! Try:\n"
-              " * Ubuntu/Debian: sudo apt install -y gettext\n"
-              " * Fedora:        sudo dnf install -y gettext\n"
-              " * OpenSUSE:      sudo zypper install -y gettext\n"
+              " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
+              " * Fedora:        sudo dnf install -y gettext-devel\n"
+              " * OpenSUSE:      sudo zypper install -y gettext-devel\n"
               " * Alpine:        sudo apk add gettext-dev\n"
-              " * FreeBSD:       sudo pkg install -y gettext-tools\n"
-              " * NetBSD:        sudo pkgin -y install gettext-tools\n"
-              " * OpenBSD:       sudo pkg_add gettext-tools\n"
+              " * FreeBSD:       sudo pkg install -y gettext\n"
+              " * NetBSD:        sudo pkgin -y install gettext\n"
+              " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
+              " * Solaris:       sudo pkg install gnu-gettext\n"
               " * Apple:         brew install gettext")
    ENDIF()
 
