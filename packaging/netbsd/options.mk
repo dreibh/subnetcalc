@@ -24,7 +24,7 @@ CMAKE_CONFIGURE_ARGS+=		-DWITH_I18N=OFF
 ###
 .if !empty(PKG_OPTIONS:Mgeoip)
 CMAKE_CONFIGURE_ARGS+=		-DWITH_GEOIP=ON
-.include "../../net/libmaxminddb/buildlink3.mk"
+.include "../../geography/libmaxminddb/buildlink3.mk"
 .else
 CMAKE_CONFIGURE_ARGS+=		-DWITH_GEOIP=OFF
 .endif

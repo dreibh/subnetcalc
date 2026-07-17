@@ -13,7 +13,11 @@ LICENSE=	gnu-gpl-v3
 USE_CMAKE=	yes
 USE_LANGUAGES=	c c++
 
+# Pass the liberty library to the linker specifically for NetBSD
+LIBS.NetBSD+=	-liberty
+
 .include "options.mk"
 
+.include "../../devel/libiberty/buildlink3.mk"
 .include "../../devel/libidn2/buildlink3.mk"
 .include "../../mk/bsd.pkg.mk"
