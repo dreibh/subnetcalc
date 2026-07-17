@@ -14,14 +14,16 @@ PERMIT_PACKAGE =	Yes
 MASTER_SITES =	https://www.nntb.no/~dreibh/subnetcalc/download/
 EXTRACT_SUFX =	.tar.xz
 
-# OpenBSD uses MODULES to pull in build systems and common environments
-MODULES =	devel/cmake \
-		devel/gettext
+# Pull in the CMake build system environment
+MODULES =	devel/cmake
 
 # WANTLIB ensures the package manager tracks exact shared library dependencies
 WANTLIB =	c m idn2 intl
 
-LIB_DEPENDS =	devel/libidn2
+BUILD_DEPENDS =	devel/gettext,-tools
+
+LIB_DEPENDS =	devel/libidn2 \
+		devel/gettext,-tools
 
 # Handle build-time options via FLAVORS instead of FreeBSD OPTIONS
 FLAVORS =	geoip
