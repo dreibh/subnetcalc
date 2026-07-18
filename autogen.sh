@@ -120,7 +120,7 @@ if [ "${CORES}" -lt 1 ] ; then
    elif [ "${UNAME}" == "FreeBSD" ] ; then
       CORES="$(sysctl -n hw.ncpu || echo "1")"
    elif [ "${UNAME}" == "NetBSD" ] || [ "${UNAME}" == "OpenBSD" ] ; then
-      CORES="$(sysctl -n hw.ncpuonline || echo "1")"
+      CORES="$(/sbin/sysctl -n hw.ncpuonline || echo "1")"
    elif [ "${UNAME}" == "SunOS" ] ; then
       CORES="$(psrinfo -t)"
    elif [ "${UNAME}" == "Darwin" ] ; then
