@@ -230,6 +230,7 @@ IF (WITH_GEOIP)
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
               " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
               " * OpenBSD:       sudo pkg_add libmaxminddb\n"
+              " * Solaris:       (needs PPA or installation from sources!)\n"
               " * Apple:         brew install libmaxminddb\n"
               "If GeoIP support is not required, it can be disabled by setting WITH_GEOIP=OFF (add -DWITH_GEOIP=OFF to CMake options)!")
    ENDIF()
