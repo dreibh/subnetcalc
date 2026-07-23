@@ -250,7 +250,7 @@ IF (WITH_I18N)
    ELSE()
       MESSAGE(FATAL_ERROR
             "Cannot find Internationalization (i18n) support! Try:\n"
-            " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
+            " * Ubuntu/Debian: sudo apt install -y gettext libc6-dev\n"
             " * Fedora:        sudo dnf install -y gettext-devel\n"
             " * OpenSUSE:      sudo zypper install -y gettext-devel\n"
             " * Alpine:        sudo apk add gettext-dev\n"
@@ -295,7 +295,7 @@ IF (WITH_I18N)
        (MSGFMT_VERSION   VERSION_LESS ${GETTEXT_MIN_VERSION}))
       MESSAGE(FATAL_ERROR
               "Cannot find gettext tools >= ${GETTEXT_MIN_VERSION}! Try:\n"
-              " * Ubuntu/Debian: sudo apt install -y libc6-dev\n"
+              " * Ubuntu/Debian: sudo apt install -y gettext libc6-dev\n"
               " * Fedora:        sudo dnf install -y gettext-devel\n"
               " * OpenSUSE:      sudo zypper install -y gettext-devel\n"
               " * Alpine:        sudo apk add gettext-dev\n"
