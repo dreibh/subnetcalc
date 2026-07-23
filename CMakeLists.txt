@@ -172,6 +172,22 @@ IF (CMAKE_SYSTEM_NAME MATCHES "SunOS")
    FIND_LIBRARY(NSL_LIBRARY    nsl)
 ENDIF()
 
+# ====== NetBSD: liberty ====================================================
+IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
+   FIND_LIBRARY(LIBIBERTY_LIBRARY NAMES iberty PATHS /usr/pkg/lib)
+   FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
+   IF ((LIBIBERTY_LIBRARY) AND (LIBIBERTY_INCLUDE_DIR))
+      ADD_DEFINITIONS(-DHAVE_LIBIBERTY)
+      MESSAGE(STATUS "Libiberty library found:")
+      MESSAGE(STATUS " LIBIBERTY_LIBRARY:     ${LIBIBERTY_LIBRARY}")
+      MESSAGE(STATUS " LIBIBERTY_INCLUDE_DIR: ${LIBIBERTY_INCLUDE_DIR}")
+   ELSE()
+      MESSAGE(FATAL_ERROR
+              "Cannot find Libiberty library! Try:\n"
+              " * NetBSD: sudo pkgin -y install liberty")
+   ENDIF()
+ENDIF()
+
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
 IF (NOT HAVE_NI_IDN)
    # There is no IDN support directly in getaddrinfo() and getnameinfo()
@@ -193,23 +209,6 @@ IF (NOT HAVE_NI_IDN)
    ENDIF()
 ENDIF()
 
-# ====== Liberty ============================================================
-IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
-   FIND_LIBRARY(LIBIBERTY_LIBRARY NAMES iberty PATHS /usr/pkg/lib)
-   FIND_PATH(LIBIBERTY_INCLUDE_DIR NAMES libiberty.h PATHS /usr/pkg/include)
-   IF ((LIBIBERTY_LIBRARY) AND (LIBIBERTY_INCLUDE_DIR))
-      ADD_DEFINITIONS(-DHAVE_LIBIBERTY)
-      MESSAGE(STATUS "Libiberty library found:")
-      MESSAGE(STATUS " LIBIBERTY_LIBRARY:     ${LIBIBERTY_LIBRARY}")
-      MESSAGE(STATUS " LIBIBERTY_INCLUDE_DIR: ${LIBIBERTY_INCLUDE_DIR}")
-   ELSE()
-      MESSAGE(FATAL_ERROR
-              "Cannot find Libiberty library! Try:\n"
-              " * NetBSD: sudo pkgin -y install liberty")
-   ENDIF()
-ENDIF()
-
-
 # ====== GeoIP ==============================================================
 IF (WITH_GEOIP)
    FIND_LIBRARY(MAXMINDDB_LIBRARY NAMES maxminddb)
@@ -230,6 +229,7 @@ IF (WITH_GEOIP)
               " * FreeBSD:       sudo pkg install -y libmaxminddb\n"
               " * NetBSD:        sudo pkgin -y install libmaxminddb\n"
               " * OpenBSD:       sudo pkg_add libmaxminddb\n"
+              " * Solaris:       (needs PPA or installation from sources!)\n"
               " * Apple:         brew install libmaxminddb\n"
               "If GeoIP support is not required, it can be disabled by setting WITH_GEOIP=OFF (add -DWITH_GEOIP=OFF to CMake options)!")
    ENDIF()
