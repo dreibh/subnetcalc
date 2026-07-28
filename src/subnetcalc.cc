@@ -827,7 +827,7 @@ int main(int argc, char** argv)
    if(setlocale(LC_ALL, "") == nullptr) {
       setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!
    }
-   bindtextdomain("subnetcalc", nullptr);
+   bindtextdomain("subnetcalc", SUBNETCALC_LOCALEDIR);
    textdomain("subnetcalc");
 
    // ====== Handle arguments ===============================================
