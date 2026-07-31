@@ -1,3 +1,106 @@
+commit 41fa21a8906c614cec121bb14c24eae477ee7cc6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Jul 28 13:19:52 2026 +0200
+
+    Explicitly set locale directory in bindtextdomain() call.
+
+commit 6acebce993db038bdf1b8529734f64e91ea1452f
+Merge: a9b937c 3f466fa
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jul 23 22:05:42 2026 +0200
+
+    Merge branch 'master' of github.com:dreibh/subnetcalc
+
+commit a9b937c660ff55cd5975309b28f03936bc85e8ed
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Thu Jul 23 22:05:19 2026 +0200
+
+    Dependency hint improvements in CMakeLists.txt.
+
+commit 3f466fa5d890c8844d529e9575da7217ecf432c3
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Jul 21 13:59:10 2026 +0200
+
+    CMakeLists.txt clean-ups.
+
+commit d5bfa2c25ba3a24d6ae05c46ceb0ad1ae6ced859
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Tue Jul 21 11:11:59 2026 +0200
+
+    Added dependency hint.
+
+commit 89ef9dd4850cb64611dd990915a1591c89300553
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jul 18 16:44:18 2026 +0200
+
+    Updated build helper script.
+
+commit 9144c649ecf91198d434748004d5e0fb2a60881f
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jul 18 15:26:52 2026 +0200
+
+    Further NetBSD improvements in CMakeLists.txt.
+
+commit 66dce35453243d166960f9a9f0b10fa62a4661b6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jul 18 15:13:09 2026 +0200
+
+    Updated build helper script.
+
+commit 3c15236ebc81f4637a7c0485a480e8e11347181b
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jul 18 15:00:58 2026 +0200
+
+    CMakeLists.txt fix for NetBSD: need to set CMAKE_INSTALL_RPATH_USE_LINK_PATH if necessary.
+
+commit b565154ee60fccbecdc8f95b1fb49a86a787dd8e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 17 15:14:14 2026 +0200
+
+    Updated FreeBSD port.
+
+commit 3d39edb12459c4184ba0d0b0e1ab8e0bee7f69be
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Wed Jul 15 17:02:29 2026 +0200
+
+    Added Solaris support.
+
+commit dcf8c97b910d937def057f9e632676a88d3a9f24
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 29 15:43:12 2026 +0200
+
+    Updated CI configuration
+
+commit 29cdf648b92cc40e2826e2244f0daadab02b7ab4
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 29 15:43:09 2026 +0200
+
+    Updated CI scripts
+
+commit 5aa86f2e4147a20deb9d9c94450108a99a84e4c9
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Mon Jun 29 15:41:41 2026 +0200
+
+    Updated FreeBSD workflow.
+
+commit 1d4828142d4dda75b0e86b75a8ea3979ef39724e
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jun 20 17:15:44 2026 +0200
+
+    Improved APKBUILD.
+
+commit 630c43ebbe0574073f78f5cc9a459ed6dfc357c0
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jun 20 14:34:52 2026 +0000
+
+    Added APKBUILD file.
+
+commit c8ecd9beb5a8996e2a4f5964a14f39b3894a7864
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Jun 20 16:12:49 2026 +0200
+
+    New release subnetcalc-2.7.4.
+
 commit faa4fa8a5d9cc1685ee5f3c6cdec4ab68ed29a4d
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Sat Jun 20 16:09:10 2026 +0200
