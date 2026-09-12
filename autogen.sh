@@ -79,7 +79,7 @@ done
 
 UNAME="$(uname)"
 case "${UNAME}" in
-   Linux|SunOS)
+   Linux|SunOS|GNU)
       installPrefix="/usr"
       ;;
    NetBSD)
