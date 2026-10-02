@@ -115,19 +115,26 @@ fi
 
 # ====== Obtain number of cores =============================================
 if [ "${CORES}" -lt 1 ] ; then
-   if [ "${UNAME}" == "Linux" ] ; then
-      CORES="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo "1")"
-   elif [ "${UNAME}" == "FreeBSD" ] ; then
-      CORES="$(sysctl -n hw.ncpu || echo "1")"
-   elif [ "${UNAME}" == "NetBSD" ] || [ "${UNAME}" == "OpenBSD" ] ; then
-      CORES="$(/sbin/sysctl -n hw.ncpuonline || echo "1")"
-   elif [ "${UNAME}" == "SunOS" ] ; then
-      CORES="$(psrinfo -t)"
-   elif [ "${UNAME}" == "Darwin" ] ; then
-      CORES="$(sysctl -n machdep.cpu.core_count)"
-   else
-      CORES=1
-   fi
+   case "${UNAME}" in
+      Linux|GNU)
+         CORES="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo "1")"
+         ;;
+      FreeBSD)
+         CORES="$(sysctl -n hw.ncpu 2>/dev/null || echo "1")"
+         ;;
+      NetBSD|OpenBSD)
+         CORES="$(/sbin/sysctl -n hw.ncpuonline 2>/dev/null || echo "1")"
+         ;;
+      SunOS)
+         CORES="$(psrinfo -t 2>/dev/null || echo "1")"
+         ;;
+      Darwin)
+         CORES="$(sysctl -n machdep.cpu.core_count 2>/dev/null || echo "1")"
+         ;;
+      *)
+         CORES=1
+         ;;
+   esac
    echo "This system has ${CORES} cores!"
 fi
 
