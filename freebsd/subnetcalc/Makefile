@@ -15,7 +15,7 @@ LIB_DEPENDS=	libidn2.so:dns/libidn2
 USES=		cmake tar:xz
 
 OPTIONS_DEFINE=		GEOIP NLS
-OPTIONS_DEFAULT=	${OPTIONS_DEFINE}
+OPTIONS_DEFAULT=	GEOIP
 OPTIONS_SUB=		yes
 
 GEOIP_DESC=		Build with GeoIP support
