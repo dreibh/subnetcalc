@@ -1,5 +1,5 @@
 Name: subnetcalc
-Version: 2.7.5
+Version: 2.7.6
 Release: 1
 Summary: IPv4/IPv6 Subnet Calculator
 Group: Applications/Internet
@@ -46,6 +46,8 @@ interface ID, etc.). Finally, it can generate IPv6 unique local prefixes.
 %doc
 
 %changelog
+* Fri Oct 02 2026 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.7.6-1
+- New upstream release.
 * Fri Jul 31 2026 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.7.5-1
 - New upstream release.
 * Sat Jun 20 2026 Thomas Dreibholz <thomas.dreibholz@gmail.com> - 2.7.4-1

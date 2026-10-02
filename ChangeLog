@@ -1,3 +1,39 @@
+commit 924a8ff4e910a8a6038a3abdf12bafcd7538a8e7
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Oct 2 17:34:01 2026 +0200
+
+    Updated build helper script.
+
+commit 4e01df8502effd7944057e65bccd3edb8506b111
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Oct 2 17:33:32 2026 +0200
+
+    Updated CI scripts
+
+commit 3ebb5e1cbb0c4c6409ff7d7445a62950a8f1cef6
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Sat Sep 12 16:22:31 2026 +0100
+
+    Added GNU Hurd support.
+
+commit 8a204058ed1efcc5b6aa2803fdc2ac215542d23c
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 31 13:51:33 2026 +0200
+
+    Updated FreeBSD port.
+
+commit 4ec04f7a57ab10380ebcdc1a3c537e4d663577c1
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 31 13:21:40 2026 +0200
+
+    Updated APKBUILD file.
+
+commit a63a9e11dd67acf7e802486f589c61959a2a0709
+Author: Thomas Dreibholz <dreibh@simula.no>
+Date:   Fri Jul 31 12:49:26 2026 +0200
+
+    New release subnetcalc-2.7.5.
+
 commit 41fa21a8906c614cec121bb14c24eae477ee7cc6
 Author: Thomas Dreibholz <dreibh@simula.no>
 Date:   Tue Jul 28 13:19:52 2026 +0200
