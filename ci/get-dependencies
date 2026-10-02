@@ -107,7 +107,7 @@ def extractRPMDependencies(line   : str,
 # ====== Check arguments ====================================================
 system     : str  = ''
 runInstall : bool = False
-i = 1
+i          : int  = 1
 while i < len(sys.argv):
    if sys.argv[i] == '-s' or sys.argv[i] == '--system':
       if i + 1 < len(sys.argv):
@@ -119,7 +119,7 @@ while i < len(sys.argv):
    elif sys.argv[i] == '-i' or sys.argv[i] == '--install':
       runInstall = True
    elif sys.argv[i] == '-h' or sys.argv[i] == '--help':
-      sys.stderr.write('Usage: ' + sys.argv[0] + ' [-h|--help] [-s|--system debian|ubuntu|fedora|freebsd|auto] [-i|--install]\n')
+      sys.stderr.write('Usage: ' + sys.argv[0] + ' [-h|--help] [-s|--system debian|ubuntu|fedora|opensuse|alpine|freebsd|auto] [-i|--install]\n')
       sys.exit(0)
    else:
       sys.stderr.write('ERROR: Bad parameter ' + sys.argv[i] + '!\n')
@@ -128,10 +128,12 @@ while i < len(sys.argv):
 
 if system == '':
    with open("/etc/os-release") as osReleaseFile:
-    osRelease = { }
-    for line in osReleaseFile:
-        key, value = line.rstrip().split("=")
-        osRelease[key] = value.strip('"')
+      osRelease    : dict[str,str]          = { }
+      reConfigLine : Final[re.Pattern[str]] = re.compile(r'^[ \t]*[a-zA-Z]')
+      for line in osReleaseFile:
+         if reConfigLine.match(line):
+            key, value = line.rstrip().split("=")
+            osRelease[key] = value.strip('"')
    system = osRelease['ID']
 
 # ====== Debian/Ubuntu ======================================================
@@ -139,7 +141,7 @@ dependencies : list[str] = [ ]
 if ((system == 'debian') or  (system == 'ubuntu')):
    if os.path.exists('debian/control'):
       with open('debian/control', 'r', encoding='utf-8') as fp:
-         inside = False
+         inside : bool = False
          for line in fp:
             if not line:
                break
@@ -155,9 +157,11 @@ if ((system == 'debian') or  (system == 'ubuntu')):
                dependencies = dependencies + extractDebDependencies(line, system)
                inside = True
 
-      aptCall = [ 'apt-get', 'satisfy', '-qy' ]
-      i=0
-      for dependency in sorted(set(dependencies)):
+      aptCall : list[str] = [ 'apt-get', 'satisfy', '-qy' ]
+
+      i = 0
+      dependencies = sorted(set(dependencies))
+      for dependency in dependencies:
           if i > 0:
              sys.stdout.write(', ')
           sys.stdout.write(dependency)
@@ -174,9 +178,9 @@ if ((system == 'debian') or  (system == 'ubuntu')):
       sys.exit(1)
 
 
-# ====== Fedora =============================================================
-elif system == 'fedora':
-   specFiles = glob.glob('rpm/*.spec')
+# ====== Fedora or OpenSUSE =================================================
+elif ( (system == 'fedora') or (re.match(r'^opensuse-', system)) ):
+   specFiles : Final[list[str]] = glob.glob('rpm/*.spec')
    if len(specFiles) == 1:
       with open(specFiles[0], 'r', encoding='utf-8') as fp:
          inside = False
@@ -192,22 +196,59 @@ elif system == 'fedora':
                dependencies = dependencies + extractRPMDependencies(line, system)
                inside = True
 
-      dnfCall = [ 'dnf', 'install', '-y' ]
-      i=0
-      for dependency in sorted(set(dependencies)):
+      rpmToolCall : list[str]
+      if system == 'fedora':
+         rpmToolCall = [ 'dnf', 'install', '-y' ]
+      else:
+         rpmToolCall = [ 'zypper', 'install', '-y' ]
+
+      i = 0
+      dependencies = sorted(set(dependencies))
+      for dependency in dependencies:
           if i > 0:
              sys.stdout.write(', ')
           sys.stdout.write(dependency)
-          dnfCall.append(dependency)
+          rpmToolCall.append(dependency)
           i = i + 1
       sys.stdout.write('\n')
 
       if runInstall == True:
-         subprocess.call(dnfCall)
+         subprocess.call(rpmToolCall)
 
    else:
       sys.stderr.write('ERROR: Unable to locate RPM spec file!\n')
       sys.exit(1)
+
+
+# ====== Alpine ============================================================
+elif system == 'alpine':
+   apkbuildFile : Final[str] = 'packaging/APKBUILD'
+   with open(apkbuildFile, 'r', encoding='utf-8') as fp:
+      content = fp.read()
+
+   pattern = r"\bmakedepends=(?:\"([^\"]*)\"|'([^']*)')"
+   match = re.search(pattern, content, re.DOTALL)
+   if not match:
+      dependencies = [ ]
+   else:
+      # Get the captured inner string (group 1 for double quotes, group 2 for single quotes)
+      rawDependencies = match.group(1) if match.group(1) is not None else match.group(2)
+      dependencies    = sorted(set(rawDependencies.split()))
+
+   apkCall : list[str] = [ 'apk', 'add' ]
+
+   i = 0
+   dependencies = sorted(set(dependencies))
+   for dependency in dependencies:
+      if i > 0:
+         sys.stdout.write(' ')
+      sys.stdout.write(dependency)
+      apkCall.append(dependency)
+      i = i + 1
+   sys.stdout.write('\n')
+
+   if runInstall == True:
+      subprocess.call(apkCall)
 
 
 # ====== FreeBSD ============================================================
@@ -233,7 +274,8 @@ elif system == 'freebsd':
                   basename = 'glib'   # May be there is a better solution here?
                dependencies.append(basename)
 
-      for dependency in sorted(set(dependencies)):
+      dependencies = sorted(set(dependencies))
+      for dependency in dependencies:
           sys.stdout.write(dependency + ' ')
       sys.stdout.write('\n')
 
