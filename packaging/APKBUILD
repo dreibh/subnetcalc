@@ -1,6 +1,6 @@
 # Maintainer: Thomas Dreibholz <thomas.dreibholz@gmail.com>
 pkgname=subnetcalc
-pkgver=2.7.5
+pkgver=2.7.6
 pkgrel=1
 pkgdesc="IPv4/IPv6 Subnet Calculator"
 url="https://www.nntb.no/~dreibh/subnetcalc/"
@@ -23,5 +23,5 @@ package() {
 }
 
 sha512sums="
-20c166c0cc8c7552eff6a5bbaf7becf0101b4656bba4131133d490398390ec63d8e074aafc1d5ef9738eef865111af0d80b0f0d69eb990752b29b27b91f4b849  subnetcalc-2.7.5.tar.xz
+dcd176887bd69ed57238d93d4a080c8e6071f379d32c50b47147c9bb85a0a6d5017948d93fbb015d5031d91d180f319d472130b4f5725de0dd29e396d5dd0cae  subnetcalc-2.7.6.tar.xz
 "
