@@ -247,7 +247,7 @@ sudo apk add subnetcalc
 
 ## FreeBSD
 
-For ready-to-install [FreeBSD](https://www.freebsd.org/) packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
+For ready-to-install [FreeBSD](https://www.freebsd.org/) packages of SubNetCalc, it is included in the ports collection; see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
 
 ```bash
 sudo pkg install subnetcalc
