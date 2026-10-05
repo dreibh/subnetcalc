@@ -263,19 +263,19 @@ sudo make install
 
 ## NetBSD
 
-SubNetCalc supports [NetBSD](https://netbsd.org/). However, there is no NetBSD packaging, yet. Just build from sources!
+SubNetCalc supports [NetBSD](https://netbsd.org/). However, there is no NetBSD packaging yet. Just build from sources!
 
 ## OpenBSD
 
-SubNetCalc supports [OpenBSD](https://www.openbsd.org/). However, there is no OpenBSD packaging, yet. Just build from sources!
+SubNetCalc supports [OpenBSD](https://www.openbsd.org/). However, there is no OpenBSD packaging yet. Just build from sources!
 
 ## Solaris (OpenIndiana)
 
-SubNetCalc supports [Solaris (OpenIndiana)](https://www.openindiana.org/). However, there is no Solaris packaging, yet. Just build from sources!
+SubNetCalc supports [Solaris (OpenIndiana)](https://www.openindiana.org/). However, there is no Solaris packaging yet. Just build from sources!
 
 ## GNU Hurd
 
-SubNetCalc supports [GNU Hurd](https://www.gnu.org/software/hurd/) ([Debian GNU/Hurd](https://www.debian.org/ports/hurd/)). However, there is no Debian GNU/Hurd PPA on Open Build Service available, yet. Just build from sources!
+SubNetCalc supports [GNU Hurd](https://www.gnu.org/software/hurd/) ([Debian GNU/Hurd](https://www.debian.org/ports/hurd/)). However, there is no Debian GNU/Hurd PPA on Open Build Service available yet. Just build from sources!
 
 ## Homebrew (Apple, Linux)
 
@@ -319,9 +319,9 @@ Optionally, for installation to the standard paths (usually under `/usr/local`):
 sudo make install
 ```
 
-Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, OpenSUSE Linux, Alpine Linux, FreeBSD, and Debian/GNU Hurd. For manual handling of the build dependencies, take a look at the packaging configuration files:
+Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, OpenSUSE Linux, Alpine Linux, FreeBSD, and Debian GNU/Hurd. For manual handling of the build dependencies, take a look at the packaging configuration files:
 
-* [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux, Debian/GNU Hurd),
+* [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux, Debian GNU/Hurd),
 * [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux, OpenSUSE Linux),
 * [`APKBUILD`](https://github.com/dreibh/subnetcalc/blob/master/packaging/APKBUILD) (Alpine Linux),
 * [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) (FreeBSD), and
@@ -350,7 +350,7 @@ To provide a translation of SubNetCalc into your language, apply the following s
 
 1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e.&nbsp;use the "master" branch with the latest development version. The build will create a `.pot` (translation template) file under [`po`](po).
 
-2. Create a new Git branch for your translations, e.g.&nbsp;`my_username/translations_language_XX` (with `XX` the language code for your language, e.g. `da` for Danish):
+2. Create a new Git branch for your translations, e.g.&nbsp;`my_username/translations_language_XX` (where `XX` is the language code for your language, e.g. `da` for Danish):
 
    ```bash
    git branch my_username/translations_language_XX
