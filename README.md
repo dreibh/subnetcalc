@@ -9,7 +9,7 @@
 
 # 💡 What is SubNetCalc?
 
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better readability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
 
 
 # 😀 Examples
@@ -34,7 +34,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   DNS Hostname   = lupo.iem.uni-due.de
   </code></pre>
 
-* Consider host [www.heise.de](https://www.heise.de) uses a 64-bit prefix length. What are the details of its network?
+* Consider that host [www.heise.de](https://www.heise.de) uses a 64-bit prefix length. What are the details of its network?
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> www.heise.de 64</strong>
   Address        = 2a02:2e0:3fe:1001:7777:772e:2:85
@@ -62,7 +62,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   DNS Hostname   = www.heise.de
   </code></pre>
 
-* My new host should use Interface ID 0x100 and Subnet ID 0x1234. Generate a Unique Local IPv6 prefix (40-bit Global ID) for my intranet, according to [RFC&nbsp;4193](https://www.rfc-editor.org/rfc/rfc4193), using high quality random numbers!
+* My new host should use Interface ID 0x100 and Subnet ID 0x1234. Generate a Unique Local IPv6 prefix (40-bit Global ID) for my intranet, according to [RFC&nbsp;4193](https://www.rfc-editor.org/rfc/rfc4193), using high-quality random numbers!
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 0:0:0:1234::100 64 -uniquelocalhq</strong>
   Generating Unique Local IPv6 address (using /dev/random) ...
@@ -93,7 +93,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   DNS Hostname   = (Name or service not known)
   </code></pre>
 
-* Which are DNS reverse lookup name and geo-location country of IP 2401:3800:c001::68?
+* What are the DNS reverse lookup name and geolocation country for IP 2401:3800:c001::68?
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2401:3800:c001::68</strong>
   Address        = 2401:3800:c001::68
@@ -120,7 +120,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   DNS Hostname  = <strong>bg-in-x68.1e100.net</strong>
   </code></pre>
 
-* Which are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
+* What are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2001:638:501:4ef8:223:aeff:fea4:8ca9/64</strong>
   Address        = 2001:638:501:4ef8:223:aeff:fea4:8ca9
@@ -161,7 +161,7 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 
 ## Ubuntu Linux
 
-For ready-to-install Ubuntu Linux packages of SubNetCalc, see [Launchpad PPA for Thomas Dreibholz](https://launchpad.net/~dreibh/+archive/ubuntu/ppa/+packages?field.name_filter=subnetcalc&field.status_filter=published&field.series_filter=)!
+For ready-to-install [Ubuntu Linux](https://ubuntu.com/) packages of SubNetCalc, see the [Launchpad PPA for Thomas Dreibholz](https://launchpad.net/~dreibh/+archive/ubuntu/ppa/+packages?field.name_filter=subnetcalc&field.status_filter=published&field.series_filter=)!
 
 ```bash
 sudo apt-add-repository -sy ppa:dreibh/ppa
@@ -169,18 +169,85 @@ sudo apt-get update
 sudo apt-get install subnetcalc
 ```
 
+## Debian Linux
+
+For ready-to-install [Debian Linux](https://www.debian.org/) packages of SubNetCalc, see the [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
+
+Add the PPA repository:
+
+```bash
+. /etc/os-release
+DISTRIBUTION="Debian_${VERSION_ID:-$([ "${VERSION_CODENAME:-}" = sid ] && echo Unstable || echo Testing)}"
+URL="https://download.opensuse.org/repositories/home:/dreibh/${DISTRIBUTION}"
+KEY="/etc/apt/keyrings/dreibh-obs.gpg"
+
+curl -fsSL "${URL}/Release.key" | sudo gpg --batch --yes --dearmor -o "${KEY}"
+printf "deb [signed-by=%s] %s/ /\ndeb-src [signed-by=%s] %s/ /\n" "${KEY}" "${URL}" "${KEY}" "${URL}" | \
+   sudo tee /etc/apt/sources.list.d/obs-dreibh.list
+sudo apt update
+```
+
+Then, install SubNetCalc:
+
+```bash
+sudo apt-get install subnetcalc
+```
+
 ## Fedora Linux
 
-For ready-to-install Fedora Linux packages of SubNetCalc, see [COPR PPA for Thomas Dreibholz](https://copr.fedorainfracloud.org/coprs/dreibh/ppa/package/subnetcalc/)!
+For ready-to-install [Fedora Linux](https://fedoraproject.org/) packages of SubNetCalc, see the [COPR PPA for Thomas Dreibholz](https://copr.fedorainfracloud.org/coprs/dreibh/ppa/package/subnetcalc/)!
 
 ```bash
 sudo dnf copr enable -y dreibh/ppa
 sudo dnf install subnetcalc
 ```
 
+## OpenSUSE Linux
+
+For ready-to-install [OpenSUSE Linux](https://www.opensuse.org/) packages of SubNetCalc, see [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
+
+Add the PPA repository:
+
+```bash
+. /etc/os-release
+[[ $VERSION_ID =~ ^[0-9]+\.[0-9]+$ ]] && DISTRIBUTION="${VERSION_ID}" || DISTRIBUTION="${NAME// /_}"
+URL="https://download.opensuse.org/repositories/home:/dreibh/${DISTRIBUTION}"
+rpm --import "${URL}/repodata/repomd.xml.key"
+zypper addrepo -f "${URL}/" dreibh-obs
+```
+
+Then, install SubNetCalc:
+
+```bash
+sudo zypper install subnetcalc
+```
+
+## Alpine Linux
+
+For ready-to-install [Alpine Linux](https://alpinelinux.org/) packages of SubNetCalc, see [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
+
+Add the PPA repository:
+
+```bash
+DISTRIBUTION="Alpine_Latest_community"
+URL="https://download.opensuse.org/repositories/home:/dreibh"
+wget -O \
+   /etc/apk/keys/home:dreibh@build.opensuse.org-527a4e72.rsa.pub \
+   "${URL}/${DISTRIBUTION}/x86_64/home:dreibh%40build.opensuse.org-527a4e72.rsa.pub"
+if ! grep -q "^${URL}/${DISTRIBUTION}" /etc/apk/repositories ; then
+   echo "${URL}/${DISTRIBUTION}" | sudo tee -a /etc/apk/repositories
+fi
+```
+
+Then, install SubNetCalc:
+
+```bash
+sudo apk add subnetcalc
+```
+
 ## FreeBSD
 
-For ready-to-install FreeBSD packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
+For ready-to-install [FreeBSD](https://www.freebsd.org/) packages of SubNetCalc, it is included in the ports collection, see [FreeBSD ports tree index of net/subnetcalc/](https://cgit.freebsd.org/ports/tree/net/subnetcalc/)!
 
 ```bash
 sudo pkg install subnetcalc
@@ -194,10 +261,43 @@ make
 sudo make install
 ```
 
+## NetBSD
+
+SubNetCalc supports [NetBSD](https://netbsd.org/). However, there is no NetBSD packaging, yet. Just build from sources!
+
+## OpenBSD
+
+SubNetCalc supports [OpenBSD](https://www.openbsd.org/). However, there is no OpenBSD packaging, yet. Just build from sources!
+
+## Solaris (OpenIndiana)
+
+SubNetCalc supports [Solaris (OpenIndiana)](https://www.openindiana.org/). However, there is no Solaris packaging, yet. Just build from sources!
+
+## GNU Hurd
+
+SubNetCalc supports [GNU Hurd](https://www.gnu.org/software/hurd/) ([Debian GNU/Hurd](https://www.debian.org/ports/hurd/)). However, there is no Debian GNU/Hurd PPA on Open Build Service available, yet. Just build from sources!
+
+## Homebrew (Apple, Linux)
+
+For the [Homebrew](https://brew.sh/) formula of SubNetCalc, see [Thomas Dreibholz's Homebrew Tap](https://github.com/dreibh/homebrew-tap)!
+
+Add tap:
+
+```bash
+brew tap dreibh/tap
+brew trust dreibh/tap
+```
+
+Then, install SubNetCalc:
+
+```bash
+brew install subnetcalc
+```
+
 
 # 💾 Build from Sources
 
-SubNetCalc is released under the [GNU General Public Licence&nbsp;(GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text).
+SubNetCalc is released under the [GNU General Public License&nbsp;(GPL)](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text).
 
 Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](https://github.com/dreibh/subnetcalc/issues) to report bugs and issues!
 
@@ -219,7 +319,13 @@ Optionally, for installation to the standard paths (usually under `/usr/local`):
 sudo make install
 ```
 
-Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically  installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) FreeBSD.
+Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, OpenSUSE Linux, Alpine Linux, FreeBSD, and Debian/GNU Hurd. For manual handling of the build dependencies, take a look at the packaging configuration files:
+
+* [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux, Debian/GNU Hurd),
+* [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux, OpenSUSE Linux),
+* [`APKBUILD`](https://github.com/dreibh/subnetcalc/blob/master/packaging/APKBUILD) (Alpine Linux),
+* [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) (FreeBSD), and
+* [`subnetcalc.rb`](https://github.com/dreibh/subnetcalc/blob/master/packaging/subnetcalc.rb) (Homebrew).
 
 Contributions:
 
@@ -251,7 +357,7 @@ To provide a translation of SubNetCalc into your language, apply the following s
    git checkout my_username/translations_language_XX
    ```
 
-3. Take a look at the existing `.po` files (translations files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g.&nbsp;[`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
+3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g.&nbsp;[`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
 
    ```bash
    mkdir -p XX
