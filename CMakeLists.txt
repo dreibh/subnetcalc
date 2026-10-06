@@ -203,6 +203,7 @@ IF (NOT HAVE_NI_IDN)
    ELSE()
       MESSAGE(FATAL_ERROR
               "Cannot find IDN2 library! Try:\n"
+              " * Alpine:  sudo apk add libidn2-dev\n"
               " * FreeBSD: sudo pkg install -y libidn2\n"
               " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * OpenBSD: sudo pkg_add libidn2\n"
