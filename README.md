@@ -9,7 +9,7 @@
 
 # 💡 What is SubNetCalc?
 
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better readability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better readability. Furthermore, it prints useful information on specific address types (e.g., type, scope, interface ID).
 
 
 # 😀 Examples
@@ -204,7 +204,7 @@ sudo dnf install subnetcalc
 
 ## OpenSUSE Linux
 
-For ready-to-install [OpenSUSE Linux](https://www.opensuse.org/) packages of SubNetCalc, see [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
+For ready-to-install [OpenSUSE Linux](https://www.opensuse.org/) packages of SubNetCalc, see the [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
 
 Add the PPA repository:
 
@@ -224,7 +224,7 @@ sudo zypper install subnetcalc
 
 ## Alpine Linux
 
-For ready-to-install [Alpine Linux](https://alpinelinux.org/) packages of SubNetCalc, see [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
+For ready-to-install [Alpine Linux](https://alpinelinux.org/) packages of SubNetCalc, see the [Open Build Service PPA for Thomas Dreibholz](https://build.opensuse.org/project/show/home:dreibh)!
 
 Add the PPA repository:
 
@@ -348,16 +348,16 @@ See [https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release](https://www
 
 To provide a translation of SubNetCalc into your language, apply the following steps:
 
-1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e.&nbsp;use the "master" branch with the latest development version. The build will create a `.pot` (translation template) file under [`po`](po).
+1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e., use the "master" branch with the latest development version. The build will create a `.pot` (translation template) file under [`po`](po).
 
-2. Create a new Git branch for your translations, e.g.&nbsp;`my_username/translations_language_XX` (where `XX` is the language code for your language, e.g. `da` for Danish):
+2. Create a new Git branch for your translations, e.g., `my_username/translations_language_XX` (where `XX` is the language code for your language, e.g., `da` for Danish):
 
    ```bash
    git branch my_username/translations_language_XX
    git checkout my_username/translations_language_XX
    ```
 
-3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g.&nbsp;[`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
+3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g., [`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
 
    ```bash
    mkdir -p XX
