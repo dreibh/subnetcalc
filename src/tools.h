@@ -35,9 +35,9 @@
 #endif
 
 #include <cstdarg>
+#include <cstdint>
 #include <iosfwd>
 #include <string>
-
 #if !defined(_WIN32)
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -46,6 +46,8 @@
 #else
 #include <winsock2.h>
 #include <ws2tcpip.h>
+#include <stdint.h>
+
 #endif
 
 

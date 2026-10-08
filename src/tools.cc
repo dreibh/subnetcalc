@@ -29,6 +29,12 @@
 
 #include "tools.h"
 
+#include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
 #if !defined(_WIN32)
 #include <arpa/inet.h>
 #include <fcntl.h>
@@ -47,15 +53,9 @@
 #include <ws2tcpip.h>
 #include <windows.h>
 #ifndef IFNAMSIZ
-#define IFNAMSIZ IF_NAMESIZE
+#define IFNAMSIZ 256
 #endif
 #endif
-#include <cassert>
-#include <cctype>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
-#include <iostream>
 
 #ifndef NI_IDN
 #include <idn2.h>

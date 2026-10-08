@@ -27,6 +27,8 @@
 //
 // Contact: thomas.dreibholz@gmail.com
 
+#define _GNU_SOURCE
+
 #include <cassert>
 #include <cctype>
 #include <clocale>
@@ -37,8 +39,8 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
-#if !defined(_WIN32)
 #include <getopt.h>
+#if !defined(_WIN32)
 #include <netdb.h>
 #include <unistd.h>
 #else

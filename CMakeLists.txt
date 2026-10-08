@@ -192,6 +192,15 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    ENDIF()
 ENDIF()
 
+IF (WIN32)
+   FIND_PACKAGE(getopt CONFIG)
+   IF (TARGET getopt::getopt)
+      TARGET_LINK_LIBRARIES(subnetcalc PRIVATE getopt::getopt)
+   ELSEIF (TARGET getopt::getopt_static)
+      TARGET_LINK_LIBRARIES(subnetcalc PRIVATE getopt::getopt_static)
+   ENDIF()
+ENDIF()
+
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
 IF (NOT HAVE_NI_IDN)
    # There is no IDN support directly in getaddrinfo() and getnameinfo()
