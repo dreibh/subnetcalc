@@ -27,8 +27,6 @@
 //
 // Contact: thomas.dreibholz@gmail.com
 
-#define _GNU_SOURCE
-
 #include <cassert>
 #include <cctype>
 #include <clocale>
