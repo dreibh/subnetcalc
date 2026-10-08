@@ -50,7 +50,11 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
+
 typedef uint32_t in_addr_t;
+#ifndef IN_LOOPBACKNET
+#define IN_LOOPBACKNET 127
+#endif
 #endif
 
 

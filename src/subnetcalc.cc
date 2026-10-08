@@ -50,9 +50,6 @@
 #include <process.h>
 #define isatty _isatty
 #define fileno _fileno
-#ifndef IN_LOOPBACKNET
-#define IN_LOOPBACKNET 127
-#endif
 #endif
 
 #if defined(HAVE_LIBIBERTY)
