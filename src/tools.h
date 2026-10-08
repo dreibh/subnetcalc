@@ -38,10 +38,15 @@
 #include <iosfwd>
 #include <string>
 
+#if !defined(_WIN32)
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/types.h>
 #include <sys/socket.h>
+#else
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#endif
 
 
 unsigned long long getMicroTime();

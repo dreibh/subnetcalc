@@ -29,14 +29,9 @@
 
 #include "tools.h"
 
+#if !defined(_WIN32)
 #include <arpa/inet.h>
-#include <cassert>
-#include <cctype>
-#include <cmath>
-#include <cstdlib>
-#include <cstring>
 #include <fcntl.h>
-#include <iostream>
 #include <netdb.h>
 #include <net/if.h>
 #include <netinet/in.h>
@@ -47,6 +42,21 @@
 #include <sys/types.h>
 #include <sys/uio.h>
 #include <unistd.h>
+#else
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <windows.h>
+#ifndef IFNAMSIZ
+#define IFNAMSIZ IF_NAMESIZE
+#endif
+#endif
+#include <cassert>
+#include <cctype>
+#include <cmath>
+#include <cstdlib>
+#include <cstring>
+#include <iostream>
+
 #ifndef NI_IDN
 #include <idn2.h>
 #endif
@@ -55,10 +65,17 @@
 // ###### Get current time ##################################################
 unsigned long long getMicroTime()
 {
+#if !defined(_WIN32)
    struct timeval tv;
    gettimeofday(&tv, nullptr);
    return (((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
            (unsigned long long)tv.tv_usec);
+#else
+   FILETIME ft;
+   GetSystemTimeAsFileTime(&ft);
+   unsigned long long t = ((unsigned long long)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
+   return t / 10;
+#endif
 }
 
 
@@ -94,7 +111,11 @@ bool checkIPv6()
 {
    int sd = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
    if(sd >= 0) {
+#if !defined(_WIN32)
       close(sd);
+#else
+      closesocket(sd);
+#endif
       return true;
    }
    return false;

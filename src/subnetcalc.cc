@@ -35,11 +35,20 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
-#include <getopt.h>
 #include <iostream>
+#include <vector>
+#if !defined(_WIN32)
+#include <getopt.h>
 #include <netdb.h>
 #include <unistd.h>
-#include <vector>
+#else
+#include <winsock2.h>
+#include <ws2tcpip.h>
+#include <io.h>
+#include <process.h>
+#define isatty _isatty
+#define fileno _fileno
+#endif
 
 #if defined(HAVE_LIBIBERTY)
 #include <libiberty.h>
@@ -166,6 +175,7 @@ void generateUniqueLocal(sockaddr_union& address,
    }
 
 #if 1
+#if !defined(_WIN32)
    // ====== Read random number from random device ==========================
    const char*   randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
    std::ifstream randomStream(randomFile, std::ios::binary);
@@ -181,6 +191,13 @@ void generateUniqueLocal(sockaddr_union& address,
       std::cerr << format(gettext("ERROR: Unable to open %s!"), randomFile) << "\n";
       exit(1);
    }
+#else
+   HCRYPTPROV hCryptProv;
+   if(CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT)) {
+      CryptGenRandom(hCryptProv, sizeof(buffer), buffer);
+      CryptReleaseContext(hCryptProv, 0);
+   }
+#endif
 #else
    // ====== Get random number using random() function ======================
 #warning Using default random number generator!
@@ -777,6 +794,9 @@ std::string find_mmdb_path(const std::string& mmdbFileName) {
       "/opt/homebrew/var/GeoIP",   // MacOS (Homebrew Apple Silicon)
       "/usr/local/var/GeoIP",      // MacOS (Homebrew Intel)
       "/etc/GeoIP"                 // Legacy
+#if defined(_WIN32)
+      , "C:/ProgramData/GeoIP"
+#endif
    };
 
    for (const auto& directory : mmdbDirectories) {
@@ -823,6 +843,11 @@ static void usage(const char* program, const int exitCode)
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
+#if defined(_WIN32)
+   WSADATA wsaData;
+   WSAStartup(MAKEWORD(2, 2), &wsaData);
+#endif
+
    // ====== Initialise i18n support ========================================
    if(setlocale(LC_ALL, "") == nullptr) {
       setlocale(LC_ALL, "C.UTF-8");   // "C" should exist on all systems!

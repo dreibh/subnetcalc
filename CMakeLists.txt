@@ -111,6 +111,8 @@ ELSEIF (CMAKE_SYSTEM_NAME MATCHES "GNU")
    MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Darwin")
    MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
+ELSEIF (CMAKE_SYSTEM_NAME MATCHES "Windows")
+   MESSAGE(STATUS "${CMAKE_SYSTEM_NAME} supported")
 ELSE()
    MESSAGE(FATAL_ERROR "${CMAKE_SYSTEM_NAME} not supported (yet?)")
 ENDIF()
@@ -207,7 +209,8 @@ IF (NOT HAVE_NI_IDN)
               " * NetBSD:  sudo pkgin -y install libidn2\n"
               " * OpenBSD: sudo pkg_add libidn2\n"
               " * Solaris: sudo pkg install libidn2\n"
-              " * Apple:   brew install libidn2\n")
+              " * Apple:   brew install libidn2\n"
+              " * Windows: vcpkg install libidn2:x64-windows\n")
    ENDIF()
 ENDIF()
 
@@ -233,6 +236,8 @@ IF (WITH_GEOIP)
               " * OpenBSD:       sudo pkg_add libmaxminddb\n"
               " * Solaris:       (needs PPA or installation from sources!)\n"
               " * Apple:         brew install libmaxminddb\n"
+              " * Windows:       vcpkg install libmaxminddb:x64-windows\n"
+              " * Windows:       vcpkg install gettext:x64-windows\n"
               "If GeoIP support is not required, it can be disabled by setting WITH_GEOIP=OFF (add -DWITH_GEOIP=OFF to CMake options)!")
    ENDIF()
 ENDIF()
