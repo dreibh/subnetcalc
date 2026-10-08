@@ -46,8 +46,8 @@
 #else
 #include <winsock2.h>
 #include <ws2tcpip.h>
-#include <stdint.h>
-
+#include <iphlpapi.h>
+typedef uint32_t in_addr_t;
 #endif
 
 
