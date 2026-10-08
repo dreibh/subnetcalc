@@ -55,9 +55,10 @@ TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
                       ${LIBIDN2_LIBRARY}
                       ${MAXMINDDB_LIBRARY}
                       ${SOCKET_LIBRARY}
-                      ${NSL_LIBRARY}
-                      ${WS2_32_LIBRARY}
-                      ${IPHLPAPI_LIBRARY})
+                      ${NSL_LIBRARY})
+IF (WIN32)
+   TARGET_LINK_LIBRARIES(subnetcalc PRIVATE ws2_32 iphlpapi)
+ENDIF()
 INSTALL(TARGETS     subnetcalc   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 INSTALL(FILES       subnetcalc.1 DESTINATION         ${CMAKE_INSTALL_MANDIR}/man1)
 INSTALL(FILES       subnetcalc.bash-completion
