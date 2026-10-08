@@ -53,7 +53,7 @@
 #include <ws2tcpip.h>
 #include <windows.h>
 #ifndef IFNAMSIZ
-#define IFNAMSIZ 256
+#define IFNAMSIZ IF_NAMESIZE
 #endif
 #endif
 
