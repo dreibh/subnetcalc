@@ -21,47 +21,38 @@
 # Bash options:
 set -euo pipefail
 
-
-CMAKE_OPTIONS=""
+CMAKE_OPTIONS=()
 COMMAND=""
 CORES=0
+
 while [ $# -gt 0 ] ; do
    if [[ "$1" =~ ^(-|--)use-clang$ ]] ; then
-      # Use these settings for CLang:
       export CXX=clang++
       export CC=clang
    elif [[ "$1" =~ ^(-|--)use-clang-scan-build$ ]] ; then
-      # Use these settings for CLang:
       export CXX=clang++
       export CC=clang
-      # Ensure build with CLang Static Analyzer
       mkdir -p scan-build-reports
       COMMAND="scan-build -o scan-build-reports"
    elif [[ "$1" =~ ^(-|--)use-gcc$ ]] ; then
-      # Use these settings for GCC:
       export CXX=g++
       export CC=gcc
    elif [[ "$1" =~ ^(-|--)use-gcc-analyzer$ ]] ; then
-      # Use these settings for GCC:
       export CXX=g++
       export CC=gcc
       export CFLAGS=-fanalyzer
       export CXXFLAGS=-fanalyzer
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_VERBOSE_MAKEFILE=ON"
+      CMAKE_OPTIONS+=("-DCMAKE_VERBOSE_MAKEFILE=ON")
    elif [[ "$1" =~ ^(-|--)debug$ ]] ; then
-      # Enable debugging build:
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=Debug"
+      CMAKE_OPTIONS+=("-DCMAKE_BUILD_TYPE=Debug")
    elif [[ "$1" =~ ^(-|--)release$ ]] ; then
-      # Enable debugging build:
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=Release"
+      CMAKE_OPTIONS+=("-DCMAKE_BUILD_TYPE=Release")
    elif [[ "$1" =~ ^(-|--)release-with-debinfo$ ]] ; then
-      # Enable debugging build:
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_BUILD_TYPE=RelWithDebInfo"
+      CMAKE_OPTIONS+=("-DCMAKE_BUILD_TYPE=RelWithDebInfo")
    elif [[ "$1" =~ ^(-|--)verbose$ ]] ; then
-      # Enable verbose Makefile:
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} -DCMAKE_VERBOSE_MAKEFILE=ON"
+      CMAKE_OPTIONS+=("-DCMAKE_VERBOSE_MAKEFILE=ON")
    elif [[ "$1" =~ ^(-|--)cores ]] ; then
-      if [[ ! "$2" =~ ^[0-9]+$ ]] ; then
+      if [ $# -lt 2 ] || [[ ! "$2" =~ ^[0-9]+$ ]] ; then
          echo >&2 "ERROR: Number of cores must be an integer number!"
          exit 1
       fi
@@ -90,28 +81,35 @@ case "${UNAME}" in
       ;;
 esac
 
-
 # ====== Configure with CMake ===============================================
 if [ -e CMakeLists.txt ] ; then
    rm -f CMakeCache.txt
-   if [ $# -gt 0 ] ; then
-      CMAKE_OPTIONS="${CMAKE_OPTIONS} $*"
+
+   # On Windows, add VCPKG path if available:
+   if [[ "${UNAME}" =~ ^(CYGWIN.*|MINGW.*|MSYS.*|Windows_NT)$ ]] ; then
+      VCPKG_ROOT="${VCPKG_INSTALLATION_ROOT:-C:/vcpkg}"
+      CMAKE_OPTIONS+=("-DCMAKE_TOOLCHAIN_FILE=${VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake")
    fi
-   echo "CMake options:${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX=\"${installPrefix}\""
-   # shellcheck disable=SC2048,SC2086
-   ${COMMAND} cmake ${CMAKE_OPTIONS} . -DCMAKE_INSTALL_PREFIX="${installPrefix}"
+
+   # Append extra CMake arguments passed after "--":
+   if [ $# -gt 0 ] ; then
+      CMAKE_OPTIONS+=("$@")
+   fi
+
+   CMAKE_OPTIONS+=("-DCMAKE_INSTALL_PREFIX=${installPrefix}")
+
+   echo "Executing: ${COMMAND} cmake ${CMAKE_OPTIONS[*]} ."
+   ${COMMAND} cmake "${CMAKE_OPTIONS[@]}" .
 
 # ====== Configure with AutoConf/AutoMake ===================================
 elif [ -e bootstrap ] ; then
    ./bootstrap
-   # shellcheck disable=SC2068
-   ./configure $@
+   ./configure "$@"
 
 else
    echo >&2 "ERROR: Failed to configure with CMake or AutoMake/AutoConf!"
    exit 1
 fi
-
 
 # ====== Obtain number of cores =============================================
 if [ "${CORES}" -lt 1 ] ; then
@@ -131,6 +129,9 @@ if [ "${CORES}" -lt 1 ] ; then
       Darwin)
          CORES="$(sysctl -n machdep.cpu.core_count 2>/dev/null || echo "1")"
          ;;
+      CYGWIN*|MINGW*|MSYS*|Windows_NT)
+         CORES="$(getconf _NPROCESSORS_ONLN 2>/dev/null || echo "${NUMBER_OF_PROCESSORS:-1}")"
+         ;;
       *)
          CORES=1
          ;;
@@ -138,7 +139,10 @@ if [ "${CORES}" -lt 1 ] ; then
    echo "This system has ${CORES} cores!"
 fi
 
-
 # ====== Build ==============================================================
 echo "Starting build using up to ${CORES} cores ..."
-${COMMAND} make -j "${CORES}"
+if [[ ! "${UNAME}" =~ ^(CYGWIN.*|MINGW.*|MSYS.*|Windows_NT)$ ]] ; then
+   ${COMMAND} make -j "${CORES}"
+else
+   cmake --build . -j "${CORES}"
+fi
