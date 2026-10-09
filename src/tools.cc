@@ -175,16 +175,16 @@ bool address2string(const struct sockaddr* address,
 
    switch(address->sa_family) {
       case AF_INET:
-         ipv4address = (const struct sockaddr_in*)address;
-         if(port) {
-            snprintf(buffer, length, "%s:%d",
-                     inet_ntoa(ipv4address->sin_addr),
-                     ntohs(ipv4address->sin_port));
+         if(inet_ntop(AF_INET, &ipv4address->sin_addr, str, sizeof(str)) != nullptr) {
+            if(port) {
+               snprintf(buffer, length, "%s:%d", str, ntohs(ipv4address->sin_port));
+            }
+            else {
+               snprintf(buffer, length, "%s", str);
+            }
+            return true;
          }
-         else {
-            snprintf(buffer, length, "%s", inet_ntoa(ipv4address->sin_addr));
-         }
-         return true;
+       break;
 
       case AF_INET6:
          ipv6address = (const struct sockaddr_in6*)address;
