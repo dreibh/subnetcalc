@@ -36,8 +36,8 @@
 
 #include <cstdarg>
 #include <cstdint>
+#include <cstring>
 #include <iosfwd>
-#include <string>
 #if !defined(_WIN32)
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -81,5 +81,12 @@ void printAddress(std::ostream&          os,
                   const bool             port      = true,
                   const bool             hideScope = false);
 std::string format(const char* fmt, ...);
+
+#if !defined(strlcat)
+size_t strlcpy(char* dst, const char* src, size_t size);
+#endif
+#if !defined(strlcat)
+size_t strlcat(char* dst, const char* src, size_t size);
+#endif
 
 #endif

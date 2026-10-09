@@ -409,3 +409,37 @@ std::string format(const char* fmt, ...)
    va_end(va);
    return std::string(buffer);
 }
+
+
+#if !defined(strlcat)
+size_t strlcpy(char* dst, const char* src, size_t size)
+{
+   const size_t slen = strlen(src);
+   if(size != 0) {
+      const size_t len = (slen >= size) ? size - 1 : slen;
+      memcpy(dst, src, len);
+      dst[len] = 0x00;
+   }
+   return slen;
+}
+#endif
+
+#if !defined(strlcat)
+size_t strlcat(char* dst, const char* src, size_t size)
+{
+   const size_t dlen = strnlen(dst, size);
+   const size_t slen = strlen(src);
+
+   if(dlen >= size) {
+      return size + slen;
+   }
+   if(slen < size - dlen) {
+      memcpy(dst + dlen, src, slen + 1);
+   }
+   else {
+      memcpy(dst + dlen, src, size - dlen - 1);
+      dst[size - 1] = 0x00;
+   }
+   return dlen + slen;
+}
+#endif
