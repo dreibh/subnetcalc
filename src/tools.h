@@ -38,6 +38,7 @@
 #include <cstdint>
 #include <cstring>
 #include <iosfwd>
+#include <string>
 #if !defined(_WIN32)
 #include <arpa/inet.h>
 #include <netinet/in.h>
