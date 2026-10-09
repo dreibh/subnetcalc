@@ -846,6 +846,20 @@ int main(int argc, char** argv)
 #if defined(_WIN32)
    WSADATA wsaData;
    WSAStartup(MAKEWORD(2, 2), &wsaData);
+
+   // Convert Windows UTF-16 command-line arguments to UTF-8 for libidn2:
+   wchar_t** wargv = CommandLineToArgvW(GetCommandLineW(), &argc);
+   std::vector<std::string> utf8_args(argc);
+   std::vector<char*>       utf8_argv(argc);
+
+   for(int i = 0; i < argc; i++) {
+      const int size = WideCharToMultiByte(CP_UTF8, 0, wargv[i], -1, NULL, 0, NULL, NULL);
+      utf8_args[i].resize(size);
+      WideCharToMultiByte(CP_UTF8, 0, wargv[i], -1, &utf8_args[i][0], size, NULL, NULL);
+      utf8_argv[i] = &utf8_args[i][0];
+   }
+   argv = utf8_argv.data();
+   LocalFree(wargv);
 #endif
 
    // ====== Initialise i18n support ========================================
