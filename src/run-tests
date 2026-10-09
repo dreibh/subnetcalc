@@ -33,7 +33,7 @@ set -eu
 TEST=
 # TEST="valgrind --error-exitcode=1"
 
-make
+cmake --build "$(dirname "$0")/.."
 
 
 # ###### ANSI Color Definitions #############################################
