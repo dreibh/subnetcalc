@@ -274,21 +274,21 @@ bool string2address(const char*           string,
    }
 
    // ====== Check port number ==============================================
-   int portNumber = ~0;
-   if((sscanf(port, "%d", &portNumber) != 1) ||
-      (portNumber < 0) ||
-      (portNumber > 65535)) {
+   char* endptr;
+   long  portNumber = strtoul(port, &endptr, 10);
+   if( (endptr == port) || (*endptr != 0x00) ||
+       (portNumber < 0) || (portNumber > 65535) ) {
       return false;
    }
 
    // ====== Create address structure =======================================
-   struct addrinfo      hints;
-   struct addrinfo*     result     = nullptr;
-   bool                 isNumeric  = true;
-   bool                 isIPv6     = false;
-   size_t               hostLength = strlen(host);
+   struct addrinfo  hints;
+   struct addrinfo* result     = nullptr;
+   bool             isNumeric  = true;
+   bool             isIPv6     = false;
+   size_t           hostLength = strlen(host);
 #ifndef AI_IDN
-   char*                punycode   = nullptr;
+   char*            punycode   = nullptr;
 #endif
 
    // ====== Get information for host =======================================
