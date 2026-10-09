@@ -30,29 +30,263 @@
 
 set -eu
 
-
 TEST=
-# valgrind
+# TEST="valgrind --error-exitcode=1"
 
 make
 
-$TEST ./subnetcalc 10.1.1.1 32
-$TEST ./subnetcalc 10.1.1.1 24
-$TEST ./subnetcalc 10.1.1.1 31
-$TEST ./subnetcalc 10.1.1.1 255.255.255.255
 
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff:ffff::
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 56
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff::
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64
+# ###### ANSI Color Definitions #############################################
+COLOR_BLOCK="\033[1;34m"   # Bold Blue for section headers
+COLOR_CMD="\033[1;32m"     # Bold Green for tested command lines
+COLOR_RESET="\033[0m"
 
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocalhq
-$TEST ./subnetcalc fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -uniquelocal
 
-$TEST ./subnetcalc ff02::1:ff11:2233 104
-$TEST ./subnetcalc ff3e:0::123:4 128
+# ###### Print block header with 2 preceding newlines ######################
+print_block() {
+   echo ""
+   echo ""
+   echo -e "${COLOR_BLOCK}================================================================="
+   echo -e " $1"
+   echo -e "=================================================================${COLOR_RESET}"
+}
 
-$TEST ./subnetcalc 64:ff9b::1.2.3.4 96 -n
-$TEST ./subnetcalc 64:ff9b:1:2:3:4:5.6.7.8 96 -n
 
-$TEST ./subnetcalc www.heise.de 24
+# ###### Helper to run a test and print command line #######################
+run_test() {
+   echo ""
+   echo -e "${COLOR_CMD}${TEST:+$TEST }./subnetcalc $*${COLOR_RESET}"
+   $TEST ./subnetcalc "$@"
+}
+
+
+# ###### Helper for expected failures (invalid inputs) ######################
+test_expect_failure() {
+   echo ""
+   echo -e "${COLOR_CMD}${TEST:+$TEST }./subnetcalc $*${COLOR_RESET}"
+   if $TEST ./subnetcalc "$@" >/dev/null 2>&1 ; then
+      echo "FAIL: Expected failure for args: $*" >&2
+      exit 1
+   else
+      echo "PASS (Expected failure): $*"
+   fi
+}
+
+
+print_block "1. Help and Version Information Flags"
+run_test -v
+run_test --version
+run_test -h
+run_test --help
+
+
+print_block "2. IPv4 Input Formatting Syntaxes"
+# Address + Prefix as separate args
+run_test 10.1.1.1 24
+# Address + Netmask as separate args
+run_test 10.1.1.1 255.255.255.0
+run_test 10.1.1.1 255.240.0.0
+# Address/Prefix slash notation
+run_test 10.1.1.1/24
+# Address/Netmask slash notation
+run_test 10.1.1.1/255.255.255.0
+run_test 10.1.1.1/255.255.0.0
+# Default prefix (implicit /32)
+run_test 10.1.1.1
+
+
+print_block "3. IPv4 Address Classes, Special Ranges, and Edge Cases"
+# Class A (Private)
+run_test 10.0.0.1 8
+# Class B (Private & Link-Local APIPA)
+run_test 172.16.0.1 12
+run_test 169.254.10.20 16
+# Class C (Private)
+run_test 192.168.1.1 24
+# Shared Address Space / CGNAT (RFC 6598)
+run_test 100.64.1.1 10
+# Documentation Subnets (TEST-NET-1, 2, 3)
+run_test 192.0.2.1 24
+run_test 198.51.100.1 24
+run_test 203.0.113.1 24
+# Class E / Reserved Address Space
+run_test 240.0.0.1 4
+# Network & Broadcast Address Identification
+run_test 10.1.1.0 24
+run_test 10.1.1.255 24
+# Limited Broadcast & Default Route
+run_test 255.255.255.255 32
+run_test 0.0.0.0 0
+# Loopback Address & Network
+run_test 127.0.0.1 8
+run_test 127.0.0.2 24
+# Point-to-Point Links (/31 and /32)
+run_test 10.1.1.1 31
+run_test 10.1.1.1 32
+
+
+print_block "4. IPv4 Multicast (Class D)"
+# Link-local Multicast (224.0.0.0/24)
+run_test 224.0.0.1 24
+# Source-Specific Multicast (232.0.0.0/8)
+run_test 232.1.2.3 8
+# Organization-Local Multicast (239.192.0.0/14)
+run_test 239.192.1.1 14
+# Site-Local Multicast (239.252.0.0/14)
+run_test 239.252.1.1 14
+# Global Scope Multicast
+run_test 225.1.1.1 8
+
+
+print_block "5. IPv6 Input Formatting Syntaxes"
+# Address + Prefix
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 64
+# Address + Netmask
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff:ffff::
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 ffff:ffff:ffff::
+# Slash Notation Address/Prefix
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506/64
+# Slash Notation Address/Netmask
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506/ffff:ffff:ffff:ffff::
+# Default prefix (implicit /128)
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506
+
+
+print_block "6. IPv6 Special Address Types"
+# Loopback & Unspecified
+run_test ::1 128
+run_test :: 0
+# IPv4-Compatible IPv6 Address (Deprecated)
+run_test ::192.0.2.1 128
+# IPv4-Mapped IPv6 Address
+run_test ::ffff:192.0.2.1 128
+# IPv4-Embedded / NAT64 Address (Well-Known Prefix)
+run_test 64:ff9b::1.2.3.4 96 -n
+run_test 64:ff9b:1:2:3:4:5.6.7.8 96 -n
+# 6to4 Address Space
+run_test 2002:0a01:0101::1 48
+# Documentation Address (RFC 3849)
+run_test 2001:db8::1 64
+# Link-Local Unicast with EUI-64 MAC Extraction
+run_test fe80::0211:22ff:fe33:4455 64
+# Link-Local Unicast without EUI-64 (Non-MAC Interface ID)
+run_test fe80::1 64
+# Site-Local Unicast (Deprecated)
+run_test fec0::1 64
+# Unique Local Unicast (ULA) - Locally Chosen (fd00::/8)
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 56
+# Unique Local Unicast (ULA) - Global Instance Assigned (fc00::/8)
+run_test fc00:1122:3344:affe::1 64
+
+
+print_block "7. IPv6 Multicast Scopes, Flags & Solicited Node"
+# Node-Local Multicast Scope
+run_test ff01::1 128
+# Link-Local Multicast Scope
+run_test ff02::2 128
+# Site-Local Multicast Scope
+run_test ff05::1 128
+# Organization-Local Multicast Scope
+run_test ff08::1 128
+# Global Multicast Scope
+run_test ff0e::1 128
+# Transient (Temporarily-allocated) Multicast Flag (0x1)
+run_test ff12::1 128
+# Solicited-Node Multicast Address
+run_test ff02::1:ff11:2233 104
+# Source-Specific Multicast (SSM)
+run_test ff3e:0::123:4 128
+
+
+print_block "8. CLI Lookup & Formatting Options"
+# Disable colour mode (-c / --nocolour / --nocolor)
+run_test 10.1.1.1 24 -c
+run_test 10.1.1.1 24 --nocolour
+run_test 10.1.1.1 24 --nocolor
+# Disable reverse DNS lookup (-n / --noreverselookup)
+run_test 8.8.8.8 32 -n
+run_test 8.8.8.8 32 --noreverselookup
+# Disable GeoIP lookup (-g / --nogeoiplookup)
+run_test 8.8.8.8 32 -g
+run_test 8.8.8.8 32 --nogeoiplookup
+# Combined short flags
+run_test 2001:4860:4860::8888 128 -c -n -g
+run_test 2001:4860:4860::8888 128 -cng
+
+
+print_block "9. Unique Local Generation Flags"
+# Standard entropy (/dev/urandom)
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -u
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 64 --uniquelocal
+# High-quality entropy (/dev/random)
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -U
+run_test fd01:1122:3344:affe:0102:03ff:fe04:0506 64 --uniquelocalhq
+# ULA Generation with Slash Notation Input
+run_test fd01:1122:3344:affe::1/64 -u
+
+
+print_block "10. Domain Name Resolution & Internationalized Domain Names (IDN)"
+# Standard ASCII Domain Names
+run_test www.heise.de 24
+run_test www.heise.de/24
+run_test google.com 32
+
+# German IDN (www.bücher.de -> www.xn--bcher-kva.de, www.münchen.de -> www.xn--mnchen-3ya.de)
+run_test www.bücher.de 24
+run_test www.münchen.de/24
+
+# Norwegian IDN (www.snø.no -> www.xn--sn-lka.no, www.blå.no -> www.xn--bl-yia.no)
+run_test www.snø.no 24
+run_test www.blå.no/24
+
+# Swedish IDN (räksmörgås.se -> xn--rksmrgs-5wao1o.se)
+run_test räksmörgås.se 24
+run_test www.göteborg.se/24
+
+# Russian IDN (президент.рф -> xn--d1abbgf6aiiy.xn--p1ai)
+run_test президент.рф 24
+
+# Chinese IDN (人民网.cn -> xn--55q780b.cn)
+run_test 人民网.cn/24
+
+# Japanese IDN (日本語.jp -> xn--wgv71a119a.jp)
+run_test 日本語.jp 24
+
+
+print_block "11. Error Handling & Invalid Inputs"
+# No CLI arguments provided
+test_expect_failure
+# Too many CLI arguments provided
+test_expect_failure 10.1.1.1 24 255.255.255.0
+# Invalid IPv4 addresses
+test_expect_failure 256.1.1.1 24
+test_expect_failure 10.1.1.1.1 24
+test_expect_failure 10.1.1 24
+# Invalid IPv4 prefix (> 32)
+test_expect_failure 10.1.1.1 33
+# Non-numeric prefix character
+test_expect_failure 10.1.1.1 24a
+# Negative prefix length
+test_expect_failure 10.1.1.1 -5
+# Invalid IPv4 netmask (non-contiguous)
+test_expect_failure 10.1.1.1 255.0.255.0
+test_expect_failure 10.1.1.1 255.255.255.256
+# Invalid IPv6 hex string
+test_expect_failure fd00::ghjk 64
+test_expect_failure fd00:::1 64
+# Invalid IPv6 prefix (> 128)
+test_expect_failure fd00::1 129
+# Address family mismatch (IPv4 address with IPv6 netmask)
+test_expect_failure 10.1.1.1 ffff:ffff:ffff::
+# IPv6 ULA flag specified for an IPv4 address
+test_expect_failure 10.1.1.1 24 -u
+# Invalid slash syntax formatting
+test_expect_failure 10.1.1.1/24/32
+# Non-existent hostname resolution
+test_expect_failure invalid.domain.test 24
+# Unknown CLI option
+test_expect_failure 10.1.1.1 24 --invalid-flag
+
+
+echo ""
+echo "All tests completed successfully!"
