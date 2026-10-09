@@ -82,15 +82,19 @@ unsigned long long getMicroTime()
 // ###### Check for support of IPv6 #########################################
 bool checkIPv6()
 {
+#if !defined(_WIN32)
    int sd = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
    if(sd >= 0) {
-#if !defined(_WIN32)
       close(sd);
-#else
-      closesocket(sd);
-#endif
       return true;
    }
+#else
+   SOCKET sd = socket(AF_INET6, SOCK_DGRAM, IPPROTO_UDP);
+   if(sd != INVALID_SOCKET) {
+      closesocket(sd);
+      return true;
+   }
+#endif
    return false;
 }
 
@@ -175,6 +179,7 @@ bool address2string(const struct sockaddr* address,
 
    switch(address->sa_family) {
       case AF_INET:
+         ipv4address = (const struct sockaddr_in*)address;
          if(inet_ntop(AF_INET, &ipv4address->sin_addr, str, sizeof(str)) != nullptr) {
             if(port) {
                snprintf(buffer, length, "%s:%d", str, ntohs(ipv4address->sin_port));
