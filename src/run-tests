@@ -252,6 +252,15 @@ run_test 人民网.cn/24
 # Japanese IDN (日本語.jp -> xn--wgv71a119a.jp)
 run_test 日本語.jp 24
 
+# Georgian IDN (ჰოროსკოპი.გე -> xn--todblabgkj5k.xn--node)
+run_test ჰოროსკოპი.გე 24
+
+# Arabic IDN (دبي.امارات -> xn--mgb3a8c.xn--mgbaam7a8h)
+run_test دبي.امارات 24
+
+# Hebrew IDN (איגוד-האינטרנט.ישראל -> xn-----oldchp8b8acjc3eb.xn--4dbrk0ce)
+run_test איגוד-האינטרנט.ישראל 24
+
 
 print_block "11. Error Handling & Invalid Inputs"
 # No CLI arguments provided
