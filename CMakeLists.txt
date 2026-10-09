@@ -192,6 +192,23 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    ENDIF()
 ENDIF()
 
+# ====== Windows: getopt ====================================================
+IF (WIN32)
+   FIND_PATH(GETOPT_INCLUDE_DIR NAMES getopt.h)
+   FIND_LIBRARY(GETOPT_LIBRARY NAMES getopt libgetopt)
+   IF ((GETOPT_LIBRARY) AND (GETOPT_INCLUDE_DIR))
+      ADD_DEFINITIONS(-DHAVE_LIBGETOPT)
+      MESSAGE(STATUS "Getopt library found:")
+      MESSAGE(STATUS " GETOPT_LIBRARY:     ${GETOPT_LIBRARY}")
+      MESSAGE(STATUS " GETOPT_INCLUDE_DIR: ${GETOPT_INCLUDE_DIR}")
+   ELSE()
+      MESSAGE(FATAL_ERROR
+              "Cannot find Getopt library! Try:\n"
+              " * Windows: vcpkg install getopt:x64-windows")
+   ENDIF()
+ENDIF()
+
+
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
 IF (NOT HAVE_NI_IDN)
    # There is no IDN support directly in getaddrinfo() and getnameinfo()
@@ -237,7 +254,6 @@ IF (WITH_GEOIP)
               " * Solaris:       (needs PPA or installation from sources!)\n"
               " * Apple:         brew install libmaxminddb\n"
               " * Windows:       vcpkg install libmaxminddb:x64-windows\n"
-              " * Windows:       vcpkg install gettext:x64-windows\n"
               "If GeoIP support is not required, it can be disabled by setting WITH_GEOIP=OFF (add -DWITH_GEOIP=OFF to CMake options)!")
    ENDIF()
 ENDIF()

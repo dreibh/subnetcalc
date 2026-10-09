@@ -48,16 +48,18 @@ TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
                            ${Intl_INCLUDE_DIRS}
                            ${LIBIBERTY_INCLUDE_DIR}
                            ${MAXMINDDB_INCLUDE_DIR}
-                           ${LIBIDN2_INCLUDE_DIR})
+                           ${LIBIDN2_INCLUDE_DIR}
+                           ${GETOPT_LIBRARY})
 TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
                       ${Intl_LIBRARIES}
                       ${LIBIBERTY_LIBRARY}
                       ${LIBIDN2_LIBRARY}
                       ${MAXMINDDB_LIBRARY}
                       ${SOCKET_LIBRARY}
-                      ${NSL_LIBRARY})
+                      ${NSL_LIBRARY}
+                      ${GETOPT_INCLUDE_DIR})
 IF (WIN32)
-   TARGET_LINK_LIBRARIES(subnetcalc PRIVATE ws2_32 iphlpapi)
+   TARGET_LINK_LIBRARIES(subnetcalc PRIVATE  ws2_32 iphlpapi)
 ENDIF()
 INSTALL(TARGETS     subnetcalc   RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR})
 INSTALL(FILES       subnetcalc.1 DESTINATION         ${CMAKE_INSTALL_MANDIR}/man1)
