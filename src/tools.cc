@@ -79,33 +79,6 @@ unsigned long long getMicroTime()
 }
 
 
-// ###### Length-checking strcpy() ##########################################
-bool safestrcpy(char* dest, const char* src, const size_t size)
-{
-   assert(size > 0);
-   strncpy(dest, src, size);
-   dest[size - 1] = 0x00;
-   return strlen(dest) < size;
-}
-
-
-// ###### Length-checking strcat() ##########################################
-bool safestrcat(char* dest, const char* src, const size_t size)
-{
-   const size_t l1 = strlen(dest);
-   const size_t l2 = strlen(src);
-
-   assert(size > 0);
-   if(l1 >= size) {
-      return false;
-   }
-
-   strncat(dest, src, size - l1 - 1);
-   dest[size - 1] = 0x00;
-   return (l1 + l2 < size);
-}
-
-
 // ###### Check for support of IPv6 #########################################
 bool checkIPv6()
 {
@@ -242,7 +215,7 @@ bool address2string(const struct sockaddr* address,
          break;
 
       case AF_UNSPEC:
-         safestrcpy(buffer, "(unspecified)", length);
+         strlcpy(buffer, "(unspecified)", length);
          return true;
    }
    return false;
@@ -260,15 +233,15 @@ bool string2address(const char*           string,
    if(strlen(string) >= sizeof(host)) {
       return false;
    }
-   strcpy(host, string);
-   strcpy(port, "0");
+   strlcpy(host, string, sizeof(host));
+   strlcpy(port, "0", sizeof(port));
 
    // ====== Handle RFC2732-compliant addresses =============================
    if(string[0] == '[') {
       const char* p1 = strchr(host, ']');
       if(p1 != nullptr) {
          if(p1[1] == ':') {
-            strcpy(port, &p1[2]);
+            strlcpy(port, &p1[2], sizeof(port));
          }
          memmove(host, &host[1], p1 - host - 1);
          host[p1 - host - 1] = 0x00;
@@ -289,7 +262,7 @@ bool string2address(const char*           string,
             char* p1 = strrchr(host, ':');
             if(p1 != nullptr) {
                p1[0] = 0x00;
-               strcpy(port, &p1[1]);
+               strlcpy(port, &p1[1], sizeof(port));
             }
          }
       }

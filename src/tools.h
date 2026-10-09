@@ -58,10 +58,6 @@ typedef uint32_t in_addr_t;
 unsigned long long getMicroTime();
 
 
-bool safestrcpy(char* dest, const char* src, const size_t size);
-bool safestrcat(char* dest, const char* src, const size_t size);
-
-
 union sockaddr_union {
    struct sockaddr          sa;
    struct sockaddr_in       in;
