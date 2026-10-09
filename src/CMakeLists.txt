@@ -49,7 +49,7 @@ TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
                            ${LIBIBERTY_INCLUDE_DIR}
                            ${MAXMINDDB_INCLUDE_DIR}
                            ${LIBIDN2_INCLUDE_DIR}
-                           ${GETOPT_LIBRARY})
+                           ${GETOPT_INCLUDE_DIR})
 TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
                       ${Intl_LIBRARIES}
                       ${LIBIBERTY_LIBRARY}
@@ -57,7 +57,7 @@ TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
                       ${MAXMINDDB_LIBRARY}
                       ${SOCKET_LIBRARY}
                       ${NSL_LIBRARY}
-                      ${GETOPT_INCLUDE_DIR})
+                      ${GETOPT_LIBRARY})
 IF (WIN32)
    TARGET_LINK_LIBRARIES(subnetcalc PRIVATE  ws2_32 iphlpapi)
 ENDIF()
