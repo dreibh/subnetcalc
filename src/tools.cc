@@ -362,13 +362,13 @@ bool string2address(const char*           string,
    struct sockaddr_in6* ipv6address = (struct sockaddr_in6*)address;
    switch(ipv4address->sin_family) {
       case AF_INET:
-         ipv4address->sin_port = htons(portNumber);
+         ipv4address->sin_port = htons((uint16_t)portNumber);
 #ifdef HAVE_SIN_LEN
          ipv4address->sin_len  = sizeof(struct sockaddr_in);
 #endif
          break;
       case AF_INET6:
-         ipv6address->sin6_port = htons(portNumber);
+         ipv6address->sin6_port = htons((uint16_t)portNumber);
 #ifdef HAVE_SIN6_LEN
          ipv6address->sin6_len  = sizeof(struct sockaddr_in6);
 #endif
