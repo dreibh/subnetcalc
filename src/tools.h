@@ -83,11 +83,11 @@ void printAddress(std::ostream&          os,
                   const bool             hideScope = false);
 std::string format(const char* fmt, ...);
 
-#if !defined(strlcat)
-size_t strlcpy(char* dst, const char* src, size_t size);
-#endif
-#if !defined(strlcat)
+#if !defined(HAVE_STRLCAT)
 size_t strlcat(char* dst, const char* src, size_t size);
+#endif
+#if !defined(HAVE_STRLCPY)
+size_t strlcpy(char* dst, const char* src, size_t size);
 #endif
 
 #endif

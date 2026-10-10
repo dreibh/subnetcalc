@@ -36,7 +36,7 @@ SET(BUILD_PATCH "6")
 SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
 
 SET(CMAKE_CXX_STANDARD          17)
-SET(CMAKE_CXX_STANDARD_REQUIRED ON)
+SET(CMAKE_CXX_STANDARD_REQUIRED OFF)
 SET(CMAKE_CXX_EXTENSIONS        OFF)
 
 
@@ -45,10 +45,11 @@ SET(CMAKE_CXX_EXTENSIONS        OFF)
 #############################################################################
 
 INCLUDE(CheckCCompilerFlag)
-INCLUDE(CheckCXXSourceCompiles)
+INCLUDE(CheckCSourceCompiles)
 INCLUDE(CheckCSourceRuns)
 INCLUDE(CheckIncludeFile)
 INCLUDE(CheckStructHasMember)
+INCLUDE(CheckSymbolExists)
 INCLUDE(FindPackageHandleStandardArgs)
 INCLUDE(GNUInstallDirs)
 
@@ -119,31 +120,17 @@ ENDIF()
 
 
 #############################################################################
-#### CHECK STRUCT MEMBERS                                                ####
+#### CHECKS                                                              ####
 #############################################################################
 
-CHECK_STRUCT_HAS_MEMBER("struct sockaddr" "sa_len" "sys/types.h;sys/socket.h" HAVE_SA_LEN)
-IF (HAVE_SA_LEN)
-   MESSAGE(STATUS "HAVE_SA_LEN")
-   ADD_DEFINITIONS(-DHAVE_SA_LEN)
+CHECK_SYMBOL_EXISTS(strlcat "string.h" HAVE_STRLCAT)
+IF (HAVE_STRLCAT)
+   ADD_DEFINITIONS(-DHAVE_STRLCAT)
 ENDIF()
 
-CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in" "sin_len" "sys/types.h;netinet/in.h" HAVE_SIN_LEN)
-IF (HAVE_SIN_LEN)
-   MESSAGE(STATUS "HAVE_SIN_LEN")
-   ADD_DEFINITIONS(-DHAVE_SIN_LEN)
-ENDIF()
-
-CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in6" "sin6_len" "sys/types.h;netinet/in.h" HAVE_SIN6_LEN)
-IF (HAVE_SIN6_LEN)
-   MESSAGE(STATUS "HAVE_SIN6_LEN")
-   ADD_DEFINITIONS(-DHAVE_SIN6_LEN)
-ENDIF()
-
-CHECK_STRUCT_HAS_MEMBER("struct sockaddr_storage" "ss_len" "sys/types.h;sys/socket.h" HAVE_SS_LEN)
-IF (HAVE_SS_LEN)
-   MESSAGE(STATUS "HAVE_SS_LEN")
-   ADD_DEFINITIONS(-DHAVE_SS_LEN)
+CHECK_SYMBOL_EXISTS(strlcpy "string.h" HAVE_STRLCPY)
+IF (HAVE_STRLCPY)
+   ADD_DEFINITIONS(-DHAVE_STRLCPY)
 ENDIF()
 
 
