@@ -268,7 +268,8 @@ IF (WITH_I18N)
             " * NetBSD:        sudo pkgin -y install gettext\n"
             " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
             " * Solaris:       sudo pkg install gnu-gettext\n"
-            " * Apple:         brew install gettext")
+            " * Apple:         brew install gettext"
+            " * Windows:       vcpkg install gettext[core,tools]:x64-windows\n")
    ENDIF()
 
    FIND_PROGRAM(XGETTEXT xgettext HINTS /usr/pkg/bin /usr/gnu/bin /opt/homebrew/opt/gettext/bin /usr/local/opt/gettext/bin)
@@ -313,7 +314,8 @@ IF (WITH_I18N)
               " * NetBSD:        sudo pkgin -y install gettext\n"
               " * OpenBSD:       sudo pkg_add gettext-runtime gettext-tools\n"
               " * Solaris:       sudo pkg install gnu-gettext\n"
-              " * Apple:         brew install gettext")
+              " * Apple:         brew install gettext\n"
+              " * Windows:       vcpkg install gettext[core,tools]:x64-windows\n")
    ENDIF()
 
    ADD_DEFINITIONS(-DENABLE_NLS)
