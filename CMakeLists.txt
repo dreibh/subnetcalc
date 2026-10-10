@@ -179,7 +179,7 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    ENDIF()
 ENDIF()
 
-# ====== Windows: getopt ====================================================
+# ====== Windows: libgetopt =================================================
 IF (WIN32)
    FIND_PATH(GETOPT_INCLUDE_DIR NAMES getopt.h)
    FIND_LIBRARY(GETOPT_LIBRARY NAMES getopt libgetopt)
