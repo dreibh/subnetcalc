@@ -1262,4 +1262,8 @@ int main(int argc, char** argv)
          std::cout << "(" << gai_strerror(error) << ")" << "\n";
       }
    }
+
+#if defined(_WIN32)
+WSACleanup();
+#endif
 }
