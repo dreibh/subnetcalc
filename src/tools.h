@@ -48,6 +48,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "iphlpapi.lib")
 
 typedef uint32_t in_addr_t;
 #ifndef IN_LOOPBACKNET
