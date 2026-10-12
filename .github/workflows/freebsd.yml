@@ -37,12 +37,12 @@ jobs:
       matrix:
         include:
           # ====== FreeBSD ==================================================
-          - label: "FreeBSD 15.0 with Clang/x86_64"
-            release: "15.0"
+          - label: "FreeBSD 15.1 with Clang/x86_64"
+            release: "15.1"
             cc: clang
             cxx: clang++
-          - label: "FreeBSD 14.4 with Clang/x86_64"
-            release: "14.4"
+          - label: "FreeBSD 14.5 with Clang/x86_64"
+            release: "14.5"
             cc: clang
             cxx: clang++
 
@@ -50,7 +50,7 @@ jobs:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Test in FreeBSD
         id: test
         uses: vmactions/freebsd-vm@v1
@@ -73,13 +73,13 @@ jobs:
       matrix:
         include:
           # ====== FreeBSD ==================================================
-          - label: "FreeBSD 14.4 with Clang/ARMv8"
-            release: "14.4"
+          - label: "FreeBSD 14.5 with Clang/ARMv8"
+            release: "14.5"
             architecture: aarch64
             cc: clang
             cxx: clang++
-          - label: "FreeBSD 14.4 with Clang/RISC-V"
-            release: "14.4"
+          - label: "FreeBSD 14.5 with Clang/RISC-V"
+            release: "14.5"
             architecture: riscv64
             cc: clang
             cxx: clang++
@@ -88,7 +88,7 @@ jobs:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Test in FreeBSD
         id: test
         uses: vmactions/freebsd-vm@v1

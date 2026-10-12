@@ -52,8 +52,7 @@ jobs:
     container:
       image: ${{ matrix.image }}
     steps:
-      # NOTE: actions/checkout@v6 does not work for old Ubuntu 18.04!
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         shell: bash
         run: |
@@ -86,7 +85,7 @@ jobs:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # NOTE: dreibh/run-on-arch-action provides the upstream
       #       uraimo/run-on-arch-action action, with additional dockerfiles
       #       needed for the builds here!
@@ -108,15 +107,12 @@ jobs:
   Package:
     name: Debian Packaging
     runs-on: ubuntu-latest
-    container:
-      image: debian:unstable
-      options: --privileged
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Packaging
         shell: bash
         run: |
-          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-setup   package
-          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-install package
-          CC=gcc CXX=g++ OS=debian DIST=unstable ARCH= ci/ci-build   package
-          # ci/ci-test   <- Not running on Ubuntu!
+          sudo CC=gcc CXX=g++ OS=debian DIST=trixie ARCH= ci/ci-setup   package
+          sudo CC=gcc CXX=g++ OS=debian DIST=trixie ARCH= ci/ci-install package
+          sudo CC=gcc CXX=g++ OS=debian DIST=trixie ARCH= ci/ci-build   package
+          # sudo ci/ci-test
