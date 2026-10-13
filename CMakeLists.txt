@@ -192,10 +192,10 @@ IF (CMAKE_SYSTEM_NAME MATCHES "NetBSD")
    ENDIF()
 ENDIF()
 
-# ====== Windows: getopt ====================================================
+# ====== Windows: libgetopt =================================================
 IF (WIN32)
    FIND_PATH(GETOPT_INCLUDE_DIR NAMES getopt.h)
-   FIND_LIBRARY(GETOPT_LIBRARY NAMES getopt libgetopt)
+   FIND_LIBRARY(GETOPT_LIBRARY NAMES getopt)
    IF ((GETOPT_LIBRARY) AND (GETOPT_INCLUDE_DIR))
       ADD_DEFINITIONS(-DHAVE_LIBGETOPT)
       MESSAGE(STATUS "Getopt library found:")
@@ -207,7 +207,6 @@ IF (WIN32)
               " * Windows: vcpkg install getopt:x64-windows")
    ENDIF()
 ENDIF()
-
 
 # ====== IDN2 necessary to support IDN if not provided by libc ==============
 IF (NOT HAVE_NI_IDN)
