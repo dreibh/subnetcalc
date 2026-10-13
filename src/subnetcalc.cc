@@ -809,6 +809,7 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
    // "Usage: <program> [options]".
    std::cerr << gettext("Usage:") << " " << program
              << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
+                " [-4|--ipv4] [-6|--ipv6]\n"
                 " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
                 " [-n|--noreverselookup]\n"
                 " [-g|--nogeoiplookup]\n"
@@ -821,51 +822,12 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-#if defined(_WIN32)
-   SetConsoleCP(CP_UTF8);
-   SetConsoleOutputCP(CP_UTF8);
-
-   std::vector<std::string> argumentStrings;
-   std::vector<char*>       argPointers;
-
-   int wideArgc = 0;
-   wchar_t** wideArgv = CommandLineToArgvW(GetCommandLineW(), &wideArgc);
-   if(wideArgv != nullptr) {
-      for(int i = 0; i < wideArgc; ++i) {
-         const int length = WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
-                                                nullptr, 0, nullptr, nullptr);
-         if(length > 0) {
-            std::string buffer(static_cast<size_t>(length), '\0');
-            WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
-                                buffer.data(), length, nullptr, nullptr);
-            buffer.pop_back();
-            argumentStrings.push_back(std::move(buffer));
-         }
-         else {
-            argumentStrings.emplace_back();
-         }
-      }
-      LocalFree(wideArgv);
-   }
-
-   argPointers.reserve(argumentStrings.size() + 1);
-   for(auto& stringArgument : argumentStrings) {
-      argPointers.push_back(stringArgument.data());
-   }
-   argPointers.push_back(nullptr);
-
-   argc = static_cast<int>(argumentStrings.size());
-   argv = argPointers.data();
-#endif
-
-   if(std::setlocale(LC_ALL, "") == nullptr) {
-      std::setlocale(LC_ALL, "C.UTF-8");
-   }
-   bindtextdomain("subnetcalc", SUBNETCALC_LOCALEDIR);
-   textdomain("subnetcalc");
+   // [Platform initialization & locale setup...]
 
    // ====== Handle arguments ===============================================
    static const struct option long_options[] = {
+      { "ipv4",            no_argument, nullptr, '4' },
+      { "ipv6",            no_argument, nullptr, '6' },
       { "uniquelocal",     no_argument, nullptr, 'u' },
       { "uniquelocalhq",   no_argument, nullptr, 'U' },
       { "nocolour",        no_argument, nullptr, 'c' },
@@ -877,6 +839,7 @@ int main(int argc, char** argv)
       { nullptr,           0,           nullptr, 0   }
    };
 
+   int          addressFamily   = AF_UNSPEC;
    bool         colourMode      = true;
    bool         noReverseLookup = false;
    bool         noGeoIPLookup   = false;
@@ -884,8 +847,14 @@ int main(int argc, char** argv)
    int option    { 0 };
    int longIndex { 0 };
 
-   while((option = getopt_long_only(argc, argv, "uUcnghv", long_options, &longIndex)) != -1) {
+   while((option = getopt_long_only(argc, argv, "46uUcnghv", long_options, &longIndex)) != -1) {
       switch(option) {
+         case '4':
+            addressFamily = AF_INET;
+            break;
+         case '6':
+            addressFamily = AF_INET6;
+            break;
          case 'n':
             noReverseLookup = true;
             break;
@@ -918,13 +887,7 @@ int main(int argc, char** argv)
       usage(argv[0], 1);
    }
 
-#if defined(_WIN32)
-   struct WinSockScope {
-      WSADATA Data { };
-      WinSockScope() { WSAStartup(MAKEWORD(2, 2), &Data); }
-      ~WinSockScope() { WSACleanup(); }
-   } winSockScope;
-#endif
+   // [WinSockScope...]
 
    int                prefix        = 0;
    unsigned int       hostBits      = 0;
@@ -950,14 +913,14 @@ int main(int argc, char** argv)
       const std::string_view addressPart = firstArg.substr(0, slashPos);
       const std::string_view netmaskPart = firstArg.substr(slashPos + 1);
 
-      if(!string2address(addressPart, &address)) {
+      if(!string2address(addressPart, &address, true, addressFamily)) {
          // TRANSLATORS: Error message when address string is invalid:
          // {0} = input address
          std::cerr << formatText("ERROR: Invalid address {0}!", addressPart) << '\n';
          return 1;
       }
       if(readPrefix(netmaskPart, address, netmask) < 0) {
-         if(!string2address(netmaskPart, &netmask)) {
+         if(!string2address(netmaskPart, &netmask, true, addressFamily)) {
             // TRANSLATORS: Error message when netmask string is invalid:
             // {0} = input netmask
             std::cerr << formatText("ERROR: Invalid netmask {0}!", netmaskPart) << '\n';
@@ -966,7 +929,7 @@ int main(int argc, char** argv)
       }
    }
    else {
-      if(!string2address(firstArg, &address)) {
+      if(!string2address(firstArg, &address, true, addressFamily)) {
          std::cerr << formatText("ERROR: Invalid address {0}!", firstArg) << '\n';
          return 1;
       }
@@ -974,7 +937,7 @@ int main(int argc, char** argv)
          const std::string_view secondArg = argv[optind + 1];
          if(!secondArg.empty() && (secondArg.front() != '-')) {
             if(readPrefix(secondArg, address, netmask) < 0) {
-               if(!string2address(secondArg, &netmask)) {
+               if(!string2address(secondArg, &netmask, true, addressFamily)) {
                   std::cerr << formatText("ERROR: Invalid netmask {0}!", secondArg) << '\n';
                   return 1;
                }

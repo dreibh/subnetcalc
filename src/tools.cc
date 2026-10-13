@@ -31,6 +31,7 @@
 
 #include <charconv>
 #include <cstring>
+#include <format>
 #include <iostream>
 
 #if !defined(_WIN32)
@@ -181,7 +182,8 @@ std::string address2string(const struct sockaddr* address,
 // ###### Convert string to address #########################################
 bool string2address(std::string_view      string,
                     union sockaddr_union* address,
-                    const bool            readPort)
+                    const bool            readPort,
+                    const int             addressFamily)
 {
    std::string_view host = string;
    uint16_t         portNumber = 0;
@@ -235,17 +237,38 @@ bool string2address(std::string_view      string,
    }
 #endif
 
-   const char*      targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
-   struct addrinfo* result     = nullptr;
+   const char* targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
+   struct addrinfo* result = nullptr;
 
-   hints.ai_family = AF_INET6;
-   if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
-      hints.ai_family = AF_UNSPEC;
+   if(addressFamily == AF_INET) {
+      hints.ai_family = AF_INET;
       if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
          free(punycode);
 #endif
          return false;
+      }
+   }
+   else if(addressFamily == AF_INET6) {
+      hints.ai_family = AF_INET6;
+      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
+#ifndef AI_IDN
+         free(punycode);
+#endif
+         return false;
+      }
+   }
+   else {
+      // Default: try IPv6 first, then fall back to IPv4
+      hints.ai_family = AF_INET6;
+      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
+         hints.ai_family = AF_UNSPEC;
+         if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
+#ifndef AI_IDN
+            free(punycode);
+#endif
+            return false;
+         }
       }
    }
 
