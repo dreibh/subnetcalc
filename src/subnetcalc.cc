@@ -822,7 +822,47 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
 // ###### Main program ######################################################
 int main(int argc, char** argv)
 {
-   // [Platform initialization & locale setup...]
+#if defined(_WIN32)
+   SetConsoleCP(CP_UTF8);
+   SetConsoleOutputCP(CP_UTF8);
+
+   std::vector<std::string> argumentStrings;
+   std::vector<char*>       argPointers;
+
+   int wideArgc = 0;
+   wchar_t** wideArgv = CommandLineToArgvW(GetCommandLineW(), &wideArgc);
+   if(wideArgv != nullptr) {
+      for(int i = 0; i < wideArgc; ++i) {
+         const int length = WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
+                                                nullptr, 0, nullptr, nullptr);
+         if(length > 0) {
+            std::string buffer(static_cast<size_t>(length), '\0');
+            WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
+                                buffer.data(), length, nullptr, nullptr);
+            buffer.pop_back();
+            argumentStrings.push_back(std::move(buffer));
+         }
+         else {
+            argumentStrings.emplace_back();
+         }
+      }
+      LocalFree(wideArgv);
+   }
+
+   argPointers.reserve(argumentStrings.size() + 1);
+   for(auto& stringArgument : argumentStrings) {
+      argPointers.push_back(stringArgument.data());
+   }
+   argPointers.push_back(nullptr);
+
+   argc = static_cast<int>(argumentStrings.size());
+   argv = argPointers.data();
+#endif
+
+   // ====== Initialise i18n and locale support =============================
+   if(std::setlocale(LC_ALL, "") == nullptr) {
+      std::setlocale(LC_ALL, "C.UTF-8");
+   }
 
    // ====== Handle arguments ===============================================
    static const struct option long_options[] = {
