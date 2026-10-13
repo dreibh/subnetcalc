@@ -44,39 +44,80 @@ FOREACH(source IN LISTS sources)
    SET(potFile "${CMAKE_CURRENT_BINARY_DIR}/${potFile}.pot")
    GET_FILENAME_COMPONENT(textdomain "${source}" NAME_WE)
 
+   # ====== Common xgettext extraction flags and keywords ===================
+   SET(xgettextCommonOptions
+      --from-code=utf-8
+      --add-comments=TRANSLATORS:
+      --default-domain="${textdomain}"
+      --package-name="${PROJECT_NAME}"
+      --package-version="${BUILD_VERSION}"
+      --copyright-holder="${copyrightHolder}"
+      --msgid-bugs-address="${bugTrackerAddress}"
+      --keyword=_
+      --keyword=gettext
+      --keyword=ngettext:1,2
+      --keyword=dgettext:2
+      --keyword=dcgettext:2
+      --keyword=dngettext:2,3
+      --keyword=dcngettext:2,3
+      --keyword=eval_gettext
+      --keyword=eval_ngettext:1,2
+      --keyword=formatText:1
+      --flag=formatText:1:no-c-format
+      --no-wrap
+      -p "${CMAKE_CURRENT_SOURCE_DIR}"
+   )
 
-   # ====== Create POT file (translation template) ==========================
-   FILE(READ "${source}" potInputFiles)
-   STRING(REGEX REPLACE "[ \n]" ";" potInputFiles "${potInputFiles}")
-   # The input (in potInputFiles) contains file names and options
-   # (e.g. --language=C++). For the dependencies, just extract the list of
-   # files without the options:
-   SET(LIST potInputFilesForDependency "")
-   FOREACH(file ${potInputFiles})
-      GET_FILENAME_COMPONENT(fileName ${file} NAME)
-      IF (NOT fileName MATCHES "^[-][-]")
-         # File -> Add absolute file name
-         LIST(APPEND potInputFilesForDependency ${potInputFilesAbsolute} "${PROJECT_SOURCE_DIR}/${file}")
+   # ====== Parse .sources line by line =====================================
+   FILE(STRINGS "${source}" sourceLines)
+   LIST(FILTER sourceLines EXCLUDE REGEX "^[ \t]*#")
+   LIST(FILTER sourceLines EXCLUDE REGEX "^[ \t]*$")
+
+   SET(potInputFilesForDependency "")
+   SET(xgettextCommands "")
+   SET(isFirstEntry TRUE)
+
+   FOREACH(line IN LISTS sourceLines)
+      SEPARATE_ARGUMENTS(lineArgs NATIVE_COMMAND "${line}")
+
+      # Extract source files (excluding CLI options like --language=...) for CMake dependencies
+      FOREACH(arg IN LISTS lineArgs)
+         IF(NOT arg MATCHES "^[-][-]")
+            LIST(APPEND potInputFilesForDependency "${PROJECT_SOURCE_DIR}/${arg}")
+         ENDIF()
+      ENDFOREACH()
+
+      # First pass initializes the POT file; subsequent passes join with -j
+      IF(isFirstEntry)
+         SET(isFirstEntry FALSE)
+         LIST(APPEND xgettextCommands
+              COMMAND "${XGETTEXT}"
+                 ${xgettextCommonOptions}
+                 -o "${potFile}"
+                 ${lineArgs}
+         )
+      ELSE()
+         LIST(APPEND xgettextCommands
+              COMMAND "${XGETTEXT}"
+                 ${xgettextCommonOptions}
+                 -j
+                 -o "${potFile}"
+                 ${lineArgs}
+         )
       ENDIF()
    ENDFOREACH()
 
-   MESSAGE("Translation template: ${textdomain} (${potInputFiles} -> ${potFile})")
+   # Ensure UTF-8 charset header in generated template:
+   LIST(APPEND xgettextCommands
+      COMMAND sed -e "s/charset=CHARSET/charset=UTF-8/g" -i~ "${potFile}"
+   )
+
+   MESSAGE("Translation template: ${textdomain} (${source} -> ${potFile})")
    ADD_CUSTOM_COMMAND(OUTPUT "${potFile}"
-                      COMMAND "${XGETTEXT}"
-                         --from-code=utf-8
-                         --default-domain="${textdomain}"
-                         --package-name="${PROJECT_NAME}"
-                         --package-version="${BUILD_VERSION}"
-                         --copyright-holder="${copyrightHolder}"
-                         --msgid-bugs-address="${bugTrackerAddress}"
-                         --no-wrap
-                         -p "${CMAKE_CURRENT_SOURCE_DIR}"
-                         -o "${potFile}"
-                         ${potInputFiles}
-                       COMMAND sed -e "s/charset=CHARSET/charset=UTF-8/g" -i~ "${potFile}"
-                       WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                       DEPENDS ${potInputFilesForDependency} "${source}"
-                       VERBATIM)
+                      ${xgettextCommands}
+                      WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+                      DEPENDS ${potInputFilesForDependency} "${source}"
+                      VERBATIM)
    SET(generate_PotFile "generate_pot_${textdomain}")
    ADD_CUSTOM_TARGET(${generate_PotFile} ALL DEPENDS "${potFile}")
 
