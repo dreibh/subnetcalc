@@ -1203,14 +1203,22 @@ int main(int argc, char** argv)
                   longitude = mmdbEntryData.double_value;
                }
 
+               // TRANSLATORS: Cardinal direction abbreviation: North
+               // TRANSLATORS: Cardinal direction abbreviation: South
+               const char* latDirection = (latitude >= 0.0) ? gettext("N") : gettext("S");
+
+               // TRANSLATORS: Cardinal direction abbreviation: East
+               // TRANSLATORS: Cardinal direction abbreviation: West
+               const char* lonDirection = (longitude >= 0.0) ? gettext("E") : gettext("W");
+
                std::cout << std::format("{:<14} = {}{}{}, {} ({:.4f}°{}, {:.4f}°{}{}{})\n",
                                         gettext("GeoIP Region"),
                                         postalCode,
                                         (!postalCode.empty() ? " " : ""),
                                         city,
                                         region,
-                                        std::fabs(latitude), (latitude >= 0.0 ? "N" : "S"),
-                                        std::fabs(longitude), (longitude >= 0.0 ? "E" : "W"),
+                                        std::fabs(latitude),  latDirection,
+                                        std::fabs(longitude), lonDirection,
                                         (!timeZone.empty() ? ", " : ""),
                                         timeZone);
             }
