@@ -247,7 +247,7 @@ run_test www.göteborg.se/24
 run_test президент.рф 24
 
 # Chinese IDN (人民网.cn -> xn--55q780b.cn)
-run_test 人民网.cn/24
+run_test 人民网.cn/24 -n
 
 # Japanese IDN (日本語.jp -> xn--wgv71a119a.jp)
 run_test 日本語.jp 24
@@ -262,7 +262,33 @@ run_test دبي.امارات 24
 run_test איגוד-האינטרנט.ישראל 24
 
 
-print_block "11. Error Handling & Invalid Inputs"
+print_block "11. Forced Address Family Resolution (-4 / --ipv4 and -6 / --ipv6)"
+# Hosts with dual A and AAAA records (www.nntb.no and www.heise.de)
+
+# Default resolution (attempts IPv6 first when both are available)
+run_test www.nntb.no
+run_test www.heise.de
+
+# Force IPv4 (-4 / --ipv4)
+run_test www.nntb.no 24 -4
+run_test www.nntb.no/24 --ipv4
+run_test www.heise.de 24 -4
+run_test www.heise.de/24 --ipv4
+
+# Force IPv6 (-6 / --ipv6)
+run_test www.nntb.no 64 -6
+run_test www.nntb.no/64 --ipv6
+run_test www.heise.de 64 -6
+run_test www.heise.de/64 --ipv6
+
+# Combining address family flags with lookup suppression (-n, -g, -c)
+run_test www.nntb.no 24 -4 -n -g
+run_test www.nntb.no 64 -6 -n -g
+run_test www.heise.de 24 -4 -c -n
+run_test www.heise.de 64 -6 -c -n
+
+
+print_block "12. Error Handling & Invalid Inputs"
 # No CLI arguments provided
 test_expect_failure
 # Too many CLI arguments provided
@@ -287,6 +313,11 @@ test_expect_failure fd00:::1 64
 test_expect_failure fd00::1 129
 # Address family mismatch (IPv4 address with IPv6 netmask)
 test_expect_failure 10.1.1.1 ffff:ffff:ffff::
+# Prefix mismatch with forced address family
+test_expect_failure www.heise.de 64 -4
+test_expect_failure www.nntb.no 64 -4
+test_expect_failure www.heise.de 255.255.255.0 -6
+test_expect_failure www.nntb.no 255.255.255.0 -6
 # IPv6 ULA flag specified for an IPv4 address
 test_expect_failure 10.1.1.1 24 -u
 # Invalid slash syntax formatting
