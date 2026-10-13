@@ -29,28 +29,15 @@
 
 #include "tools.h"
 
-#include <cassert>
-#include <cctype>
-#include <cmath>
-#include <cstdlib>
+#include <charconv>
 #include <cstring>
 #include <iostream>
+
 #if !defined(_WIN32)
-#include <arpa/inet.h>
-#include <fcntl.h>
 #include <netdb.h>
 #include <net/if.h>
-#include <netinet/in.h>
-#include <signal.h>
-#include <sys/ioctl.h>
-#include <sys/socket.h>
-#include <sys/time.h>
-#include <sys/types.h>
-#include <sys/uio.h>
 #include <unistd.h>
 #else
-#include <winsock2.h>
-#include <ws2tcpip.h>
 #include <windows.h>
 #ifndef IFNAMSIZ
 #define IFNAMSIZ IF_NAMESIZE
@@ -60,23 +47,6 @@
 #ifndef NI_IDN
 #include <idn2.h>
 #endif
-
-
-// ###### Get current time ##################################################
-unsigned long long getMicroTime()
-{
-#if !defined(_WIN32)
-   struct timeval tv;
-   gettimeofday(&tv, nullptr);
-   return (((unsigned long long)tv.tv_sec * (unsigned long long)1000000) +
-           (unsigned long long)tv.tv_usec);
-#else
-   FILETIME ft;
-   GetSystemTimeAsFileTime(&ft);
-   unsigned long long t = ((unsigned long long)ft.dwHighDateTime << 32) | ft.dwLowDateTime;
-   return t / 10;
-#endif
-}
 
 
 // ###### Check for support of IPv6 #########################################
@@ -106,7 +76,7 @@ bool hasTranslationPrefix(const sockaddr_in6* address)
    const uint16_t word1 = (address->sin6_addr.s6_addr[2] << 8) | address->sin6_addr.s6_addr[3];
    const uint16_t word2 = (address->sin6_addr.s6_addr[4] << 8) | address->sin6_addr.s6_addr[5];
 
-   return ( (word0 == 0x64) && (word1 == 0xff9b) && (word2 <= 1) );
+   return (word0 == 0x64) && (word1 == 0xff9b) && (word2 <= 1);
 }
 
 
@@ -114,268 +84,183 @@ bool hasTranslationPrefix(const sockaddr_in6* address)
 size_t getSocklen(const struct sockaddr* address)
 {
    switch(address->sa_family) {
-      case AF_INET:
-         return sizeof(struct sockaddr_in);
-      case AF_INET6:
-         return sizeof(struct sockaddr_in6);
-      default:
-         return sizeof(struct sockaddr);
+      case AF_INET:  return sizeof(struct sockaddr_in);
+      case AF_INET6: return sizeof(struct sockaddr_in6);
+      default:       return sizeof(struct sockaddr);
    }
 }
 
 
 // ###### Format an IPv6-embedded IPv6 address ##############################
-inline bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
-                                  char*                      str,
-                                  const size_t               maxlen)
+static bool formatEmbeddedAddress(const struct sockaddr_in6* ipv6address,
+                                  std::string&               out)
 {
+   char str[INET6_ADDRSTRLEN];
    struct in6_addr prefix = ipv6address->sin6_addr;
 
-   // Set the suffix to a predictable value.
    prefix.s6_addr[12] = 0xff;
    prefix.s6_addr[13] = 0xff;
    prefix.s6_addr[14] = 0xff;
    prefix.s6_addr[15] = 0xff;
-   if(inet_ntop(AF_INET6, &prefix, str, maxlen) == nullptr) {
+   if(inet_ntop(AF_INET6, &prefix, str, sizeof(str)) == nullptr) {
       return false;
    }
 
-   // Overwrite the predictable suffix with the IPv4 address.
-   const size_t   pl    = strnlen(str, maxlen) - 9;
+   const size_t pl = std::strlen(str) - 9;
    const uint32_t upper = (ipv6address->sin6_addr.s6_addr[12] << 8) | ipv6address->sin6_addr.s6_addr[13];
    const uint32_t lower = (ipv6address->sin6_addr.s6_addr[14] << 8) | ipv6address->sin6_addr.s6_addr[15];
-
    const uint32_t suffix = htonl((upper << 16) | lower);
-   return inet_ntop(AF_INET, &suffix, str + pl, maxlen - pl) != nullptr;
+
+   char v4str[INET_ADDRSTRLEN];
+   if(inet_ntop(AF_INET, &suffix, v4str, sizeof(v4str)) == nullptr) {
+      return false;
+   }
+
+   out.assign(str, pl);
+   out.append(v4str);
+   return true;
 }
 
 
 // ###### Format an IPv6 address ############################################
-static inline bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
-                                     char*                      str,
-                                     const size_t               maxlen)
+static bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
+                              std::string&               out)
 {
    if(hasTranslationPrefix(ipv6address)) {
-      return formatEmbeddedAddress(ipv6address, str, maxlen);
+      return formatEmbeddedAddress(ipv6address, out);
    }
-
-   return (inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, maxlen) != nullptr);
-}
-
-
-// ###### Convert address to string #########################################
-bool address2string(const struct sockaddr* address,
-                    char*                  buffer,
-                    const size_t           length,
-                    const bool             port,
-                    const bool             hideScope)
-{
-   const struct sockaddr_in*  ipv4address;
-   const struct sockaddr_in6* ipv6address;
-   char                       str[128];
-   char                       scope[IFNAMSIZ + 16];
-   char                       ifnamebuffer[IFNAMSIZ];
-   const char*                ifname;
-
-   switch(address->sa_family) {
-      case AF_INET:
-         ipv4address = (const struct sockaddr_in*)address;
-         if(inet_ntop(AF_INET, &ipv4address->sin_addr, str, sizeof(str)) != nullptr) {
-            if(port) {
-               snprintf(buffer, length, "%s:%d", str, ntohs(ipv4address->sin_port));
-            }
-            else {
-               snprintf(buffer, length, "%s", str);
-            }
-            return true;
-         }
-       break;
-
-      case AF_INET6:
-         ipv6address = (const struct sockaddr_in6*)address;
-         if( (!hideScope) &&
-             (IN6_IS_ADDR_LINKLOCAL(&ipv6address->sin6_addr) ||
-              IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address->sin6_addr)) ) {
-            ifname = if_indextoname(ipv6address->sin6_scope_id, ifnamebuffer);
-            if(ifname != nullptr) {
-               snprintf(scope, sizeof(scope), "%%%s", ifname);
-            }
-            else {
-               snprintf(scope, sizeof(scope), "%%%u", ipv6address->sin6_scope_id);
-            }
-         }
-         else {
-            scope[0] = 0x00;
-         }
-         if(formatIPv6Address(ipv6address, str, sizeof(str))) {
-            if(port) {
-               snprintf(buffer, length,
-                        "[%s%s]:%d", str, scope, ntohs(ipv6address->sin6_port));
-            }
-            else {
-               snprintf(buffer, length, "%s%s", str, scope);
-            }
-            return true;
-         }
-         break;
-
-      case AF_UNSPEC:
-         strlcpy(buffer, "(unspecified)", length);
-         return true;
+   char str[INET6_ADDRSTRLEN];
+   if(inet_ntop(AF_INET6, &ipv6address->sin6_addr, str, sizeof(str)) != nullptr) {
+      out = str;
+      return true;
    }
    return false;
 }
 
 
+// ###### Convert address to string #########################################
+std::string address2string(const struct sockaddr* address,
+                           const bool             port,
+                           const bool             hideScope)
+{
+   switch(address->sa_family) {
+      case AF_INET: {
+         const auto* ipv4 = reinterpret_cast<const struct sockaddr_in*>(address);
+         char str[INET_ADDRSTRLEN];
+         if(inet_ntop(AF_INET, &ipv4->sin_addr, str, sizeof(str)) != nullptr) {
+            return port ? std::format("{}:{}", str, ntohs(ipv4->sin_port)) : std::string(str);
+         }
+         break;
+      }
+      case AF_INET6: {
+         const auto* ipv6 = reinterpret_cast<const struct sockaddr_in6*>(address);
+         std::string scope;
+         if(!hideScope && (IN6_IS_ADDR_LINKLOCAL(&ipv6->sin6_addr) || IN6_IS_ADDR_MC_LINKLOCAL(&ipv6->sin6_addr))) {
+            char ifname[IFNAMSIZ];
+            if(if_indextoname(ipv6->sin6_scope_id, ifname) != nullptr) {
+               scope = std::format("%{}", ifname);
+            }
+            else {
+               scope = std::format("%{}", ipv6->sin6_scope_id);
+            }
+         }
+         std::string addrStr;
+         if(formatIPv6Address(ipv6, addrStr)) {
+            return port ? std::format("[{}{}]:{}", addrStr, scope, ntohs(ipv6->sin6_port))
+                        : std::format("{}{}", addrStr, scope);
+         }
+         break;
+      }
+      case AF_UNSPEC:
+         return "(unspecified)";
+   }
+   return "(invalid!)";
+}
+
+
 // ###### Convert string to address #########################################
-bool string2address(const char*           string,
+bool string2address(std::string_view      string,
                     union sockaddr_union* address,
                     const bool            readPort)
 {
-   char host[128];
-   char port[128];
+   std::string_view host = string;
+   uint16_t         portNumber = 0;
 
-   if(strlen(string) >= sizeof(host)) {
-      return false;
-   }
-   strlcpy(host, string, sizeof(host));
-   strlcpy(port, "0", sizeof(port));
-
-   // ====== Handle RFC2732-compliant addresses =============================
-   if(string[0] == '[') {
-      const char* p1 = strchr(host, ']');
-      if(p1 != nullptr) {
-         if(p1[1] == ':') {
-            strlcpy(port, &p1[2], sizeof(port));
+   // ====== Handle RFC 2732 [addr]:port format ==============================
+   if(!host.empty() && host.front() == '[') {
+      const auto closeBracket = host.find(']');
+      if(closeBracket != std::string_view::npos) {
+         if(readPort && closeBracket + 1 < host.size() && host[closeBracket + 1] == ':') {
+            const auto portStr = host.substr(closeBracket + 2);
+            if(std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber).ec != std::errc{}) {
+               return false;
+            }
          }
-         memmove(host, &host[1], p1 - host - 1);
-         host[p1 - host - 1] = 0x00;
+         host = host.substr(1, closeBracket - 1);
+      }
+   }
+   // ====== Handle standard host:port format ================================
+   else if(readPort) {
+      const auto firstColon = host.find(':');
+      const auto lastColon  = host.rfind(':');
+      if(firstColon != std::string_view::npos && firstColon == lastColon) {
+         const auto portStr = host.substr(lastColon + 1);
+         if(std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber).ec != std::errc{}) {
+            return false;
+         }
+         host = host.substr(0, lastColon);
       }
    }
 
-   // ====== Handle standard address:port ===================================
-   else {
-      if(readPort) {
-         unsigned int colons = 0;
-         const size_t hostLength = strlen(host);
-         for(size_t i = 0; i < hostLength; i++) {
-            if(host[i] == ':') {
-               colons++;
-            }
-         }
-         if(colons == 1) {
-            char* p1 = strrchr(host, ':');
-            if(p1 != nullptr) {
-               p1[0] = 0x00;
-               strlcpy(port, &p1[1], sizeof(port));
-            }
-         }
-      }
-   }
+   const std::string hostStr(host);
 
-   // ====== Check port number ==============================================
-   char* endptr;
-   long  portNumber = strtoul(port, &endptr, 10);
-   if( (endptr == port) || (*endptr != 0x00) ||
-       (portNumber < 0) || (portNumber > 65535) ) {
-      return false;
-   }
-
-   // ====== Create address structure =======================================
-   struct addrinfo  hints;
-   struct addrinfo* result     = nullptr;
-   bool             isNumeric  = true;
-   bool             isIPv6     = false;
-   size_t           hostLength = strlen(host);
-#ifndef AI_IDN
-   char*            punycode   = nullptr;
-#endif
-
-   // ====== Get information for host =======================================
-   memset(&hints, 0, sizeof(hints));
+   // ====== Resolve address =================================================
+   struct addrinfo hints { };
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
-   hints.ai_flags    = AI_IDN;
+   hints.ai_flags = AI_IDN;
 #endif
 
-   for(size_t i = 0; i < hostLength; i++) {
-      if(host[i] == ':') {
-         isIPv6 = true;
-         break;
-      }
-   }
-   if(!isIPv6) {
-      for(size_t i = 0; i < hostLength; i++) {
-         if(!(isdigit(static_cast<unsigned char>(host[i])) || (host[i] == '.'))) {
-            isNumeric = false;
-            break;
-         }
-       }
-   }
-   if(isNumeric) {
+   const bool isIPv6 = (host.find(':') != std::string_view::npos);
+   if(!isIPv6 && host.find_first_not_of("0123456789.") == std::string_view::npos) {
       hints.ai_flags |= AI_NUMERICHOST;
    }
+
+   char* punycode = nullptr;
 #ifndef AI_IDN
-   else {
-      if(idn2_to_ascii_8z(host, &punycode, 0) != IDN2_OK) {
+   if(!(hints.ai_flags & AI_NUMERICHOST)) {
+      if(idn2_to_ascii_8z(hostStr.c_str(), &punycode, 0) != IDN2_OK) {
          punycode = nullptr;
       }
    }
 #endif
 
-   // First try IPv6 ...
+   const char*      targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
+   struct addrinfo* result     = nullptr;
+
    hints.ai_family = AF_INET6;
-   if(getaddrinfo(
-#ifdef AI_IDN
-                  host,
-#else
-                  (punycode != nullptr) ? punycode : host,
-#endif
-                  nullptr, &hints, &result) != 0) {
-      // ... then (if there is no AAAA record), try also IPv4
+   if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
       hints.ai_family = AF_UNSPEC;
-      if(getaddrinfo(
-#ifdef AI_IDN
-                     host,
-#else
-                     (punycode != nullptr) ? punycode : host,
-#endif
-                     nullptr, &hints, &result) != 0) {
+      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
-         if(punycode) {
-            free(punycode);
-         }
+         free(punycode);
 #endif
          return false;
       }
    }
+
 #ifndef AI_IDN
-   if(punycode) {
-      free(punycode);
+   free(punycode);
+#endif
+
+   std::memset(address, 0, sizeof(union sockaddr_union));
+   std::memcpy(address, result->ai_addr, result->ai_addrlen);
+
+   if(address->sa.sa_family == AF_INET) {
+      address->in.sin_port = htons(portNumber);
    }
-#endif
-
-   memset(address, 0, sizeof(union sockaddr_union));
-   memcpy(address, result->ai_addr, result->ai_addrlen);
-
-   struct sockaddr_in*  ipv4address = (struct sockaddr_in*)address;
-   struct sockaddr_in6* ipv6address = (struct sockaddr_in6*)address;
-   switch(ipv4address->sin_family) {
-      case AF_INET:
-         ipv4address->sin_port = htons((uint16_t)portNumber);
-#ifdef HAVE_SIN_LEN
-         ipv4address->sin_len  = sizeof(struct sockaddr_in);
-#endif
-         break;
-      case AF_INET6:
-         ipv6address->sin6_port = htons((uint16_t)portNumber);
-#ifdef HAVE_SIN6_LEN
-         ipv6address->sin6_len  = sizeof(struct sockaddr_in6);
-#endif
-         break;
-      default:
-         freeaddrinfo(result);
-         return false;
+   else if(address->sa.sa_family == AF_INET6) {
+      address->in6.sin6_port = htons(portNumber);
    }
 
    freeaddrinfo(result);
@@ -383,66 +268,11 @@ bool string2address(const char*           string,
 }
 
 
-// ###### Print address #####################################################
+// ###### Print address =====================================================
 void printAddress(std::ostream&          os,
                   const struct sockaddr* address,
                   const bool             port,
                   const bool             hideScope)
 {
-   char str[128];
-   if(address2string(address, str, sizeof(str), port, hideScope)) {
-      os << str;
-   }
-   else {
-      os << "(invalid!)";
-   }
+   os << address2string(address, port, hideScope);
 }
-
-
-// ###### Create formatted string (printf-like) #############################
-std::string format(const char* fmt, ...)
-{
-   char buffer[2048];
-   va_list va;
-   va_start(va, fmt);
-   vsnprintf(buffer, sizeof(buffer), fmt, va);
-   va_end(va);
-   return std::string(buffer);
-}
-
-
-#if !defined(HAVE_STRLCAT)
-// ###### strlcat() implementation ##########################################
-size_t strlcat(char* dst, const char* src, size_t size)
-{
-   const size_t dlen = strnlen(dst, size);
-   const size_t slen = strlen(src);
-
-   if(dlen >= size) {
-      return size + slen;
-   }
-   if(slen < size - dlen) {
-      memcpy(dst + dlen, src, slen + 1);
-   }
-   else {
-      memcpy(dst + dlen, src, size - dlen - 1);
-      dst[size - 1] = 0x00;
-   }
-   return dlen + slen;
-}
-#endif
-
-
-#if !defined(HAVE_STRLCPY)
-// ###### strlcpy() implementation ##########################################
-size_t strlcpy(char* dst, const char* src, size_t size)
-{
-   const size_t slen = strlen(src);
-   if(size != 0) {
-      const size_t len = (slen >= size) ? size - 1 : slen;
-      memcpy(dst, src, len);
-      dst[len] = 0x00;
-   }
-   return slen;
-}
-#endif
