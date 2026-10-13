@@ -362,13 +362,13 @@ bool string2address(const char*           string,
    struct sockaddr_in6* ipv6address = (struct sockaddr_in6*)address;
    switch(ipv4address->sin_family) {
       case AF_INET:
-         ipv4address->sin_port = htons(portNumber);
+         ipv4address->sin_port = htons((uint16_t)portNumber);
 #ifdef HAVE_SIN_LEN
          ipv4address->sin_len  = sizeof(struct sockaddr_in);
 #endif
          break;
       case AF_INET6:
-         ipv6address->sin6_port = htons(portNumber);
+         ipv6address->sin6_port = htons((uint16_t)portNumber);
 #ifdef HAVE_SIN6_LEN
          ipv6address->sin6_len  = sizeof(struct sockaddr_in6);
 #endif
@@ -411,20 +411,8 @@ std::string format(const char* fmt, ...)
 }
 
 
-#if !defined(strlcat)
-size_t strlcpy(char* dst, const char* src, size_t size)
-{
-   const size_t slen = strlen(src);
-   if(size != 0) {
-      const size_t len = (slen >= size) ? size - 1 : slen;
-      memcpy(dst, src, len);
-      dst[len] = 0x00;
-   }
-   return slen;
-}
-#endif
-
-#if !defined(strlcat)
+#if !defined(HAVE_STRLCAT)
+// ###### strlcat() implementation ##########################################
 size_t strlcat(char* dst, const char* src, size_t size)
 {
    const size_t dlen = strnlen(dst, size);
@@ -441,5 +429,20 @@ size_t strlcat(char* dst, const char* src, size_t size)
       dst[size - 1] = 0x00;
    }
    return dlen + slen;
+}
+#endif
+
+
+#if !defined(HAVE_STRLCPY)
+// ###### strlcpy() implementation ##########################################
+size_t strlcpy(char* dst, const char* src, size_t size)
+{
+   const size_t slen = strlen(src);
+   if(size != 0) {
+      const size_t len = (slen >= size) ? size - 1 : slen;
+      memcpy(dst, src, len);
+      dst[len] = 0x00;
+   }
+   return slen;
 }
 #endif

@@ -48,6 +48,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <iphlpapi.h>
+#pragma comment(lib, "ws2_32.lib")
+#pragma comment(lib, "iphlpapi.lib")
 
 typedef uint32_t in_addr_t;
 #ifndef IN_LOOPBACKNET
@@ -83,11 +85,11 @@ void printAddress(std::ostream&          os,
                   const bool             hideScope = false);
 std::string format(const char* fmt, ...);
 
-#if !defined(strlcat)
-size_t strlcpy(char* dst, const char* src, size_t size);
-#endif
-#if !defined(strlcat)
+#if !defined(HAVE_STRLCAT)
 size_t strlcat(char* dst, const char* src, size_t size);
+#endif
+#if !defined(HAVE_STRLCPY)
+size_t strlcpy(char* dst, const char* src, size_t size);
 #endif
 
 #endif
