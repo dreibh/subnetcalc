@@ -37,8 +37,8 @@ jobs:
       matrix:
         include:
           # ====== Fedora Linux =============================================
-          - label: "Fedora 43 with Clang"
-            image: fedora:43
+          - label: "Fedora 44 with Clang"
+            image: fedora:44
             cc: clang
             cxx: clang++
 
@@ -48,8 +48,7 @@ jobs:
     container:
       image: ${{ matrix.image }}
     steps:
-      # NOTE: actions/checkout@v6 does not work for old Ubuntu 18.04!
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         shell: bash
         run: |
@@ -67,13 +66,13 @@ jobs:
       matrix:
         include:
           # ====== Fedora Linux =============================================
-          - label: "Fedora 43 with Clang/PPC64"
+          - label: "Fedora 44 with Clang/PPC64"
             arch: ppc64le
             distro: fedora43
             cc: clang
             cxx: clang++
           # ====== Fedora Linux =============================================
-          - label: "Fedora 43 with Clang/ARMv8"
+          - label: "Fedora 44 with Clang/ARMv8"
             arch: aarch64
             distro: fedora43
             cc: clang
@@ -83,7 +82,7 @@ jobs:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # NOTE: dreibh/run-on-arch-action provides the upstream
       #       uraimo/run-on-arch-action action, with additional dockerfiles
       #       needed for the builds here!
@@ -108,10 +107,10 @@ jobs:
     container:
       # The GitHub runner issue with Mock seems to be fixed now:
       # => https://github.com/rpm-software-management/mock/issues/1487
-      image: fedora:43
+      image: fedora:44
       options: --privileged --cap-add=SYS_ADMIN
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Packaging
         shell: bash
         run: |

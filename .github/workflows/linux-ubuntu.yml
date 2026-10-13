@@ -52,8 +52,7 @@ jobs:
     container:
       image: ${{ matrix.image }}
     steps:
-      # NOTE: actions/checkout@v6 does not work for old Ubuntu 18.04!
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Build
         shell: bash
         run: |
@@ -71,17 +70,17 @@ jobs:
       matrix:
         include:
           # ====== Ubuntu Linux =============================================
-          - label: "Ubuntu 26.04 (Noble Numbat) with Clang/ARMv8"
+          - label: "Ubuntu 26.04 (Resolute Raccoon) with Clang/ARMv8"
             arch: aarch64
             distro: ubuntu26.04
             cc: clang
             cxx: clang++
-          - label: "Ubuntu 26.04 (Noble Numbat) with GCC/S390x"
+          - label: "Ubuntu 26.04 (Resolute Raccoon) with GCC/S390x"
             arch: s390x
             distro: ubuntu26.04
             cc: gcc
             cxx: g++
-          - label: "Ubuntu 26.04 (Noble Numbat) with GCC/RISC-V"
+          - label: "Ubuntu 26.04 (Resolute Raccoon) with GCC/RISC-V"
             arch: riscv64
             distro: ubuntu26.04
             cc: gcc
@@ -91,7 +90,7 @@ jobs:
     name: ${{ matrix.label }}
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       # NOTE: dreibh/run-on-arch-action provides the upstream
       #       uraimo/run-on-arch-action action, with additional dockerfiles
       #       needed for the builds here!
@@ -112,13 +111,13 @@ jobs:
   # #########################################################################
   Package:
     name: Ubuntu Packaging
-    runs-on: ubuntu-latest
+    runs-on: ubuntu:resolute
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - name: Packaging
         shell: bash
         run: |
-          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-setup   package
-          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-install package
-          sudo CC=gcc CXX=g++ OS=ubuntu DIST=noble ARCH= ci/ci-build   package
-          sudo ci/ci-test
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=resolute ARCH= ci/ci-setup   package
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=resolute ARCH= ci/ci-install package
+          sudo CC=gcc CXX=g++ OS=ubuntu DIST=resolute ARCH= ci/ci-build   package
+          sudo ci/ci-test   # Ensure that "runs-on" matches "DIST" distrobution!
