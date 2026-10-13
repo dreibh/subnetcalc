@@ -120,21 +120,6 @@ ENDIF()
 
 
 #############################################################################
-#### CHECKS                                                              ####
-#############################################################################
-
-CHECK_SYMBOL_EXISTS(strlcat "string.h" HAVE_STRLCAT)
-IF (HAVE_STRLCAT)
-   ADD_DEFINITIONS(-DHAVE_STRLCAT)
-ENDIF()
-
-CHECK_SYMBOL_EXISTS(strlcpy "string.h" HAVE_STRLCPY)
-IF (HAVE_STRLCPY)
-   ADD_DEFINITIONS(-DHAVE_STRLCPY)
-ENDIF()
-
-
-#############################################################################
 #### OPTIONS                                                             ####
 #############################################################################
 
