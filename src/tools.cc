@@ -216,21 +216,44 @@ bool string2address(std::string_view      string,
 
    const std::string hostStr(host);
 
-   // ====== Resolve address =================================================
+   // ====== Fast-path: try inet_pton for literal IP addresses ===============
+   if(addressFamily == AF_INET6 || addressFamily == AF_UNSPEC) {
+      struct in6_addr in6;
+      if(inet_pton(AF_INET6, hostStr.c_str(), &in6) == 1) {
+         std::memset(address, 0, sizeof(union sockaddr_union));
+         address->in6.sin6_family = AF_INET6;
+         address->in6.sin6_addr   = in6;
+         address->in6.sin6_port   = htons(portNumber);
+#ifdef HAVE_SIN6_LEN
+         address->in6.sin6_len    = sizeof(struct sockaddr_in6);
+#endif
+         return true;
+      }
+   }
+   if(addressFamily == AF_INET || addressFamily == AF_UNSPEC) {
+      struct in_addr in4;
+      if(inet_pton(AF_INET, hostStr.c_str(), &in4) == 1) {
+         std::memset(address, 0, sizeof(union sockaddr_union));
+         address->in.sin_family = AF_INET;
+         address->in.sin_addr   = in4;
+         address->in.sin_port   = htons(portNumber);
+#ifdef HAVE_SIN_LEN
+         address->in.sin_len    = sizeof(struct sockaddr_in);
+#endif
+         return true;
+      }
+   }
+
+   // ====== Resolve domain name =============================================
    struct addrinfo hints { };
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
    hints.ai_flags = AI_IDN;
 #endif
 
-   const bool isIPv6 = (host.find(':') != std::string_view::npos);
-   if(!isIPv6 && host.find_first_not_of("0123456789.") == std::string_view::npos) {
-      hints.ai_flags |= AI_NUMERICHOST;
-   }
-
    char* punycode = nullptr;
 #ifndef AI_IDN
-   if(!(hints.ai_flags & AI_NUMERICHOST)) {
+   if(idn2_to_ascii_8z(hostStr.c_str(), &punycode, IDN2_NONTRANSITIONAL) != IDN2_OK) {
       if(idn2_to_ascii_8z(hostStr.c_str(), &punycode, 0) != IDN2_OK) {
          punycode = nullptr;
       }
@@ -244,7 +267,9 @@ bool string2address(std::string_view      string,
       hints.ai_family = AF_INET;
       if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
-         free(punycode);
+         if(punycode != nullptr) {
+            idn2_free(punycode);
+         }
 #endif
          return false;
       }
@@ -253,7 +278,9 @@ bool string2address(std::string_view      string,
       hints.ai_family = AF_INET6;
       if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
-         free(punycode);
+         if(punycode != nullptr) {
+            idn2_free(punycode);
+         }
 #endif
          return false;
       }
@@ -265,7 +292,9 @@ bool string2address(std::string_view      string,
          hints.ai_family = AF_UNSPEC;
          if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
 #ifndef AI_IDN
-            free(punycode);
+            if(punycode != nullptr) {
+               idn2_free(punycode);
+            }
 #endif
             return false;
          }
@@ -273,7 +302,9 @@ bool string2address(std::string_view      string,
    }
 
 #ifndef AI_IDN
-   free(punycode);
+   if(punycode != nullptr) {
+      idn2_free(punycode);
+   }
 #endif
 
    std::memset(address, 0, sizeof(union sockaddr_union));
