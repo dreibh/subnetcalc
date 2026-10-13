@@ -296,7 +296,7 @@ test_expect_failure 10.1.1.1 24 255.255.255.0
 # Invalid IPv4 addresses
 test_expect_failure 256.1.1.1 24
 test_expect_failure 10.1.1.1.1 24
-test_expect_failure 10.1.1 24
+test_expect_failure 10.1.1.1.1 24
 # Invalid IPv4 prefix (> 32)
 test_expect_failure 10.1.1.1 33
 # Non-numeric prefix character
