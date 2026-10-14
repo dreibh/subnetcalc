@@ -81,6 +81,10 @@ _subnetcalc()
 -c
 --nocolour
 --nocolor
+-4
+--ipv4
+-6
+--ipv6
 -h
 --help
 -v
