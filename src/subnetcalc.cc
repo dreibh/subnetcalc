@@ -97,16 +97,16 @@ int getopt_long_only(int argc, char* const* argv, const char* optstring,
 #include "package-version.h"
 
 
-// ###### C++20 gettext runtime format helper ################################
+// ###### C++20 gettext runtime format helper ###############################
 template<typename... Args>
-static std::string formatText(std::string_view fmt,
+static std::string formatText(std::string_view formatString,
                               const Args&...   arguments)
 {
    try {
-      return std::vformat(fmt, std::make_format_args(arguments...));
+      return std::vformat(formatString, std::make_format_args(arguments...));
    }
    catch(const std::format_error&) {
-      return std::string(fmt);
+      return std::string(formatString);
    }
 }
 
@@ -149,7 +149,7 @@ inline bool isMulticast(const sockaddr_union& address)
 
 // ###### Read prefix from parameter ########################################
 int readPrefix(std::string_view      parameter,
-               const sockaddr_union& forAddress,
+               const sockaddr_union& address,
                sockaddr_union&       netmask)
 {
    if(parameter.empty()) {
@@ -167,12 +167,13 @@ int readPrefix(std::string_view      parameter,
       return -1;
    }
 
-   netmask = forAddress;
+   netmask = address;
    if(netmask.sa.sa_family == AF_INET) {
       if(prefix > 32) {
          return -1;
       }
-      netmask.in.sin_addr.s_addr = htonl(prefix == 0 ? 0U : (~uint32_t{0} << (32 - prefix)));
+      netmask.in.sin_addr.s_addr =
+         htonl(prefix == 0 ? 0U : (~uint32_t{0} << (32 - prefix)));
    }
    else {
       if(prefix > 128) {
@@ -185,7 +186,8 @@ int readPrefix(std::string_view      parameter,
             remainingPrefix -= 8;
          }
          else if(remainingPrefix > 0) {
-            netmask.in6.sin6_addr.s6_addr[j] = static_cast<uint8_t>(0xffu << (8 - remainingPrefix));
+            netmask.in6.sin6_addr.s6_addr[j] =
+               static_cast<uint8_t>(0xffu << (8 - remainingPrefix));
             remainingPrefix = 0;
          }
          else {
@@ -199,7 +201,7 @@ int readPrefix(std::string_view      parameter,
 
 // ###### Generate a unique local IPv6 address ##############################
 void generateUniqueLocal(sockaddr_union& address,
-                         const bool      highQualityRng = false)
+                         const bool      highQualityRNG = false)
 {
    uint8_t buffer[5];
    if(address.sa.sa_family != AF_INET6) {
@@ -210,7 +212,7 @@ void generateUniqueLocal(sockaddr_union& address,
    }
 
 #if !defined(_WIN32)
-   const char*   randomFile = highQualityRng ? "/dev/random" : "/dev/urandom";
+   const char*   randomFile = highQualityRNG ? "/dev/random" : "/dev/urandom";
    std::ifstream randomStream(randomFile, std::ios::binary);
    if(randomStream) {
       // TRANSLATORS: Status message when generating unique local address:
@@ -230,7 +232,7 @@ void generateUniqueLocal(sockaddr_union& address,
       std::exit(1);
    }
 #else
-   (void)highQualityRng;
+   (void)highQualityRNG;
    std::random_device rd;
    for(auto& byte : buffer) {
       byte = static_cast<uint8_t>(rd());
@@ -308,17 +310,17 @@ void printAddressBinary(std::ostream&         os,
 int getPrefixLength(const sockaddr_union& netmask)
 {
    if(netmask.sa.sa_family == AF_INET) {
-      const uint32_t a = ntohl(getIPv4Address(netmask));
-      const int ones = std::countl_one(a);
+      const uint32_t a    = ntohl(getIPv4Address(netmask));
+      const int      ones = std::countl_one(a);
       if(std::popcount(a) != ones) {
          return -1;
       }
       return ones;
    }
    else {
-      const in6_addr ip6 = getIPv6Address(netmask);
-      int totalPrefix = 0;
-      bool seenZero   = false;
+      const in6_addr ip6         = getIPv6Address(netmask);
+      int            totalPrefix = 0;
+      bool           seenZero    = false;
 
       for(int j = 0; j < 4; j++) {
          const uint32_t a = (static_cast<uint32_t>(ip6.s6_addr[j * 4])     << 24) |
@@ -391,7 +393,8 @@ sockaddr_union operator~(const sockaddr_union& a1)
    }
    else {
       for(int j = 0; j < 16; j++) {
-         a.in6.sin6_addr.s6_addr[j] = static_cast<uint8_t>(~a1.in6.sin6_addr.s6_addr[j]);
+         a.in6.sin6_addr.s6_addr[j] =
+            static_cast<uint8_t>(~a1.in6.sin6_addr.s6_addr[j]);
       }
    }
    return a;
@@ -420,7 +423,8 @@ sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
       } local;
       std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
-         const uint64_t sum = static_cast<uint64_t>(ntohl(local.w[j])) + static_cast<uint64_t>(n);
+         const uint64_t sum =
+            static_cast<uint64_t>(ntohl(local.w[j])) + static_cast<uint64_t>(n);
          local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
          n = static_cast<uint32_t>(sum >> 32);
       }
@@ -444,7 +448,8 @@ sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
       } local;
       std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
-         const uint64_t sum = static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
+         const uint64_t sum =
+            static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
          local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
          n = static_cast<uint32_t>(sum >> 32);
       }
@@ -463,7 +468,8 @@ bool operator==(const sockaddr_union& a1, const sockaddr_union& a2)
       return (a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
    }
    else {
-      return (std::memcmp(a1.in6.sin6_addr.s6_addr, a2.in6.sin6_addr.s6_addr, 16) == 0);
+      return (std::memcmp(a1.in6.sin6_addr.s6_addr,
+                          a2.in6.sin6_addr.s6_addr, 16) == 0);
    }
 }
 
@@ -792,8 +798,10 @@ void printAddressProperties(std::ostream&         os,
          if((word0 & 0x2002) == 0x2002) {
             sockaddr_union sixToFour { };
             sixToFour.sa.sa_family       = AF_INET;
-            const uint32_t u = static_cast<uint32_t>((ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3]);
-            const uint32_t l = static_cast<uint32_t>((ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5]);
+            const uint32_t u =
+               static_cast<uint32_t>((ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3]);
+            const uint32_t l =
+               static_cast<uint32_t>((ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5]);
             sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
             // TRANSLATORS: 6-to-4 encapsulation address label
             const char* sixToFourLabel = gettext("6-to-4 Address");
@@ -865,11 +873,11 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
    // "Usage: <program> [options]".
    std::cerr << gettext("Usage:") << " " << program
              << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
-                " [-4|--ipv4] [-6|--ipv6]\n"
                 " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
                 " [-n|--noreverselookup]\n"
                 " [-g|--nogeoiplookup]\n"
                 " [-c|--nocolour|--nocolor]\n"
+                " [-4|--ipv4] [-6|--ipv6]\n"
                 " [-h|--help] [-v|--version]\n";
    std::exit(exitCode);
 }
