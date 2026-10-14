@@ -28,7 +28,7 @@
 .\" Contact: thomas.dreibholz@gmail.com
 .\"
 .\" ###### Setup ############################################################
-.Dd May 26, 2026
+.Dd October 14, 2026
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -53,6 +53,9 @@
 .Op Fl g | Fl \-nogeoiplookup
 .br
 .Op Fl c | Fl \-nocolour | Fl \-nocolor
+.br
+.Op Fl 4 | Fl \-ipv4
+.Op Fl 6 | Fl \-ipv6
 .Nm subnetcalc
 .Op Fl h | Fl \-help
 .Nm subnetcalc
@@ -72,6 +75,10 @@ The IP address. If a hostname is provided here, the program attempts to resolve 
 The netmask.
 .It Ar prefix
 The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
+.It Fl 4 | Fl \-ipv4
+Forces hostname resolution to IPv4 addresses.
+.It Fl 6 | Fl \-ipv6
+Forces hostname resolution to IPv6 addresses.
 .It Fl u | Fl \-uniquelocal
 Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). Under Linux and FreeBSD,
 .Pa /dev/urandom
@@ -129,6 +136,10 @@ subnetcalc 132.252.181.87 \-n
 subnetcalc www.iem.uni\-due.de 24
 .It
 subnetcalc www.six.heise.de
+.It
+subnetcalc www.heise.de \-4 24
+.It
+subnetcalc www.nntb.no \-6 64
 .It
 subnetcalc fd00:: 64 \-\-uniquelocal
 .It
