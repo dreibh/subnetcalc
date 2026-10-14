@@ -33,7 +33,17 @@ set -eu
 TEST=
 # TEST="valgrind --error-exitcode=1"
 
-cmake --build "$(dirname "$0")/.."
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+BUILD_DIR="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+cmake --build "${BUILD_DIR}"
+
+# Point to build tree locale catalogs if present
+if [ -d "${BUILD_DIR}/locale" ]; then
+   export SUBNETCALC_LOCALEDIR="${BUILD_DIR}/locale"
+elif [ -d "${BUILD_DIR}/src/locale" ]; then
+   export SUBNETCALC_LOCALEDIR="${BUILD_DIR}/src/locale"
+fi
 
 
 # ###### ANSI Color Definitions #############################################
@@ -46,9 +56,9 @@ COLOR_RESET="\033[0m"
 print_block() {
    echo ""
    echo ""
-   echo -e "${COLOR_BLOCK}================================================================="
+   echo -e "${COLOR_BLOCK}============================================================================="
    echo -e " $1"
-   echo -e "=================================================================${COLOR_RESET}"
+   echo -e "=============================================================================${COLOR_RESET}"
 }
 
 
@@ -93,6 +103,10 @@ run_test 10.1.1.1/255.255.255.0
 run_test 10.1.1.1/255.255.0.0
 # Default prefix (implicit /32)
 run_test 10.1.1.1
+# Shorthand 3-part IPv4 notation (10.1.1 -> 10.1.0.1)
+run_test 10.1.1 24
+# Shorthand 2-part IPv4 notation (10.1 -> 10.0.0.1)
+run_test 10.1 16
 
 
 print_block "3. IPv4 Address Classes, Special Ranges, and Edge Cases"
@@ -288,15 +302,85 @@ run_test www.heise.de 24 -4 -c -n
 run_test www.heise.de 64 -6 -c -n
 
 
-print_block "12. Error Handling & Invalid Inputs"
+print_block "12. Non-Multiple-of-4/8 Prefix Lengths & Bit Boundaries"
+# IPv4: Non-nibble / non-byte boundaries (checking binary split & host math)
+# /1 (128.0.0.0 netmask)
+run_test 10.1.2.3 1
+# /3 (224.0.0.0 netmask)
+run_test 10.1.2.3 3
+# /7 (254.0.0.0 netmask)
+run_test 10.1.2.3 7
+# /9 (255.128.0.0 netmask)
+run_test 10.1.2.3/9
+# /13 (255.248.0.0 netmask)
+run_test 172.16.50.1 13
+# /15 (255.254.0.0 netmask)
+run_test 172.16.50.1/15
+# /17 (255.255.128.0 netmask)
+run_test 192.168.10.5 17
+# /19 (255.255.224.0 netmask)
+run_test 192.168.10.5 19
+# /21 (255.255.248.0 netmask)
+run_test 192.168.10.5/21
+# /23 (255.255.254.0 netmask)
+run_test 192.168.1.1 23
+# /25 (255.255.255.128 netmask)
+run_test 192.168.1.130 25
+# /26 (255.255.255.192 netmask)
+run_test 192.168.1.75/26
+# /27 (255.255.255.224 netmask)
+run_test 192.168.1.200 27
+# /29 (255.255.255.248 netmask)
+run_test 192.168.1.5 29
+# /30 (255.255.255.252 netmask - classic point-to-point)
+run_test 10.0.0.1 30
+
+# IPv6: Non-nibble / non-byte boundaries (checking bitwise split within hex digits)
+# /1 (Single leading bit)
+run_test 2001:db8:abcd:1234::1 1
+# /3 (Global Unicast range 2000::/3)
+run_test 2001:db8:abcd:1234::1 3
+# /7 (ULA range fc00::/7)
+run_test fd00:abcd:1234:5678::1 7
+# /37 (Splits 3rd hex digit of second block)
+run_test 2001:db8:abcd:1234::1/37
+# /43 (Splits 3rd word non-nibble)
+run_test 2001:db8:abcd:1234::1 43
+# /45 (Splits 4th nibble of 3rd word)
+run_test 2001:db8:abcd:1234::1 45
+# /53 (Splits 2nd nibble of 4th word)
+run_test 2001:db8:abcd:1234::1/53
+# /57 (Splits 3rd nibble of 4th word)
+run_test 2001:db8:abcd:1234::1 57
+# /61 (Splits 4th nibble of 4th word)
+run_test 2001:db8:abcd:1234::1 61
+# /65 (First bit into the Interface ID)
+run_test 2001:db8:abcd:1234:8000::1 65
+# /73 (Crosses halfway into 5th word)
+run_test 2001:db8:abcd:1234:5678::1/73
+# /91 (Non-aligned in 6th word)
+run_test 2001:db8:abcd:1234:5678:9abc::1 91
+# /111 (Non-aligned in 7th word)
+run_test 2001:db8:abcd:1234:5678:9abc:def0:1 111
+# /123 (Non-aligned in 8th word)
+run_test 2001:db8:abcd:1234:5678:9abc:def0:1/123
+# /125 (Subnet with 8 addresses)
+run_test 2001:db8:abcd:1234:5678:9abc:def0:1 125
+# /127 (RFC 6164 point-to-point inter-router links)
+run_test 2001:db8:abcd:1234:5678:9abc:def0:1 127
+
+
+print_block "13. Error Handling & Invalid Inputs"
 # No CLI arguments provided
 test_expect_failure
 # Too many CLI arguments provided
 test_expect_failure 10.1.1.1 24 255.255.255.0
-# Invalid IPv4 addresses
+# Invalid IPv4 addresses (out of range octets, extra octets, consecutive dots)
 test_expect_failure 256.1.1.1 24
 test_expect_failure 10.1.1.1.1 24
-test_expect_failure 10.1.1.1.1 24
+test_expect_failure 10.1..1 24
+test_expect_failure 10.1.1.1. 24
+test_expect_failure .10.1.1.1 24
 # Invalid IPv4 prefix (> 32)
 test_expect_failure 10.1.1.1 33
 # Non-numeric prefix character
