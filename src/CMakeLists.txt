@@ -66,3 +66,12 @@ INSTALL(FILES       subnetcalc.1 DESTINATION         ${CMAKE_INSTALL_MANDIR}/man
 INSTALL(FILES       subnetcalc.bash-completion
         DESTINATION ${CMAKE_INSTALL_DATADIR}/bash-completion/completions
         RENAME      subnetcalc)
+
+
+#############################################################################
+#### TESTING                                                             ####
+#############################################################################
+
+IF (BUILD_TESTING)
+   ADD_SUBDIRECTORY(tests)
+ENDIF()
