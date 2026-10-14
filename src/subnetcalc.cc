@@ -253,19 +253,12 @@ void printAddressBinary(std::ostream&         os,
 {
    if(address.sa.sa_family == AF_INET) {
       os << indent;
-      uint32_t a = ntohl(getIPv4Address(address));
+      const uint32_t a = ntohl(getIPv4Address(address));
       for(int i = 31; i >= 0; i--) {
-         const uint32_t v = (1U << static_cast<uint32_t>(i));
          if(colourMode) {
             os << ((32 - i > static_cast<int>(prefix)) ? "\x1b[33m" : "\x1b[34m");
          }
-         if(a >= v) {
-            os << '1';
-            a -= v;
-         }
-         else {
-            os << '0';
-         }
+         os << (((a & (1U << static_cast<uint32_t>(i))) != 0) ? '1' : '0');
          if(colourMode) {
             os << "\x1b[0m";
          }
@@ -282,16 +275,12 @@ void printAddressBinary(std::ostream&         os,
          const uint16_t a = static_cast<uint16_t>((ipv6Address.s6_addr[j * 2] << 8) | ipv6Address.s6_addr[j * 2 + 1]);
          os << indent << std::format("{:04x} = ", a);
          for(int i = 15; i >= 0; i--) {
-            const uint32_t v = (1U << static_cast<uint32_t>(i));
             if(colourMode) {
-               os << ((p < static_cast<int>(prefix)) ? "\x1b[33m" : "\x1b[34m");
+               // Fixed: blue for network prefix bits, yellow for host bits
+               os << ((p < static_cast<int>(prefix)) ? "\x1b[34m" : "\x1b[33m");
             }
-            if(a >= v) {
-               os << '1';
-            }
-            else {
-               os << '0';
-            }
+            // Fixed: bitwise test instead of arithmetic comparison
+            os << (((a & (1U << static_cast<uint32_t>(i))) != 0) ? '1' : '0');
             if(colourMode) {
                os << "\x1b[0m";
             }
@@ -900,7 +889,7 @@ int main(int argc, char** argv)
          const int length = WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
                                                 nullptr, 0, nullptr, nullptr);
          if(length > 0) {
-            std::string buffer(static_cast<size_t>(length), '\0');
+            std::string buffer(static_cast<size_t>(length), 0x00);
             WideCharToMultiByte(CP_UTF8, 0, wideArgv[i], -1,
                                 buffer.data(), length, nullptr, nullptr);
             buffer.pop_back();
