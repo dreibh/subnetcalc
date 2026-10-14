@@ -29,10 +29,10 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: \"subnetcalc\" \"2.5.2~rc0\"\n"
+"Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-10-13 23:39+0200\n"
-"PO-Revision-Date: 2026-10-13 23:26+0200\n"
+"POT-Creation-Date: 2026-10-14 11:55+0200\n"
+"PO-Revision-Date: 2026-10-14 11:45+0200\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
 "Language-Team:\n"
 "Language: de\n"
@@ -43,374 +43,384 @@ msgstr ""
 "X-Language: de\n"
 "X-Source-Language: en_GB\n"
 
+#. TRANSLATORS: Layout direction: LTR (Left-to-Right) or RTL (Right-to-Left)
+#: src/subnetcalc.cc:227
+msgid "LTR"
+msgstr "LTR"
+
 #. TRANSLATORS: Error message when attempting to generate a unique local
 #. address without specifying an IPv6 target address.
-#: src/subnetcalc.cc:208
+#: src/subnetcalc.cc:389
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "FEHLER: Um eine eindeutige lokale Adresse zu generieren, muß eine IPv6-Adresse angegeben werden!"
 
 #. TRANSLATORS: Status message when generating unique local address:
 #. {0} = random number generator device path (e.g. /dev/urandom)
-#: src/subnetcalc.cc:218
+#: src/subnetcalc.cc:399
 #, no-c-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
 msgstr "Unique-Local-IPv6-Adresse wird generiert (mit {0}) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:222
+#: src/subnetcalc.cc:403
 #, no-c-format
 msgid "ERROR: Unable to read from {0}!"
 msgstr "FEHLER: Lesen von {0} nicht möglich!"
 
 #. TRANSLATORS: Error message when opening random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:229
+#: src/subnetcalc.cc:410
 #, no-c-format
 msgid "ERROR: Unable to open {0}!"
 msgstr "FEHLER: {0} konnte nicht geöffnet werden!"
 
-#. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:486
-msgid "Global ID"
-msgstr "Globale ID"
+#. TRANSLATORS: Command-line syntax message prefix:
+#. "Usage: <program> [options]".
+#: src/subnetcalc.cc:703
+msgid "Usage:"
+msgstr "Aufruf:"
 
-#. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:494
-msgid "Subnet ID"
-msgstr "Subnetz-ID"
+#. TRANSLATORS: Output field label for the input IP address
+#: src/subnetcalc.cc:736
+msgid "Address"
+msgstr "Adresse"
 
-#. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:501
-msgid "Interface ID"
-msgstr "Schnittstellen-ID"
+#. TRANSLATORS: Output field label for the expanded IPv6 address
+#: src/subnetcalc.cc:742
+msgid "Exp. Address"
+msgstr "Exp. Adresse"
 
-#. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
-#: src/subnetcalc.cc:517
-msgid "MAC Address"
-msgstr "MAC-Adresse"
+#. TRANSLATORS: Output field label for the network IP address
+#: src/subnetcalc.cc:747
+msgid "Network"
+msgstr "Netzwerk"
 
-#. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:534
-msgid "Solicited Node Multicast Address"
-msgstr "Solicited Node Multicastadresse"
+#. TRANSLATORS: Output field label for the subnet mask
+#: src/subnetcalc.cc:751
+msgid "Netmask"
+msgstr "Netzmaske"
+
+#. TRANSLATORS: Output field label for the broadcast address
+#: src/subnetcalc.cc:756
+msgid "Broadcast"
+msgstr "Broadcast"
+
+#. TRANSLATORS: Explanation when broadcast address is not applicable
+#: src/subnetcalc.cc:759
+msgid "not needed on Point-to-Point links"
+msgstr "Bei Punkt-zu-Punkt-Links nicht erforderlich"
+
+#. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
+#: src/subnetcalc.cc:764
+msgid "Wildcard Mask"
+msgstr "Wildcardmaske"
+
+#. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
+#: src/subnetcalc.cc:769
+msgid "Hex. Address"
+msgstr "Hex. Adresse"
+
+#. TRANSLATORS: Output field label for the number of host bits in the subnet
+#: src/subnetcalc.cc:774
+msgid "Host Bits"
+msgstr "Host-Bits"
+
+#. TRANSLATORS: Output field label for the maximum number of usable hosts
+#: src/subnetcalc.cc:779
+msgid "Max. Hosts"
+msgstr "Hosts maximal"
+
+#. TRANSLATORS: Output field label for the usable host address range
+#: src/subnetcalc.cc:783
+msgid "Host Range"
+msgstr "Hostbereich"
 
 #. TRANSLATORS: Output field label for IP address properties
-#: src/subnetcalc.cc:559
+#: src/subnetcalc.cc:788
 msgid "Properties"
 msgstr "Eigenschaften"
 
-#. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:564
-#, no-c-format
-msgid "{0} is a MULTICAST address"
-msgstr "{0} ist eine MULTICAST-Adresse"
+#. TRANSLATORS: Output field label for GeoIP Autonomous System info
+#: src/subnetcalc.cc:793
+msgid "GeoIP AS Info"
+msgstr "GeoIP AS-Info"
 
-#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:569
-#, no-c-format
-msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0} ist die BROADCAST-Adresse von {1}/{2}"
+#. TRANSLATORS: Output field label for GeoIP country info
+#: src/subnetcalc.cc:799
+msgid "GeoIP Country"
+msgstr "GeoIP-Land"
 
-#. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:574
-#, no-c-format
-msgid "{0} is a NETWORK address"
-msgstr "{0} ist eine NETZWERK-Adresse"
+#. TRANSLATORS: Cardinal direction abbreviation: North
+#: src/subnetcalc.cc:803
+msgid "N"
+msgstr "N"
 
-#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:579
-#, no-c-format
-msgid "{0} is a HOST address in {1}/{2}"
-msgstr "{0} ist eine HOST-Adresse in {1}/{2}"
+#: src/subnetcalc.cc:803
+msgid "S"
+msgstr "S"
+
+#. TRANSLATORS: Cardinal direction abbreviation: East
+#: src/subnetcalc.cc:805
+msgid "E"
+msgstr "O"
+
+#: src/subnetcalc.cc:805
+msgid "W"
+msgstr "W"
+
+#. TRANSLATORS: Output field label for GeoIP region / location info
+#: src/subnetcalc.cc:808
+msgid "GeoIP Region"
+msgstr "GeoIP-Region"
+
+#. TRANSLATORS: Output field label for DNS hostname
+#: src/subnetcalc.cc:823
+msgid "DNS Hostname"
+msgstr "DNS-Hostname"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:591
+#: src/subnetcalc.cc:868
 msgid "Class A"
 msgstr "Klasse A"
 
-#. TRANSLATORS: IPv4 address property
-#. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:594 src/subnetcalc.cc:681
-msgid "Loopback address"
-msgstr "Loopback-Adresse"
-
-#. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:598
-msgid "In loopback network"
-msgstr "Im Loopback-Netzwerk"
-
-#. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:602 src/subnetcalc.cc:610 src/subnetcalc.cc:622
-msgid "Private"
-msgstr "Privat"
-
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:607
+#: src/subnetcalc.cc:872
 msgid "Class B"
 msgstr "Klasse B"
 
-#. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:614
-msgid "Link-local address"
-msgstr "Link-lokale Adresse"
-
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:619
+#: src/subnetcalc.cc:876
 msgid "Class C"
 msgstr "Klasse C"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:627
+#: src/subnetcalc.cc:880
 msgid "Class D (Multicast)"
 msgstr "Klasse D (Multicast)"
 
+#. TRANSLATORS: Error message when IPv4 address is outside classes A through D
+#: src/subnetcalc.cc:884
+msgid "Invalid (not in class A, B, C or D)"
+msgstr "Ungültig (nicht in Klasse A, B, C oder D)"
+
+#. TRANSLATORS: IPv4 address property
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:891 src/subnetcalc.cc:941
+msgid "Loopback address"
+msgstr "Loopback-Adresse"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:895
+msgid "In loopback network"
+msgstr "Im Loopback-Netzwerk"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:899
+msgid "Private"
+msgstr "Privat"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:903
+msgid "Link-local address"
+msgstr "Link-lokale Adresse"
+
 #. TRANSLATORS: Multicast scope label prefix
-#: src/subnetcalc.cc:630 src/subnetcalc.cc:705
+#: src/subnetcalc.cc:909 src/subnetcalc.cc:964
 msgid "Scope: "
 msgstr "Geltungsbereich: "
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:633 src/subnetcalc.cc:712
+#: src/subnetcalc.cc:912 src/subnetcalc.cc:971
 msgid "link-local"
 msgstr "Link-lokal"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:637 src/subnetcalc.cc:720
+#: src/subnetcalc.cc:916 src/subnetcalc.cc:979
 msgid "organization-local"
 msgstr "Organisations-lokal"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:641 src/subnetcalc.cc:716
+#: src/subnetcalc.cc:920 src/subnetcalc.cc:975
 msgid "site-local"
 msgstr "Site-lokal"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:645 src/subnetcalc.cc:724
+#: src/subnetcalc.cc:924 src/subnetcalc.cc:983
 msgid "global"
 msgstr "global"
 
 #. TRANSLATORS: Multicast MAC address: {0} = MAC address string
-#: src/subnetcalc.cc:655 src/subnetcalc.cc:742
+#: src/subnetcalc.cc:929 src/subnetcalc.cc:997
 #, no-c-format
 msgid "Corresponding multicast MAC address: {0}"
 msgstr "Entsprechende Multicast-MAC-Adresse: {0}"
 
 #. TRANSLATORS: Multicast property
-#: src/subnetcalc.cc:660 src/subnetcalc.cc:746
+#: src/subnetcalc.cc:933 src/subnetcalc.cc:1001
 msgid "Source-specific multicast"
 msgstr "Quellenspezifischer Multicast"
 
-#. TRANSLATORS: Error message when IPv4 address is outside classes A through D
-#: src/subnetcalc.cc:665
-msgid "Invalid (not in class A, B, C or D)"
-msgstr "Ungültig (nicht in Klasse A, B, C oder D)"
-
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:685
+#: src/subnetcalc.cc:945
 msgid "Unspecified address"
 msgstr "Nicht spezifizierte Adresse"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:689
+#: src/subnetcalc.cc:949
 msgid "IPv4-compatible IPv6 address"
 msgstr "IPv4-Compatible IPv6-Adresse"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:693
+#: src/subnetcalc.cc:953
 msgid "IPv4-mapped IPv6 address"
 msgstr "IPv4-Mapped IPv6-Adresse"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:697
+#: src/subnetcalc.cc:957
 msgid "IPv4-embedded IPv6 address"
 msgstr "IPv4-Embedded IPv6-Adresse"
 
 #. TRANSLATORS: Section header for IPv6 multicast properties
-#: src/subnetcalc.cc:703
+#: src/subnetcalc.cc:962
 msgid "Multicast Properties"
 msgstr "Multicast-Eigenschaften"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:708
+#: src/subnetcalc.cc:967
 msgid "node-local"
 msgstr "Knoten-lokal"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:728
+#: src/subnetcalc.cc:987
 msgid "unknown"
 msgstr "unbekannt"
 
 #. TRANSLATORS: IPv6 multicast flag property
-#: src/subnetcalc.cc:735
+#: src/subnetcalc.cc:993
 msgid "Temporarily-allocated address"
 msgstr "Temporär zugewiesene Adresse"
 
 #. TRANSLATORS: Solicited node multicast target: {0} = target node mask
-#: src/subnetcalc.cc:753
+#: src/subnetcalc.cc:1006
 #, no-c-format
 msgid "Address is solicited node multicast address for {0}"
 msgstr "Adresse ist die Solicited Node Multicastadresse für {0}"
 
 #. TRANSLATORS: Section header for link-local unicast properties
-#: src/subnetcalc.cc:760
+#: src/subnetcalc.cc:1012
 msgid "Link-Local Unicast Properties:"
 msgstr "Link-lokale Unicast-Eigenschaften:"
 
 #. TRANSLATORS: Section header for site-local unicast properties
-#: src/subnetcalc.cc:767
+#: src/subnetcalc.cc:1016
 msgid "Site-Local Unicast Properties:"
 msgstr "Site-lokale Unicast-Eigenschaften:"
 
 #. TRANSLATORS: Section header for unique local unicast properties
-#: src/subnetcalc.cc:774
+#: src/subnetcalc.cc:1020
 msgid "Unique Local Unicast Properties:"
 msgstr "Unique Local Unicast-Eigenschaften:"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:777
+#: src/subnetcalc.cc:1023
 msgid "Locally chosen"
 msgstr "Lokal ausgewählt"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:781
+#: src/subnetcalc.cc:1027
 msgid "Assigned by global instance"
 msgstr "Zugewiesen durch globale Instanz"
 
 #. TRANSLATORS: Section header for global unicast properties
-#: src/subnetcalc.cc:789
+#: src/subnetcalc.cc:1032
 msgid "Global Unicast Properties:"
 msgstr "Globale Unicast-Eigenschaften:"
 
+#. TRANSLATORS: IPv6 unique local unicast property label
+#: src/subnetcalc.cc:1043
+msgid "Global ID"
+msgstr "Globale ID"
+
+#. TRANSLATORS: IPv6 unique local unicast property label
+#: src/subnetcalc.cc:1047
+msgid "Subnet ID"
+msgstr "Subnetz-ID"
+
+#. TRANSLATORS: IPv6 unicast property label
+#: src/subnetcalc.cc:1051
+msgid "Interface ID"
+msgstr "Schnittstellen-ID"
+
+#. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
+#: src/subnetcalc.cc:1069
+msgid "MAC Address"
+msgstr "MAC-Adresse"
+
+#. TRANSLATORS: IPv6 unicast property label
+#: src/subnetcalc.cc:1083
+msgid "Solicited Node Multicast Address"
+msgstr "Solicited Node Multicastadresse"
+
 #. TRANSLATORS: 6-to-4 encapsulation address label
-#: src/subnetcalc.cc:799
+#: src/subnetcalc.cc:1099
 msgid "6-to-4 Address"
 msgstr "6-to-4-Adresse"
 
-#. TRANSLATORS: Command-line syntax message prefix:
-#. "Usage: <program> [options]".
-#: src/subnetcalc.cc:866
-msgid "Usage:"
-msgstr "Aufruf:"
+#. TRANSLATORS: Error message when output format is invalid:
+#. {0} = input format
+#: src/subnetcalc.cc:1683
+#, no-c-format
+msgid "ERROR: Invalid format {0}!"
+msgstr "FEHLER: Ungültiges Format {0}!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
-#: src/subnetcalc.cc:1029 src/subnetcalc.cc:1045
+#: src/subnetcalc.cc:1740 src/subnetcalc.cc:1756
 #, no-c-format
 msgid "ERROR: Invalid address {0}!"
 msgstr "FEHLER: Ungültige Adresse {0}!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
-#: src/subnetcalc.cc:1036 src/subnetcalc.cc:1055 src/subnetcalc.cc:1077
+#: src/subnetcalc.cc:1747 src/subnetcalc.cc:1766 src/subnetcalc.cc:1788
 #, no-c-format
 msgid "ERROR: Invalid netmask {0}!"
 msgstr "FEHLER: Ungültige Netzmaske {0}!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
-#: src/subnetcalc.cc:1084
+#: src/subnetcalc.cc:1795
 #, no-c-format
 msgid "ERROR: Incompatible netmask {0}!"
 msgstr "FEHLER: Inkompatible Netzmaske {0}!"
 
-#. TRANSLATORS: Output field label for the input IP address
-#: src/subnetcalc.cc:1147
-msgid "Address"
-msgstr "Adresse"
+#: src/subnetcalc.cc:1911
+#, no-c-format
+msgid "{0} is a MULTICAST address"
+msgstr "{0} ist eine MULTICAST-Adresse"
 
-#. TRANSLATORS: Output field label for the network IP address
-#: src/subnetcalc.cc:1153
-msgid "Network"
-msgstr "Netzwerk"
+#: src/subnetcalc.cc:1917
+#, no-c-format
+msgid "{0} is the BROADCAST address of {1}/{2}"
+msgstr "{0} ist die BROADCAST-Adresse von {1}/{2}"
 
-#. TRANSLATORS: Output field label for the subnet mask
-#: src/subnetcalc.cc:1155
-msgid "Netmask"
-msgstr "Netzmaske"
+#: src/subnetcalc.cc:1925
+#, no-c-format
+msgid "{0} is a NETWORK address"
+msgstr "{0} ist eine NETZWERK-Adresse"
 
-#. TRANSLATORS: Output field label for the broadcast address
-#: src/subnetcalc.cc:1161
-msgid "Broadcast"
-msgstr "Broadcast"
-
-#. TRANSLATORS: Explanation when broadcast address is not applicable
-#: src/subnetcalc.cc:1168
-msgid "not needed on Point-to-Point links"
-msgstr "Bei Punkt-zu-Punkt-Links nicht erforderlich"
-
-#. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
-#: src/subnetcalc.cc:1174
-msgid "Wildcard Mask"
-msgstr "Wildcardmaske"
-
-#. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
-#: src/subnetcalc.cc:1178
-msgid "Hex. Address"
-msgstr "Hex. Adresse"
-
-#. TRANSLATORS: Output field label for the number of host bits in the subnet
-#: src/subnetcalc.cc:1182
-msgid "Host Bits"
-msgstr "Host-Bits"
-
-#. TRANSLATORS: Output field label for the maximum number of usable hosts
-#: src/subnetcalc.cc:1199
-msgid "Max. Hosts"
-msgstr "Hosts maximal"
-
-#. TRANSLATORS: Output field label for the usable host address range
-#: src/subnetcalc.cc:1201
-msgid "Host Range"
-msgstr "Hostbereich"
+#: src/subnetcalc.cc:1931
+#, no-c-format
+msgid "{0} is a HOST address in {1}/{2}"
+msgstr "{0} ist eine HOST-Adresse in {1}/{2}"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
-#: src/subnetcalc.cc:1221 src/subnetcalc.cc:1248 src/subnetcalc.cc:1274
-#: src/subnetcalc.cc:1282
+#: src/subnetcalc.cc:2176 src/subnetcalc.cc:2197 src/subnetcalc.cc:2205
 msgid "Unknown"
 msgstr "Unbekannt"
 
-#. TRANSLATORS: Output field label for GeoIP Autonomous System info
-#: src/subnetcalc.cc:1229
-msgid "GeoIP AS Info"
-msgstr "GeoIP AS-Info"
-
-#. TRANSLATORS: Output field label for GeoIP country info
-#: src/subnetcalc.cc:1263
-msgid "GeoIP Country"
-msgstr "GeoIP-Land"
-
-#. TRANSLATORS: Cardinal direction abbreviation: North
-#: src/subnetcalc.cc:1313
-msgid "N"
-msgstr "N"
-
-#. TRANSLATORS: Cardinal direction abbreviation: South
-#: src/subnetcalc.cc:1317
-msgid "S"
-msgstr "S"
-
-#. TRANSLATORS: Cardinal direction abbreviation: East
-#: src/subnetcalc.cc:1323
-msgid "E"
-msgstr "O"
-
-#. TRANSLATORS: Cardinal direction abbreviation: West
-#: src/subnetcalc.cc:1327
-msgid "W"
-msgstr "W"
-
-#. TRANSLATORS: Output field label for GeoIP region / location info
-#: src/subnetcalc.cc:1331
-msgid "GeoIP Region"
-msgstr "GeoIP-Region"
-
 #. TRANSLATORS: Progress message while performing reverse DNS lookup
-#: src/subnetcalc.cc:1353
+#: src/subnetcalc.cc:2242
 msgid "Performing reverse DNS lookup ..."
 msgstr "Reverse-DNS-Suche wird durchgeführt ..."
-
-#. TRANSLATORS: Output field label for DNS hostname
-#: src/subnetcalc.cc:1373
-msgid "DNS Hostname"
-msgstr "DNS-Hostname"
