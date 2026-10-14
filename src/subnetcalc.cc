@@ -60,6 +60,9 @@
 #include <unistd.h>
 #include <wchar.h>
 #else
+#ifndef NOMINMAX
+#define NOMINMAX 1
+#endif
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <io.h>
