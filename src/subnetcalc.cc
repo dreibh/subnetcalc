@@ -101,7 +101,9 @@ int getopt_long_only(int argc, char* const* argv, const char* optstring,
 // ###### Output Format #####################################################
 enum class OutputFormat {
    Text,
-   JSON
+   JSON,
+   YAML,
+   XML
 };
 
 
@@ -121,7 +123,7 @@ struct SubnetDetails {
    std::string  hexAddress;
    unsigned int hostBits { 0 };
    bool         isMulticast { false };
-   std::string  maxHostsCount;   // Pure decimal string ("0", "254") for JSON
+   std::string  maxHostsCount;   // Pure decimal string ("0", "254") for machine formats
    std::string  maxHostsText;    // Formula string ("254   (2^8 - 2)") for Text
    std::string  hostMin;
    std::string  hostMax;
@@ -208,7 +210,6 @@ static size_t displayWidth(std::string_view text)
       }
    }
 #endif
-   // Fallback: count non-continuation UTF-8 bytes
    size_t count = 0;
    for(const unsigned char c : text) {
       if((c & 0xc0) != 0x80) {
@@ -242,7 +243,7 @@ static bool isRTL()
 }
 
 
-// ###### Escape JSON strings safely ########################################
+// ###### Escape JSON/YAML strings safely ###################################
 static std::string escapeJSON(std::string_view str)
 {
    std::string result;
@@ -264,6 +265,25 @@ static std::string escapeJSON(std::string_view str)
                result += c;
             }
             break;
+      }
+   }
+   return result;
+}
+
+
+// ###### Escape XML strings safely #########################################
+static std::string escapeXML(std::string_view str)
+{
+   std::string result;
+   result.reserve(str.size());
+   for(char c : str) {
+      switch(c) {
+         case '&':  result += "&amp;";  break;
+         case '<':  result += "&lt;";   break;
+         case '>':  result += "&gt;";   break;
+         case '"':  result += "&quot;"; break;
+         case '\'': result += "&apos;"; break;
+         default:   result += c;        break;
       }
    }
    return result;
@@ -666,6 +686,34 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
 #endif
 
 
+// ###### Version ###########################################################
+[[noreturn]] static void version()
+{
+   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << '\n';
+   std::exit(0);
+}
+
+
+// ###### Usage #############################################################
+[[noreturn]] static void usage(const char* program, const int exitCode)
+{
+   std::ostream& os = (exitCode == 0) ? std::cout : std::cerr;
+   // TRANSLATORS: Command-line syntax message prefix:
+   // "Usage: <program> [options]".
+   const char* usagePrefix = gettext("Usage:");
+   os << usagePrefix << " " << program
+      << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
+         " [-F|--format text|json|yaml|xml]\n"
+         " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
+         " [-n|--noreverselookup]\n"
+         " [-g|--nogeoiplookup]\n"
+         " [-c|--nocolour|--nocolor]\n"
+         " [-4|--ipv4] [-6|--ipv6]\n"
+         " [-h|--help] [-v|--version]\n";
+   std::exit(exitCode);
+}
+
+
 // ###### Output Text Format ################################################
 void outputPlainText(std::ostream&         os,
                      const SubnetDetails&  details,
@@ -676,7 +724,6 @@ void outputPlainText(std::ostream&         os,
 {
    const bool rtl = isRTL();
 
-   // ====== Helper struct for top-level key/value fields ===================
    struct FieldEntry {
       std::string label;
       std::string value;
@@ -688,6 +735,13 @@ void outputPlainText(std::ostream&         os,
    // TRANSLATORS: Output field label for the input IP address
    const char* addressLabel = gettext("Address");
    fields.push_back({ addressLabel, details.address, false });
+
+   const char* expAddressLabel = nullptr;
+   if(!details.expandedAddress.empty()) {
+      // TRANSLATORS: Output field label for the expanded IPv6 address
+      expAddressLabel = gettext("Exp. Address");
+      fields.push_back({ expAddressLabel, details.expandedAddress, false });
+   }
 
    // TRANSLATORS: Output field label for the network IP address
    const char* networkLabel = gettext("Network");
@@ -716,12 +770,6 @@ void outputPlainText(std::ostream&         os,
       fields.push_back({ hexAddressLabel, details.hexAddress, false });
    }
 
-   if(!details.expandedAddress.empty()) {
-      // TRANSLATORS: Output field label for the expanded IPv6 address
-      const char* expAddressLabel = gettext("Exp. Address");
-      fields.push_back({ expAddressLabel, details.expandedAddress, false });
-   }
-
    // TRANSLATORS: Output field label for the number of host bits in the subnet
    const char* hostBitsLabel = gettext("Host Bits");
    fields.push_back({ hostBitsLabel, std::to_string(details.hostBits), false });
@@ -740,7 +788,6 @@ void outputPlainText(std::ostream&         os,
    const char* propertiesLabel = gettext("Properties");
    fields.push_back({ propertiesLabel, "", true });
 
-   // GeoIP fields
    if(details.hasGeoIPASN) {
       // TRANSLATORS: Output field label for GeoIP Autonomous System info
       const char* asInfoLabel = gettext("GeoIP AS Info");
@@ -771,7 +818,6 @@ void outputPlainText(std::ostream&         os,
       fields.push_back({ regionLabel, regionVal, false });
    }
 
-   // Reverse DNS field
    if(details.hasDNSHostname || !details.dnsError.empty()) {
       // TRANSLATORS: Output field label for DNS hostname
       const char* dnsHostnameLabel = gettext("DNS Hostname");
@@ -779,13 +825,11 @@ void outputPlainText(std::ostream&         os,
       fields.push_back({ dnsHostnameLabel, dnsVal, false });
    }
 
-   // ====== Dynamically Compute Maximum Label Width ========================
    size_t maxLabelWidth = 0;
    for(const auto& f : fields) {
       maxLabelWidth = std::max(maxLabelWidth, displayWidth(f.label));
    }
 
-   // ====== Render Fields with Dynamic Alignment & RTL/LTR Flow ============
    for(const auto& f : fields) {
       const size_t labelW = displayWidth(f.label);
       const size_t pad    = (maxLabelWidth >= labelW) ? (maxLabelWidth - labelW) : 0;
@@ -807,12 +851,13 @@ void outputPlainText(std::ostream&         os,
          }
       }
 
-      // Print binary representation immediately under Address
-      if(f.label == addressLabel) {
+      // Print binary representation immediately under the address block
+      const bool hasExp = !details.expandedAddress.empty();
+      if((hasExp && expAddressLabel && (f.label == expAddressLabel)) ||
+         (!hasExp && (f.label == addressLabel))) {
          printAddressBinary(os, address, prefix, colourMode,
                             std::string(maxLabelWidth + 6, ' '));
       }
-      // Print properties list immediately under Properties header
       else if(f.isHeaderOnly && (f.label == propertiesLabel)) {
          os << "   - " << details.addressTypeDescription << '\n';
 
@@ -890,7 +935,6 @@ void outputPlainText(std::ostream&         os,
             }
          }
          else {
-            // IPv6 Properties
             if(!details.ipv6Special.empty()) {
                if(details.ipv6Special == "Loopback address") {
                   // TRANSLATORS: IPv6 address property
@@ -963,7 +1007,6 @@ void outputPlainText(std::ostream&         os,
                }
             }
             else {
-               // Unicast properties
                if(details.unicastType == "Link-Local Unicast") {
                   // TRANSLATORS: Section header for link-local unicast properties
                   os << "   - " << gettext("Link-Local Unicast Properties:") << '\n';
@@ -989,7 +1032,6 @@ void outputPlainText(std::ostream&         os,
                   os << "   - " << gettext("Global Unicast Properties:") << '\n';
                }
 
-               // ====== Dynamically Compute Unicast Sub-Property Width =====
                struct PropEntry {
                   std::string label;
                   std::string value;
@@ -1191,7 +1233,7 @@ void outputJSON(std::ostream& os, const SubnetDetails& details)
       entries.push_back(prop);
    }
 
-   // GeoIP object (omitted completely if neither ASN nor City data exists)
+   // GeoIP object
    if(details.hasGeoIPASN || details.hasGeoIPCity) {
       std::string geo = "  \"geoip\": {\n";
       std::vector<std::string> geoEntries;
@@ -1230,7 +1272,7 @@ void outputJSON(std::ostream& os, const SubnetDetails& details)
       entries.push_back(geo);
    }
 
-   // DNS object (omitted completely if reverse lookup was disabled or returned nothing)
+   // DNS object
    if(details.hasDNSHostname) {
       std::string dns = "  \"dns\": {\n";
       dns += std::format("    \"hostname\": \"{}\"\n", escapeJSON(details.dnsHostname));
@@ -1258,31 +1300,263 @@ void outputJSON(std::ostream& os, const SubnetDetails& details)
 }
 
 
-// ###### Version ###########################################################
-[[noreturn]] static void version()
+// ###### Output YAML Format ################################################
+void outputYAML(std::ostream& os, const SubnetDetails& details)
 {
-   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << '\n';
-   std::exit(0);
+   os << std::format("address: \"{}\"\n", escapeJSON(details.address));
+   if(!details.expandedAddress.empty()) {
+      os << std::format("expanded_address: \"{}\"\n", escapeJSON(details.expandedAddress));
+   }
+   os << std::format("family: \"{}\"\n", escapeJSON(details.family));
+   os << std::format("network: \"{}\"\n", escapeJSON(details.network));
+   os << std::format("prefix: {}\n", details.prefix);
+   os << std::format("netmask: \"{}\"\n", escapeJSON(details.netmask));
+
+   if(details.hasBroadcast) {
+      os << std::format("broadcast: \"{}\"\n", escapeJSON(details.broadcast));
+   }
+
+   os << std::format("wildcard: \"{}\"\n", escapeJSON(details.wildcard));
+
+   if(details.hasHexAddress) {
+      os << std::format("hex: \"{}\"\n", escapeJSON(details.hexAddress));
+   }
+
+   os << std::format("host_bits: {}\n", details.hostBits);
+
+   if(!details.isMulticast) {
+      os << std::format("max_hosts: {}\n", details.maxHostsCount);
+      os << "host_range:\n";
+      os << std::format("  min: \"{}\"\n", escapeJSON(details.hostMin));
+      os << std::format("  max: \"{}\"\n", escapeJSON(details.hostMax));
+   }
+
+   // Properties object
+   os << "properties:\n";
+   os << std::format("  type: \"{}\"\n", escapeJSON(details.addressType));
+   os << std::format("  description: \"{}\"\n", escapeJSON(details.addressTypeDescription));
+
+   if(!details.ipv4Class.empty()) {
+      os << std::format("  class: \"{}\"\n", escapeJSON(details.ipv4Class));
+   }
+   if(!details.ipv4Flags.empty()) {
+      os << "  flags:\n";
+      for(const auto& flag : details.ipv4Flags) {
+         os << std::format("    - \"{}\"\n", escapeJSON(flag));
+      }
+   }
+   if(!details.multicastScope.empty()) {
+      os << std::format("  scope: \"{}\"\n", escapeJSON(details.multicastScope));
+   }
+   if(!details.multicastMac.empty()) {
+      os << std::format("  multicast_mac: \"{}\"\n", escapeJSON(details.multicastMac));
+   }
+   if(details.isSourceSpecificMulticast) {
+      os << "  source_specific_multicast: true\n";
+   }
+   if(!details.ipv6Special.empty()) {
+      os << std::format("  special: \"{}\"\n", escapeJSON(details.ipv6Special));
+   }
+   if(details.isTransientMulticast) {
+      os << "  transient: true\n";
+   }
+   if(!details.solicitedNodeFor.empty()) {
+      os << std::format("  solicited_node_for: \"{}\"\n", escapeJSON(details.solicitedNodeFor));
+   }
+   if(!details.unicastType.empty()) {
+      os << std::format("  unicast_type: \"{}\"\n", escapeJSON(details.unicastType));
+   }
+   if(!details.ulaType.empty()) {
+      os << std::format("  ula_type: \"{}\"\n", escapeJSON(details.ulaType));
+   }
+   if(details.hasGlobalID) {
+      os << std::format("  global_id: \"{}\"\n", escapeJSON(details.globalID));
+   }
+   if(details.hasSubnetID) {
+      os << std::format("  subnet_id: \"{}\"\n", escapeJSON(details.subnetID));
+   }
+   if(!details.interfaceID.empty()) {
+      os << std::format("  interface_id: \"{}\"\n", escapeJSON(details.interfaceID));
+   }
+   if(details.hasMACAddress) {
+      os << std::format("  mac_address: \"{}\"\n", escapeJSON(details.macAddress));
+   }
+   if(!details.solicitedNodeMulticast.empty()) {
+      os << std::format("  solicited_node_multicast: \"{}\"\n", escapeJSON(details.solicitedNodeMulticast));
+   }
+   if(details.hasSixToFour) {
+      os << std::format("  six_to_four: \"{}\"\n", escapeJSON(details.sixToFourAddress));
+   }
+
+   // GeoIP object
+   if(details.hasGeoIPASN || details.hasGeoIPCity) {
+      os << "geoip:\n";
+      if(details.hasGeoIPASN) {
+         if(details.geoIPASNumber > 0) {
+            os << std::format("  asn: {}\n", details.geoIPASNumber);
+         }
+         if(!details.geoIPASOrganization.empty()) {
+            os << std::format("  as_organization: \"{}\"\n", escapeJSON(details.geoIPASOrganization));
+         }
+      }
+      if(details.hasGeoIPCity) {
+         os << std::format("  country: \"{}\"\n", escapeJSON(details.geoIPCountry));
+         os << std::format("  country_code: \"{}\"\n", escapeJSON(details.geoIPCountryCode));
+         if(!details.geoIPPostalCode.empty()) {
+            os << std::format("  postal_code: \"{}\"\n", escapeJSON(details.geoIPPostalCode));
+         }
+         os << std::format("  city: \"{}\"\n", escapeJSON(details.geoIPCity));
+         os << std::format("  region: \"{}\"\n", escapeJSON(details.geoIPRegion));
+         os << std::format("  timezone: \"{}\"\n", escapeJSON(details.geoIPTimeZone));
+         os << std::format("  latitude: {:.4f}\n", details.geoIPLatitude);
+         os << std::format("  longitude: {:.4f}\n", details.geoIPLongitude);
+      }
+   }
+
+   // DNS object
+   if(details.hasDNSHostname) {
+      os << "dns:\n";
+      os << std::format("  hostname: \"{}\"\n", escapeJSON(details.dnsHostname));
+   }
+   else if(!details.dnsError.empty()) {
+      os << "dns:\n";
+      os << std::format("  error: \"{}\"\n", escapeJSON(details.dnsError));
+   }
 }
 
 
-// ###### Usage #############################################################
-[[noreturn]] static void usage(const char* program, const int exitCode)
+// ###### Output XML Format #################################################
+void outputXML(std::ostream& os, const SubnetDetails& details)
 {
-   std::ostream& os = (exitCode == 0) ? std::cout : std::cerr;
-   // TRANSLATORS: Command-line syntax message prefix:
-   // "Usage: <program> [options]".
-   const char* usagePrefix = gettext("Usage:");
-   os << usagePrefix << " " << program
-      << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
-         " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
-         " [-n|--noreverselookup]\n"
-         " [-g|--nogeoiplookup]\n"
-         " [-c|--nocolour|--nocolor]\n"
-         " [-4|--ipv4] [-6|--ipv6]\n"
-         " [-F|--format text|json]\n"
-         " [-h|--help] [-v|--version]\n";
-   std::exit(exitCode);
+   os << "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
+   os << "<subnetcalc>\n";
+   os << std::format("  <address>{}</address>\n", escapeXML(details.address));
+   if(!details.expandedAddress.empty()) {
+      os << std::format("  <expanded_address>{}</expanded_address>\n", escapeXML(details.expandedAddress));
+   }
+   os << std::format("  <family>{}</family>\n", escapeXML(details.family));
+   os << std::format("  <network>{}</network>\n", escapeXML(details.network));
+   os << std::format("  <prefix>{}</prefix>\n", details.prefix);
+   os << std::format("  <netmask>{}</netmask>\n", escapeXML(details.netmask));
+
+   if(details.hasBroadcast) {
+      os << std::format("  <broadcast>{}</broadcast>\n", escapeXML(details.broadcast));
+   }
+
+   os << std::format("  <wildcard>{}</wildcard>\n", escapeXML(details.wildcard));
+
+   if(details.hasHexAddress) {
+      os << std::format("  <hex>{}</hex>\n", escapeXML(details.hexAddress));
+   }
+
+   os << std::format("  <host_bits>{}</host_bits>\n", details.hostBits);
+
+   if(!details.isMulticast) {
+      os << std::format("  <max_hosts>{}</max_hosts>\n", details.maxHostsCount);
+      os << "  <host_range>\n";
+      os << std::format("    <min>{}</min>\n", escapeXML(details.hostMin));
+      os << std::format("    <max>{}</max>\n", escapeXML(details.hostMax));
+      os << "  </host_range>\n";
+   }
+
+   // Properties object
+   os << "  <properties>\n";
+   os << std::format("    <type>{}</type>\n", escapeXML(details.addressType));
+   os << std::format("    <description>{}</description>\n", escapeXML(details.addressTypeDescription));
+
+   if(!details.ipv4Class.empty()) {
+      os << std::format("    <class>{}</class>\n", escapeXML(details.ipv4Class));
+   }
+   if(!details.ipv4Flags.empty()) {
+      os << "    <flags>\n";
+      for(const auto& flag : details.ipv4Flags) {
+         os << std::format("      <flag>{}</flag>\n", escapeXML(flag));
+      }
+      os << "    </flags>\n";
+   }
+   if(!details.multicastScope.empty()) {
+      os << std::format("    <scope>{}</scope>\n", escapeXML(details.multicastScope));
+   }
+   if(!details.multicastMac.empty()) {
+      os << std::format("    <multicast_mac>{}</multicast_mac>\n", escapeXML(details.multicastMac));
+   }
+   if(details.isSourceSpecificMulticast) {
+      os << "    <source_specific_multicast>true</source_specific_multicast>\n";
+   }
+   if(!details.ipv6Special.empty()) {
+      os << std::format("    <special>{}</special>\n", escapeXML(details.ipv6Special));
+   }
+   if(details.isTransientMulticast) {
+      os << "    <transient>true</transient>\n";
+   }
+   if(!details.solicitedNodeFor.empty()) {
+      os << std::format("    <solicited_node_for>{}</solicited_node_for>\n", escapeXML(details.solicitedNodeFor));
+   }
+   if(!details.unicastType.empty()) {
+      os << std::format("    <unicast_type>{}</unicast_type>\n", escapeXML(details.unicastType));
+   }
+   if(!details.ulaType.empty()) {
+      os << std::format("    <ula_type>{}</ula_type>\n", escapeXML(details.ulaType));
+   }
+   if(details.hasGlobalID) {
+      os << std::format("    <global_id>{}</global_id>\n", escapeXML(details.globalID));
+   }
+   if(details.hasSubnetID) {
+      os << std::format("    <subnet_id>{}</subnet_id>\n", escapeXML(details.subnetID));
+   }
+   if(!details.interfaceID.empty()) {
+      os << std::format("    <interface_id>{}</interface_id>\n", escapeXML(details.interfaceID));
+   }
+   if(details.hasMACAddress) {
+      os << std::format("    <mac_address>{}</mac_address>\n", escapeXML(details.macAddress));
+   }
+   if(!details.solicitedNodeMulticast.empty()) {
+      os << std::format("    <solicited_node_multicast>{}</solicited_node_multicast>\n", escapeXML(details.solicitedNodeMulticast));
+   }
+   if(details.hasSixToFour) {
+      os << std::format("    <six_to_four>{}</six_to_four>\n", escapeXML(details.sixToFourAddress));
+   }
+   os << "  </properties>\n";
+
+   // GeoIP object
+   if(details.hasGeoIPASN || details.hasGeoIPCity) {
+      os << "  <geoip>\n";
+      if(details.hasGeoIPASN) {
+         if(details.geoIPASNumber > 0) {
+            os << std::format("    <asn>{}</asn>\n", details.geoIPASNumber);
+         }
+         if(!details.geoIPASOrganization.empty()) {
+            os << std::format("    <as_organization>{}</as_organization>\n", escapeXML(details.geoIPASOrganization));
+         }
+      }
+      if(details.hasGeoIPCity) {
+         os << std::format("    <country>{}</country>\n", escapeXML(details.geoIPCountry));
+         os << std::format("    <country_code>{}</country_code>\n", escapeXML(details.geoIPCountryCode));
+         if(!details.geoIPPostalCode.empty()) {
+            os << std::format("    <postal_code>{}</postal_code>\n", escapeXML(details.geoIPPostalCode));
+         }
+         os << std::format("    <city>{}</city>\n", escapeXML(details.geoIPCity));
+         os << std::format("    <region>{}</region>\n", escapeXML(details.geoIPRegion));
+         os << std::format("    <timezone>{}</timezone>\n", escapeXML(details.geoIPTimeZone));
+         os << std::format("    <latitude>{:.4f}</latitude>\n", details.geoIPLatitude);
+         os << std::format("    <longitude>{:.4f}</longitude>\n", details.geoIPLongitude);
+      }
+      os << "  </geoip>\n";
+   }
+
+   // DNS object
+   if(details.hasDNSHostname) {
+      os << "  <dns>\n";
+      os << std::format("    <hostname>{}</hostname>\n", escapeXML(details.dnsHostname));
+      os << "  </dns>\n";
+   }
+   else if(!details.dnsError.empty()) {
+      os << "  <dns>\n";
+      os << std::format("    <error>{}</error>\n", escapeXML(details.dnsError));
+      os << "  </dns>\n";
+   }
+
+   os << "</subnetcalc>\n";
 }
 
 
@@ -1397,6 +1671,12 @@ int main(int argc, char** argv)
             else if(fmt == "json") {
                outputFormat = OutputFormat::JSON;
             }
+            else if(fmt == "yaml") {
+               outputFormat = OutputFormat::YAML;
+            }
+            else if(fmt == "xml") {
+               outputFormat = OutputFormat::XML;
+            }
             else {
                // TRANSLATORS: Error message when output format is invalid:
                // {0} = input format
@@ -1448,7 +1728,7 @@ int main(int argc, char** argv)
 
    // ====== Get address and netmask from arguments =========================
    const std::string_view firstArg = argv[optind];
-   const auto slashPos = firstArg.find('/');
+   const auto             slashPos = firstArg.find('/');
 
    if(slashPos != std::string_view::npos) {
       const std::string_view addressPart = firstArg.substr(0, slashPos);
@@ -2002,12 +2282,21 @@ int main(int argc, char** argv)
    // =======================================================================
    // STEP 2: Output
    // =======================================================================
-   if(outputFormat == OutputFormat::JSON) {
-      outputJSON(std::cout, details);
-   }
-   else {
-      outputPlainText(std::cout, details, address, netmask,
-                      static_cast<unsigned int>(prefix), colourMode);
+   switch(outputFormat) {
+      case OutputFormat::JSON:
+         outputJSON(std::cout, details);
+         break;
+      case OutputFormat::YAML:
+         outputYAML(std::cout, details);
+         break;
+      case OutputFormat::XML:
+         outputXML(std::cout, details);
+         break;
+      case OutputFormat::Text:
+      default:
+         outputPlainText(std::cout, details, address, netmask,
+                         static_cast<unsigned int>(prefix), colourMode);
+         break;
    }
 
    return 0;

@@ -45,6 +45,8 @@
 .Sy |
 .Ar address Ar netmask
 .br
+.Op Fl F | Fl \-format Ar text|json|yaml|xml
+.br
 .Op Fl u | Fl \-uniquelocal
 .Op Fl U | Fl \-uniquelocalhq
 .br
@@ -95,6 +97,16 @@ Turns reverse DNS lookup off.
 Turns GeoIP lookup off.
 .It Fl c | Fl \-nocolour | Fl \-nocolor
 Turns colourised output off.
+.It Fl F | Fl \-format Ar text|json|yaml|xml
+Sets the output format. Supported formats are
+.Cm text
+(default human\-readable formatted output),
+.Cm json
+(JavaScript Object Notation),
+.Cm yaml
+(YAML Ain't Markup Language), and
+.Cm xml
+(Extensible Markup Language).
 .It Fl h | Fl \-help
 Prints command\-line parameters.
 .It Fl v | Fl \-version
@@ -144,6 +156,14 @@ subnetcalc www.nntb.no \-6 64
 subnetcalc fd00:: 64 \-\-uniquelocal
 .It
 subnetcalc fd00::9876:256:7bff:fe1b:3255 56 \-\-uniquelocalhq
+.It
+subnetcalc 192.168.1.1/24 \-F json
+.It
+subnetcalc 192.168.1.1/24 \-F yaml
+.It
+subnetcalc 2001:db8::1/64 \-F xml
+.It
+subnetcalc www.heise.de \-\-format yaml
 .It
 subnetcalc düsseldorf.de 28
 .It

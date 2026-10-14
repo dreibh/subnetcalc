@@ -50,11 +50,20 @@ _subnetcalc()
       cword="${COMP_CWORD}"
    fi
 
+   # ====== Format Argument Completion ======================================
+   case "${prev}" in
+      -F|--format)
+         local formats="text json yaml xml"
+         mapfile -t COMPREPLY < <(compgen -W "${formats}" -- "${cur}")
+         return 0
+         ;;
+   esac
+
    # ====== Parameters ======================================================
    if [ "${cword}" -le 1 ] ; then
       # Suggest IP addresses of local machine:
       local addresses
-      if [ -x  /usr/sbin/ip ] ; then
+      if [ -x /usr/sbin/ip ] ; then
          addresses="$( /usr/sbin/ip addr show | awk '/[ ]+inet/ { print $2 }')"
       elif [ -x /sbin/ifconfig ] ; then
          local addressesV4
@@ -66,7 +75,6 @@ _subnetcalc()
       mapfile -t COMPREPLY < <(compgen -W "${addresses}" -- "${cur}")
       return
    fi
-
 
    # ====== All options =====================================================
    local opts="
@@ -85,12 +93,14 @@ _subnetcalc()
 --ipv4
 -6
 --ipv6
+-F
+--format
 -h
 --help
 -v
 --version
 "
-   mapfile -t COMPREPLY < <(compgen -W "${opts}" -- "${cur}" )
+   mapfile -t COMPREPLY < <(compgen -W "${opts}" -- "${cur}")
 
    return 0
 }
