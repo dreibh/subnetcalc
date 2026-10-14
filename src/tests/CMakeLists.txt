@@ -233,7 +233,7 @@ FUNCTION(ADD_SUBNETCALC_MATRIX_TEST)
       STRING(APPEND J_PARTS ".*\"source_specific_multicast\":[ ]*true")
    ENDIF()
    IF(ARG_TRANSIENT)
-      STRING(APPEND J_PARTS ".*\"Temporarily-allocated address\"")
+      STRING(APPEND J_PARTS ".*\"transient\":[ ]*true")
    ENDIF()
    IF(ARG_SOLICITED_NODE_FOR)
       STRING(APPEND J_PARTS ".*\"solicited_node_for\":[ ]*\"${ARG_SOLICITED_NODE_FOR}\"")
@@ -306,7 +306,7 @@ FUNCTION(ADD_SUBNETCALC_MATRIX_TEST)
       STRING(APPEND Y_PARTS ".*source_specific_multicast:[ ]*true")
    ENDIF()
    IF(ARG_TRANSIENT)
-      STRING(APPEND Y_PARTS ".*-[ ]*\"Temporarily-allocated address\"")
+      STRING(APPEND Y_PARTS ".*transient:[ ]*true")
    ENDIF()
    IF(ARG_SOLICITED_NODE_FOR)
       STRING(APPEND Y_PARTS ".*solicited_node_for:[ ]*\"${ARG_SOLICITED_NODE_FOR}\"")
@@ -379,7 +379,7 @@ FUNCTION(ADD_SUBNETCALC_MATRIX_TEST)
       STRING(APPEND X_PARTS ".*<source_specific_multicast>true</source_specific_multicast>")
    ENDIF()
    IF(ARG_TRANSIENT)
-      STRING(APPEND X_PARTS ".*<flag>Temporarily-allocated address</flag>")
+      STRING(APPEND X_PARTS ".*<transient>true</transient>")
    ENDIF()
    IF(ARG_SOLICITED_NODE_FOR)
       STRING(APPEND X_PARTS ".*<solicited_node_for>${ARG_SOLICITED_NODE_FOR}</solicited_node_for>")
@@ -1361,7 +1361,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    FAMILY               IPv6
    NETWORK              ff02::1:ff00:0
    PREFIX               104
-   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ff00::
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ff00:0
    WILDCARD             ::ff:ffff
    HOST_BITS            24
    TYPE                 multicast
