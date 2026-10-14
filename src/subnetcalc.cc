@@ -223,6 +223,25 @@ static size_t displayWidth(std::string_view text)
 }
 
 
+// ###### Get Environment Variable Safely ###################################
+static std::string getEnvironmentVariable(const char* name)
+{
+#if defined(_WIN32)
+   char*  value = nullptr;
+   size_t len   = 0;
+   if(_dupenv_s(&value, &len, name) == 0 && value != nullptr) {
+      std::string result(value);
+      std::free(value);
+      return result;
+   }
+   return {};
+#else
+   const char* value = std::getenv(name);
+   return (value != nullptr) ? std::string(value) : std::string();
+#endif
+}
+
+
 // ###### Detect Right-to-Left (RTL) Layout Direction ######################
 static bool isRTL()
 {
@@ -231,14 +250,18 @@ static bool isRTL()
    if(std::strcmp(dir, "RTL") == 0) {
       return true;
    }
-   const char* lang = std::getenv("LC_ALL");
-   if(!lang || !*lang) lang = std::getenv("LC_MESSAGES");
-   if(!lang || !*lang) lang = std::getenv("LANG");
-   if(lang) {
-      if((std::strncmp(lang, "ar", 2) == 0) ||
-         (std::strncmp(lang, "he", 2) == 0) ||
-         (std::strncmp(lang, "fa", 2) == 0) ||
-         (std::strncmp(lang, "ur", 2) == 0)) {
+   std::string language = getEnvironmentVariable("LC_ALL");
+   if(language.empty()) {
+      language = getEnvironmentVariable("LC_MESSAGES");
+   }
+   if(language.empty()) {
+      language = getEnvironmentVariable("LANG");
+   }
+   if(!language.empty()) {
+      if(language.starts_with("ar") ||
+         language.starts_with("he") ||
+         language.starts_with("fa") ||
+         language.starts_with("ur")) {
          return true;
       }
    }
@@ -1611,8 +1634,8 @@ int main(int argc, char** argv)
    if(std::strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
       std::setlocale(LC_CTYPE, "C.UTF-8");
    }
-   const char* localeDir = std::getenv("SUBNETCALC_LOCALEDIR");
-   bindtextdomain("subnetcalc", (localeDir != nullptr) ? localeDir : SUBNETCALC_LOCALEDIR);
+   const std::string localeDir = getEnvironmentVariable("SUBNETCALC_LOCALEDIR");
+   bindtextdomain("subnetcalc", !localeDir.empty() ? localeDir.c_str() : SUBNETCALC_LOCALEDIR);
 #else
    bindtextdomain("subnetcalc", SUBNETCALC_LOCALEDIR);
 #endif
