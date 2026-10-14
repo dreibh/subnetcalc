@@ -50,7 +50,7 @@ size_t getSocklen(const struct sockaddr* address);
 
 std::string address2string(const struct sockaddr* address,
                            bool                   port      = false,
-                           bool                   hideScope = false);
+                           bool                   hideScope = true);
 
 bool string2address(std::string_view      string,
                     union sockaddr_union* address,
@@ -60,7 +60,7 @@ bool string2address(std::string_view      string,
 void printAddress(std::ostream&          os,
                   const struct sockaddr* address,
                   bool                   port      = true,
-                  bool                   hideScope = false);
+                  bool                   hideScope = true);
 
 // Standard C++20 Formatter for sockaddr_union
 template<>

@@ -155,7 +155,7 @@ std::string address2string(const struct sockaddr* address,
       }
       case AF_INET6: {
          const auto* ipv6 = reinterpret_cast<const struct sockaddr_in6*>(address);
-         std::string scope;
+         std::string scope { };
          if(!hideScope && (IN6_IS_ADDR_LINKLOCAL(&ipv6->sin6_addr) || IN6_IS_ADDR_MC_LINKLOCAL(&ipv6->sin6_addr))) {
             char ifname[IFNAMSIZ];
             if(if_indextoname(ipv6->sin6_scope_id, ifname) != nullptr) {

@@ -1808,14 +1808,14 @@ int main(int argc, char** argv)
    // ====== Get prefix length ==============================================
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
-      const std::string addressString = address2string(&netmask.sa, false, false);
+      const std::string addressString = address2string(&netmask.sa, false);
       // TRANSLATORS: Error message when netmask string is invalid:
       // {0} = input netmask
       std::cerr << formatText(gettext("ERROR: Invalid netmask {0}!"), addressString) << '\n';
       return 1;
    }
    if(netmask.sa.sa_family != address.sa.sa_family) {
-      const std::string addressString = address2string(&netmask.sa, false, false);
+      const std::string addressString = address2string(&netmask.sa, false);
       // TRANSLATORS: Error message when address and netmask families mismatch:
       // {0} = netmask string
       std::cerr << formatText(gettext("ERROR: Incompatible netmask {0}!"), addressString) << '\n';
@@ -1883,12 +1883,12 @@ int main(int argc, char** argv)
    // STEP 1: Collect all details of the address into variables
    // =======================================================================
    SubnetDetails details;
-   details.address     = address2string(&address.sa, false, false);
+   details.address     = address2string(&address.sa, false);
    details.family      = isIPv4(address) ? "IPv4" : "IPv6";
-   details.network     = address2string(&network.sa, false, false);
+   details.network     = address2string(&network.sa, false);
    details.prefix      = prefix;
-   details.netmask     = address2string(&netmask.sa, false, false);
-   details.wildcard    = address2string(&wildcard.sa, false, false);
+   details.netmask     = address2string(&netmask.sa, false);
+   details.wildcard    = address2string(&wildcard.sa, false);
    details.hostBits    = hostBits;
    details.isMulticast = isMulticast(address);
 
@@ -1897,7 +1897,7 @@ int main(int argc, char** argv)
       details.hexAddress    = std::format("{:08X}", ntohl(address.in.sin_addr.s_addr));
       if(reservedHosts == 2) {
          details.hasBroadcast = true;
-         details.broadcast    = address2string(&broadcast.sa, false, false);
+         details.broadcast    = address2string(&broadcast.sa, false);
       }
    }
    else {
@@ -1912,8 +1912,8 @@ int main(int argc, char** argv)
    }
 
    if(!details.isMulticast) {
-      details.hostMin = address2string(&host1.sa, false, false);
-      details.hostMax = address2string(&host2.sa, false, false);
+      details.hostMin = address2string(&host1.sa, false);
+      details.hostMax = address2string(&host2.sa, false);
 
 #if defined(__SIZEOF_INT128__)
       const std::string maxHostsNum = (maxHosts > 0) ? toString(maxHosts) : "0";
@@ -2112,7 +2112,7 @@ int main(int argc, char** argv)
                const uint32_t u = static_cast<uint32_t>((ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3]);
                const uint32_t l = static_cast<uint32_t>((ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5]);
                sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
-               details.sixToFourAddress     = address2string(&sixToFour.sa, false, false);
+               details.sixToFourAddress     = address2string(&sixToFour.sa, false);
             }
          }
 
