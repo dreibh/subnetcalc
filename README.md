@@ -11,6 +11,8 @@
 
 SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
 
+In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML) via the `-F` / `--format` option.
+
 
 # 😀 Examples
 
@@ -24,7 +26,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   Broadcast      = 132.252.150.159
   Wildcard Mask  = 0.0.0.15
   Hex. Address   = 84FC969A
-  Hosts Bits     = 4
+  Host Bits      = 4
   Max. Hosts     = 14   (2^4 - 2)
   Host Range     = { 132.252.150.145 - 132.252.150.158 }
   Properties     =
@@ -38,6 +40,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> www.heise.de 64</strong>
   Address        = 2a02:2e0:3fe:1001:7777:772e:2:85
+  Exp. Address   = 2a02:02e0:03fe:1001:7777:772e:0002:0085
                       2a02 = <span style="color: red;">00101010 00000010</span>
                       02e0 = <span style="color: red;">00000010 11100000</span>
                       03fe = <span style="color: red;">00000011 11111110</span>
@@ -49,7 +52,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   Network        = 2a02:2e0:3fe:1001:: / 64
   Netmask        = ffff:ffff:ffff:ffff::
   Wildcard Mask  = ::ffff:ffff:ffff:ffff
-  Hosts Bits     = 64
+  Host Bits      = 64
   Max. Hosts     = 18446744073709551615   (2^64 - 1)
   Host Range     = { 2a02:2e0:3fe:1001::1 - 2a02:2e0:3fe:1001:ffff:ffff:ffff:ffff }
   Properties     =
@@ -58,6 +61,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + Interface ID                     = 7777:772e:0002:0085
         + Solicited Node Multicast Address = <span style="color: green">ff02::1:ff</span>02:0085
         + 6-to-4 Address                   = 2.224.3.254
+  GeoIP AS Info  = Plus.line AG (AS12306)
   GeoIP Country  = Germany (DE)
   DNS Hostname   = www.heise.de
   </code></pre>
@@ -67,6 +71,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 0:0:0:1234::100 64 -uniquelocalhq</strong>
   Generating Unique Local IPv6 address (using /dev/random) ...
   Address        = fd22:6892:1a2d:1234::100
+  Exp. Address   = fd22:6892:1a2d:1234:0000:0000:0000:0100
                       fd22 = <span style="color: red;">11111101 00100010</span>
                       6892 = <span style="color: red;">01101000 10010010</span>
                       1a2d = <span style="color: red;">00011010 00101101</span>
@@ -78,7 +83,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   Network        = fd22:6892:1a2d:1234:: / 64
   Netmask        = ffff:ffff:ffff:ffff::
   Wildcard Mask  = ::ffff:ffff:ffff:ffff
-  Hosts Bits     = 64
+  Host Bits      = 64
   Max. Hosts     = 18446744073709551615   (2^64 - 1)
   Host Range     = { fd22:6892:1a2d:1234::1 - fd22:6892:1a2d:1234:ffff:ffff:ffff:ffff }
   Properties     =
@@ -97,6 +102,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2401:3800:c001::68</strong>
   Address        = 2401:3800:c001::68
+  Exp. Address   = 2401:3800:c001:0000:0000:0000:0000:0068
                       2401 = <span style="color: red;">00100100 00000001</span>
                       3800 = <span style="color: red;">00111000 00000000</span>
                       c001 = <span style="color: red;">11000000 00000001</span>
@@ -108,22 +114,23 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   Network        = 2401:3800:c001::68 / 128
   Netmask        = ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
   Wildcard Mask  = ::
-  Hosts Bits     = 0
+  Host Bits      = 0
   Max. Hosts     = 0   (2^0 - 1)
   Host Range     = { 2401:3800:c001::69 - 2401:3800:c001::68 }
   Properties     =
      - 2401:3800:c001::68 is a NETWORK address
-   - Global Unicast Properties:
-      + Interface ID                     = 0000:0000:0000:0068
-      + Solicited Node Multicast Address = ff02::1:ff00:0068
-  GeoIP Country = <strong>China (CN)</strong>
-  DNS Hostname  = <strong>bg-in-x68.1e100.net</strong>
+     - Global Unicast Properties:
+        + Interface ID                     = 0000:0000:0000:0068
+        + Solicited Node Multicast Address = ff02::1:ff00:0068
+  GeoIP Country  = <strong>China (CN)</strong>
+  DNS Hostname   = <strong>bg-in-x68.1e100.net</strong>
   </code></pre>
 
 * Which are the MAC address and Solicited Node Multicast address of 2001:638:501:4ef8:223:aeff:fea4:8ca9/64?
 
   <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2001:638:501:4ef8:223:aeff:fea4:8ca9/64</strong>
   Address        = 2001:638:501:4ef8:223:aeff:fea4:8ca9
+  Exp. Address   = 2001:0638:0501:4ef8:0223:aeff:fea4:8ca9
                      2001 = <span style="color: red;">00100000 00000001</span>
                      0638 = <span style="color: red;">00000110 00111000</span>
                      0501 = <span style="color: red;">00000101 00000001</span>
@@ -135,7 +142,7 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
   Network        = 2001:638:501:4ef8:: / 64
   Netmask        = ffff:ffff:ffff:ffff::
   Wildcard Mask  = ::ffff:ffff:ffff:ffff
-  Hosts Bits     = 64
+  Host Bits      = 64
   Max. Hosts     = 18446744073709551615   (2^64 - 1)
   Host Range     = { 2001:638:501:4ef8::1 - 2001:638:501:4ef8:ffff:ffff:ffff:ffff }
   Properties     =
@@ -146,6 +153,127 @@ SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 add
         + Solicited Node Multicast Address = <strong><span style="color: green">ff02::1:ff</span>a4:8ca9</strong>
   GeoIP Country  = Germany (DE)
   DNS Hostname   = (Name or service not known)
+  </code></pre>
+
+* Need machine-readable output for scripts or pipelines? Use `-F json` to get clean JSON output:
+
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 192.168.1.1/24 -F json -n -g</strong>
+  {
+    "address": "192.168.1.1",
+    "family": "IPv4",
+    "network": "192.168.1.0",
+    "prefix": 24,
+    "netmask": "255.255.255.0",
+    "broadcast": "192.168.1.255",
+    "wildcard": "0.0.0.255",
+    "hex": "C0A80101",
+    "host_bits": 8,
+    "max_hosts": 254,
+    "host_range": {
+      "min": "192.168.1.1",
+      "max": "192.168.1.254"
+    },
+    "properties": {
+      "type": "host",
+      "description": "192.168.1.1 is a HOST address in 192.168.1.0/24",
+      "class": "Class C",
+      "flags": [
+        "Private"
+      ]
+    }
+  }
+  </code></pre>
+
+* JSON output is also available for IPv6 with expanded address, GeoIP ASN details, and full property breakdown:
+
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2a02:2e0:3fe:1001:7777:772e:2:85 64 -F json</strong>
+  {
+    "address": "2a02:2e0:3fe:1001:7777:772e:2:85",
+    "expanded_address": "2a02:02e0:03fe:1001:7777:772e:0002:0085",
+    "family": "IPv6",
+    "network": "2a02:2e0:3fe:1001::",
+    "prefix": 64,
+    "netmask": "ffff:ffff:ffff:ffff::",
+    "wildcard": "::ffff:ffff:ffff:ffff",
+    "host_bits": 64,
+    "max_hosts": 18446744073709551615,
+    "host_range": {
+      "min": "2a02:2e0:3fe:1001::1",
+      "max": "2a02:2e0:3fe:1001:ffff:ffff:ffff:ffff"
+    },
+    "properties": {
+      "type": "host",
+      "description": "2a02:2e0:3fe:1001:7777:772e:2:85 is a HOST address in 2a02:2e0:3fe:1001::/64",
+      "unicast_type": "Global Unicast",
+      "interface_id": "7777:772e:0002:0085",
+      "solicited_node_multicast": "ff02::1:ff02:0085",
+      "six_to_four": "2.224.3.254"
+    },
+    "geoip": {
+      "asn": 12306,
+      "as_organization": "Plus.line AG",
+      "country": "Germany",
+      "country_code": "DE",
+      "postal_code": "63263",
+      "city": "Neu-Isenburg",
+      "region": "Hesse",
+      "timezone": "Europe/Berlin",
+      "latitude": 50.0596,
+      "longitude": 8.6862
+    },
+    "dns": {
+      "hostname": "www.heise.de"
+    }
+  }
+  </code></pre>
+
+* YAML (`-F yaml`) and XML (`-F xml`) are also supported:
+
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2001:db8::1/64 -F yaml -n -g</strong>
+  address: "2001:db8::1"
+  expanded_address: "2001:0db8:0000:0000:0000:0000:0000:0001"
+  family: "IPv6"
+  network: "2001:db8::"
+  prefix: 64
+  netmask: "ffff:ffff:ffff:ffff::"
+  wildcard: "::ffff:ffff:ffff:ffff"
+  host_bits: 64
+  max_hosts: 18446744073709551615
+  host_range:
+    min: "2001:db8::1"
+    max: "2001:db8::ffff:ffff:ffff:ffff"
+  properties:
+    type: "host"
+    description: "2001:db8::1 is a HOST address in 2001:db8::/64"
+    unicast_type: "Global Unicast"
+    interface_id: "0000:0000:0000:0001"
+    solicited_node_multicast: "ff02::1:ff00:0001"
+  </code></pre>
+
+  <pre><code><span style="color:green;">user@host</span><span style="color:blue;">:~</span><span style="color:gray;">$</span> <strong><span class="fu">subnetcalc</span> 2001:db8::1/64 -F xml -n -g</strong>
+  &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+  &lt;subnetcalc&gt;
+    &lt;address&gt;2001:db8::1&lt;/address&gt;
+    &lt;expanded_address&gt;2001:0db8:0000:0000:0000:0000:0000:0001&lt;/expanded_address&gt;
+    &lt;family&gt;IPv6&lt;/family&gt;
+    &lt;network&gt;2001:db8::&lt;/network&gt;
+    &lt;prefix&gt;64&lt;/prefix&gt;
+    &lt;netmask&gt;ffff:ffff:ffff:ffff::&lt;/netmask&gt;
+    &lt;wildcard&gt;::ffff:ffff:ffff:ffff&lt;/wildcard&gt;
+    &lt;host_bits&gt;64&lt;/host_bits&gt;
+    &lt;max_hosts&gt;18446744073709551615&lt;/max_hosts&gt;
+    &lt;host_range&gt;
+      &lt;min&gt;2001:db8::1&lt;/min&gt;
+      &lt;max&gt;2001:db8::ffff:ffff:ffff:ffff&lt;/max&gt;
+    &lt;/host_range&gt;
+    &lt;properties&gt;
+      &lt;type&gt;host&lt;/type&gt;
+      &lt;description&gt;2001:db8::1 is a HOST address in 2001:db8::/64&lt;/description&gt;
+      &lt;unicast_type&gt;Global Unicast&lt;/unicast_type&gt;
+      &lt;interface_id&gt;0000:0000:0000:0001&lt;/interface_id&gt;
+      &lt;solicited_node_multicast&gt;ff02::1:ff00:0001&lt;/solicited_node_multicast&gt;
+    &lt;/properties&gt;
+  &lt;/subnetcalc&gt;
   </code></pre>
 
 * Take a look into the manual page of SubNetCalc for further information and options:
@@ -206,7 +334,7 @@ Please use the issue tracker at [https://github.com/dreibh/subnetcalc/issues](ht
 The Git repository of the SubNetCalc sources can be found at [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc):
 
 ```bash
-git clone https://github.com/dreibh/subnetcalc
+git clone [https://github.com/dreibh/subnetcalc](https://github.com/dreibh/subnetcalc)
 cd subnetcalc
 sudo ci/get-dependencies --install
 cmake .
@@ -219,7 +347,7 @@ Optionally, for installation to the standard paths (usually under `/usr/local`):
 sudo make install
 ```
 
-Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically  installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) FreeBSD.
+Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) FreeBSD.
 
 Contributions:
 
