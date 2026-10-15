@@ -1471,71 +1471,73 @@ SET_TESTS_PROPERTIES(
 #############################################################################
 
 # Standard ASCII Domain Names
-ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise             www.heise.de 24)
-ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise_slash       www.heise.de/24)
-ADD_SUBNETCALC_DNS_TEST(dns_ascii_google            google.com 32)
+ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise             www.heise.de 24 -4)
+ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise_slash       www.heise.de/24 -4)
+ADD_SUBNETCALC_DNS_TEST(dns_ascii_google            google.com 64 -6)
 
 # German IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_buecher        www.xn--bcher-kva.de 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_buecher             www.bücher.de 24)
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_muenchen       www.xn--mnchen-3ya.de/24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_muenchen            www.münchen.de/24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_buecher        www.xn--bcher-kva.de)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_buecher             www.bücher.de)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_muenchen       www.xn--mnchen-3ya.de/24 -4)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_muenchen            www.münchen.de/24 -4)
 
 # Norwegian IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_snoe           www.xn--sn-mka.no 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_snoe                www.snø.no 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_snoe           www.xn--sn-mka.no)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_snoe                www.snø.no)
 ADD_SUBNETCALC_DNS_TEST(dns_punycode_blaa           www.xn--bl-zia.no/24)
 ADD_SUBNETCALC_DNS_TEST(dns_idn_blaa                www.blå.no/24)
 
 # Swedish IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_raek           xn--rksmrgs-5wao1o.se 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_raek                räksmörgås.se 24)
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_goeteborg      www.xn--gteborg-90a.se/24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_goeteborg           www.göteborg.se/24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_raek           xn--rksmrgs-5wao1o.se)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_raek                räksmörgås.se)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_goeteborg      www.xn--gteborg-90a.se/24 -4)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_goeteborg           www.göteborg.se/24 -4)
 
 # Russian IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_president      xn--d1abbgf6aiiy.xn--p1ai 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_president           президент.рф 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_president      xn--d1abbgf6aiiy.xn--p1ai)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_president           президент.рф)
 
 # Chinese IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_renmin         xn--gmq282eogn.cn/24 -n)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_renmin              人民网.cn/24 -n)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_renmin         xn--gmq282eogn.cn/24 -4n)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_renmin              人民网.cn/24 -4n)
 
 # Japanese IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_nihongo        xn--wgv71a119e.jp 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_nihongo             日本語.jp 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_nihongo        xn--wgv71a119e.jp)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_nihongo             日本語.jp)
 
 # Georgian IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_horoscope      xn--todblabgkj5k.xn--node 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_horoscope           ჰოროსკოპი.გე 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_horoscope      xn--todblabgkj5k.xn--node)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_horoscope           ჰოროსკოპი.გე)
 
 # Arabic IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_dubai          xn--ngbn6f.xn--mgbaam7a8h 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_dubai               دبي.امارات 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_dubai          xn--ngbn6f.xn--mgbaam7a8h)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_dubai               دبي.امارات)
 
 # Hebrew IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_isoc           xn----zhcbgfhe2aacg8fb5i.xn--4dbrk0ce 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_isoc                איגוד-האינטרנט.ישראל 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_isoc           xn----zhcbgfhe2aacg8fb5i.xn--4dbrk0ce)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_isoc                איגוד-האינטרנט.ישראל)
 
 # Indian IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_india          xn--i1bj3fqcyde.xn--11b7cb3a6a.xn--h2brj9c 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_india               इंडिया.सरकार.भारत 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_india          xn--11b3cgab9b4bm5d.xn--h2brj9c)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_india               मेरीसरकार.भारत)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_india_mha      xn--i1b5bzbybhfo5c8b4bxh.xn--11b7cb3a6a.xn--h2brj9c -n)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_india_mha           गृहमंत्रालय.सरकार.भारत -n)
 
 # Greek IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_greece         www.xn--qxaa9ba.gr 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_greece              www.εεττ.gr 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_greece         www.xn--qxaa9ba.gr -n)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_greece              www.εεττ.gr -n)
 
 # Farsi IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_farsi          xn--mgbu7dsvrfc.xn--mgba3a4f16a 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_farsi               ایرنیک.ایران 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_farsi          xn--mgbu7dsvrfc.xn--mgba3a4f16a)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_farsi               ایرنیک.ایران)
 
 # Korean IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_korea          xn--3e0bx5e6xzftae3gxzpskhile.xn--3e0b707e 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_korea               한국인터넷진흥원.한국 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_korea          xn--3e0bx5e6xzftae3gxzpskhile.xn--3e0b707e)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_korea               한국인터넷진흥원.한국)
 
 # Slovakian IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_slovakia       xn--preov-xdb.eu 24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_slovakia            prešov.eu 24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_slovakia       xn--preov-xdb.eu)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_slovakia            prešov.eu)
 
 
 #############################################################################
