@@ -5,7 +5,6 @@
 #include <config.h>
 #endif
 
-#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <format>
@@ -31,12 +30,6 @@ using in_addr_t = uint32_t;
 #endif
 #endif
 
-inline unsigned long long getMicroTime()
-{
-   return static_cast<unsigned long long>(
-      std::chrono::duration_cast<std::chrono::microseconds>(
-         std::chrono::system_clock::now().time_since_epoch()).count());
-}
 
 union sockaddr_union {
    struct sockaddr     sa;
@@ -48,25 +41,26 @@ bool checkIPv6();
 bool hasTranslationPrefix(const sockaddr_in6* address);
 size_t getSocklen(const struct sockaddr* address);
 
-std::string address2string(const struct sockaddr* address,
-                           bool                   port      = false,
-                           bool                   hideScope = true);
+std::string address2string(const sockaddr_union& address,
+                           bool                  port      = false,
+                           bool                  hideScope = true);
 
 bool string2address(std::string_view      string,
                     union sockaddr_union* address,
                     bool                  readPort      = true,
                     int                   addressFamily = AF_UNSPEC);
 
-void printAddress(std::ostream&          os,
-                  const struct sockaddr* address,
-                  bool                   port      = true,
-                  bool                   hideScope = true);
+void printAddress(std::ostream&         os,
+                  const sockaddr_union& address,
+                  bool                  port      = true,
+                  bool                  hideScope = true);
 
-// Standard C++20 Formatter for sockaddr_union
 template<>
 struct std::formatter<sockaddr_union> : std::formatter<std::string_view> {
-   auto format(const sockaddr_union& addr, std::format_context& ctx) const {
-      return std::formatter<std::string_view>::format(address2string(&addr.sa, false, true), ctx);
+   auto format(const sockaddr_union& address,
+               std::format_context&  context) const {
+      return std::formatter<std::string_view>::format(
+                address2string(address, false, true), context);
    }
 };
 

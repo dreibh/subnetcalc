@@ -140,34 +140,34 @@ static bool formatIPv6Address(const struct sockaddr_in6* ipv6address,
 
 
 // ###### Convert address to string #########################################
-std::string address2string(const struct sockaddr* address,
-                           const bool             port,
-                           const bool             hideScope)
+std::string address2string(const sockaddr_union& address,
+                           const bool            port,
+                           const bool            hideScope)
 {
-   switch(address->sa_family) {
+   switch(address.sa.sa_family) {
       case AF_INET: {
-         const auto* ipv4 = reinterpret_cast<const struct sockaddr_in*>(address);
          char str[INET_ADDRSTRLEN];
-         if(inet_ntop(AF_INET, &ipv4->sin_addr, str, sizeof(str)) != nullptr) {
-            return port ? std::format("{}:{}", str, ntohs(ipv4->sin_port)) : std::string(str);
+         if(inet_ntop(AF_INET, &address.in.sin_addr, str, sizeof(str)) != nullptr) {
+            return port ? std::format("{}:{}", str, ntohs(address.in.sin_port))
+                        : std::string(str);
          }
          break;
       }
       case AF_INET6: {
-         const auto* ipv6 = reinterpret_cast<const struct sockaddr_in6*>(address);
          std::string scope { };
-         if(!hideScope && (IN6_IS_ADDR_LINKLOCAL(&ipv6->sin6_addr) || IN6_IS_ADDR_MC_LINKLOCAL(&ipv6->sin6_addr))) {
+         if(!hideScope && (IN6_IS_ADDR_LINKLOCAL(&address.in6.sin6_addr) ||
+                           IN6_IS_ADDR_MC_LINKLOCAL(&address.in6.sin6_addr))) {
             char ifname[IFNAMSIZ];
-            if(if_indextoname(ipv6->sin6_scope_id, ifname) != nullptr) {
+            if(if_indextoname(address.in6.sin6_scope_id, ifname) != nullptr) {
                scope = std::format("%{}", ifname);
             }
             else {
-               scope = std::format("%{}", ipv6->sin6_scope_id);
+               scope = std::format("%{}", address.in6.sin6_scope_id);
             }
          }
          std::string addrStr;
-         if(formatIPv6Address(ipv6, addrStr)) {
-            return port ? std::format("[{}{}]:{}", addrStr, scope, ntohs(ipv6->sin6_port))
+         if(formatIPv6Address(&address.in6, addrStr)) {
+            return port ? std::format("[{}{}]:{}", addrStr, scope, ntohs(address.in6.sin6_port))
                         : std::format("{}{}", addrStr, scope);
          }
          break;
@@ -185,7 +185,7 @@ bool string2address(std::string_view      string,
                     const bool            readPort,
                     const int             addressFamily)
 {
-   std::string_view host = string;
+   std::string_view host       = string;
    uint16_t         portNumber = 0;
 
    // ====== Handle RFC 2732 [addr]:port format ==============================
@@ -248,7 +248,7 @@ bool string2address(std::string_view      string,
    struct addrinfo hints { };
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
-   hints.ai_flags = AI_IDN;
+   hints.ai_flags    = AI_IDN;
 #endif
 
    char* punycode = nullptr;
@@ -259,9 +259,8 @@ bool string2address(std::string_view      string,
       }
    }
 #endif
-
-   const char* targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
-   struct addrinfo* result = nullptr;
+   const char*      targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
+   struct addrinfo* result     = nullptr;
 
    if(addressFamily == AF_INET) {
       hints.ai_family = AF_INET;
@@ -322,11 +321,11 @@ bool string2address(std::string_view      string,
 }
 
 
-// ###### Print address =====================================================
-void printAddress(std::ostream&          os,
-                  const struct sockaddr* address,
-                  const bool             port,
-                  const bool             hideScope)
+// ###### Print address #####################################################
+void printAddress(std::ostream&         os,
+                  const sockaddr_union& address,
+                  const bool            port,
+                  const bool            hideScope)
 {
    os << address2string(address, port, hideScope);
 }

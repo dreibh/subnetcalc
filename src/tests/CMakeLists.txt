@@ -1077,7 +1077,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETWORK              64:ff9b::0.0.0.0
    PREFIX               96
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff::
-   WILDCARD             ::255.255.255.255
+   WILDCARD             ::ffff:ffff
    HOST_BITS            32
    MAX_HOSTS            4294967295
    HOST_MIN             64:ff9b::0.0.0.1
@@ -1095,7 +1095,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETWORK              64:ff9b:1:2:3:4:0.0.0.0
    PREFIX               96
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff::
-   WILDCARD             ::255.255.255.255
+   WILDCARD             ::ffff:ffff
    HOST_BITS            32
    MAX_HOSTS            4294967295
    HOST_MIN             64:ff9b:1:2:3:4:0.0.0.1

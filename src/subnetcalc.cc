@@ -352,6 +352,74 @@ inline bool isMulticast(const sockaddr_union& address)
 }
 
 
+// ###### Format mask to string without IPv4-embedded notation ##############
+static std::string mask2string(const sockaddr_union& mask)
+{
+   if(isIPv4(mask)) {
+      return address2string(mask, false);
+   }
+
+   const in6_addr ip6 = getIPv6Address(mask);
+   uint16_t words[8];
+   for(int i = 0; i < 8; i++) {
+      words[i] = static_cast<uint16_t>((ip6.s6_addr[i * 2] << 8) | ip6.s6_addr[i * 2 + 1]);
+   }
+
+   // Find longest run of zeros (RFC 5952 section 4.2):
+   int best_base = -1;
+   int best_len  = 0;
+   int cur_base  = -1;
+   int cur_len   = 0;
+
+   for(int i = 0; i < 8; i++) {
+      if(words[i] == 0) {
+         if(cur_base == -1) {
+            cur_base = i;
+            cur_len  = 1;
+         }
+         else {
+            cur_len++;
+         }
+         if(cur_len > best_len) {
+            best_base = cur_base;
+            best_len  = cur_len;
+         }
+      }
+      else {
+         cur_base = -1;
+         cur_len  = 0;
+      }
+   }
+
+   // RFC 5952: "The symbol '::' MUST NOT be used to shorten just
+   // one 16-bit 0 field.":
+   if(best_len <= 1) {
+      best_base = -1;
+      best_len  = 0;
+   }
+
+   std::string out;
+   int i = 0;
+   while(i < 8) {
+      if(i == best_base) {
+         out += "::";
+         i += best_len;
+      }
+      else {
+         if(!out.empty() && !out.ends_with("::")) {
+            out += ':';
+         }
+         out += std::format("{:x}", words[i]);
+         i++;
+      }
+   }
+   if(out.empty()) {
+      out = "::";
+   }
+   return out;
+}
+
+
 // ###### Read prefix from parameter ########################################
 int readPrefix(std::string_view      parameter,
                const sockaddr_union& address,
@@ -541,17 +609,18 @@ int getPrefixLength(const sockaddr_union& netmask)
 
 
 // ###### "&" operator for addresses ########################################
-sockaddr_union operator&(const sockaddr_union& a1, const sockaddr_union& a2)
+sockaddr_union operator&(const sockaddr_union& address1,
+                         const sockaddr_union& address2)
 {
-   assert(a1.sa.sa_family == a2.sa.sa_family);
+   assert(address1.sa.sa_family == address2.sa.sa_family);
 
-   sockaddr_union a = a1;
+   sockaddr_union a = address1;
    if(a.sa.sa_family == AF_INET) {
-      a.in.sin_addr.s_addr &= a2.in.sin_addr.s_addr;
+      a.in.sin_addr.s_addr &= address2.in.sin_addr.s_addr;
    }
    else {
       for(int j = 0; j < 16; j++) {
-         a.in6.sin6_addr.s6_addr[j] &= a2.in6.sin6_addr.s6_addr[j];
+         a.in6.sin6_addr.s6_addr[j] &= address2.in6.sin6_addr.s6_addr[j];
       }
    }
    return a;
@@ -559,109 +628,103 @@ sockaddr_union operator&(const sockaddr_union& a1, const sockaddr_union& a2)
 
 
 // ###### "|" operator for addresses ########################################
-sockaddr_union operator|(const sockaddr_union& a1, const sockaddr_union& a2)
+sockaddr_union operator|(const sockaddr_union& address1,
+                         const sockaddr_union& address2)
 {
-   assert(a1.sa.sa_family == a2.sa.sa_family);
+   assert(address1.sa.sa_family == address2.sa.sa_family);
 
-   sockaddr_union a = a1;
-   if(a.sa.sa_family == AF_INET) {
-      a.in.sin_addr.s_addr |= a2.in.sin_addr.s_addr;
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr |= address2.in.sin_addr.s_addr;
    }
    else {
       for(int j = 0; j < 16; j++) {
-         a.in6.sin6_addr.s6_addr[j] |= a2.in6.sin6_addr.s6_addr[j];
+         address.in6.sin6_addr.s6_addr[j] |= address2.in6.sin6_addr.s6_addr[j];
       }
    }
-   return a;
+   return address;
 }
 
 
 // ###### "~" operator for addresses ########################################
-sockaddr_union operator~(const sockaddr_union& a1)
+sockaddr_union operator~(const sockaddr_union& address1)
 {
-   sockaddr_union a = a1;
-   if(a.sa.sa_family == AF_INET) {
-      a.in.sin_addr.s_addr = ~a1.in.sin_addr.s_addr;
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = ~address1.in.sin_addr.s_addr;
    }
    else {
       for(int j = 0; j < 16; j++) {
-         a.in6.sin6_addr.s6_addr[j] =
-            static_cast<uint8_t>(~a1.in6.sin6_addr.s6_addr[j]);
+         address.in6.sin6_addr.s6_addr[j] =
+            static_cast<uint8_t>(~address1.in6.sin6_addr.s6_addr[j]);
       }
    }
-   return a;
-}
-
-
-// ###### Output operator for addresses #####################################
-std::ostream& operator<<(std::ostream& os, const sockaddr_union& a)
-{
-   printAddress(os, &a.sa, false, true);
-   return os;
+   return address;
 }
 
 
 // ###### "+" operator for addresses ########################################
-sockaddr_union operator+(const sockaddr_union& a1, uint32_t n)
+sockaddr_union operator+(const sockaddr_union& address1, uint32_t n)
 {
-   sockaddr_union a = a1;
-   if(a.sa.sa_family == AF_INET) {
-      a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) + n);
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = htonl(ntohl(address.in.sin_addr.s_addr) + n);
    }
    else {
       union {
          uint8_t  b[16];
          uint32_t w[4];
       } local;
-      std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
+      std::memcpy(local.b, address.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
          const uint64_t sum =
             static_cast<uint64_t>(ntohl(local.w[j])) + static_cast<uint64_t>(n);
          local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
          n = static_cast<uint32_t>(sum >> 32);
       }
-      std::memcpy(a.in6.sin6_addr.s6_addr, local.b, 16);
+      std::memcpy(address.in6.sin6_addr.s6_addr, local.b, 16);
    }
-   return a;
+   return address;
 }
 
 
 // ###### "-" operator for addresses ########################################
-sockaddr_union operator-(const sockaddr_union& a1, uint32_t n)
+sockaddr_union operator-(const sockaddr_union& address1, uint32_t n)
 {
-   sockaddr_union a = a1;
-   if(a.sa.sa_family == AF_INET) {
-      a.in.sin_addr.s_addr = htonl(ntohl(a.in.sin_addr.s_addr) - n);
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = htonl(ntohl(address.in.sin_addr.s_addr) - n);
    }
    else {
       union {
          uint8_t  b[16];
          uint32_t w[4];
       } local;
-      std::memcpy(local.b, a.in6.sin6_addr.s6_addr, 16);
+      std::memcpy(local.b, address.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
          const uint64_t sum =
             static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
          local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
          n = static_cast<uint32_t>(sum >> 32);
       }
-      std::memcpy(a.in6.sin6_addr.s6_addr, local.b, 16);
+      std::memcpy(address.in6.sin6_addr.s6_addr, local.b, 16);
    }
-   return a;
+   return address;
 }
 
 
 // ###### "==" operator for addresses #######################################
-bool operator==(const sockaddr_union& a1, const sockaddr_union& a2)
+bool operator==(const sockaddr_union& address1,
+                const sockaddr_union& address2)
 {
-   assert(a1.sa.sa_family == a2.sa.sa_family);
+   assert(address1.sa.sa_family == address2.sa.sa_family);
 
-   if(a1.sa.sa_family == AF_INET) {
-      return (a1.in.sin_addr.s_addr == a2.in.sin_addr.s_addr);
+   if(address1.sa.sa_family == AF_INET) {
+      return (address1.in.sin_addr.s_addr == address2.in.sin_addr.s_addr);
    }
    else {
-      return (std::memcmp(a1.in6.sin6_addr.s6_addr,
-                          a2.in6.sin6_addr.s6_addr, 16) == 0);
+      return (std::memcmp(address1.in6.sin6_addr.s6_addr,
+                          address2.in6.sin6_addr.s6_addr, 16) == 0);
    }
 }
 
@@ -1808,14 +1871,14 @@ int main(int argc, char** argv)
    // ====== Get prefix length ==============================================
    prefix = getPrefixLength(netmask);
    if(prefix < 0) {
-      const std::string addressString = address2string(&netmask.sa, false);
+      const std::string addressString = address2string(netmask, false);
       // TRANSLATORS: Error message when netmask string is invalid:
       // {0} = input netmask
       std::cerr << formatText(gettext("ERROR: Invalid netmask {0}!"), addressString) << '\n';
       return 1;
    }
    if(netmask.sa.sa_family != address.sa.sa_family) {
-      const std::string addressString = address2string(&netmask.sa, false);
+      const std::string addressString = address2string(netmask, false);
       // TRANSLATORS: Error message when address and netmask families mismatch:
       // {0} = netmask string
       std::cerr << formatText(gettext("ERROR: Incompatible netmask {0}!"), addressString) << '\n';
@@ -1883,12 +1946,12 @@ int main(int argc, char** argv)
    // STEP 1: Collect all details of the address into variables
    // =======================================================================
    SubnetDetails details;
-   details.address     = address2string(&address.sa, false);
+   details.address     = address2string(address, false);
    details.family      = isIPv4(address) ? "IPv4" : "IPv6";
-   details.network     = address2string(&network.sa, false);
+   details.network     = address2string(network, false);
    details.prefix      = prefix;
-   details.netmask     = address2string(&netmask.sa, false);
-   details.wildcard    = address2string(&wildcard.sa, false);
+   details.netmask     = address2string(netmask, false);
+   details.wildcard    = mask2string(wildcard);
    details.hostBits    = hostBits;
    details.isMulticast = isMulticast(address);
 
@@ -1897,7 +1960,7 @@ int main(int argc, char** argv)
       details.hexAddress    = std::format("{:08X}", ntohl(address.in.sin_addr.s_addr));
       if(reservedHosts == 2) {
          details.hasBroadcast = true;
-         details.broadcast    = address2string(&broadcast.sa, false);
+         details.broadcast    = address2string(broadcast, false);
       }
    }
    else {
@@ -1912,8 +1975,8 @@ int main(int argc, char** argv)
    }
 
    if(!details.isMulticast) {
-      details.hostMin = address2string(&host1.sa, false);
-      details.hostMax = address2string(&host2.sa, false);
+      details.hostMin = address2string(host1, false);
+      details.hostMax = address2string(host2, false);
 
 #if defined(__SIZEOF_INT128__)
       const std::string maxHostsNum = (maxHosts > 0) ? toString(maxHosts) : "0";
@@ -2112,7 +2175,7 @@ int main(int argc, char** argv)
                const uint32_t u = static_cast<uint32_t>((ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3]);
                const uint32_t l = static_cast<uint32_t>((ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5]);
                sixToFour.in.sin_addr.s_addr = htonl((u << 16) | l);
-               details.sixToFourAddress     = address2string(&sixToFour.sa, false);
+               details.sixToFourAddress     = address2string(sixToFour, false);
             }
          }
 
