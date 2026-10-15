@@ -50,6 +50,7 @@ INCLUDE(CheckCSourceRuns)
 INCLUDE(CheckIncludeFile)
 INCLUDE(CheckStructHasMember)
 INCLUDE(CheckSymbolExists)
+INCLUDE(CheckTypeSize)
 INCLUDE(FindPackageHandleStandardArgs)
 INCLUDE(GNUInstallDirs)
 
@@ -132,6 +133,13 @@ ENDIF()
 
 OPTION(WITH_I18N  "Build with Internationalization (i18n) support" ON)
 OPTION(WITH_GEOIP "Build with GeoIP support"                       ON)
+
+
+#############################################################################
+#### CHECKS                                                              ####
+#############################################################################
+
+CHECK_TYPE_SIZE("__int128" HAVE_INT128)
 
 
 #############################################################################
