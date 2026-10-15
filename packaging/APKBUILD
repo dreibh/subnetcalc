@@ -12,10 +12,14 @@ subpackages="$pkgname-bash-completion $pkgname-doc $pkgname-lang"
 source="https://www.nntb.no/~dreibh/subnetcalc/download/subnetcalc-$pkgver.tar.xz"
 
 build() {
-	cmake -B build \
+	cmake -B build -G Ninja \
 		-DCMAKE_INSTALL_PREFIX=/usr \
 		-DCMAKE_BUILD_TYPE=None
 	cmake --build build
+}
+
+check() {
+	ctest --test-dir build --output-on-failure -E network
 }
 
 package() {

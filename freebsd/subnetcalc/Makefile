@@ -12,7 +12,9 @@ LICENSE_FILE=	${WRKSRC}/COPYING
 
 LIB_DEPENDS=	libidn2.so:dns/libidn2
 
-USES=		cmake tar:xz
+USES=		cmake:testing tar:xz
+
+CMAKE_TESTING_ARGS=	-DCMAKE_CTEST_ARGUMENTS:STRING="-E;network;--output-on-failure"
 
 OPTIONS_DEFINE=		GEOIP NLS
 OPTIONS_DEFAULT=	GEOIP
