@@ -363,6 +363,18 @@ bool string2address(std::string_view      string,
 #endif
          return true;
       }
+#if defined(_WIN32)
+      // Winsock getaddrinfo does not resolve BSD shorthand;
+      // inet_addr handles 1-, 2-, and 3-part notation:
+      const unsigned long addr = inet_addr(hostStr.c_str());
+      if(addr != INADDR_NONE) {
+         std::memset(address, 0, sizeof(union sockaddr_union));
+         address->in.sin_family      = AF_INET;
+         address->in.sin_addr.s_addr = addr;
+         address->in.sin_port        = htons(portNumber);
+         return true;
+      }
+#endif
    }
 
    // ====== Resolve domain name =============================================
