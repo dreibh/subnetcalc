@@ -473,8 +473,9 @@ int readPrefix(std::string_view      parameter,
 
 
 // ###### Generate a unique local IPv6 address ##############################
-void generateUniqueLocal(sockaddr_union& address,
-                         const bool      highQualityRNG = false)
+void generateUniqueLocal(sockaddr_union&    address,
+                         const bool         highQualityRNG = false,
+                         const OutputFormat outputFormat   = OutputFormat::Text)
 {
    uint8_t buffer[5];
    if(address.sa.sa_family != AF_INET6) {
@@ -488,9 +489,11 @@ void generateUniqueLocal(sockaddr_union& address,
    const char*   randomFile = highQualityRNG ? "/dev/random" : "/dev/urandom";
    std::ifstream randomStream(randomFile, std::ios::binary);
    if(randomStream) {
-      // TRANSLATORS: Status message when generating unique local address:
-      // {0} = random number generator device path (e.g. /dev/urandom)
-      std::cout << formatText(gettext("Generating Unique Local IPv6 address (using {0}) ..."), randomFile) << '\n';
+      if(outputFormat == OutputFormat::Text) {
+         // TRANSLATORS: Status message when generating unique local address:
+         // {0} = random number generator device path (e.g. /dev/urandom)
+         std::cout << formatText(gettext("Generating Unique Local IPv6 address (using {0}) ..."), randomFile) << '\n';
+      }
       if(!randomStream.read(reinterpret_cast<char*>(buffer), sizeof(buffer))) {
          // TRANSLATORS: Error message when reading from random device fails:
          // {0} = random device file path
@@ -506,6 +509,11 @@ void generateUniqueLocal(sockaddr_union& address,
    }
 #else
    (void)highQualityRNG;
+   if(outputFormat == OutputFormat::Text) {
+      // TRANSLATORS: Status message when generating unique local address:
+      // {0} = random number generator device path (e.g. /dev/urandom)
+      std::cout << formatText(gettext("Generating Unique Local IPv6 address (using {0}) ..."), "std::random_device") << '\n';
+   }
    std::random_device rd;
    for(auto& byte : buffer) {
       byte = static_cast<uint8_t>(rd());
@@ -1766,7 +1774,7 @@ int main(int argc, char** argv)
 
    // ====== Unique Local IPv6 address generation ===========================
    if(uniqueLocal > 0) {
-      generateUniqueLocal(address, (uniqueLocal > 1));
+      generateUniqueLocal(address, (uniqueLocal > 1), outputFormat);
    }
 
    // ====== Calculate network address, hosts, etc. =========================
