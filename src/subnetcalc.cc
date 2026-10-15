@@ -126,8 +126,9 @@ struct SubnetDetails {
    std::string  hexAddress;
    unsigned int hostBits { 0 };
    bool         isMulticast { false };
-   std::string  maxHostsCount;   // Pure decimal string ("0", "254") for machine formats
-   std::string  maxHostsText;    // Formula string ("254   (2^8 - 2)") for Text
+   bool         hasMaxHosts { false }; // true when decimal host count is available
+   std::string  maxHostsCount;         // Pure decimal string ("0", "254") for machine formats
+   std::string  maxHostsText;          // Formula string ("254   (2^8 - 2)") for Text
    std::string  hostMin;
    std::string  hostMax;
 
@@ -1126,7 +1127,9 @@ void outputJSON(std::ostream& os, const SubnetDetails& details)
    entries.push_back(std::format("  \"host_bits\": {}", details.hostBits));
 
    if(!details.isMulticast) {
-      entries.push_back(std::format("  \"max_hosts\": {}", details.maxHostsCount));
+      if(details.hasMaxHosts) {
+         entries.push_back(std::format("  \"max_hosts\": {}", details.maxHostsCount));
+      }
 
       std::string hostRange = "  \"host_range\": {\n";
       hostRange += std::format("    \"min\": \"{}\",\n", escapeJSON(details.hostMin));
@@ -1301,7 +1304,9 @@ void outputYAML(std::ostream& os, const SubnetDetails& details)
    os << std::format("host_bits: {}\n", details.hostBits);
 
    if(!details.isMulticast) {
-      os << std::format("max_hosts: {}\n", details.maxHostsCount);
+      if(details.hasMaxHosts) {
+         os << std::format("max_hosts: {}\n", details.maxHostsCount);
+      }
       os << "host_range:\n";
       os << std::format("  min: \"{}\"\n", escapeJSON(details.hostMin));
       os << std::format("  max: \"{}\"\n", escapeJSON(details.hostMax));
@@ -1372,7 +1377,7 @@ void outputYAML(std::ostream& os, const SubnetDetails& details)
             os << std::format("  asn: {}\n", details.geoIPASNumber);
          }
          if(!details.geoIPASOrganization.empty()) {
-            os << std::format("  as_organization: \"{}\"\n", escapeJSON(details.geoIPASOrganization));
+            os << std::format("  as_organization: \"{}\"", escapeJSON(details.geoIPASOrganization));
          }
       }
       if(details.hasGeoIPCity) {
@@ -1428,7 +1433,9 @@ void outputXML(std::ostream& os, const SubnetDetails& details)
    os << std::format("  <host_bits>{}</host_bits>\n", details.hostBits);
 
    if(!details.isMulticast) {
-      os << std::format("  <max_hosts>{}</max_hosts>\n", details.maxHostsCount);
+      if(details.hasMaxHosts) {
+         os << std::format("  <max_hosts>{}</max_hosts>\n", details.maxHostsCount);
+      }
       os << "  <host_range>\n";
       os << std::format("    <min>{}</min>\n", escapeXML(details.hostMin));
       os << std::format("    <max>{}</max>\n", escapeXML(details.hostMax));
@@ -1818,10 +1825,7 @@ int main(int argc, char** argv)
       maxHosts = 0;
    }
 #else
-   if(hostBits == 64) {
-      maxHosts = ~0ULL - reservedHosts;
-   }
-   else if((hostBits < 64) && (hostBits > 0)) {
+   if((hostBits < 64) && (hostBits > 0)) {
       maxHosts = (1ULL << hostBits) - reservedHosts;
    }
    else {
@@ -1866,17 +1870,30 @@ int main(int argc, char** argv)
       details.hostMax = address2string(host2, false);
 
 #if defined(__SIZEOF_INT128__)
-      const std::string maxHostsNum = (maxHosts > 0) ? toString(maxHosts) : "0";
-#else
-      const std::string maxHostsNum = (maxHosts > 0) ? std::to_string(maxHosts) : "0";
-#endif
-      details.maxHostsCount = maxHostsNum;
+      details.hasMaxHosts   = true;
+      details.maxHostsCount = (maxHosts > 0) ? toString(maxHosts) : "0";
       if(maxHosts > 0) {
-         details.maxHostsText = std::format("{}   (2^{} - {})", maxHostsNum, hostBits, reservedHosts);
+         details.maxHostsText = std::format("{}   (2^{} - {})", details.maxHostsCount, hostBits, reservedHosts);
       }
       else {
          details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
       }
+#else
+      if(hostBits < 64) {
+         details.hasMaxHosts   = true;
+         details.maxHostsCount = (maxHosts > 0) ? std::to_string(maxHosts) : "0";
+         if(maxHosts > 0) {
+            details.maxHostsText = std::format("{}   (2^{} - {})", details.maxHostsCount, hostBits, reservedHosts);
+         }
+         else {
+            details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
+         }
+      }
+      else {
+         details.hasMaxHosts  = false;
+         details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
+      }
+#endif
    }
 
    // ====== Collect Classification & Properties ============================
