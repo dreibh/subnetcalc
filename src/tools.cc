@@ -300,6 +300,57 @@ std::string address2string(const sockaddr_union& address,
 }
 
 
+#if defined(_WIN32)
+// ###### Helper for BSD IPv4 shorthand (e.g. "10.1", "10.1.1") ############
+static bool parseIPv4Shorthand(std::string_view str, struct in_addr* out)
+{
+   uint32_t parts[4];
+   size_t   count = 0;
+   size_t   start = 0;
+
+   while(start < str.size()) {
+      if(count >= 4) {
+         return false;
+      }
+      const auto dot = str.find('.', start);
+      const auto partStr = (dot == std::string_view::npos) ? str.substr(start) : str.substr(start, dot - start);
+      if(partStr.empty()) {
+         return false;
+      }
+      uint32_t val = 0;
+      auto [p, ec] = std::from_chars(partStr.data(), partStr.data() + partStr.size(), val);
+      if(ec != std::errc{} || p != partStr.data() + partStr.size()) {
+         return false;
+      }
+      parts[count++] = val;
+      if(dot == std::string_view::npos) {
+         break;
+      }
+      start = dot + 1;
+   }
+
+   uint32_t addr = 0;
+   if(count == 1) {
+      addr = parts[0];
+   }
+   else if(count == 2) {
+      if(parts[0] > 0xff || parts[1] > 0xffffff) return false;
+      addr = (parts[0] << 24) | parts[1];
+   }
+   else if(count == 3) {
+      if(parts[0] > 0xff || parts[1] > 0xff || parts[2] > 0xffff) return false;
+      addr = (parts[0] << 24) | (parts[1] << 16) | parts[2];
+   }
+   else {
+      return false;
+   }
+
+   out->s_addr = htonl(addr);
+   return true;
+}
+#endif
+
+
 // ###### Convert string to address #########################################
 bool string2address(std::string_view      string,
                     union sockaddr_union* address,
@@ -366,12 +417,11 @@ bool string2address(std::string_view      string,
 #if defined(_WIN32)
       // Winsock getaddrinfo does not resolve BSD shorthand;
       // inet_addr handles 1-, 2-, and 3-part notation:
-      const unsigned long addr = inet_addr(hostStr.c_str());
-      if(addr != INADDR_NONE) {
+      if(parseIPv4Shorthand(hostStr, &in4)) {
          std::memset(address, 0, sizeof(union sockaddr_union));
-         address->in.sin_family      = AF_INET;
-         address->in.sin_addr.s_addr = addr;
-         address->in.sin_port        = htons(portNumber);
+         address->in.sin_family = AF_INET;
+         address->in.sin_addr   = in4;
+         address->in.sin_port   = htons(portNumber);
          return true;
       }
 #endif
