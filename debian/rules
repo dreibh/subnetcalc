@@ -2,12 +2,17 @@
 
 # export DH_VERBOSE = 1
 export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export CTEST_OUTPUT_ON_FAILURE = 1
 
 %:
 	dh $@ --buildsystem=cmake
 
 override_dh_auto_configure:
 	dh_auto_configure --
+
+# Exclude tests requiring external DNS/Internet connectivity (Debian Policy §4.9):
+override_dh_auto_test:
+	DEB_BUILD_OPTIONS="$(DEB_BUILD_OPTIONS) terse" dh_auto_test -- ARGS+="-E network"
 
 # Use upstream ChangeLog for installation
 override_dh_installchangelogs:
