@@ -29,6 +29,7 @@
 
 #include "tools.h"
 
+#include <cassert>
 #include <charconv>
 #include <cstring>
 #include <format>
@@ -48,6 +49,127 @@
 #ifndef NI_IDN
 #include <idn2.h>
 #endif
+
+
+// ###### "&" operator for addresses ########################################
+sockaddr_union operator&(const sockaddr_union& address1,
+                         const sockaddr_union& address2)
+{
+   assert(address1.sa.sa_family == address2.sa.sa_family);
+
+   sockaddr_union a = address1;
+   if(a.sa.sa_family == AF_INET) {
+      a.in.sin_addr.s_addr &= address2.in.sin_addr.s_addr;
+   }
+   else {
+      for(int j = 0; j < 16; j++) {
+         a.in6.sin6_addr.s6_addr[j] &= address2.in6.sin6_addr.s6_addr[j];
+      }
+   }
+   return a;
+}
+
+
+// ###### "|" operator for addresses ########################################
+sockaddr_union operator|(const sockaddr_union& address1,
+                         const sockaddr_union& address2)
+{
+   assert(address1.sa.sa_family == address2.sa.sa_family);
+
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr |= address2.in.sin_addr.s_addr;
+   }
+   else {
+      for(int j = 0; j < 16; j++) {
+         address.in6.sin6_addr.s6_addr[j] |= address2.in6.sin6_addr.s6_addr[j];
+      }
+   }
+   return address;
+}
+
+
+// ###### "~" operator for addresses ########################################
+sockaddr_union operator~(const sockaddr_union& address1)
+{
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = ~address1.in.sin_addr.s_addr;
+   }
+   else {
+      for(int j = 0; j < 16; j++) {
+         address.in6.sin6_addr.s6_addr[j] =
+            static_cast<uint8_t>(~address1.in6.sin6_addr.s6_addr[j]);
+      }
+   }
+   return address;
+}
+
+
+// ###### "+" operator for addresses ########################################
+sockaddr_union operator+(const sockaddr_union& address1, uint32_t n)
+{
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = htonl(ntohl(address.in.sin_addr.s_addr) + n);
+   }
+   else {
+      union {
+         uint8_t  b[16];
+         uint32_t w[4];
+      } local;
+      std::memcpy(local.b, address.in6.sin6_addr.s6_addr, 16);
+      for(int j = 3; j >= 0; j--) {
+         const uint64_t sum =
+            static_cast<uint64_t>(ntohl(local.w[j])) + static_cast<uint64_t>(n);
+         local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
+         n = static_cast<uint32_t>(sum >> 32);
+      }
+      std::memcpy(address.in6.sin6_addr.s6_addr, local.b, 16);
+   }
+   return address;
+}
+
+
+// ###### "-" operator for addresses ########################################
+sockaddr_union operator-(const sockaddr_union& address1, uint32_t n)
+{
+   sockaddr_union address = address1;
+   if(address.sa.sa_family == AF_INET) {
+      address.in.sin_addr.s_addr = htonl(ntohl(address.in.sin_addr.s_addr) - n);
+   }
+   else {
+      union {
+         uint8_t  b[16];
+         uint32_t w[4];
+      } local;
+      std::memcpy(local.b, address.in6.sin6_addr.s6_addr, 16);
+      for(int j = 3; j >= 0; j--) {
+         const uint64_t sum =
+            static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
+         local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
+         n = static_cast<uint32_t>(sum >> 32);
+      }
+      std::memcpy(address.in6.sin6_addr.s6_addr, local.b, 16);
+   }
+   return address;
+}
+
+
+// ###### "==" operator for addresses #######################################
+bool operator==(const sockaddr_union& address1,
+                const sockaddr_union& address2)
+{
+   assert(address1.sa.sa_family == address2.sa.sa_family);
+
+   if(address1.sa.sa_family == AF_INET) {
+      return (address1.in.sin_addr.s_addr == address2.in.sin_addr.s_addr);
+   }
+   else {
+      return (std::memcmp(address1.in6.sin6_addr.s6_addr,
+                          address2.in6.sin6_addr.s6_addr, 16) == 0);
+   }
+}
 
 
 // ###### Check for support of IPv6 #########################################
@@ -318,14 +440,4 @@ bool string2address(std::string_view      string,
 
    freeaddrinfo(result);
    return true;
-}
-
-
-// ###### Print address #####################################################
-void printAddress(std::ostream&         os,
-                  const sockaddr_union& address,
-                  const bool            port,
-                  const bool            hideScope)
-{
-   os << address2string(address, port, hideScope);
 }

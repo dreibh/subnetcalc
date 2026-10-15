@@ -37,6 +37,17 @@ union sockaddr_union {
    struct sockaddr_in6 in6;
 };
 
+sockaddr_union operator&(const sockaddr_union& address1,
+                         const sockaddr_union& address2);
+sockaddr_union operator|(const sockaddr_union& address1,
+                         const sockaddr_union& address2);
+sockaddr_union operator~(const sockaddr_union& address1);
+sockaddr_union operator+(const sockaddr_union& address1, uint32_t n);
+sockaddr_union operator-(const sockaddr_union& address1, uint32_t n);
+bool operator==(const sockaddr_union& address1,
+                const sockaddr_union& address2);
+
+
 bool checkIPv6();
 bool hasTranslationPrefix(const sockaddr_in6* address);
 size_t getSocklen(const struct sockaddr* address);
@@ -50,10 +61,6 @@ bool string2address(std::string_view      string,
                     bool                  readPort      = true,
                     int                   addressFamily = AF_UNSPEC);
 
-void printAddress(std::ostream&         os,
-                  const sockaddr_union& address,
-                  bool                  port      = true,
-                  bool                  hideScope = true);
 
 template<>
 struct std::formatter<sockaddr_union> : std::formatter<std::string_view> {
