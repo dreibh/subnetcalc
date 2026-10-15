@@ -36,9 +36,18 @@ FUNCTION(ADD_SUBNETCALC_TEST TEST_NAME)
       NAME ${TEST_NAME}
       COMMAND $<TARGET_FILE:subnetcalc> ${ARGN}
    )
+   SET(TEST_LABELS "cli")
+   FOREACH(ARG ${ARGN})
+      IF(ARG MATCHES "^-[0-9a-zA-Z]*6" OR ARG STREQUAL "--ipv6")
+         LIST(APPEND TEST_LABELS "ipv6")
+      ELSEIF(ARG MATCHES "^-[0-9a-zA-Z]*4" OR ARG STREQUAL "--ipv4")
+         LIST(APPEND TEST_LABELS "ipv4")
+      ENDIF()
+   ENDFOREACH()
    SET_TESTS_PROPERTIES(${TEST_NAME} PROPERTIES
       ENVIRONMENT "LC_ALL=C;SUBNETCALC_LOCALEDIR=${TEST_LOCALE_DIR}"
       FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
+      LABELS "${TEST_LABELS}"
    )
 ENDFUNCTION()
 
@@ -49,12 +58,20 @@ FUNCTION(ADD_SUBNETCALC_DNS_TEST TEST_NAME)
       NAME ${TEST_NAME}
       COMMAND $<TARGET_FILE:subnetcalc> ${ARGN}
    )
+   SET(TEST_LABELS "network;dns")
+   FOREACH(ARG ${ARGN})
+      IF(ARG MATCHES "^-[0-9a-zA-Z]*6" OR ARG STREQUAL "--ipv6")
+         LIST(APPEND TEST_LABELS "ipv6")
+      ELSEIF(ARG MATCHES "^-[0-9a-zA-Z]*4" OR ARG STREQUAL "--ipv4")
+         LIST(APPEND TEST_LABELS "ipv4")
+      ENDIF()
+   ENDFOREACH()
    SET_TESTS_PROPERTIES(${TEST_NAME} PROPERTIES
       ENVIRONMENT "LC_ALL=C;SUBNETCALC_LOCALEDIR=${TEST_LOCALE_DIR}"
       PASS_REGULAR_EXPRESSION "Address[ ]+= "
       FAIL_REGULAR_EXPRESSION "INTERNAL ERROR"
       SKIP_REGULAR_EXPRESSION "ERROR: Invalid address"
-      LABELS "network;dns"
+      LABELS "${TEST_LABELS}"
    )
 ENDFUNCTION()
 
@@ -65,9 +82,18 @@ FUNCTION(ADD_SUBNETCALC_FAIL_TEST TEST_NAME)
       NAME ${TEST_NAME}
       COMMAND $<TARGET_FILE:subnetcalc> ${ARGN}
    )
+   SET(TEST_LABELS "negative;error")
+   FOREACH(ARG ${ARGN})
+      IF(ARG MATCHES "^-[0-9a-zA-Z]*6" OR ARG STREQUAL "--ipv6")
+         LIST(APPEND TEST_LABELS "ipv6")
+      ELSEIF(ARG MATCHES "^-[0-9a-zA-Z]*4" OR ARG STREQUAL "--ipv4")
+         LIST(APPEND TEST_LABELS "ipv4")
+      ENDIF()
+   ENDFOREACH()
    SET_TESTS_PROPERTIES(${TEST_NAME} PROPERTIES
       WILL_FAIL TRUE
       ENVIRONMENT "LC_ALL=C;SUBNETCALC_LOCALEDIR=${TEST_LOCALE_DIR}"
+      LABELS "${TEST_LABELS}"
    )
 ENDFUNCTION()
 
@@ -459,10 +485,6 @@ SET_TESTS_PROPERTIES(cli_version_short cli_version_long PROPERTIES
 )
 SET_TESTS_PROPERTIES(cli_help_short cli_help_long PROPERTIES
    PASS_REGULAR_EXPRESSION "Usage:.*subnetcalc.*address/prefix"
-)
-SET_TESTS_PROPERTIES(
-   cli_version_short cli_version_long cli_help_short cli_help_long
-   PROPERTIES LABELS "cli"
 )
 
 
@@ -1506,8 +1528,8 @@ ADD_SUBNETCALC_DNS_TEST(dns_punycode_president      xn--d1abbgf6aiiy.xn--p1ai)
 ADD_SUBNETCALC_DNS_TEST(dns_idn_president           президент.рф)
 
 # Chinese IDN: Punycode then IDN
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_renmin         xn--gmq282eogn.cn/24 -4n)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_renmin              人民网.cn/24 -4n)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_renmin         xn--gmq282eogn.cn/24 -4 -n)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_renmin              人民网.cn/24 -4 -n)
 
 # Japanese IDN: Punycode then IDN
 ADD_SUBNETCALC_DNS_TEST(dns_punycode_nihongo        xn--wgv71a119e.jp)
@@ -1596,16 +1618,3 @@ ADD_SUBNETCALC_FAIL_TEST(fail_nonexistent_domain    invalid.domain.test 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_unknown_flag          10.1.1.1 24 --invalid-flag)
 ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_csv    10.1.1.1 24 -F csv)
 ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_html   10.1.1.1 24 --format html)
-
-SET_TESTS_PROPERTIES(
-   fail_no_args fail_too_many_args fail_ipv4_octet_256 fail_ipv4_extra_octet
-   fail_ipv4_double_dot fail_ipv4_trailing_dot fail_ipv4_leading_dot
-   fail_ipv4_prefix_33 fail_ipv4_alpha_prefix fail_ipv4_negative_prefix
-   fail_ipv4_mask_gaps fail_ipv4_mask_octet_256 fail_ipv6_bad_hex
-   fail_ipv6_triple_colon fail_ipv6_prefix_129 fail_mismatch_v4_v6
-   fail_force_v4_v6_pref_1 fail_force_v4_v6_pref_2 fail_force_v6_v4_mask_1
-   fail_force_v6_v4_mask_2 fail_v4_with_ula fail_double_slash
-   fail_nonexistent_domain fail_unknown_flag fail_invalid_format_csv
-   fail_invalid_format_html
-   PROPERTIES LABELS "negative;error"
-)
