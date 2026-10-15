@@ -145,10 +145,9 @@ sockaddr_union operator-(const sockaddr_union& address1, uint32_t n)
       } local;
       std::memcpy(local.b, address.in6.sin6_addr.s6_addr, 16);
       for(int j = 3; j >= 0; j--) {
-         const uint64_t sum =
-            static_cast<uint64_t>(ntohl(local.w[j])) - static_cast<uint64_t>(n);
-         local.w[j] = htonl(static_cast<uint32_t>(sum & 0xffffffffULL));
-         n = static_cast<uint32_t>(sum >> 32);
+         const uint32_t val = ntohl(local.w[j]);
+         local.w[j] = htonl(val - n);
+         n = (val < n) ? 1 : 0;
       }
       std::memcpy(address.in6.sin6_addr.s6_addr, local.b, 16);
    }
