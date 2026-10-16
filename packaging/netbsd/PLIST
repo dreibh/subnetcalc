@@ -1,0 +1,6 @@
+@comment $NetBSD$
+bin/subnetcalc
+man/man1/subnetcalc.1
+share/locale/de/LC_MESSAGES/subnetcalc.mo
+share/locale/ka/LC_MESSAGES/subnetcalc.mo
+share/locale/nb/LC_MESSAGES/subnetcalc.mo

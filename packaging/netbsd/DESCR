@@ -1,0 +1,4 @@
+SubNetCalc is an IPv4/IPv6 subnet calculator. For given IPv4 or IPv6
+subnet addresses and netmasks or prefix lengths, it calculates the
+network address, broadcast address, maximum number of hosts, host
+range, and properties like address classes and scopes.
