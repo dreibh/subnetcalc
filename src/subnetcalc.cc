@@ -1545,35 +1545,36 @@ int main(int argc, char** argv)
    argv = argPointers.data();
 #endif
 
-   // ====== Initialise i18n and locale support =============================
+   // ====== Initialise locale support ======================================
    if(std::setlocale(LC_ALL, "") == nullptr) {
       std::setlocale(LC_ALL, "C.UTF-8");
    }
    try {
-      std::locale user_locale("");
-      std::cout.imbue(user_locale);
-      std::cerr.imbue(user_locale);
+      std::locale userLocale("");
+      std::cout.imbue(userLocale);
+      std::cerr.imbue(userLocale);
    } catch (const std::runtime_error&) {
       try {
-         std::locale fallback("C.UTF-8");
-         std::cout.imbue(fallback);
-         std::cerr.imbue(fallback);
+         std::locale fallbackLocale("C.UTF-8");
+         std::cout.imbue(fallbackLocale);
+         std::cerr.imbue(fallbackLocale);
       } catch (const std::runtime_error&) {
          // Defaults to std::locale::classic() if C.UTF-8 is unavailable
       }
    }
 
    // ====== Initialise i18n support ========================================
+#if defined(ENABLE_NLS)
 #if !defined(_WIN32)
-   const char* textdomaindir = std::getenv("TEXTDOMAINDIR");
+   const char* textdomaindir     = std::getenv("TEXTDOMAINDIR");
 #else
-   char*  textdomaindir     = nullptr;
-   size_t textdomaindirsize = 0;
+   char*       textdomaindir     = nullptr;
+   size_t      textdomaindirsize = 0;
    _dupenv_s(&textdomaindir, &textdomaindirsize, "TEXTDOMAINDIR");
 #endif
    bindtextdomain("subnetcalc",
                   ( ((textdomaindir) && (textdomaindir[0] != 0x00)) ?
-                     textdomaindir : SUBNETCALC_LOCALEDIR ));
+                       textdomaindir : SUBNETCALC_LOCALEDIR ));
 #if defined(_WIN32)
    if(textdomaindir) {
        free(textdomaindir);
@@ -1581,6 +1582,7 @@ int main(int argc, char** argv)
 #endif
    bind_textdomain_codeset("subnetcalc", "UTF-8");
    textdomain("subnetcalc");
+#endif
 
    // ====== Handle arguments ===============================================
    static const struct option long_options[] = {
