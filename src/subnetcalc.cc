@@ -224,49 +224,11 @@ static size_t displayWidth(std::string_view text)
 }
 
 
-// ###### Get Environment Variable Safely ###################################
-static std::string getEnvironmentVariable(const char* name)
-{
-#if defined(_WIN32)
-   char*  value = nullptr;
-   size_t len   = 0;
-   if(_dupenv_s(&value, &len, name) == 0 && value != nullptr) {
-      std::string result(value);
-      std::free(value);
-      return result;
-   }
-   return {};
-#else
-   const char* value = std::getenv(name);
-   return (value != nullptr) ? std::string(value) : std::string();
-#endif
-}
-
-
-// ###### Detect Right-to-Left (RTL) Layout Direction ######################
+// ###### Detect Right-to-Left (RTL) text direction #########################
 static bool isRTL()
 {
-   // TRANSLATORS: Layout direction: LTR (Left-to-Right) or RTL (Right-to-Left)
-   const char* dir = gettext("LTR");
-   if(std::strcmp(dir, "RTL") == 0) {
-      return true;
-   }
-   std::string language = getEnvironmentVariable("LC_ALL");
-   if(language.empty()) {
-      language = getEnvironmentVariable("LC_MESSAGES");
-   }
-   if(language.empty()) {
-      language = getEnvironmentVariable("LANG");
-   }
-   if(!language.empty()) {
-      if(language.starts_with("ar") ||
-         language.starts_with("he") ||
-         language.starts_with("fa") ||
-         language.starts_with("ur")) {
-         return true;
-      }
-   }
-   return false;
+   // TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
+   return std::strcmp(gettext("LTR"), "RTL") == 0;
 }
 
 
@@ -811,20 +773,20 @@ void outputPlainText(std::ostream&         os,
       const size_t labelW = displayWidth(f.label);
       const size_t pad    = (maxLabelWidth >= labelW) ? (maxLabelWidth - labelW) : 0;
 
-      if(rtl) {
-         if(f.isHeaderOnly) {
-            os << "= " << std::string(pad, ' ') << f.label << '\n';
-         }
-         else {
-            os << f.value << " = " << std::string(pad, ' ') << f.label << '\n';
-         }
-      }
-      else {
+      if(!rtl) {
          if(f.isHeaderOnly) {
             os << f.label << std::string(pad, ' ') << " = \n";
          }
          else {
             os << f.label << std::string(pad, ' ') << " = " << f.value << '\n';
+         }
+      }
+      else {
+         if(f.isHeaderOnly) {
+            os << "= " << std::string(pad, ' ') << f.label << '\n';
+         }
+         else {
+            os << f.value << " = " << std::string(pad, ' ') << f.label << '\n';
          }
       }
 
@@ -1084,11 +1046,11 @@ void outputPlainText(std::ostream&         os,
                for(const auto& prop : propEntries) {
                   const size_t propW   = displayWidth(prop.label);
                   const size_t propPad = (maxPropLabelWidth >= propW) ? (maxPropLabelWidth - propW) : 0;
-                  if(rtl) {
-                     os << "      + " << prop.value << " = " << std::string(propPad, ' ') << prop.label << '\n';
+                  if(!rtl) {
+                     os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
                   }
                   else {
-                     os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
+                     os << "      + " << prop.value << " = " << std::string(propPad, ' ') << prop.label << '\n';
                   }
                }
             }
