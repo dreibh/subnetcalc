@@ -12,18 +12,14 @@ LICENSE=	gnu-gpl-v3
 
 USE_LANGUAGES=		c c++
 USE_CXX_FEATURES+=	c++20
-USE_TOOLS+=		pkg-config msgfmt
+USE_TOOLS+=		pkg-config
 
-# Configure CMake
 CMAKE_CONFIGURE_ARGS+=	-DCMAKE_BUILD_TYPE=Release
-CMAKE_CONFIGURE_ARGS+=	-DWITH_GEOIP=ON
 
-# Run CTest with network-dependent tests excluded
 do-test:
-	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} ctest --output-on-failure -LE network
+	cd ${WRKSRC} && ${SETENV} ${TEST_ENV} ctest --output-on-failure -E network
+
+.include "options.mk"
 
 .include "../../devel/cmake/build.mk"
-.include "../../devel/libidn2/buildlink3.mk"
-.include "../../geography/libmaxminddb/buildlink3.mk"
-.include "../../devel/gettext-lib/buildlink3.mk"
 .include "../../mk/bsd.pkg.mk"
