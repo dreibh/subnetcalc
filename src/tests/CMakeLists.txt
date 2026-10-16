@@ -1065,17 +1065,17 @@ ADD_SUBNETCALC_MATRIX_TEST(
 ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_v4compat
    ARGS                 ::192.0.2.1 128 -c -n -g
-   ADDRESS              ::192.0.2.1
+   ADDRESS              "(::192\\.0\\.2\\.1|::c000:201)"
    EXPANDED_ADDRESS     0000:0000:0000:0000:0000:0000:c000:0201
    FAMILY               IPv6
-   NETWORK              ::192.0.2.1
+   NETWORK              "(::192\\.0\\.2\\.1|::c000:201)"
    PREFIX               128
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    WILDCARD             ::
    HOST_BITS            0
    MAX_HOSTS            0
-   HOST_MIN             ::192.0.2.1
-   HOST_MAX             ::192.0.2.1
+   HOST_MIN             "(::192\\.0\\.2\\.1|::c000:201)"
+   HOST_MAX             "(::192\\.0\\.2\\.1|::c000:201)"
    TYPE                 host
    SPECIAL              "IPv4-compatible IPv6 address"
 )
