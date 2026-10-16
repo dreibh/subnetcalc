@@ -300,7 +300,7 @@ std::string address2string(const sockaddr_union& address,
 }
 
 
-#if defined(_WIN32)
+#if defined(__OpenBSD__) || defined(__APPLE__) || defined(_WIN32)
 // ###### Helper for BSD IPv4 shorthand (e.g. "10.1", "10.1.1") ############
 static bool parseIPv4Shorthand(std::string_view str, struct in_addr* out)
 {
@@ -414,7 +414,7 @@ bool string2address(std::string_view      string,
 #endif
          return true;
       }
-#if defined(_WIN32)
+#if defined(__OpenBSD__) || defined(__APPLE__) || defined(_WIN32)
       // Winsock getaddrinfo does not resolve BSD shorthand;
       // inet_addr handles 1-, 2-, and 3-part notation:
       if(parseIPv4Shorthand(hostStr, &in4)) {
