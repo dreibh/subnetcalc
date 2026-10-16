@@ -1587,15 +1587,37 @@ int main(int argc, char** argv)
    if(std::setlocale(LC_ALL, "") == nullptr) {
       std::setlocale(LC_ALL, "C.UTF-8");
    }
-#if !defined(_WIN32)
-   if(std::strcmp(nl_langinfo(CODESET), "UTF-8") != 0) {
-      std::setlocale(LC_CTYPE, "C.UTF-8");
+   try {
+      std::locale user_locale("");
+      std::cout.imbue(user_locale);
+      std::cerr.imbue(user_locale);
+   } catch (const std::runtime_error&) {
+      try {
+         std::locale fallback("C.UTF-8");
+         std::cout.imbue(fallback);
+         std::cerr.imbue(fallback);
+      } catch (const std::runtime_error&) {
+         // Defaults to std::locale::classic() if C.UTF-8 is unavailable
+      }
    }
-   const std::string localeDir = getEnvironmentVariable("SUBNETCALC_LOCALEDIR");
-   bindtextdomain("subnetcalc", !localeDir.empty() ? localeDir.c_str() : SUBNETCALC_LOCALEDIR);
+
+   // ====== Initialise i18n support ========================================
+#if !defined(_WIN32)
+   const char* textdomaindir = std::getenv("TEXTDOMAINDIR");
 #else
-   bindtextdomain("subnetcalc", SUBNETCALC_LOCALEDIR);
+   char*  textdomaindir     = nullptr;
+   size_t textdomaindirsize = 0;
+   _dupenv_s(&textdomaindir, &textdomaindirsize, "TEXTDOMAINDIR");
 #endif
+   bindtextdomain("subnetcalc",
+                  ( ((textdomaindir) && (textdomaindir[0] != 0x00)) ?
+                     textdomaindir : SUBNETCALC_LOCALEDIR ));
+#if defined(_WIN32)
+   if(textdomaindir) {
+       free(textdomaindir);
+   }
+#endif
+   bind_textdomain_codeset("subnetcalc", "UTF-8");
    textdomain("subnetcalc");
 
    // ====== Handle arguments ===============================================
@@ -1680,7 +1702,6 @@ int main(int argc, char** argv)
             return 1;
       }
    }
-
    if((optind + 1 != argc) && (optind + 2 != argc)) {
       usage(argv[0], 1);
    }
@@ -1692,6 +1713,10 @@ int main(int argc, char** argv)
       ~WinSockScope() { WSACleanup(); }
    } winSockScope;
 #endif
+
+   if(outputFormat != OutputFormat::Text) {
+      std::cout.imbue( std::locale::classic());
+   }
 
    int                prefix        = 0;
    unsigned int       hostBits      = 0;
