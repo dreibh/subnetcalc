@@ -633,24 +633,37 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
 }
 
 
+// ------ BEGIN-OF-USAGE-BLOCK ------
 // ###### Usage #############################################################
-[[noreturn]] static void usage(const char* program, const int exitCode)
+#define HEADER(s)    "\x1b[4m" << (s) << "\x1b[0m"
+#define CMD(s)       "\x1b[1m" << (s) << "\x1b[0m"
+#define OPT(s)       "\x1b[1m" s "\x1b[0m"
+#define ARG(s)       "\x1b[4m" s "\x1b[0m"
+#define SYN(s)       "\x1b[1m" s "\x1b[0m"
+#define PIPE         SYN(" | ")
+#define ENTRY(s)     "\t" SYN("[") s SYN("]\n")
+
+[[ noreturn ]]
+static void usage(const char* program, const int exitCode)
 {
-   std::ostream& os = (exitCode == 0) ? std::cout : std::cerr;
-   // TRANSLATORS: Command-line syntax message prefix:
-   // "Usage: <program> [options]".
-   const char* usagePrefix = gettext("Usage:");
-   os << usagePrefix << " " << program
-      << " address/prefix | address/netmask | address [prefix] | address [netmask]\n"
-         " [-F|--format text|json|yaml|xml]\n"
-         " [-u|--uniquelocal] [-U|--uniquelocalhq]\n"
-         " [-n|--noreverselookup]\n"
-         " [-g|--nogeoiplookup]\n"
-         " [-c|--nocolour|--nocolor]\n"
-         " [-4|--ipv4] [-6|--ipv6]\n"
-         " [-h|--help] [-v|--version]\n";
-   std::exit(exitCode);
+   std::cerr << HEADER("Usage:") << "\n"
+             << CMD(program) << " "
+                SYN("{") " " ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") " " SYN("}") "\n"
+                   ENTRY(OPT("-F") " " ARG("text|json|yaml|xml") PIPE OPT("--format") " " ARG("text|json|yaml|xml"))
+                   ENTRY(OPT("-u") PIPE OPT("--uniquelocal"))
+                   ENTRY(OPT("-U") PIPE OPT("--uniquelocalhq"))
+                   ENTRY(OPT("-n") PIPE OPT("--noreverselookup"))
+                   ENTRY(OPT("-g") PIPE OPT("--nogeoiplookup"))
+                   ENTRY(OPT("-c") PIPE OPT("--nocolour") PIPE OPT("--nocolor"))
+                   ENTRY(OPT("-4") PIPE OPT("--ipv4"))
+                   ENTRY(OPT("-6") PIPE OPT("--ipv6"))
+             << CMD(program) << "\n"
+                   ENTRY(OPT("-h") PIPE OPT("--help"))
+             << CMD(program) << "\n"
+                   ENTRY(OPT("-v") PIPE OPT("--version"));
+   exit(exitCode);
 }
+// ------ END-OF-USAGE-BLOCK ------
 
 
 // ###### Output Text Format ################################################
