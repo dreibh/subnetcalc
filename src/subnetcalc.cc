@@ -232,8 +232,9 @@ static bool isRTL()
 }
 
 
-// ###### Unicode Right-to-Left Mark (RLM) ##################################
+// ###### Unicode Directional Marks #########################################
 static constexpr std::string_view RLM = "\xe2\x80\x8f";
+static constexpr std::string_view LRM = "\xe2\x80\x8e";
 
 
 // ###### Escape JSON/YAML strings safely ###################################
@@ -521,7 +522,11 @@ void printAddressBinary(std::ostream&         os,
       const in6_addr ipv6Address = getIPv6Address(address);
       for(int j = 0; j < 8; j++) {
          const uint16_t a = static_cast<uint16_t>((ipv6Address.s6_addr[j * 2] << 8) | ipv6Address.s6_addr[j * 2 + 1]);
-         os << indent << std::format("{:04x} = ", a);
+         os << indent;
+         if(isRTL()) {
+            os << LRM;
+         }
+         os << std::format("{:04x} = ", a);
          for(int i = 15; i >= 0; i--) {
             if(colourMode) {
                os << ((p < static_cast<int>(prefix)) ? "\x1b[34m" : "\x1b[33m");
@@ -748,11 +753,30 @@ void outputPlainText(std::ostream&         os,
       const size_t labelW   = displayWidth(f.label);
       const size_t labelPad = (maxLabelWidth >= labelW) ? (maxLabelWidth - labelW) : 0;
 
-      if(f.isHeaderOnly) {
-         os << f.label << std::string(labelPad, ' ') << " =\n";
+      if(!rtl) {
+         if(f.isHeaderOnly) {
+            os << f.label << std::string(labelPad, ' ') << " =\n";
+         }
+         else {
+            os << f.label << std::string(labelPad, ' ') << " = " << f.value << '\n';
+         }
       }
       else {
-         os << f.label << std::string(labelPad, ' ') << " = " << f.value << '\n';
+         if(f.isHeaderOnly) {
+            os << f.label << RLM << std::string(labelPad, ' ') << " =\n";
+         }
+         else {
+            // Technical values (IPs, formulas, brackets, and error strings) start with ASCII (< 0x80)
+            const bool valIsLTR = f.value.empty() || static_cast<unsigned char>(f.value.front()) < 0x80;
+            if(valIsLTR) {
+               os << f.label << RLM << std::string(labelPad, ' ') << " = "
+                  << LRM << f.value << LRM << '\n';
+            }
+            else {
+               os << f.label << RLM << std::string(labelPad, ' ') << " = "
+                  << f.value << '\n';
+            }
+         }
       }
 
       // Print binary representation immediately under the address block
@@ -1021,7 +1045,13 @@ void outputPlainText(std::ostream&         os,
                for(const auto& prop : propEntries) {
                   const size_t propW   = displayWidth(prop.label);
                   const size_t propPad = (maxPropLabelWidth >= propW) ? (maxPropLabelWidth - propW) : 0;
-                  os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
+                  if(!rtl) {
+                     os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
+                  }
+                  else {
+                     os << "      + " << prop.label << RLM << std::string(propPad, ' ') << " = "
+                        << LRM << prop.value << LRM << '\n';
+                  }
                }
             }
          }
