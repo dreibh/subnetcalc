@@ -232,6 +232,10 @@ static bool isRTL()
 }
 
 
+// ###### Unicode Right-to-Left Mark (RLM) ##################################
+static constexpr std::string_view RLM = "\xe2\x80\x8f";
+
+
 // ###### Escape JSON/YAML strings safely ###################################
 static std::string escapeJSON(std::string_view str)
 {
@@ -633,8 +637,6 @@ void outputPlainText(std::ostream&         os,
                      const unsigned int    prefix,
                      const bool            colourMode)
 {
-   const bool rtl = isRTL();
-
    struct FieldEntry {
       std::string label;
       std::string value;
@@ -642,6 +644,7 @@ void outputPlainText(std::ostream&         os,
    };
 
    std::vector<FieldEntry> fields;
+   const bool              rtl = isRTL();
 
    // TRANSLATORS: Output field label for the input IP address
    const char* addressLabel = gettext("Address");
@@ -742,32 +745,31 @@ void outputPlainText(std::ostream&         os,
    }
 
    for(const auto& f : fields) {
-      const size_t labelW = displayWidth(f.label);
-      const size_t pad    = (maxLabelWidth >= labelW) ? (maxLabelWidth - labelW) : 0;
+      const size_t labelW   = displayWidth(f.label);
+      const size_t labelPad = (maxLabelWidth >= labelW) ? (maxLabelWidth - labelW) : 0;
 
-      if(!rtl) {
-         if(f.isHeaderOnly) {
-            os << f.label << std::string(pad, ' ') << " = \n";
-         }
-         else {
-            os << f.label << std::string(pad, ' ') << " = " << f.value << '\n';
-         }
+      if(f.isHeaderOnly) {
+         os << f.label << std::string(labelPad, ' ') << " =\n";
       }
       else {
-         if(f.isHeaderOnly) {
-            os << "= " << std::string(pad, ' ') << f.label << '\n';
-         }
-         else {
-            os << f.value << " = " << std::string(pad, ' ') << f.label << '\n';
-         }
+         os << f.label << std::string(labelPad, ' ') << " = " << f.value << '\n';
       }
 
       // Print binary representation immediately under the address block
       const bool hasExp = !details.expandedAddress.empty();
       if((hasExp && expAddressLabel && (f.label == expAddressLabel)) ||
          (!hasExp && (f.label == addressLabel))) {
-         printAddressBinary(os, address, prefix, colourMode,
-                            std::string(maxLabelWidth + 6, ' '));
+         if(!rtl) {
+            printAddressBinary(os, address, prefix, colourMode,
+                               std::string(maxLabelWidth + 3, ' '));
+         }
+         else {
+            // Space + RLM binds the RTL mark to cell 0, forcing RTL paragraph direction
+            std::string rlmIndent = " ";
+            rlmIndent += RLM;
+            rlmIndent += std::string(maxLabelWidth + 2, ' ');
+            printAddressBinary(os, address, prefix, colourMode, rlmIndent);
+         }
       }
       else if(f.isHeaderOnly && (f.label == propertiesLabel)) {
          os << "   - " << details.addressTypeDescription << '\n';
@@ -871,6 +873,7 @@ void outputPlainText(std::ostream&         os,
             else if(details.isMulticast) {
                // TRANSLATORS: Section header for IPv6 multicast properties
                os << "   - " << gettext("Multicast Properties") << '\n';
+
                // TRANSLATORS: Multicast scope label prefix
                os << "      + " << gettext("Scope: ");
                if(details.multicastScope == "node-local") {
@@ -1018,12 +1021,7 @@ void outputPlainText(std::ostream&         os,
                for(const auto& prop : propEntries) {
                   const size_t propW   = displayWidth(prop.label);
                   const size_t propPad = (maxPropLabelWidth >= propW) ? (maxPropLabelWidth - propW) : 0;
-                  if(!rtl) {
-                     os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
-                  }
-                  else {
-                     os << "      + " << prop.value << " = " << std::string(propPad, ' ') << prop.label << '\n';
-                  }
+                  os << "      + " << prop.label << std::string(propPad, ' ') << " = " << prop.value << '\n';
                }
             }
          }

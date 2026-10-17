@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-10-17 15:59+0200\n"
+"POT-Creation-Date: 2026-10-17 21:48+0200\n"
 "PO-Revision-Date: 2026-10-14 11:45+0200\n"
 "Last-Translator: Ekaterine Papava <papava.e@gtu.ge>\n"
 "Language-Team: Georgian <(nothing)>\n"
@@ -25,377 +25,377 @@ msgstr "LTR"
 
 #. TRANSLATORS: Error message when attempting to generate a unique local
 #. address without specifying an IPv6 target address.
-#: src/subnetcalc.cc:447
+#: src/subnetcalc.cc:451
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "შეცდომა: უნიკალური ლოკალური მისამართის გენერაციისთვის IPv6 მისამართი უნდა გადმოგვცეთ!"
 
 #. TRANSLATORS: Status message when generating unique local address:
 #. {0} = random number generator device path (e.g. /dev/urandom)
-#: src/subnetcalc.cc:458 src/subnetcalc.cc:478
+#: src/subnetcalc.cc:462 src/subnetcalc.cc:482
 #, no-c-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
 msgstr "მიმდინარეობს უნიკალური ლოკალური IPv6 მისამართის გენერაცია (გამოიყენება {0}) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:463
+#: src/subnetcalc.cc:467
 #, no-c-format
 msgid "ERROR: Unable to read from {0}!"
 msgstr "შეცდომა: {0}-იდან წაკითხვა შეუძლებელია!"
 
 #. TRANSLATORS: Error message when opening random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:470
+#: src/subnetcalc.cc:474
 #, no-c-format
 msgid "ERROR: Unable to open {0}!"
 msgstr "შეცდომა: {0}-ის გახსნა შეუძლებელია!"
 
 #. TRANSLATORS: Output field label for the input IP address
-#: src/subnetcalc.cc:647
+#: src/subnetcalc.cc:650
 msgid "Address"
 msgstr "მისამართი"
 
 #. TRANSLATORS: Output field label for the expanded IPv6 address
-#: src/subnetcalc.cc:653
+#: src/subnetcalc.cc:656
 msgid "Exp. Address"
 msgstr "გაშლილი მისამართი"
 
 #. TRANSLATORS: Output field label for the network IP address
-#: src/subnetcalc.cc:658
+#: src/subnetcalc.cc:661
 msgid "Network"
 msgstr "ქსელი"
 
 #. TRANSLATORS: Output field label for the subnet mask
-#: src/subnetcalc.cc:662
+#: src/subnetcalc.cc:665
 msgid "Netmask"
 msgstr "ქსელის ნიღაბი"
 
 #. TRANSLATORS: Output field label for the broadcast address
-#: src/subnetcalc.cc:667
+#: src/subnetcalc.cc:670
 msgid "Broadcast"
 msgstr "ტრანსლაცია"
 
 #. TRANSLATORS: Explanation when broadcast address is not applicable
-#: src/subnetcalc.cc:670
+#: src/subnetcalc.cc:673
 msgid "not needed on Point-to-Point links"
 msgstr "არაა საჭირო ორწერტილიან კავშირებზე"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
-#: src/subnetcalc.cc:675
+#: src/subnetcalc.cc:678
 msgid "Wildcard Mask"
 msgstr "ვაილდკარდის ნიღაბი"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
-#: src/subnetcalc.cc:680
+#: src/subnetcalc.cc:683
 msgid "Hex. Address"
 msgstr "თექვსმ. მისამართი"
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
-#: src/subnetcalc.cc:685
+#: src/subnetcalc.cc:688
 msgid "Host Bits"
 msgstr "ჰოსტის ბიტები"
 
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
-#: src/subnetcalc.cc:690
+#: src/subnetcalc.cc:693
 msgid "Max. Hosts"
 msgstr "მაქს. ჰოსტები"
 
 #. TRANSLATORS: Output field label for the usable host address range
-#: src/subnetcalc.cc:694
+#: src/subnetcalc.cc:697
 msgid "Host Range"
 msgstr "ჰოსტის შუალედი"
 
 #. TRANSLATORS: Output field label for IP address properties
-#: src/subnetcalc.cc:699
+#: src/subnetcalc.cc:702
 msgid "Properties"
 msgstr "თვისებები"
 
 #. TRANSLATORS: Output field label for GeoIP Autonomous System info
-#: src/subnetcalc.cc:704
+#: src/subnetcalc.cc:707
 msgid "GeoIP AS Info"
 msgstr "GeoIP AS ინფორმაცია"
 
 #. TRANSLATORS: Output field label for GeoIP country info
-#: src/subnetcalc.cc:710
+#: src/subnetcalc.cc:713
 msgid "GeoIP Country"
 msgstr "GeoIP ქვეყანა"
 
 #. TRANSLATORS: Cardinal direction abbreviation: North
-#: src/subnetcalc.cc:714
+#: src/subnetcalc.cc:717
 msgid "N"
 msgstr "ჩ"
 
-#: src/subnetcalc.cc:714
+#: src/subnetcalc.cc:717
 msgid "S"
 msgstr "ს"
 
 #. TRANSLATORS: Cardinal direction abbreviation: East
-#: src/subnetcalc.cc:716
+#: src/subnetcalc.cc:719
 msgid "E"
 msgstr "ა"
 
-#: src/subnetcalc.cc:716
+#: src/subnetcalc.cc:719
 msgid "W"
 msgstr "დ"
 
 #. TRANSLATORS: Output field label for GeoIP region / location info
-#: src/subnetcalc.cc:719
+#: src/subnetcalc.cc:722
 msgid "GeoIP Region"
 msgstr "GeoIP რეგიონი"
 
 #. TRANSLATORS: Output field label for DNS hostname
-#: src/subnetcalc.cc:734
+#: src/subnetcalc.cc:737
 msgid "DNS Hostname"
 msgstr "DNS ჰოსტის სახელი"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:779
+#: src/subnetcalc.cc:781
 msgid "Class A"
 msgstr "კლასი A"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:783
+#: src/subnetcalc.cc:785
 msgid "Class B"
 msgstr "კლასი B"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:787
+#: src/subnetcalc.cc:789
 msgid "Class C"
 msgstr "კლასი C"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:791
+#: src/subnetcalc.cc:793
 msgid "Class D (Multicast)"
 msgstr "კლასი D (ტრანსლაცია)"
 
 #. TRANSLATORS: Error message when IPv4 address is outside classes A through D
-#: src/subnetcalc.cc:795
+#: src/subnetcalc.cc:797
 msgid "Invalid (not in class A, B, C or D)"
 msgstr "არასწორი (არაა კლასებში A, B, C, ან D)"
 
 #. TRANSLATORS: IPv4 address property
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:802 src/subnetcalc.cc:852
+#: src/subnetcalc.cc:804 src/subnetcalc.cc:854
 msgid "Loopback address"
 msgstr "მარყუჟი მისამართი"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:806
+#: src/subnetcalc.cc:808
 msgid "In loopback network"
 msgstr "მარყუჟის ქსელში"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:810
+#: src/subnetcalc.cc:812
 msgid "Private"
 msgstr "პირადი"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:814
+#: src/subnetcalc.cc:816
 msgid "Link-local address"
 msgstr "ლოკალური კავშირის მისამართი"
 
 #. TRANSLATORS: Multicast scope label prefix
-#: src/subnetcalc.cc:820 src/subnetcalc.cc:875
+#: src/subnetcalc.cc:822 src/subnetcalc.cc:878
 msgid "Scope: "
 msgstr "ფარგლები: "
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:823 src/subnetcalc.cc:882
+#: src/subnetcalc.cc:825 src/subnetcalc.cc:885
 msgid "link-local"
 msgstr "ლოკალური-კავშირი"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:827 src/subnetcalc.cc:890
+#: src/subnetcalc.cc:829 src/subnetcalc.cc:893
 msgid "organization-local"
 msgstr "ორგანიზაციის-ლოკალური"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:831 src/subnetcalc.cc:886
+#: src/subnetcalc.cc:833 src/subnetcalc.cc:889
 msgid "site-local"
 msgstr "საიტის-ლოკალური"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:835 src/subnetcalc.cc:894
+#: src/subnetcalc.cc:837 src/subnetcalc.cc:897
 msgid "global"
 msgstr "გლობალური"
 
 #. TRANSLATORS: Multicast MAC address: {0} = MAC address string
-#: src/subnetcalc.cc:840 src/subnetcalc.cc:908
+#: src/subnetcalc.cc:842 src/subnetcalc.cc:911
 #, no-c-format
 msgid "Corresponding multicast MAC address: {0}"
 msgstr "შესაბამისი ჯგუფური MAC მისამართი: {0}"
 
 #. TRANSLATORS: Multicast property
-#: src/subnetcalc.cc:844 src/subnetcalc.cc:912
+#: src/subnetcalc.cc:846 src/subnetcalc.cc:915
 msgid "Source-specific multicast"
 msgstr "წყაროს სპეციფიკური ჯგუფური მისამართი"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:856
+#: src/subnetcalc.cc:858
 msgid "Unspecified address"
 msgstr "მიუთითებელი მისამართი"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:860
+#: src/subnetcalc.cc:862
 msgid "IPv4-compatible IPv6 address"
 msgstr "IPv4-თან თავსებადი IPv6 მისამართი"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:864
+#: src/subnetcalc.cc:866
 msgid "IPv4-mapped IPv6 address"
 msgstr "IPv4-ში ასახული IPv6 მისამართი"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:868
+#: src/subnetcalc.cc:870
 msgid "IPv4-embedded IPv6 address"
 msgstr "IPv4-ში ჩაშენებული IPv6 მისამართი"
 
 #. TRANSLATORS: Section header for IPv6 multicast properties
-#: src/subnetcalc.cc:873
+#: src/subnetcalc.cc:875
 msgid "Multicast Properties"
 msgstr "ჯგუფური ქსელის თვისებები"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:878
+#: src/subnetcalc.cc:881
 msgid "node-local"
 msgstr "კვანძის-ლოკალური"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:898
+#: src/subnetcalc.cc:901
 msgid "unknown"
 msgstr "უცნობი"
 
 #. TRANSLATORS: IPv6 multicast flag property
-#: src/subnetcalc.cc:904
+#: src/subnetcalc.cc:907
 msgid "Temporarily-allocated address"
 msgstr "დროებითი გამოყოფილი მისამართი"
 
 #. TRANSLATORS: Solicited node multicast target: {0} = target node mask
-#: src/subnetcalc.cc:917
+#: src/subnetcalc.cc:920
 #, no-c-format
 msgid "Address is solicited node multicast address for {0}"
 msgstr "მისამართი მოთხოვნილი კვანძის ჯგუფური მისამართია {0}-სთვის"
 
 #. TRANSLATORS: Section header for link-local unicast properties
-#: src/subnetcalc.cc:923
+#: src/subnetcalc.cc:926
 msgid "Link-Local Unicast Properties:"
 msgstr "ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
 #. TRANSLATORS: Section header for site-local unicast properties
-#: src/subnetcalc.cc:927
+#: src/subnetcalc.cc:930
 msgid "Site-Local Unicast Properties:"
 msgstr "საიტის ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
 #. TRANSLATORS: Section header for unique local unicast properties
-#: src/subnetcalc.cc:931
+#: src/subnetcalc.cc:934
 msgid "Unique Local Unicast Properties:"
 msgstr "უნიკალური ლოკალური ერთმხრივი გადაცემის თვისებები:"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:934
+#: src/subnetcalc.cc:937
 msgid "Locally chosen"
 msgstr "ლოკალურად არჩეული"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:938
+#: src/subnetcalc.cc:941
 msgid "Assigned by global instance"
 msgstr "მინიჭებულია გლობალური გაშვებული ასლის მიერ"
 
 #. TRANSLATORS: Section header for global unicast properties
-#: src/subnetcalc.cc:943
+#: src/subnetcalc.cc:946
 msgid "Global Unicast Properties:"
 msgstr "გლობალური ერთმხრივი გადაცემის თვისებები:"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:954
+#: src/subnetcalc.cc:957
 msgid "Global ID"
 msgstr "გლობალური ID"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:958
+#: src/subnetcalc.cc:961
 msgid "Subnet ID"
 msgstr "ქვექსელის ID"
 
 #. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:962
+#: src/subnetcalc.cc:965
 msgid "Interface ID"
 msgstr "ინტერფეისის ID"
 
 #. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
-#: src/subnetcalc.cc:980
+#: src/subnetcalc.cc:983
 msgid "MAC Address"
 msgstr "MAC მისამართი"
 
 #. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:994
+#: src/subnetcalc.cc:997
 msgid "Solicited Node Multicast Address"
 msgstr "მოთხოვნილი კვანძის ჯგუფური მისამართი"
 
 #. TRANSLATORS: 6-to-4 encapsulation address label
-#: src/subnetcalc.cc:1010
+#: src/subnetcalc.cc:1013
 msgid "6-to-4 Address"
 msgstr "6-დან-4-ში მისამართი"
 
 #. TRANSLATORS: Command-line syntax message prefix:
 #. "Usage: <program> [options]".
-#: src/subnetcalc.cc:1503
+#: src/subnetcalc.cc:1501
 msgid "Usage:"
 msgstr "გამოყენება:"
 
 #. TRANSLATORS: Error message when output format is invalid:
 #. {0} = input format
-#: src/subnetcalc.cc:1668
+#: src/subnetcalc.cc:1666
 #, no-c-format
 msgid "ERROR: Invalid format {0}!"
 msgstr "შეცდომა: არასწორი ფორმატი {0}!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
-#: src/subnetcalc.cc:1728 src/subnetcalc.cc:1744
+#: src/subnetcalc.cc:1726 src/subnetcalc.cc:1742
 #, no-c-format
 msgid "ERROR: Invalid address {0}!"
 msgstr "შეცდომა: არასწორი მისამართი {0}!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
-#: src/subnetcalc.cc:1735 src/subnetcalc.cc:1754 src/subnetcalc.cc:1776
+#: src/subnetcalc.cc:1733 src/subnetcalc.cc:1752 src/subnetcalc.cc:1774
 #, no-c-format
 msgid "ERROR: Invalid netmask {0}!"
 msgstr "შეცდომა: არასწორი ქსელის ნიღაბი {0}!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
-#: src/subnetcalc.cc:1783
+#: src/subnetcalc.cc:1781
 #, no-c-format
 msgid "ERROR: Incompatible netmask {0}!"
 msgstr "შეცდომა: შეუთავსებელი ქსელური ნიღაბი {0}!"
 
-#: src/subnetcalc.cc:1909
+#: src/subnetcalc.cc:1907
 #, no-c-format
 msgid "{0} is a MULTICAST address"
 msgstr "{0} ჯგუფური მისამართია"
 
-#: src/subnetcalc.cc:1915
+#: src/subnetcalc.cc:1913
 #, no-c-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
 msgstr "{0} წარმოადგენს {1}/{2}-ის ტრანსლაციის მისამართს"
 
-#: src/subnetcalc.cc:1923
+#: src/subnetcalc.cc:1921
 #, no-c-format
 msgid "{0} is a NETWORK address"
 msgstr "{0} ქსელური მისამართია"
 
-#: src/subnetcalc.cc:1929
+#: src/subnetcalc.cc:1927
 #, no-c-format
 msgid "{0} is a HOST address in {1}/{2}"
 msgstr "{0} წარმოადგენს ჰოსტის მისამართს {1}/{2}-ში"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
-#: src/subnetcalc.cc:2174 src/subnetcalc.cc:2195 src/subnetcalc.cc:2203
+#: src/subnetcalc.cc:2172 src/subnetcalc.cc:2193 src/subnetcalc.cc:2201
 msgid "Unknown"
 msgstr "უცნობი"
 
 #. TRANSLATORS: Progress message while performing reverse DNS lookup
-#: src/subnetcalc.cc:2240
+#: src/subnetcalc.cc:2238
 msgid "Performing reverse DNS lookup ..."
 msgstr "რევერსული DNS-ის ძებნა..."
