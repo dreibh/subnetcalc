@@ -60,11 +60,13 @@
 .\" ###### Description ######################################################
 .Sh DESCRIPTION
 .Nm subnetcalc
-is an IPv4/IPv6 subnet address calculator. For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g., type, scope, interface ID, etc.).
-.Pp
+is an IPv4/IPv6 subnet address calculator.
+For a given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range.
+Also, it prints the addresses in binary format for better understandability.
+Furthermore, it prints useful information on specific address types (e.g., type, scope, interface ID, etc.).
 .\" ###### Arguments ########################################################
 .Sh ARGUMENTS
-The following arguments may be provided:
+The following arguments and options are available:
 .Bl -tag -width indent
 .It Ar address
 The IP address. If a hostname is provided here, the program attempts to resolve the hostname via a DNS server, and the first returned address is used. Internationalized Domain Names (IDN) are supported.
@@ -72,26 +74,6 @@ The IP address. If a hostname is provided here, the program attempts to resolve 
 The netmask.
 .It Ar prefix
 The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
-.It Fl 4 | Fl \-ipv4
-Forces hostname resolution to IPv4 addresses.
-.It Fl 6 | Fl \-ipv6
-Forces hostname resolution to IPv6 addresses.
-.It Fl u | Fl \-uniquelocal
-Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in fc00::/7 (see also RFC 4193). On Unix systems,
-.Pa /dev/urandom
-is used for random number generation.
-.It Fl U | Fl \-uniquelocalhq
-Like \-\-uniquelocal, but using
-.Pa /dev/random
-instead on Unix systems for highest\-quality random number generation. On other systems, this option is equal to \-\-uniquelocal. Note that reading from
-.Pa /dev/random
-may take some time. You can speed up this process by delivering random input, e.g., by pressing keys or moving the mouse.
-.It Fl n | Fl \-noreverselookup
-Turns reverse DNS lookup off.
-.It Fl g | Fl \-nogeoiplookup
-Turns GeoIP lookup off.
-.It Fl c | Fl \-nocolour | Fl \-nocolor
-Turns colourised output off.
 .It Fl F Ar text|json|yaml|xml | Fl \-format Ar text|json|yaml|xml
 Sets the output format. Supported formats are
 .Cm text
@@ -102,10 +84,36 @@ Sets the output format. Supported formats are
 (YAML Ain't Markup Language), and
 .Cm xml
 (Extensible Markup Language).
+.It Fl u | Fl \-uniquelocal
+Given an IPv6 address, the first 48 bits of the address are replaced by a randomly chosen IPv6 Unique Local prefix in
+.Cm fc00::/7
+(see also RFC 4193). On Unix systems,
+.Pa /dev/urandom
+is used for random number generation.
+.It Fl U | Fl \-uniquelocalhq
+Like
+.Fl \-uniquelocal ,
+but using
+.Pa /dev/random
+instead on Unix systems for highest\-quality random number generation. On other systems, this option is equal to
+.Fl \-uniquelocal .
+Note that reading from
+.Pa /dev/random
+may take some time. You can speed up this process by delivering random input, e.g., by pressing keys or moving the mouse.
+.It Fl n | Fl \-noreverselookup
+Turns reverse DNS lookup off.
+.It Fl g | Fl \-nogeoiplookup
+Turns GeoIP lookup off.
+.It Fl c | Fl \-nocolour | Fl \-nocolor
+Turns colourised output off.
+.It Fl 4 | Fl \-ipv4
+Forces hostname resolution to IPv4 addresses.
+.It Fl 6 | Fl \-ipv6
+Forces hostname resolution to IPv6 addresses.
 .It Fl h | Fl \-help
-Prints command\-line parameters.
+Prints the program's command\-line parameters and exits.
 .It Fl v | Fl \-version
-Prints program version.
+Prints the program version and exits.
 .El
 .\" ###### Exit status ######################################################
 .Sh EXIT STATUS
@@ -114,7 +122,7 @@ The
 tool exits with 0 on success, and >0 in case of an error.
 .\" ###### Examples #########################################################
 .Sh EXAMPLES
-.Bl -bullet -offset indent
+.Bl -bullet
 .It
 subnetcalc \-v
 .It

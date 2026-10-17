@@ -1498,7 +1498,9 @@ void outputXML(std::ostream& os, const SubnetDetails& details)
 [[ noreturn ]]
 static void usage(const char* program, const int exitCode)
 {
-   std::cerr << HEADER("Usage:") << "\n"
+   // TRANSLATORS: Command-line syntax message prefix:
+   // "Usage: <program> [options]".
+   std::cerr << HEADER(gettext("Usage:")) << "\n"
              << CMD(program) << " "
                 SYN("{") " " ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") " " SYN("}") "\n"
                    ENTRY(OPT("-F") " " ARG("text|json|yaml|xml") PIPE OPT("--format") " " ARG("text|json|yaml|xml"))
