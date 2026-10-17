@@ -625,47 +625,6 @@ std::string find_mmdb_path(const std::string& mmdbFileName)
 #endif
 
 
-// ###### Version ###########################################################
-[[noreturn]] static void version()
-{
-   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << '\n';
-   std::exit(0);
-}
-
-
-// ------ BEGIN-OF-USAGE-BLOCK ------
-// ###### Usage #############################################################
-#define HEADER(s)    "\x1b[4m" << (s) << "\x1b[0m"
-#define CMD(s)       "\x1b[1m" << (s) << "\x1b[0m"
-#define OPT(s)       "\x1b[1m" s "\x1b[0m"
-#define ARG(s)       "\x1b[4m" s "\x1b[0m"
-#define SYN(s)       "\x1b[1m" s "\x1b[0m"
-#define PIPE         SYN(" | ")
-#define ENTRY(s)     "\t" SYN("[") s SYN("]\n")
-
-[[ noreturn ]]
-static void usage(const char* program, const int exitCode)
-{
-   std::cerr << HEADER("Usage:") << "\n"
-             << CMD(program) << " "
-                SYN("{") " " ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") " " SYN("}") "\n"
-                   ENTRY(OPT("-F") " " ARG("text|json|yaml|xml") PIPE OPT("--format") " " ARG("text|json|yaml|xml"))
-                   ENTRY(OPT("-u") PIPE OPT("--uniquelocal"))
-                   ENTRY(OPT("-U") PIPE OPT("--uniquelocalhq"))
-                   ENTRY(OPT("-n") PIPE OPT("--noreverselookup"))
-                   ENTRY(OPT("-g") PIPE OPT("--nogeoiplookup"))
-                   ENTRY(OPT("-c") PIPE OPT("--nocolour") PIPE OPT("--nocolor"))
-                   ENTRY(OPT("-4") PIPE OPT("--ipv4"))
-                   ENTRY(OPT("-6") PIPE OPT("--ipv6"))
-             << CMD(program) << "\n"
-                   ENTRY(OPT("-h") PIPE OPT("--help"))
-             << CMD(program) << "\n"
-                   ENTRY(OPT("-v") PIPE OPT("--version"));
-   exit(exitCode);
-}
-// ------ END-OF-USAGE-BLOCK ------
-
-
 // ###### Output Text Format ################################################
 void outputPlainText(std::ostream&         os,
                      const SubnetDetails&  details,
@@ -1516,6 +1475,48 @@ void outputXML(std::ostream& os, const SubnetDetails& details)
 
    os << "</subnetcalc>\n";
 }
+
+
+// ###### Version ###########################################################
+[[noreturn]] static void version()
+{
+   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << '\n';
+   std::exit(0);
+}
+
+
+// ------ BEGIN-OF-USAGE-BLOCK ------
+// ###### Usage #############################################################
+#define HEADER(s)    "\x1b[4m" << (s) << "\x1b[0m"
+#define CMD(s)       "\x1b[1m" << (s) << "\x1b[0m"
+#define OPT(s)       "\x1b[1m" s "\x1b[0m"
+#define ARG(s)       "\x1b[4m" s "\x1b[0m"
+#define SYN(s)       "\x1b[1m" s "\x1b[0m"
+#define PIPE         SYN(" | ")
+#define ENTRY(s)     "\t" SYN("[") s SYN("]\n")
+
+[[ noreturn ]]
+static void usage(const char* program, const int exitCode)
+{
+   std::cerr << HEADER("Usage:") << "\n"
+             << CMD(program) << " "
+                SYN("{") " " ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") " " SYN("}") "\n"
+                   ENTRY(OPT("-F") " " ARG("text|json|yaml|xml") PIPE OPT("--format") " " ARG("text|json|yaml|xml"))
+                   ENTRY(OPT("-u") PIPE OPT("--uniquelocal"))
+                   ENTRY(OPT("-U") PIPE OPT("--uniquelocalhq"))
+                   ENTRY(OPT("-n") PIPE OPT("--noreverselookup"))
+                   ENTRY(OPT("-g") PIPE OPT("--nogeoiplookup"))
+                   ENTRY(OPT("-c") PIPE OPT("--nocolour") PIPE OPT("--nocolor"))
+                   ENTRY(OPT("-4") PIPE OPT("--ipv4"))
+                   ENTRY(OPT("-6") PIPE OPT("--ipv6"))
+             << CMD(program) << "\n"
+                   ENTRY(OPT("-h") PIPE OPT("--help"))
+             << CMD(program) << "\n"
+                   ENTRY(OPT("-v") PIPE OPT("--version"));
+   exit(exitCode);
+}
+// ------ END-OF-USAGE-BLOCK ------
+
 
 
 // ====== Main program ######################################################
