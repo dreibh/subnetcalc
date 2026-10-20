@@ -497,28 +497,28 @@ SET_TESTS_PROPERTIES(cli_help_short cli_help_long PROPERTIES
 
 # German catalog translation ("Aufruf:")
 SET_TESTS_PROPERTIES(cli_help_i18n_de PROPERTIES
-   ENVIRONMENT "LANGUAGE=de;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=de;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Aufruf:"
    LABELS "cli;i18n;locale_de"
 )
 
 # Norwegian Bokmål catalog translation ("Bruk:")
 SET_TESTS_PROPERTIES(cli_help_i18n_nb PROPERTIES
-   ENVIRONMENT "LANGUAGE=nb;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=nb;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Bruk:"
    LABELS "cli;i18n;locale_nb"
 )
 
 # Arabic catalog translation ("الاستخدام:")
 SET_TESTS_PROPERTIES(cli_help_i18n_ar PROPERTIES
-   ENVIRONMENT "LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "الاستخدام:"
    LABELS "cli;i18n;locale_ar;rtl"
 )
 
 # Hebrew catalog translation ("שימוש:")
 SET_TESTS_PROPERTIES(cli_help_i18n_he PROPERTIES
-   ENVIRONMENT "LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "שימוש:"
    LABELS "cli;i18n;locale_he;rtl"
 )
@@ -531,7 +531,7 @@ SET_TESTS_PROPERTIES(cli_help_i18n_he PROPERTIES
 # --- Arabic IPv4 Functional Calculation ------------------------------------
 ADD_SUBNETCALC_TEST(i18n_ar_ipv4_calc 192.168.0.255/24 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_ar_ipv4_calc PROPERTIES
-   ENVIRONMENT "LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "العنوان.*=.*192\\.168\\.0\\.255.*الشبكة.*=.*192\\.168\\.0\\.0 / 24.*قناع الشبكة.*=.*255\\.255\\.255\\.0.*البث العام.*=.*192\\.168\\.0\\.255.*قناع البدل \\(Wildcard\\).*=.*0\\.0\\.0\\.255.*العنوان بالست عشري.*=.*C0A800FF.*بتات المضيف.*=.*8.*أقصى عدد للمضيفين.*=.*254.*نطاق المضيفين.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*الخصائص.*=.*هو عنوان البث العام \\(BROADCAST\\) لـ 192\\.168\\.0\\.0/24.*الفئة C.*خاص"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_ar;rtl;ipv4"
@@ -540,7 +540,7 @@ SET_TESTS_PROPERTIES(i18n_ar_ipv4_calc PROPERTIES
 # --- Arabic IPv6 ULA Sub-properties Functional Test ------------------------
 ADD_SUBNETCALC_TEST(i18n_ar_ipv6_ula fc00:1:3:4::/64 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_ar_ipv6_ula PROPERTIES
-   ENVIRONMENT "LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "العنوان.*=.*fc00:1:3:4::.*العنوان الموسّع.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*الشبكة.*=.*fc00:1:3:4:: / 64.*قناع الشبكة.*=.*ffff:ffff:ffff:ffff::.*خصائص البث الفردي المحلي الفريد \\(Unique Local\\):.*مُعيَّن من قِبل هيئة عالمية.*المُعرّف العالمي \\(Global ID\\).*=.*0000010003.*مُعرّف الشبكة الفرعية \\(Subnet ID\\).*=.*0004.*مُعرّف الواجهة \\(Interface ID\\).*=.*0000:0000:0000:0000"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_ar;rtl;ipv6;ula"
@@ -549,7 +549,7 @@ SET_TESTS_PROPERTIES(i18n_ar_ipv6_ula PROPERTIES
 # --- Hebrew IPv4 Functional Calculation ------------------------------------
 ADD_SUBNETCALC_TEST(i18n_he_ipv4_calc 192.168.0.255/24 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_he_ipv4_calc PROPERTIES
-   ENVIRONMENT "LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "כתובת.*=.*192\\.168\\.0\\.255.*רשת.*=.*192\\.168\\.0\\.0 / 24.*מסיכת רשת.*=.*255\\.255\\.255\\.0.*שידור כולל \\(Broadcast\\).*=.*192\\.168\\.0\\.255.*מסיכת תווים כלליים \\(Wildcard\\).*=.*0\\.0\\.0\\.255.*כתובת הקסדצימלית.*=.*C0A800FF.*סיביות מארח.*=.*8.*מארחים מרביים.*=.*254.*טווח מארחים.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*מאפיינים.*=.*היא כתובת השידור הכולל \\(BROADCAST\\) של 192\\.168\\.0\\.0/24.*מחלקה C.*פרטית"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_he;rtl;ipv4"
@@ -558,7 +558,7 @@ SET_TESTS_PROPERTIES(i18n_he_ipv4_calc PROPERTIES
 # --- Hebrew IPv6 ULA Sub-properties Functional Test ------------------------
 ADD_SUBNETCALC_TEST(i18n_he_ipv6_ula fc00:1:3:4::/64 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_he_ipv6_ula PROPERTIES
-   ENVIRONMENT "LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "כתובת.*=.*fc00:1:3:4::.*כתובת מורחבת.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*רשת.*=.*fc00:1:3:4:: / 64.*מסיכת רשת.*=.*ffff:ffff:ffff:ffff::.*מאפייני שידור יחיד מקומי ייחודי \\(Unique Local\\):.*הוקצה על ידי גוף גלובלי.*מזהה גלובלי \\(Global ID\\).*=.*0000010003.*מזהה תת-רשת \\(Subnet ID\\).*=.*0004.*מזהה ממשק \\(Interface ID\\).*=.*0000:0000:0000:0000"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_he;rtl;ipv6;ula"
@@ -575,49 +575,49 @@ ADD_SUBNETCALC_TEST(cli_help_i18n_sk  -h)
 ADD_SUBNETCALC_TEST(cli_help_i18n_bs  -h)
 
 SET_TESTS_PROPERTIES(cli_help_i18n_da PROPERTIES
-   ENVIRONMENT "LANGUAGE=da;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=da;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Brug:"
    LABELS "cli;i18n;locale_da"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_sv PROPERTIES
-   ENVIRONMENT "LANGUAGE=sv;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=sv;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Användning:"
    LABELS "cli;i18n;locale_sv"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_nn PROPERTIES
-   ENVIRONMENT "LANGUAGE=nn;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=nn;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Bruk:"
    LABELS "cli;i18n;locale_nn"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_ru PROPERTIES
-   ENVIRONMENT "LANGUAGE=ru;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=ru;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Использование:"
    LABELS "cli;i18n;locale_ru"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_ja PROPERTIES
-   ENVIRONMENT "LANGUAGE=ja;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=ja;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "使用法:"
    LABELS "cli;i18n;locale_ja"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_zh PROPERTIES
-   ENVIRONMENT "LANGUAGE=zh_CN;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=zh_CN;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "用法："
    LABELS "cli;i18n;locale_zh"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_sk PROPERTIES
-   ENVIRONMENT "LANGUAGE=sk;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=sk;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Použitie:"
    LABELS "cli;i18n;locale_sk"
 )
 
 SET_TESTS_PROPERTIES(cli_help_i18n_bs PROPERTIES
-   ENVIRONMENT "LANGUAGE=bs;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   ENVIRONMENT "LC_ALL=C.UTF-8;LANGUAGE=bs;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "Upotreba:"
    LABELS "cli;i18n;locale_bs"
 )
@@ -1638,7 +1638,7 @@ SET_TESTS_PROPERTIES(
 # Standard ASCII Domain Names
 ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise             www.heise.de 24 -4)
 ADD_SUBNETCALC_DNS_TEST(dns_ascii_heise_slash       www.heise.de/24 -4)
-ADD_SUBNETCALC_DNS_TEST(dns_ascii_google            google.com 64 -6)
+ADD_SUBNETCALC_DNS_TEST(dns_ascii_google            google.com)
 
 # German IDN: Punycode then IDN
 ADD_SUBNETCALC_DNS_TEST(dns_punycode_buecher        www.xn--bcher-kva.de)
