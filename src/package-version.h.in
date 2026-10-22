@@ -38,4 +38,7 @@
 
 #define SUBNETCALC_LOCALEDIR     "@CMAKE_INSTALL_FULL_DATADIR@/locale"
 
+#define PACKAGE_HOMEPAGE         "https://www.nntb.no/~dreibh/subnetcalc"
+#define PACKAGE_SOURCEREPO       "https://github.com/dreibh/subnetcalc"
+
 #endif

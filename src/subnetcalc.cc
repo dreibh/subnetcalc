@@ -1526,6 +1526,18 @@ void outputXML(std::ostream& os, const SubnetDetails& details)
 [[ noreturn ]]
 static void usage(const char* program, const int exitCode)
 {
+   const std::string manpage(std::string("\x1b[1m") +
+                             std::filesystem::path(program).stem().string() +
+                             std::string("\x1b[0m"));
+   const std::string homepage(std::string("\x1b[1m\x1b]8;;") +
+                              std::string(PACKAGE_HOMEPAGE) +
+                              "\a" + std::string(PACKAGE_HOMEPAGE) + "\a" +
+                              std::string("\x1b]8;;\a\x1b[0m"));
+   const std::string repository(std::string("\x1b[1m\x1b]8;;") +
+                                std::string(PACKAGE_SOURCEREPO) +
+                                "\a" + std::string(PACKAGE_SOURCEREPO) + "\a" +
+                                std::string("\x1b]8;;\a\x1b[0m"));
+
    // TRANSLATORS: Command-line syntax message prefix:
    // "Usage: <program> [options]".
    std::cerr << HEADER(gettext("Usage:")) << "\n"
@@ -1542,7 +1554,10 @@ static void usage(const char* program, const int exitCode)
              << CMD(program) << "\n"
                    ENTRY(OPT("-h") PIPE OPT("--help"))
              << CMD(program) << "\n"
-                   ENTRY(OPT("-v") PIPE OPT("--version"));
+                   ENTRY(OPT("-v") PIPE OPT("--version"))
+             << "\n"
+             << formatText("For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM.",
+                           manpage, homepage, repository) << "\n";
    exit(exitCode);
 }
 // ------ END-OF-USAGE-BLOCK ------
