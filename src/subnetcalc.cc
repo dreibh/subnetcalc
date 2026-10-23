@@ -1542,8 +1542,8 @@ static void usage(const char* program, const int exitCode)
    // "Usage: <program> [options]".
    std::cerr << HEADER(gettext("Usage:")) << "\n"
              << CMD(program) << " "
-                SYN("{") " " ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") " " SYN("}") "\n"
-                   ENTRY(OPT("-F") " " ARG("text|json|yaml|xml") PIPE OPT("--format") " " ARG("text|json|yaml|xml"))
+                SYN("{") ARG("address/prefix") PIPE ARG("address/netmask") PIPE ARG("address") " " ARG("prefix") PIPE ARG("address") " " ARG("netmask") SYN("}") "\n"
+                   ENTRY(OPT("-F") " " SYN("{") SYN("text") PIPE SYN("json") PIPE SYN("yaml") PIPE SYN("xml") SYN("}") PIPE OPT("--format") " " SYN("{") SYN("text") PIPE SYN("json") PIPE SYN("yaml") PIPE SYN("xml") SYN("}"))
                    ENTRY(OPT("-u") PIPE OPT("--uniquelocal"))
                    ENTRY(OPT("-U") PIPE OPT("--uniquelocalhq"))
                    ENTRY(OPT("-n") PIPE OPT("--noreverselookup"))
@@ -1556,7 +1556,7 @@ static void usage(const char* program, const int exitCode)
              << CMD(program) << "\n"
                    ENTRY(OPT("-v") PIPE OPT("--version"))
              << "\n"
-             << formatText("For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM.",
+             << formatText("For further information, see the man page for {}, read the documentation at [{}], examine the source code at [{}], or consult your favourite LLM.",
                            manpage, homepage, repository) << "\n";
    exit(exitCode);
 }

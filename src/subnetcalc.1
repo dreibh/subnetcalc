@@ -28,7 +28,7 @@
 .\" Contact: thomas.dreibholz@gmail.com
 .\"
 .\" ###### Setup ############################################################
-.Dd October 17, 2026
+.Dd October 23, 2026
 .Dt subnetcalc 1
 .Os subnetcalc
 .\" ###### Name #############################################################
@@ -38,9 +38,9 @@
 .\" ###### Synopsis #########################################################
 .Sh SYNOPSIS
 .Nm subnetcalc
-.No { Ar address/prefix | Ar address/netmask | Ar address Ar prefix | Ar address Ar netmask No }
+.Bro Ar address/prefix | Ar address/netmask | Ar address Ar prefix | Ar address Ar netmask Brc
 .br
-.Op Fl F Ar text|json|yaml|xml | Fl \-format Ar text|json|yaml|xml
+.Op Fl F Bro Cm text | json | yaml | xml Brc | Fl \-format Bro Cm text | json | yaml | xml Brc
 .br
 .Op Fl u | Fl \-uniquelocal
 .Op Fl U | Fl \-uniquelocalhq
@@ -52,6 +52,7 @@
 .Op Fl c | Fl \-nocolour | Fl \-nocolor
 .br
 .Op Fl 4 | Fl \-ipv4
+.br
 .Op Fl 6 | Fl \-ipv6
 .Nm subnetcalc
 .Op Fl h | Fl \-help
@@ -74,7 +75,7 @@ The IP address. If a hostname is provided here, the program attempts to resolve 
 The netmask.
 .It Ar prefix
 The prefix length (0\-32 for IPv4; 0\-128 for IPv6).
-.It Fl F Ar text|json|yaml|xml | Fl \-format Ar text|json|yaml|xml
+.It Fl F Bro Cm text | json | yaml | xml Brc | Fl \-format Bro Cm text | json | yaml | xml Brc
 Sets the output format. Supported formats are
 .Cm text
 (default human\-readable formatted output),
