@@ -40,9 +40,9 @@ cmake --build "${BUILD_DIR}"
 
 # Point to build tree locale catalogs if present
 if [ -d "${BUILD_DIR}/locale" ]; then
-   export SUBNETCALC_LOCALEDIR="${BUILD_DIR}/locale"
+   export TEXTDOMAINDIR="${BUILD_DIR}/locale"
 elif [ -d "${BUILD_DIR}/src/locale" ]; then
-   export SUBNETCALC_LOCALEDIR="${BUILD_DIR}/src/locale"
+   export TEXTDOMAINDIR="${BUILD_DIR}/src/locale"
 fi
 
 

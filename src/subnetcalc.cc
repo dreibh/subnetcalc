@@ -1508,7 +1508,7 @@ void outputXML(std::ostream& os, const SubnetDetails& details)
 // ###### Version ###########################################################
 [[noreturn]] static void version()
 {
-   std::cout << "SubNetCalc " << SUBNETCALC_VERSION << '\n';
+   std::cout << "SubNetCalc " << PROJECT_VERSION << '\n';
    std::exit(0);
 }
 
@@ -1530,12 +1530,12 @@ static void usage(const char* program, const int exitCode)
                              std::filesystem::path(program).stem().string() +
                              std::string("\x1b[0m"));
    const std::string homepage(std::string("\x1b[1m\x1b]8;;") +
-                              std::string(PACKAGE_HOMEPAGE) +
-                              "\a" + std::string(PACKAGE_HOMEPAGE) + "\a" +
+                              std::string(PROJECT_HOMEPAGE_URL) +
+                              "\a" + std::string(PROJECT_HOMEPAGE_URL) + "\a" +
                               std::string("\x1b]8;;\a\x1b[0m"));
    const std::string repository(std::string("\x1b[1m\x1b]8;;") +
-                                std::string(PACKAGE_SOURCEREPO) +
-                                "\a" + std::string(PACKAGE_SOURCEREPO) + "\a" +
+                                std::string(PROJECT_SOURCE_URL) +
+                                "\a" + std::string(PROJECT_SOURCE_URL) + "\a" +
                                 std::string("\x1b]8;;\a\x1b[0m"));
 
    // TRANSLATORS: Command-line syntax message prefix:
@@ -1556,7 +1556,9 @@ static void usage(const char* program, const int exitCode)
              << CMD(program) << "\n"
                    ENTRY(OPT("-v") PIPE OPT("--version"))
              << "\n"
-             << formatText("For further information, see the man page for {}, read the documentation at [{}], examine the source code at [{}], or consult your favourite LLM.",
+             // TRANSLATORS: Informational message at the end of usage:
+             // "For further information, see the man page for <manpage>, read the documentation at [<url>], examine the source code at [<url>], or consult your favourite LLM.".
+             << formatText(gettext("For further information, see the man page for {}, read the documentation at [{}], examine the source code at [{}], or consult your favourite LLM."),
                            manpage, homepage, repository) << "\n";
    exit(exitCode);
 }
@@ -1633,7 +1635,7 @@ int main(int argc, char** argv)
 #endif
    bindtextdomain("subnetcalc",
                   ( ((textdomaindir) && (textdomaindir[0] != 0x00)) ?
-                       textdomaindir : SUBNETCALC_LOCALEDIR ));
+                       textdomaindir : PROJECT_LOCALEDIR ));
 #if defined(_WIN32)
    if(textdomaindir) {
        free(textdomaindir);

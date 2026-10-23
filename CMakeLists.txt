@@ -27,13 +27,16 @@
 #
 # Contact: thomas.dreibholz@gmail.com
 
-CMAKE_MINIMUM_REQUIRED(VERSION 3.10)
-PROJECT(subnetcalc LANGUAGES C CXX)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
 
 SET(BUILD_MAJOR "2")
 SET(BUILD_MINOR "7")
 SET(BUILD_PATCH "6")
-SET(BUILD_VERSION ${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH})
+PROJECT(subnetcalc
+        VERSION      "${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH}"
+        LANGUAGES    C CXX
+        HOMEPAGE_URL "https://www.nntb.no/~dreibh/subnetcalc")
+SET(PROJECT_SOURCE_URL "https://github.com/dreibh/subnetcalc")
 
 set(CMAKE_CXX_STANDARD          20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
