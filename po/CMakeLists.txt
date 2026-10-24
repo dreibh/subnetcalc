@@ -65,7 +65,7 @@ FOREACH(source IN LISTS sources)
       --keyword=formatText:1
       --flag=formatText:1:no-c-format
       --no-wrap
-      -p "${CMAKE_CURRENT_SOURCE_DIR}"
+      --force-po
    )
 
    # ====== Parse .sources line by line =====================================
