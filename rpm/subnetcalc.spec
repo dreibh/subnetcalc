@@ -13,6 +13,7 @@ BuildRequires: gcc
 BuildRequires: gcc-c++
 BuildRequires: gettext
 BuildRequires: libmaxminddb-devel
+BuildRequires: glibc-langpack-en
 Recommends: iproute
 
 
