@@ -1560,7 +1560,7 @@ static void usage(const char* program, const int exitCode)
              // "For further information, see the man page for <manpage>, read the documentation at [<url>], examine the source code at [<url>], or consult your favourite LLM.".
              << formatText(gettext("For further information, see the man page for {}, read the documentation at [{}], examine the source code at [{}], or consult your favourite LLM."),
                            manpage, homepage, repository) << "\n";
-   exit(exitCode);
+   std::exit(exitCode);
 }
 // ------ END-OF-USAGE-BLOCK ------
 
