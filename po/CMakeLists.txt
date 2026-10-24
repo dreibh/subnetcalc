@@ -50,7 +50,7 @@ FOREACH(source IN LISTS sources)
       --add-comments=TRANSLATORS:
       --default-domain="${textdomain}"
       --package-name="${PROJECT_NAME}"
-      --package-version="${BUILD_VERSION}"
+      --package-version="${PROJECT_VERSION}"
       --copyright-holder="${copyrightHolder}"
       --msgid-bugs-address="${bugTrackerAddress}"
       --keyword=_
