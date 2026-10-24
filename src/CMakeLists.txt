@@ -59,7 +59,7 @@ TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
                       ${NSL_LIBRARY}
                       ${GETOPT_LIBRARY})
 IF (WIN32)
-   TARGET_LINK_LIBRARIES(subnetcalc PRIVATE  ws2_32 iphlpapi)
+   TARGET_LINK_LIBRARIES(subnetcalc PRIVATE ws2_32 iphlpapi)
 ENDIF()
 IF (MSVC)
    TARGET_LINK_OPTIONS(subnetcalc PRIVATE
