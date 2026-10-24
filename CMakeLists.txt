@@ -28,7 +28,6 @@
 # Contact: thomas.dreibholz@gmail.com
 
 CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
-
 SET(BUILD_MAJOR "2")
 SET(BUILD_MINOR "7")
 SET(BUILD_PATCH "6")
