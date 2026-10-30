@@ -10,7 +10,7 @@
 // ==========================================================================
 //
 // SubNetCalc - IPv4/IPv6 Subnet Calculator
-// Copyright (C) 2024-2026 by Thomas Dreibholz
+// Copyright (C) 2009-2026 by Thomas Dreibholz
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -297,6 +297,74 @@ std::string address2string(const sockaddr_union& address,
          return "(unspecified)";
    }
    return "(invalid!)";
+}
+
+
+// ###### Format mask to string without IPv4-embedded notation ##############
+std::string mask2string(const sockaddr_union& mask)
+{
+   if(isIPv4(mask)) {
+      return address2string(mask, false);
+   }
+
+   const in6_addr ip6 = getIPv6Address(mask);
+   uint16_t words[8];
+   for(int i = 0; i < 8; i++) {
+      words[i] = static_cast<uint16_t>((ip6.s6_addr[i * 2] << 8) | ip6.s6_addr[i * 2 + 1]);
+   }
+
+   // Find longest run of zeros (RFC 5952 section 4.2):
+   int best_base = -1;
+   int best_len  = 0;
+   int cur_base  = -1;
+   int cur_len   = 0;
+
+   for(int i = 0; i < 8; i++) {
+      if(words[i] == 0) {
+         if(cur_base == -1) {
+            cur_base = i;
+            cur_len  = 1;
+         }
+         else {
+            cur_len++;
+         }
+         if(cur_len > best_len) {
+            best_base = cur_base;
+            best_len  = cur_len;
+         }
+      }
+      else {
+         cur_base = -1;
+         cur_len  = 0;
+      }
+   }
+
+   // RFC 5952: "The symbol '::' MUST NOT be used to shorten just
+   // one 16-bit 0 field.":
+   if(best_len <= 1) {
+      best_base = -1;
+      best_len  = 0;
+   }
+
+   std::string out;
+   int i = 0;
+   while(i < 8) {
+      if(i == best_base) {
+         out += "::";
+         i += best_len;
+      }
+      else {
+         if(!out.empty() && !out.ends_with("::")) {
+            out += ':';
+         }
+         out += std::format("{:x}", words[i]);
+         i++;
+      }
+   }
+   if(out.empty()) {
+      out = "::";
+   }
+   return out;
 }
 
 

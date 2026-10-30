@@ -487,7 +487,7 @@ ADD_SUBNETCALC_TEST(cli_help_i18n_ar  -h)
 ADD_SUBNETCALC_TEST(cli_help_i18n_he  -h)
 
 SET_TESTS_PROPERTIES(cli_version_short cli_version_long PROPERTIES
-   PASS_REGULAR_EXPRESSION "SubNetCalc [0-9]+\\.[0-9]+"
+   PASS_REGULAR_EXPRESSION "SubNetCalc [0-9]+\\.[0-9]+\\.[0-9]+"
 )
 
 # Flexible check for default Usage output (exit code 0 validated by ADD_SUBNETCALC_TEST)

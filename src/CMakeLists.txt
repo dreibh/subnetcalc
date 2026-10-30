@@ -43,7 +43,11 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #### PROGRAMS                                                            ####
 #############################################################################
 
-ADD_EXECUTABLE(subnetcalc subnetcalc.cc tools.cc)
+ADD_EXECUTABLE(subnetcalc
+   subnetcalc.cc
+   propertyformatter.cc
+   tools.cc
+)
 TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
                            ${Intl_INCLUDE_DIRS}
                            ${LIBIBERTY_INCLUDE_DIR}
