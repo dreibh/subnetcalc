@@ -47,14 +47,54 @@ PropertyFormatter::PropertyFormatter(std::string              indent,
 }
 
 
+// ###### Sanitize Latin text inside parentheses for RTL terminals ==========
+std::string PropertyFormatter::sanitizeBidiBrackets(std::string_view sv, bool isRtl)
+{
+   if(!isRtl || sv.empty()) {
+      return std::string(sv);
+   }
+
+   std::string result;
+   result.reserve(sv.size() + 16);
+
+   size_t i = 0;
+   while(i < sv.size()) {
+      if(sv[i] == '(') {
+         size_t j = i + 1;
+         bool onlyAscii = true;
+         while((j < sv.size()) && (sv[j] != ')')) {
+            if(static_cast<unsigned char>(sv[j]) >= 0x80) {
+               onlyAscii = false;
+               break;
+            }
+            j++;
+         }
+
+         if(onlyAscii && (j < sv.size()) && (sv[j] == ')')) {
+            result += utf8Lrm;
+            result.append(sv.data() + i, (j - i + 1));
+            result += utf8Lrm;
+            i = j + 1;
+            continue;
+         }
+      }
+
+      result += sv[i];
+      i++;
+   }
+   return result;
+}
+
+
 // ###### Add Key/Value Pair ################################################
 PropertyFormatter& PropertyFormatter::add(size_t level, std::string key, std::string value)
 {
-   const size_t width = computeDisplayWidth(key);
+   std::string sanitizedKey = sanitizeBidiBrackets(key, IsRtl);
+   const size_t width = computeDisplayWidth(sanitizedKey);
    Entries.push_back(Entry{
       .section      = CurrentSection,
       .level        = level,
-      .key          = std::move(key),
+      .key          = std::move(sanitizedKey),
       .value        = std::move(value),
       .hasSeparator = true,
       .keyWidth     = width
@@ -73,10 +113,11 @@ PropertyFormatter& PropertyFormatter::add(std::string key, std::string value)
 // ###### Add Standalone Text Line ##########################################
 PropertyFormatter& PropertyFormatter::addLine(size_t level, std::string text)
 {
+   std::string sanitizedText = sanitizeBidiBrackets(text, IsRtl);
    Entries.push_back(Entry{
       .section      = CurrentSection,
       .level        = level,
-      .key          = std::move(text),
+      .key          = std::move(sanitizedText),
       .value        = "",
       .hasSeparator = false,
       .keyWidth     = 0
@@ -113,8 +154,35 @@ void PropertyFormatter::print(std::ostream& os) const
    }
 
    for(const auto& entry : Entries) {
-      if(IsRtl) {
-         os << utf8Rlm;
+      if(!entry.hasSeparator) {
+         if(IsRtl) {
+            // Space + RLM binds the RTL mark to cell 0, forcing RTL paragraph direction:
+            const size_t totalIndentWidth = entry.level * computeDisplayWidth(Indent);
+            if(totalIndentWidth > 0) {
+               os << ' ' << utf8Rlm;
+               for(size_t i = 1; i < totalIndentWidth; ++i) {
+                  os << ' ';
+               }
+            }
+            else {
+               os << ' ' << utf8Rlm;
+            }
+
+            if(entry.level < Prefixes.size()) {
+               os << Prefixes[entry.level];
+            }
+         }
+         else {
+            for(size_t i = 0; i < entry.level; ++i) {
+               os << Indent;
+            }
+            if(entry.level < Prefixes.size()) {
+               os << Prefixes[entry.level];
+            }
+         }
+
+         os << entry.key << '\n';
+         continue;
       }
 
       for(size_t i = 0; i < entry.level; ++i) {
@@ -125,16 +193,14 @@ void PropertyFormatter::print(std::ostream& os) const
          os << Prefixes[entry.level];
       }
 
-      if(!entry.hasSeparator) {
-         os << entry.key << '\n';
-         continue;
-      }
-
       const SectionLevelKey slKey{entry.section, entry.level};
       const size_t maxKeyWidth = maxWidths[slKey];
       const size_t padding     = (maxKeyWidth >= entry.keyWidth) ? (maxKeyWidth - entry.keyWidth) : 0;
 
       os << entry.key;
+      if(IsRtl) {
+         os << utf8Rlm;
+      }
 
       for(size_t i = 0; i < padding; ++i) {
          os << ' ';
@@ -296,9 +362,20 @@ bool PropertyFormatter::isZeroWidth(char32_t codePoint) noexcept
    return (codePoint <= 0x001f) ||
           (codePoint >= 0x007f && codePoint <= 0x009f) || // Control characters
           (codePoint >= 0x0300 && codePoint <= 0x036f) || // Combining Diacritical Marks
+          (codePoint >= 0x0591 && codePoint <= 0x05bd) || // Hebrew accents / cantillation
+          (codePoint == 0x05bf)                         || // Hebrew rafe
+          (codePoint >= 0x05c1 && codePoint <= 0x05c2) || // Hebrew shin/sin dots
+          (codePoint >= 0x05c4 && codePoint <= 0x05c5) || // Hebrew upper/lower dots
+          (codePoint == 0x05c7)                         || // Hebrew qamats qatan
+          (codePoint >= 0x0610 && codePoint <= 0x061a) || // Arabic Quranic marks
+          (codePoint >= 0x064b && codePoint <= 0x065f) || // Arabic Tashkeel (Fatha, Shaddah, etc.)
+          (codePoint == 0x0670)                         || // Arabic superscript alef
+          (codePoint >= 0x06d6 && codePoint <= 0x06dc) || // Arabic Quranic small marks
+          (codePoint >= 0x06df && codePoint <= 0x06e8) || // Arabic Quranic small marks
+          (codePoint >= 0x06ea && codePoint <= 0x06ed) || // Arabic tone marks
           (codePoint >= 0x1ab0 && codePoint <= 0x1aff) || // Combining Diacritical Extended
           (codePoint >= 0x1dc0 && codePoint <= 0x1dff) || // Combining Diacritical Supplement
-          (codePoint >= 0x20D0 && codePoint <= 0x20ff) || // Combining Marks for Symbols
+          (codePoint >= 0x20d0 && codePoint <= 0x20ff) || // Combining Marks for Symbols
           (codePoint >= 0xfe20 && codePoint <= 0xfe2f) || // Combining Half Marks
           (codePoint >= 0x200b && codePoint <= 0x200f) || // Zero-width spaces, LRM, RLM
           (codePoint >= 0x202a && codePoint <= 0x202e) || // Directional embeddings / overrides
@@ -313,7 +390,6 @@ bool PropertyFormatter::isRegionalIndicator(char32_t codePoint) noexcept
 {
    return (codePoint >= 0x1f1e6 && codePoint <= 0x1f1ff);
 }
-
 
 
 // ###### Wide emoji check ##################################################
@@ -356,19 +432,31 @@ void PropertyFormatter::printMultilineValue(std::ostream& os, const std::string&
 
    while(std::getline(stream, line)) {
       if(!isFirstLine) {
-         if(rtl) {
-            os << utf8Rlm;
-         }
-         for(size_t i = 0; i < leadingWidth; ++i) {
-            os << ' ';
+         if(!line.empty()) {
+            if(rtl) {
+               // Space + RLM binds the RTL mark to cell 0, forcing RTL paragraph direction:
+               os << ' ' << utf8Rlm;
+               for(size_t i = 1; i < leadingWidth; ++i) {
+                  os << ' ';
+               }
+            }
+            else {
+               for(size_t i = 0; i < leadingWidth; ++i) {
+                  os << ' ';
+               }
+            }
          }
       }
 
-      if(rtl && containsAsciiAlnum(line)) {
-         os << utf8Lrm << line << utf8Lrm;
-      }
-      else {
-         os << line;
+      if(!line.empty()) {
+         // Technical values (IPs, formulas, brackets, error strings) start with ASCII (< 0x80)
+         const bool valIsLTR = rtl && startsWithAscii(line);
+         if(valIsLTR) {
+            os << utf8Lrm << line << utf8Lrm;
+         }
+         else {
+            os << line;
+         }
       }
       os << '\n';
       isFirstLine = false;
@@ -376,8 +464,8 @@ void PropertyFormatter::printMultilineValue(std::ostream& os, const std::string&
 }
 
 
-// ###### Check alphanumeric ASCII ##########################################
-bool PropertyFormatter::containsAsciiAlnum(std::string_view sv) noexcept
+// ###### Check if string starts with ASCII character #######################
+bool PropertyFormatter::startsWithAscii(std::string_view sv) noexcept
 {
    size_t offset = 0;
    while(offset < sv.size()) {
@@ -385,11 +473,7 @@ bool PropertyFormatter::containsAsciiAlnum(std::string_view sv) noexcept
          offset = skipAnsiSequence(sv, offset);
          continue;
       }
-      const char ch = sv[offset];
-      if((ch >= '0' && ch <= '9') || (ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z')) {
-         return true;
-      }
-      offset++;
+      return static_cast<unsigned char>(sv[offset]) < 0x80;
    }
    return false;
 }

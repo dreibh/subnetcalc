@@ -78,7 +78,8 @@ class PropertyFormatter {
    static bool isCjkWide(char32_t codePoint) noexcept;
    static void printMultilineValue(std::ostream& os, const std::string& value,
                                    size_t leadingWidth, bool rtl);
-   static bool containsAsciiAlnum(std::string_view sv) noexcept;
+   static bool startsWithAscii(std::string_view sv) noexcept;
+   static std::string sanitizeBidiBrackets(std::string_view sv, bool isRtl);
 
 
    // ====== Private attributes =============================================
@@ -102,8 +103,6 @@ class PropertyFormatter {
    bool                     IsRtl { false };
    std::vector<Entry>       Entries;
    size_t                   CurrentSection{0};
-
-
 };
 
 #endif // PROPERTYFORMATTER_H
