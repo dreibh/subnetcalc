@@ -47,7 +47,7 @@ PropertyFormatter::PropertyFormatter(std::string              indent,
 }
 
 
-// ###### Sanitize Latin text inside parentheses for RTL terminals ==========
+// ====== Sanitize text inside parentheses for RTL terminals ################
 std::string PropertyFormatter::sanitizeBidiBrackets(std::string_view sv, bool isRtl)
 {
    if(!isRtl || sv.empty()) {
@@ -62,6 +62,7 @@ std::string PropertyFormatter::sanitizeBidiBrackets(std::string_view sv, bool is
       if(sv[i] == '(') {
          size_t j = i + 1;
          bool onlyAscii = true;
+
          while((j < sv.size()) && (sv[j] != ')')) {
             if(static_cast<unsigned char>(sv[j]) >= 0x80) {
                onlyAscii = false;
@@ -89,7 +90,7 @@ std::string PropertyFormatter::sanitizeBidiBrackets(std::string_view sv, bool is
 // ###### Add Key/Value Pair ################################################
 PropertyFormatter& PropertyFormatter::add(size_t level, std::string key, std::string value)
 {
-   std::string sanitizedKey = sanitizeBidiBrackets(key, IsRtl);
+   const std::string sanitizedKey = sanitizeBidiBrackets(key, IsRtl);
    const size_t width = computeDisplayWidth(sanitizedKey);
    Entries.push_back(Entry{
       .section      = CurrentSection,
@@ -255,7 +256,7 @@ size_t PropertyFormatter::skipAnsiSequence(std::string_view sv, size_t offset) n
       size_t cursor = offset + 2;
       while(cursor < sv.size()) {
          const auto byte = static_cast<unsigned char>(sv[cursor]);
-         if(byte >= 0x40 && byte <= 0x7e) {
+         if((byte >= 0x40) && (byte <= 0x7e)) {
             return cursor + 1;
          }
          cursor++;
@@ -270,7 +271,7 @@ size_t PropertyFormatter::skipAnsiSequence(std::string_view sv, size_t offset) n
          if(sv[cursor] == 0x07) {
             return cursor + 1;
          }
-         if(sv[cursor] == 0x1b && cursor + 1 < sv.size() && sv[cursor + 1] == '\\') {
+         if((sv[cursor] == 0x1b) && (cursor + 1 < sv.size()) && (sv[cursor + 1] == '\\')) {
             return cursor + 2;
          }
          cursor++;
@@ -279,7 +280,7 @@ size_t PropertyFormatter::skipAnsiSequence(std::string_view sv, size_t offset) n
    }
 
    // Character set shifts: ESC (, ESC ), ESC *, ESC +
-   if(nextChar == '(' || nextChar == ')' || nextChar == '*' || nextChar == '+') {
+   if((nextChar == '(') || (nextChar == ')') || (nextChar == '*') || (nextChar == '+')) {
       return (offset + 2 < sv.size()) ? (offset + 3) : sv.size();
    }
 
@@ -331,19 +332,19 @@ char32_t PropertyFormatter::decodeNextUtf8(std::string_view sv, size_t& offset) 
       offset += 1;
       return byte0;
    }
-   if((byte0 & 0xe0) == 0xc0 && offset + 1 < sv.size()) {
+   if(((byte0 & 0xe0) == 0xc0) && (offset + 1 < sv.size())) {
       const char32_t codePoint = ((byte0 & 0x1f) << 6) | (static_cast<unsigned char>(sv[offset + 1]) & 0x3f);
       offset += 2;
       return codePoint;
    }
-   if((byte0 & 0xf0) == 0xe0 && offset + 2 < sv.size()) {
+   if(((byte0 & 0xf0) == 0xe0) && (offset + 2 < sv.size())) {
       const char32_t codePoint = ((byte0 & 0x0f) << 12) |
                                  ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 6) |
                                  (static_cast<unsigned char>(sv[offset + 2]) & 0x3f);
       offset += 3;
       return codePoint;
    }
-   if((byte0 & 0xf8) == 0xf0 && offset + 3 < sv.size()) {
+   if(((byte0 & 0xf8) == 0xf0) && (offset + 3 < sv.size())) {
       const char32_t codePoint = ((byte0 & 0x07) << 18) |
                                  ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 12) |
                                  ((static_cast<unsigned char>(sv[offset + 2]) & 0x3f) << 6) |
@@ -360,66 +361,66 @@ char32_t PropertyFormatter::decodeNextUtf8(std::string_view sv, size_t& offset) 
 bool PropertyFormatter::isZeroWidth(char32_t codePoint) noexcept
 {
    return (codePoint <= 0x001f) ||
-          (codePoint >= 0x007f && codePoint <= 0x009f) || // Control characters
-          (codePoint >= 0x0300 && codePoint <= 0x036f) || // Combining Diacritical Marks
-          (codePoint >= 0x0591 && codePoint <= 0x05bd) || // Hebrew accents / cantillation
-          (codePoint == 0x05bf)                         || // Hebrew rafe
-          (codePoint >= 0x05c1 && codePoint <= 0x05c2) || // Hebrew shin/sin dots
-          (codePoint >= 0x05c4 && codePoint <= 0x05c5) || // Hebrew upper/lower dots
-          (codePoint == 0x05c7)                         || // Hebrew qamats qatan
-          (codePoint >= 0x0610 && codePoint <= 0x061a) || // Arabic Quranic marks
-          (codePoint >= 0x064b && codePoint <= 0x065f) || // Arabic Tashkeel (Fatha, Shaddah, etc.)
-          (codePoint == 0x0670)                         || // Arabic superscript alef
-          (codePoint >= 0x06d6 && codePoint <= 0x06dc) || // Arabic Quranic small marks
-          (codePoint >= 0x06df && codePoint <= 0x06e8) || // Arabic Quranic small marks
-          (codePoint >= 0x06ea && codePoint <= 0x06ed) || // Arabic tone marks
-          (codePoint >= 0x1ab0 && codePoint <= 0x1aff) || // Combining Diacritical Extended
-          (codePoint >= 0x1dc0 && codePoint <= 0x1dff) || // Combining Diacritical Supplement
-          (codePoint >= 0x20d0 && codePoint <= 0x20ff) || // Combining Marks for Symbols
-          (codePoint >= 0xfe20 && codePoint <= 0xfe2f) || // Combining Half Marks
-          (codePoint >= 0x200b && codePoint <= 0x200f) || // Zero-width spaces, LRM, RLM
-          (codePoint >= 0x202a && codePoint <= 0x202e) || // Directional embeddings / overrides
-          (codePoint >= 0x2060 && codePoint <= 0x206f) || // Word joiners, isolates
-          (codePoint >= 0xfe00 && codePoint <= 0xfe0f) || // Variation Selectors (VS1-VS16)
-          (codePoint >= 0xe0100 && codePoint <= 0xe01ef); // Variation Selectors Supplement
+          ((codePoint >= 0x007f) && (codePoint <= 0x009f)) || // Control characters
+          ((codePoint >= 0x0300) && (codePoint <= 0x036f)) || // Combining Diacritical Marks
+          ((codePoint >= 0x0591) && (codePoint <= 0x05bd)) || // Hebrew accents / cantillation
+          (codePoint == 0x05bf)                            || // Hebrew rafe
+          ((codePoint >= 0x05c1) && (codePoint <= 0x05c2)) || // Hebrew shin/sin dots
+          ((codePoint >= 0x05c4) && (codePoint <= 0x05c5)) || // Hebrew upper/lower dots
+          (codePoint == 0x05c7)                            || // Hebrew qamats qatan
+          ((codePoint >= 0x0610) && (codePoint <= 0x061a)) || // Arabic Quranic marks
+          ((codePoint >= 0x064b) && (codePoint <= 0x065f)) || // Arabic Tashkeel (Fatha, Shaddah, etc.)
+          (codePoint == 0x0670)                            || // Arabic superscript alef
+          ((codePoint >= 0x06d6) && (codePoint <= 0x06dc)) || // Arabic Quranic small marks
+          ((codePoint >= 0x06df) && (codePoint <= 0x06e8)) || // Arabic Quranic small marks
+          ((codePoint >= 0x06ea) && (codePoint <= 0x06ed)) || // Arabic tone marks
+          ((codePoint >= 0x1ab0) && (codePoint <= 0x1aff)) || // Combining Diacritical Extended
+          ((codePoint >= 0x1dc0) && (codePoint <= 0x1dff)) || // Combining Diacritical Supplement
+          ((codePoint >= 0x20d0) && (codePoint <= 0x20ff)) || // Combining Marks for Symbols
+          ((codePoint >= 0xfe20) && (codePoint <= 0xfe2f)) || // Combining Half Marks
+          ((codePoint >= 0x200b) && (codePoint <= 0x200f)) || // Zero-width spaces, LRM, RLM
+          ((codePoint >= 0x202a) && (codePoint <= 0x202e)) || // Directional embeddings / overrides
+          ((codePoint >= 0x2060) && (codePoint <= 0x206f)) || // Word joiners, isolates
+          ((codePoint >= 0xfe00) && (codePoint <= 0xfe0f)) || // Variation Selectors (VS1-VS16)
+          ((codePoint >= 0xe0100) && (codePoint <= 0xe01ef)); // Variation Selectors Supplement
 }
 
 
 // ###### Regional Indicator check ##########################################
 bool PropertyFormatter::isRegionalIndicator(char32_t codePoint) noexcept
 {
-   return (codePoint >= 0x1f1e6 && codePoint <= 0x1f1ff);
+   return (codePoint >= 0x1f1e6) && (codePoint <= 0x1f1ff);
 }
 
 
 // ###### Wide emoji check ##################################################
 bool PropertyFormatter::isEmojiWide(char32_t codePoint) noexcept
 {
-   return (codePoint >= 0x23e9 && codePoint <= 0x23f3) || // ⏱ (U+23F1 Stopwatch), timers
-          (codePoint >= 0x23f8 && codePoint <= 0x23fa) || // Media controls
-          (codePoint >= 0x2600 && codePoint <= 0x27bf) || // Dingbats & miscellaneous symbols
-          (codePoint >= 0x1f300 && codePoint <= 0x1f64f) || // Pictographs, Emoticons (🔥)
-          (codePoint >= 0x1f680 && codePoint <= 0x1f6ff) || // Transport, Maps (🛰, 🛡)
-          (codePoint >= 0x1f7e0 && codePoint <= 0x1f7eb) || // Colored geometric shapes (🟢)
-          (codePoint >= 0x1f900 && codePoint <= 0x1f9ff) || // Supplemental Symbols
-          (codePoint >= 0x1fa70 && codePoint <= 0x1faff);   // Symbols Extended-A
+   return ((codePoint >= 0x23e9) && (codePoint <= 0x23f3)) || // ⏱ (U+23F1 Stopwatch), timers
+          ((codePoint >= 0x23f8) && (codePoint <= 0x23fa)) || // Media controls
+          ((codePoint >= 0x2600) && (codePoint <= 0x27bf)) || // Dingbats & miscellaneous symbols
+          ((codePoint >= 0x1f300) && (codePoint <= 0x1f64f)) || // Pictographs, Emoticons (🔥)
+          ((codePoint >= 0x1f680) && (codePoint <= 0x1f6ff)) || // Transport, Maps (🛰, 🛡)
+          ((codePoint >= 0x1f7e0) && (codePoint <= 0x1f7eb)) || // Colored geometric shapes (🟢)
+          ((codePoint >= 0x1f900) && (codePoint <= 0x1f9ff)) || // Supplemental Symbols
+          ((codePoint >= 0x1fa70) && (codePoint <= 0x1faff));   // Symbols Extended-A
 }
 
 
 // ###### Wide CJK Check ####################################################
 bool PropertyFormatter::isCjkWide(char32_t codePoint) noexcept
 {
-   return (codePoint >= 0x1100 && codePoint <= 0x115f)   || // Hangul Jamo
-          (codePoint >= 0x2329 && codePoint <= 0x232a)   || // Angle brackets
-          (codePoint >= 0x2e80 && codePoint <= 0xa4cf)   || // CJK Radicals, Kanji, Katakana, Hiragana
-          (codePoint >= 0xac00 && codePoint <= 0xd7a3)   || // Hangul Syllables
-          (codePoint >= 0xf900 && codePoint <= 0xfaff)   || // CJK Compatibility
-          (codePoint >= 0xfe10 && codePoint <= 0xfe19)   || // Vertical forms
-          (codePoint >= 0xfe30 && codePoint <= 0xfe6f)   || // CJK Compatibility Forms
-          (codePoint >= 0xff01 && codePoint <= 0xff60)   || // Fullwidth Forms
-          (codePoint >= 0xffe0 && codePoint <= 0xffe6)   || // Fullwidth symbols
-          (codePoint >= 0x20000 && codePoint <= 0x2fa1f) || // SIP Ideographs
-          (codePoint >= 0x30000 && codePoint <= 0x3134f);   // TIP Ideographs
+   return ((codePoint >= 0x1100) && (codePoint <= 0x115f))   || // Hangul Jamo
+          ((codePoint >= 0x2329 && codePoint <= 0x232a))   || // Angle brackets
+          ((codePoint >= 0x2e80) && (codePoint <= 0xa4cf))   || // CJK Radicals, Kanji, Katakana, Hiragana
+          ((codePoint >= 0xac00) && (codePoint <= 0xd7a3))   || // Hangul Syllables
+          ((codePoint >= 0xf900) && (codePoint <= 0xfaff))   || // CJK Compatibility
+          ((codePoint >= 0xfe10) && (codePoint <= 0xfe19))   || // Vertical forms
+          ((codePoint >= 0xfe30) && (codePoint <= 0xfe6f))   || // CJK Compatibility Forms
+          ((codePoint >= 0xff01) && (codePoint <= 0xff60))   || // Fullwidth Forms
+          ((codePoint >= 0xffe0) && (codePoint <= 0xffe6))   || // Fullwidth symbols
+          ((codePoint >= 0x20000) && (codePoint <= 0x2fa1f)) || // SIP Ideographs
+          ((codePoint >= 0x30000) && (codePoint <= 0x3134f));   // TIP Ideographs
 }
 
 

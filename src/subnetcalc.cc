@@ -815,15 +815,15 @@ static void outputPlainText(std::ostream&          os,
          (details.geoIPLongitude >= 0.0) ? gettext("E") : gettext("W");
       // TRANSLATORS: Output field label for GeoIP region / location info
       const std::string regionValue =
-         std::format("{}{}{}, {} ({:.4f}°{}, {:.4f}°{}{}{})",
-                     details.geoIPPostalCode,
-                     (!details.geoIPPostalCode.empty() ? " " : ""),
-                     details.geoIPCity,
-                     details.geoIPRegion,
-                     std::fabs(details.geoIPLatitude),  latitudeDirection,
-                     std::fabs(details.geoIPLongitude), longitudeDirection,
-                     (!details.geoIPTimeZone.empty() ? ", " : ""),
-                     details.geoIPTimeZone);
+      std::format("{}{}{}, {}; {:.4f}°{}, {:.4f}°{}{}{}",
+                  details.geoIPPostalCode,
+                  (!details.geoIPPostalCode.empty() ? " " : ""),
+                  details.geoIPCity,
+                  details.geoIPRegion,
+                  std::fabs(details.geoIPLatitude),  latitudeDirection,
+                  std::fabs(details.geoIPLongitude), longitudeDirection,
+                  (!details.geoIPTimeZone.empty() ? ", " : ""),
+                  details.geoIPTimeZone);
       formatter.add(gettext("GeoIP Region"), regionValue);
    }
 
