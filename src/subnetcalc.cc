@@ -807,31 +807,37 @@ static void outputPlainText(std::ostream&          os,
       formatter.add(gettext("GeoIP Country"), std::format("{} ({})",
                     details.geoIPCountry, details.geoIPCountryCode));
 
-      // TRANSLATORS: Cardinal direction abbreviation: North
-      const char* latitudeDirection =
-         (details.geoIPLatitude >= 0.0) ? gettext("N") : gettext("S");
-      // TRANSLATORS: Cardinal direction abbreviation: East
-      const char* longitudeDirection =
-         (details.geoIPLongitude >= 0.0) ? gettext("E") : gettext("W");
-      // TRANSLATORS: Output field label for GeoIP region / location info
+      const char* latitudeDirection = (details.geoIPLatitude >= 0.0) ?
+         // TRANSLATORS: Cardinal direction abbreviation: North
+         gettext("N") :
+         // TRANSLATORS: Cardinal direction abbreviation: South
+         gettext("S");
+      const char* longitudeDirection = (details.geoIPLongitude >= 0.0) ?
+         // TRANSLATORS: Cardinal direction abbreviation: East
+         gettext("E") :
+         // TRANSLATORS: Cardinal direction abbreviation: West
+         gettext("W");
+
+      // Format location with semicolon delimiter to prevent bracket flipping in RTL terminals
       const std::string regionValue =
-      std::format("{}{}{}, {}; {:.4f}°{}, {:.4f}°{}{}{}",
-                  details.geoIPPostalCode,
-                  (!details.geoIPPostalCode.empty() ? " " : ""),
-                  details.geoIPCity,
-                  details.geoIPRegion,
-                  std::fabs(details.geoIPLatitude),  latitudeDirection,
-                  std::fabs(details.geoIPLongitude), longitudeDirection,
-                  (!details.geoIPTimeZone.empty() ? ", " : ""),
-                  details.geoIPTimeZone);
+         std::format("{}{}{}, {}; {:.4f}°{}, {:.4f}°{}{}{}",
+                     details.geoIPPostalCode,
+                     (!details.geoIPPostalCode.empty() ? " " : ""),
+                     details.geoIPCity,
+                     details.geoIPRegion,
+                     std::fabs(details.geoIPLatitude),  latitudeDirection,
+                     std::fabs(details.geoIPLongitude), longitudeDirection,
+                     (!details.geoIPTimeZone.empty() ? ", " : ""),
+                     details.geoIPTimeZone);
+      // TRANSLATORS: Output field label for GeoIP region / location info
       formatter.add(gettext("GeoIP Region"), regionValue);
    }
 
    // --- Reverse DNS Information (Level 0) ---
    if(details.hasDNSHostname || !details.dnsError.empty()) {
-      // TRANSLATORS: Output field label for DNS hostname
       const std::string dnsVal = details.hasDNSHostname ?
          details.dnsHostname : details.dnsError;
+      // TRANSLATORS: Output field label for DNS hostname
       formatter.add(gettext("DNS Hostname"), dnsVal);
    }
 
@@ -1738,28 +1744,28 @@ int main(int argc, char** argv)
    // ====== Collect Classification & Properties ============================
    if(isMulticast(address)) {
       details.addressType = "multicast";
-      // TRANSLATORS: Address property: {0} = address string
       details.addressTypeDescription =
+         // TRANSLATORS: Address property: {0} = address string
          formatText(gettext("{0} is a MULTICAST address"), details.address);
    }
    else if(isIPv4(address) && (prefix < 32) && (address == broadcast)) {
       details.addressType = "broadcast";
-      // TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
       details.addressTypeDescription =
+         // TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
          formatText(gettext("{0} is the BROADCAST address of {1}/{2}"),
                     details.address, details.network, prefix);
    }
    else if((address == network) &&
            ((isIPv4(address) && (prefix < 32)) || (!isIPv4(address) && (prefix < 128)))) {
       details.addressType = "network";
-      // TRANSLATORS: Address property: {0} = address string
       details.addressTypeDescription =
+         // TRANSLATORS: Address property: {0} = address string
          formatText(gettext("{0} is a NETWORK address"), details.address);
    }
    else {
       details.addressType = "host";
-      // TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
       details.addressTypeDescription =
+         // TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
          formatText(gettext("{0} is a HOST address in {1}/{2}"),
                     details.address, details.network, prefix);
    }
