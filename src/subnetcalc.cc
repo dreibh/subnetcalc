@@ -508,38 +508,51 @@ static void outputPlainText(std::ostream&          os,
    const std::string binaryText = formatAddressBinary(address, prefix, colourMode);
    if(details.expandedAddress.empty()) {
       // IPv4: binary breakdown shown directly below Address
+      // TRANSLATORS: Output field label for the input IP address
       formatter.add(gettext("Address"), details.address + "\n" + binaryText);
    }
    else {
       // IPv6: address followed by expanded address with 8-line binary breakdown
+      // TRANSLATORS: Output field label for the input IP address
       formatter.add(gettext("Address"), details.address);
+      // TRANSLATORS: Output field label for the expanded IPv6 address
       formatter.add(gettext("Exp. Address"), details.expandedAddress + "\n" + binaryText);
    }
 
    // --- Core Network Details (Level 0) ---
+   // TRANSLATORS: Output field label for the network IP address
    formatter.add(gettext("Network"), std::format("{} / {}", details.network, details.prefix));
+   // TRANSLATORS: Output field label for the subnet mask
    formatter.add(gettext("Netmask"), details.netmask);
 
    if(details.family == "IPv4") {
       const std::string broadcastVal = details.hasBroadcast ? details.broadcast :
+                                       // TRANSLATORS: Explanation when broadcast address is not applicable
                                        gettext("not needed on Point-to-Point links");
+      // TRANSLATORS: Output field label for the broadcast address
       formatter.add(gettext("Broadcast"), broadcastVal);
    }
 
+   // TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
    formatter.add(gettext("Wildcard Mask"), details.wildcard);
 
    if(details.hasHexAddress) {
+      // TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
       formatter.add(gettext("Hex. Address"), details.hexAddress);
    }
 
+   // TRANSLATORS: Output field label for the number of host bits in the subnet
    formatter.add(gettext("Host Bits"), std::to_string(details.hostBits));
 
    if(!details.isMulticast) {
+      // TRANSLATORS: Output field label for the maximum number of usable hosts
       formatter.add(gettext("Max. Hosts"), details.maxHostsText);
+      // TRANSLATORS: Output field label for the usable host address range
       formatter.add(gettext("Host Range"), std::format("{{ {} - {} }}", details.hostMin, details.hostMax));
    }
 
    // --- Properties Header ---
+   // TRANSLATORS: Output field label for IP address properties
    formatter.add(gettext("Properties"), "");
 
    // Level 1: Address type description
@@ -549,33 +562,42 @@ static void outputPlainText(std::ostream&          os,
    if(details.family == "IPv4") {
       if(!details.ipv4Class.empty()) {
          if(details.ipv4Class == "Class A") {
+            // TRANSLATORS: IPv4 network class designation
             formatter.addLine(1, gettext("Class A"));
          }
          else if(details.ipv4Class == "Class B") {
+            // TRANSLATORS: IPv4 network class designation
             formatter.addLine(1, gettext("Class B"));
          }
          else if(details.ipv4Class == "Class C") {
+            // TRANSLATORS: IPv4 network class designation
             formatter.addLine(1, gettext("Class C"));
          }
          else if(details.ipv4Class == "Class D (Multicast)") {
+            // TRANSLATORS: IPv4 network class designation
             formatter.addLine(1, gettext("Class D (Multicast)"));
          }
          else {
+            // TRANSLATORS: Error message when IPv4 address is outside classes A through D
             formatter.addLine(1, gettext("Invalid (not in class A, B, C or D)"));
          }
       }
 
       for(const auto& flag : details.ipv4Flags) {
          if(flag == "Loopback address") {
+            // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("Loopback address"));
          }
          else if(flag == "In loopback network") {
+            // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("In loopback network"));
          }
          else if(flag == "Private") {
+            // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("Private"));
          }
          else if(flag == "Link-local address") {
+            // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("Link-local address"));
          }
       }
@@ -583,21 +605,28 @@ static void outputPlainText(std::ostream&          os,
       if(!details.multicastScope.empty()) {
          std::string scopeVal;
          if(details.multicastScope == "link-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("link-local");
          }
          else if(details.multicastScope == "organization-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("organization-local");
          }
          else if(details.multicastScope == "site-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("site-local");
          }
          else {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("global");
          }
+         // TRANSLATORS: Multicast scope label prefix
          formatter.addLine(2, std::string(gettext("Scope: ")) + scopeVal);
+         // TRANSLATORS: Multicast MAC address: {0} = MAC address string
          formatter.addLine(2, formatText(gettext("Corresponding multicast MAC address: {0}"), details.multicastMac));
 
          if(details.isSourceSpecificMulticast) {
+            // TRANSLATORS: Multicast property
             formatter.addLine(2, gettext("Source-specific multicast"));
          }
       }
@@ -606,88 +635,114 @@ static void outputPlainText(std::ostream&          os,
       // Level 1 & 2: IPv6 specific properties
       if(!details.ipv6Special.empty()) {
          if(details.ipv6Special == "Loopback address") {
+            // TRANSLATORS: IPv6 address property
             formatter.addLine(1, gettext("Loopback address"));
          }
          else if(details.ipv6Special == "Unspecified address") {
+            // TRANSLATORS: IPv6 address property
             formatter.addLine(1, gettext("Unspecified address"));
          }
          else if(details.ipv6Special == "IPv4-compatible IPv6 address") {
+            // TRANSLATORS: IPv6 address property
             formatter.addLine(1, gettext("IPv4-compatible IPv6 address"));
          }
          else if(details.ipv6Special == "IPv4-mapped IPv6 address") {
+            // TRANSLATORS: IPv6 address property
             formatter.addLine(1, gettext("IPv4-mapped IPv6 address"));
          }
          else if(details.ipv6Special == "IPv4-embedded IPv6 address") {
+            // TRANSLATORS: IPv6 address property
             formatter.addLine(1, gettext("IPv4-embedded IPv6 address"));
          }
       }
       else if(details.isMulticast) {
+         // TRANSLATORS: Section header for IPv6 multicast properties
          formatter.addLine(1, gettext("Multicast Properties"));
 
          std::string scopeVal;
          if(details.multicastScope == "node-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("node-local");
          }
          else if(details.multicastScope == "link-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("link-local");
          }
          else if(details.multicastScope == "site-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("site-local");
          }
          else if(details.multicastScope == "organization-local") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("organization-local");
          }
          else if(details.multicastScope == "global") {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("global");
          }
          else {
+            // TRANSLATORS: Multicast scope level
             scopeVal = gettext("unknown");
          }
+         // TRANSLATORS: Multicast scope label prefix
          formatter.addLine(2, std::string(gettext("Scope: ")) + scopeVal);
 
          if(details.isTransientMulticast) {
+            // TRANSLATORS: IPv6 multicast flag property
             formatter.addLine(2, gettext("Temporarily-allocated address"));
          }
 
+         // TRANSLATORS: Multicast MAC address: {0} = MAC address string
          formatter.addLine(2, formatText(gettext("Corresponding multicast MAC address: {0}"), details.multicastMac));
 
          if(details.isSourceSpecificMulticast) {
+            // TRANSLATORS: Multicast property
             formatter.addLine(2, gettext("Source-specific multicast"));
          }
 
          if(!details.solicitedNodeFor.empty()) {
+            // TRANSLATORS: Solicited node multicast target: {0} = target node mask
             formatter.addLine(2, formatText(gettext("Address is solicited node multicast address for {0}"), details.solicitedNodeFor));
          }
       }
       else {
          // Unicast Section Header
          if(details.unicastType == "Link-Local Unicast") {
+            // TRANSLATORS: Section header for link-local unicast properties
             formatter.addLine(1, gettext("Link-Local Unicast Properties:"));
          }
          else if(details.unicastType == "Site-Local Unicast") {
+            // TRANSLATORS: Section header for site-local unicast properties
             formatter.addLine(1, gettext("Site-Local Unicast Properties:"));
          }
          else if(details.unicastType == "Unique Local Unicast") {
+            // TRANSLATORS: Section header for unique local unicast properties
             formatter.addLine(1, gettext("Unique Local Unicast Properties:"));
             if(details.ulaType == "Locally chosen") {
+               // TRANSLATORS: Unique local address allocation type
                formatter.addLine(2, gettext("Locally chosen"));
             }
             else if(details.ulaType == "Assigned by global instance") {
+               // TRANSLATORS: Unique local address allocation type
                formatter.addLine(2, gettext("Assigned by global instance"));
             }
          }
          else if(details.unicastType == "Global Unicast") {
+            // TRANSLATORS: Section header for global unicast properties
             formatter.addLine(1, gettext("Global Unicast Properties:"));
          }
 
          // Aligned Key-Value Unicast Properties at Level 2
          if(details.hasGlobalID) {
+            // TRANSLATORS: IPv6 unique local unicast property label
             formatter.add(2, gettext("Global ID"), details.globalID);
          }
          if(details.hasSubnetID) {
+            // TRANSLATORS: IPv6 unique local unicast property label
             formatter.add(2, gettext("Subnet ID"), details.subnetID);
          }
 
+         // TRANSLATORS: IPv6 unicast property label
          const char* interfaceIdLabel = gettext("Interface ID");
          if(colourMode) {
             const in6_addr ipv6address = getIPv6Address(address);
@@ -705,6 +760,7 @@ static void outputPlainText(std::ostream&          os,
          }
 
          if(details.hasMACAddress) {
+            // TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
             const char* macAddressLabel = gettext("MAC Address");
             if(colourMode) {
                const in6_addr ipv6address = getIPv6Address(address);
@@ -718,6 +774,7 @@ static void outputPlainText(std::ostream&          os,
             }
          }
 
+         // TRANSLATORS: IPv6 unicast property label
          const char* snmcLabel = gettext("Solicited Node Multicast Address");
          if(colourMode) {
             const in6_addr ipv6address = getIPv6Address(address);
@@ -733,6 +790,7 @@ static void outputPlainText(std::ostream&          os,
          }
 
          if(details.hasSixToFour) {
+            // TRANSLATORS: 6-to-4 encapsulation address label
             formatter.add(2, gettext("6-to-4 Address"), details.sixToFourAddress);
          }
       }
@@ -740,30 +798,40 @@ static void outputPlainText(std::ostream&          os,
 
    // --- GeoIP Information (Level 0) ---
    if(details.hasGeoIPASN) {
+      // TRANSLATORS: Output field label for GeoIP Autonomous System info
       formatter.add(gettext("GeoIP AS Info"), details.geoIPASInfo);
    }
 
    if(details.hasGeoIPCity) {
-      formatter.add(gettext("GeoIP Country"), std::format("{} ({})", details.geoIPCountry, details.geoIPCountryCode));
+      // TRANSLATORS: Output field label for GeoIP country info
+      formatter.add(gettext("GeoIP Country"), std::format("{} ({})",
+                    details.geoIPCountry, details.geoIPCountryCode));
 
-      const char* latDir = (details.geoIPLatitude >= 0.0) ? gettext("N") : gettext("S");
-      const char* lonDir = (details.geoIPLongitude >= 0.0) ? gettext("E") : gettext("W");
-
-      const std::string regionVal = std::format("{}{}{}, {} ({:.4f}°{}, {:.4f}°{}{}{})",
-                                                details.geoIPPostalCode,
-                                                (!details.geoIPPostalCode.empty() ? " " : ""),
-                                                details.geoIPCity,
-                                                details.geoIPRegion,
-                                                std::fabs(details.geoIPLatitude),  latDir,
-                                                std::fabs(details.geoIPLongitude), lonDir,
-                                                (!details.geoIPTimeZone.empty() ? ", " : ""),
-                                                details.geoIPTimeZone);
-      formatter.add(gettext("GeoIP Region"), regionVal);
+      // TRANSLATORS: Cardinal direction abbreviation: North
+      const char* latitudeDirection =
+         (details.geoIPLatitude >= 0.0) ? gettext("N") : gettext("S");
+      // TRANSLATORS: Cardinal direction abbreviation: East
+      const char* longitudeDirection =
+         (details.geoIPLongitude >= 0.0) ? gettext("E") : gettext("W");
+      // TRANSLATORS: Output field label for GeoIP region / location info
+      const std::string regionValue =
+         std::format("{}{}{}, {} ({:.4f}°{}, {:.4f}°{}{}{})",
+                     details.geoIPPostalCode,
+                     (!details.geoIPPostalCode.empty() ? " " : ""),
+                     details.geoIPCity,
+                     details.geoIPRegion,
+                     std::fabs(details.geoIPLatitude),  latitudeDirection,
+                     std::fabs(details.geoIPLongitude), longitudeDirection,
+                     (!details.geoIPTimeZone.empty() ? ", " : ""),
+                     details.geoIPTimeZone);
+      formatter.add(gettext("GeoIP Region"), regionValue);
    }
 
    // --- Reverse DNS Information (Level 0) ---
    if(details.hasDNSHostname || !details.dnsError.empty()) {
-      const std::string dnsVal = details.hasDNSHostname ? details.dnsHostname : details.dnsError;
+      // TRANSLATORS: Output field label for DNS hostname
+      const std::string dnsVal = details.hasDNSHostname ?
+         details.dnsHostname : details.dnsError;
       formatter.add(gettext("DNS Hostname"), dnsVal);
    }
 
