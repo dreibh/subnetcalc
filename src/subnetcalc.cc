@@ -1312,17 +1312,22 @@ static void outputXML(std::ostream& os, const SubnetDetails& details)
 [[ noreturn ]]
 static void usage(const char* program, const int exitCode)
 {
+   const bool rtl = isRTL();
    const std::string manpage(std::string("\x1b[1m") +
                              std::filesystem::path(program).stem().string() +
                              std::string("\x1b[0m"));
-   const std::string homepage(std::string("\x1b[1m\x1b]8;;") +
+   const std::string homepage((rtl ? std::string("\xe2\x80\x8e") : std::string("")) +
+                              std::string("[\x1b[1m\x1b]8;;") +
                               std::string(PROJECT_HOMEPAGE_URL) +
                               "\a" + std::string(PROJECT_HOMEPAGE_URL) + "\a" +
-                              std::string("\x1b]8;;\a\x1b[0m"));
-   const std::string repository(std::string("\x1b[1m\x1b]8;;") +
+                              std::string("\x1b]8;;\a\x1b[0m]") +
+                              (rtl ? std::string("\xe2\x80\x8f") : std::string("")) );
+   const std::string repository((rtl ? std::string("\xe2\x80\x8e") : std::string("")) +
+                                std::string("[\x1b[1m\x1b]8;;") +
                                 std::string(PROJECT_SOURCE_URL) +
                                 "\a" + std::string(PROJECT_SOURCE_URL) + "\a" +
-                                std::string("\x1b]8;;\a\x1b[0m"));
+                                std::string("\x1b]8;;\a\x1b[0m]") +
+                                (rtl ? std::string("\xe2\x80\x8f") : std::string("")) );
 
    // TRANSLATORS: Command-line syntax message prefix:
    // "Usage: <program> [options]".
@@ -1344,7 +1349,7 @@ static void usage(const char* program, const int exitCode)
              << "\n"
              // TRANSLATORS: Informational message at the end of usage:
              // "For further information, see the man page for <manpage>, read the documentation at [<url>], examine the source code at [<url>], or consult your favourite LLM.".
-             << formatText(gettext("For further information, see the man page for {}, read the documentation at [{}], examine the source code at [{}], or consult your favourite LLM."),
+             << formatText(gettext("For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."),
                            manpage, homepage, repository) << "\n";
    std::exit(exitCode);
 }
