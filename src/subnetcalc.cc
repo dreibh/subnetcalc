@@ -197,14 +197,6 @@ static std::string formatText(std::string_view formatString,
 }
 
 
-// ###### Detect Right-to-Left (RTL) text direction #########################
-static inline bool isRTL()
-{
-   // TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
-   return std::strcmp(gettext("LTR"), "RTL") == 0;
-}
-
-
 // ###### Escape JSON/YAML strings safely ###################################
 static std::string escapeJSON(std::string_view str)
 {
@@ -502,7 +494,9 @@ static void outputPlainText(std::ostream&          os,
                             const unsigned int     prefix,
                             const bool             colourMode)
 {
-   PropertyFormatter formatter("   ", { "", "- ", "+ " }, "=", isRTL());
+   // TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
+   PropertyFormatter formatter("   ", { "", "- ", "+ " }, "=",
+                               (std::string(gettext("LTR")) == "RTL"));
 
    // --- Address & Exp. Address (with Binary Breakdown) ---
    const std::string binaryText = formatAddressBinary(address, prefix, colourMode);
@@ -1312,7 +1306,8 @@ static void outputXML(std::ostream& os, const SubnetDetails& details)
 [[ noreturn ]]
 static void usage(const char* program, const int exitCode)
 {
-   const bool rtl = isRTL();
+   // TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
+   const bool rtl = (std::string(gettext("LTR")) == "RTL");
    const std::string manpage(std::string("\x1b[1m") +
                              std::filesystem::path(program).stem().string() +
                              std::string("\x1b[0m"));
@@ -1348,7 +1343,7 @@ static void usage(const char* program, const int exitCode)
                    ENTRY(OPT("-v") PIPE OPT("--version"))
              << "\n"
              // TRANSLATORS: Informational message at the end of usage:
-             // "For further information, see the man page for <manpage>, read the documentation at [<url>], examine the source code at [<url>], or consult your favourite LLM.".
+             // "For further information, see the man page for <manpage>, read the documentation at <url>, examine the source code at <url>, or consult your favourite LLM.".
              << formatText(gettext("For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."),
                            manpage, homepage, repository) << "\n";
    std::exit(exitCode);
