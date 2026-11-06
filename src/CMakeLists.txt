@@ -40,12 +40,22 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 
 
 #############################################################################
+#### LIBRARIES                                                           ####
+#############################################################################
+
+ADD_LIBRARY(libpropertyformatter STATIC propertyformatter.cc)
+TARGET_INCLUDE_DIRECTORIES(libpropertyformatter PRIVATE
+                           ${Intl_INCLUDE_DIRS})
+TARGET_LINK_LIBRARIES(libpropertyformatter PRIVATE
+                      ${Intl_LIBRARIES})
+
+
+#############################################################################
 #### PROGRAMS                                                            ####
 #############################################################################
 
 ADD_EXECUTABLE(subnetcalc
    subnetcalc.cc
-   propertyformatter.cc
    tools.cc
 )
 TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
@@ -55,6 +65,7 @@ TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
                            ${LIBIDN2_INCLUDE_DIR}
                            ${GETOPT_INCLUDE_DIR})
 TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
+                      libpropertyformatter
                       ${Intl_LIBRARIES}
                       ${LIBIBERTY_LIBRARY}
                       ${LIBIDN2_LIBRARY}
