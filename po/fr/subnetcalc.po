@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-06 22:30+0100\n"
+"PO-Revision-Date: 2026-11-07 22:30+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: fr\n"
@@ -86,7 +86,7 @@ msgstr "Adresse"
 #. TRANSLATORS: Output field label for the expanded IPv6 address
 #: src/subnetcalc.cc:513
 msgid "Exp. Address"
-msgstr "Adresse développée"
+msgstr "Adresse étendue"
 
 #. TRANSLATORS: Output field label for the network IP address
 #: src/subnetcalc.cc:518
@@ -96,7 +96,7 @@ msgstr "Réseau"
 #. TRANSLATORS: Output field label for the subnet mask
 #: src/subnetcalc.cc:520
 msgid "Netmask"
-msgstr "Masque de réseau"
+msgstr "Masque de sous-réseau"
 
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
@@ -116,7 +116,7 @@ msgstr "Masque générique"
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Adresse hexadécimale"
+msgstr "Adresse hex."
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
@@ -126,7 +126,7 @@ msgstr "Bits d'hôte"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Nombre max. d'hôtes"
+msgstr "Max. d'hôtes"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -299,17 +299,17 @@ msgstr "Propriétés de monodiffusion globale :"
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:732
 msgid "Global ID"
-msgstr "Identifiant global"
+msgstr "ID global"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:736
 msgid "Subnet ID"
-msgstr "Identifiant de sous-réseau"
+msgstr "ID de sous-réseau"
 
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:740
 msgid "Interface ID"
-msgstr "Identifiant d'interface"
+msgstr "ID d'interface"
 
 #. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
 #: src/subnetcalc.cc:758

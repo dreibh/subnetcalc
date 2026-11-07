@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 18:40+0100\n"
+"PO-Revision-Date: 2026-11-07 23:25+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: ko\n"
@@ -101,7 +101,7 @@ msgstr "넷마스크"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "점대점(Point-to-Point) 링크에서는 필요하지 않음"
+msgstr "점대점 링크에서는 불필요"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -411,25 +411,25 @@ msgstr "오류: 호환되지 않는 넷마스크 {0}입니다!"
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "{0}은(는) 멀티캐스트(MULTICAST) 주소입니다"
+msgstr "{0}은(는) 멀티캐스트 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0}은(는) {1}/{2}의 브로드캐스트(BROADCAST) 주소입니다"
+msgstr "{0}은(는) {1}/{2}의 브로드캐스트 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0}은(는) 네트워크(NETWORK) 주소입니다"
+msgstr "{0}은(는) 네트워크 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "{0}은(는) {1}/{2}의 호스트(HOST) 주소입니다"
+msgstr "{0}은(는) {1}/{2}의 호스트 주소입니다"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

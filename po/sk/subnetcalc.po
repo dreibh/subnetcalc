@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-06 23:50+0100\n"
+"PO-Revision-Date: 2026-11-07 22:20+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: sk\n"
@@ -101,7 +101,7 @@ msgstr "Maska siete"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "nie je potrebný na spojeniach Point-to-Point"
+msgstr "nie je potrebná na spojeniach Point-to-Point"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -126,7 +126,7 @@ msgstr "Bity hostiteľa"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Max. počet hostiteľov"
+msgstr "Max. hostiteľov"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -172,7 +172,7 @@ msgstr "Loopback adresa"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
 msgid "In loopback network"
-msgstr "V slučkovej sieti (Loopback)"
+msgstr "V loopback sieti"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
@@ -364,7 +364,7 @@ msgstr "GeoIP región"
 #. TRANSLATORS: Output field label for DNS hostname
 #: src/subnetcalc.cc:835
 msgid "DNS Hostname"
-msgstr "Názov hostiteľa DNS"
+msgstr "DNS názov hostiteľa"
 
 #. TRANSLATORS: Command-line syntax message prefix:
 #. "Usage: <program> [options]".

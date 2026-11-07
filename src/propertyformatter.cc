@@ -306,6 +306,17 @@ size_t PropertyFormatter::computeDisplayWidth(std::string_view sv) noexcept
          continue;
       }
 
+      // Bengali digraph O + YA / YYA (ওয়) renders as a single column glyph:
+      if(codePoint == 0x0993) {
+         size_t peekOffset = offset;
+         if(peekOffset < sv.size()) {
+            const char32_t nextCp = decodeNextUtf8(sv, peekOffset);
+            if((nextCp == 0x09df) || (nextCp == 0x09af)) {
+               continue;
+            }
+         }
+      }
+
       // Emoji and CJK ideographs occupy 2 terminal columns:
       if(isEmojiWide(codePoint) || isCjkWide(codePoint)) {
          colWidth += 2;
@@ -374,6 +385,28 @@ bool PropertyFormatter::isZeroWidth(char32_t codePoint) noexcept
           ((codePoint >= 0x06d6) && (codePoint <= 0x06dc)) || // Arabic Quranic small marks
           ((codePoint >= 0x06df) && (codePoint <= 0x06e8)) || // Arabic Quranic small marks
           ((codePoint >= 0x06ea) && (codePoint <= 0x06ed)) || // Arabic tone marks
+          ((codePoint >= 0x0900) && (codePoint <= 0x0902)) || // Devanagari signs (Candrabindu, Anusvara)
+          (codePoint == 0x093a)                            || // Devanagari vowel sign oe
+          (codePoint == 0x093c)                            || // Devanagari sign nukta
+          ((codePoint >= 0x0941) && (codePoint <= 0x0948)) || // Devanagari vowel signs (u, uu, vocalic r/rr, e, ai)
+          (codePoint == 0x094d)                            || // Devanagari sign virama (halant)
+          ((codePoint >= 0x0951) && (codePoint <= 0x0957)) || // Devanagari stress/accent signs
+          ((codePoint >= 0x0962) && (codePoint <= 0x0963)) || // Devanagari vowel signs (vocalic l/ll)
+          ((codePoint >= 0x1cd0) && (codePoint <= 0x1cd2)) || // Vedic tone marks
+          ((codePoint >= 0x1cd4) && (codePoint <= 0x1ce0)) || // Vedic tone marks
+          ((codePoint >= 0x1ce2) && (codePoint <= 0x1ce8)) || // Vedic tone marks
+          (codePoint == 0x1ced)                            || // Vedic sign tiryak
+          ((codePoint >= 0x1cf8) && (codePoint <= 0x1cf9)) || // Vedic tone ring marks
+          ((codePoint >= 0xa8e0) && (codePoint <= 0xa8f1)) || // Combining Devanagari signs
+          (codePoint == 0x0981)                            || // Bengali sign candrabindu
+          (codePoint == 0x09bc)                            || // Bengali sign nukta
+          ((codePoint >= 0x09c1) && (codePoint <= 0x09c4)) || // Bengali vowel signs (u, uu, vocalic r/rr)
+          (codePoint == 0x09cd)                            || // Bengali sign virama (hasant)
+          ((codePoint >= 0x09e2) && (codePoint <= 0x09e3)) || // Bengali vowel signs (vocalic l/ll)
+          (codePoint == 0x09fe)                            || // Bengali sandhi mark
+          (codePoint == 0x0e31)                            || // Thai character mai han-akat
+          ((codePoint >= 0x0e34) && (codePoint <= 0x0e3a)) || // Thai vowel signs (sara i .. phinthu)
+          ((codePoint >= 0x0e47) && (codePoint <= 0x0e4e)) || // Thai tone marks & signs (maitaikhu .. yamakkan)
           ((codePoint >= 0x1ab0) && (codePoint <= 0x1aff)) || // Combining Diacritical Extended
           ((codePoint >= 0x1dc0) && (codePoint <= 0x1dff)) || // Combining Diacritical Supplement
           ((codePoint >= 0x20d0) && (codePoint <= 0x20ff)) || // Combining Marks for Symbols

@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:25+0100\n"
+"PO-Revision-Date: 2026-11-07 23:45+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: el\n"
@@ -86,7 +86,7 @@ msgstr "Διεύθυνση"
 #. TRANSLATORS: Output field label for the expanded IPv6 address
 #: src/subnetcalc.cc:513
 msgid "Exp. Address"
-msgstr "Εκτεταμένη διεύθυνση"
+msgstr "Εκτ. διεύθυνση"
 
 #. TRANSLATORS: Output field label for the network IP address
 #: src/subnetcalc.cc:518
@@ -106,32 +106,32 @@ msgstr "δεν απαιτείται σε συνδέσεις σημείου-πρ�
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Εκπομπή (Broadcast)"
+msgstr "Εκπομπή"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Μάσκα μπαλαντέρ (Wildcard)"
+msgstr "Μάσκα Wildcard"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Δεκαεξαδική διεύθυνση"
+msgstr "Δεκαεξ. διεύθυνση"
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
 msgid "Host Bits"
-msgstr "Bit κεντρικού υπολογιστή"
+msgstr "Bit κεντρικού"
 
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Μέγιστος αριθμός κεντρικών υπολογιστών"
+msgstr "Μέγ. κεντρικοί"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
 msgid "Host Range"
-msgstr "Εύρος κεντρικών υπολογιστών"
+msgstr "Εύρος κεντρικών"
 
 #. TRANSLATORS: Output field label for IP address properties
 #: src/subnetcalc.cc:550
@@ -167,12 +167,12 @@ msgstr "Μη έγκυρο (δεν ανήκει στην κλάση A, B, C ή D)
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Διεύθυνση ανατροφοδότησης (Loopback)"
+msgstr "Διεύθυνση αναδίπλωσης"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
 msgid "In loopback network"
-msgstr "Σε δίκτυο ανατροφοδότησης (Loopback)"
+msgstr "Σε δίκτυο αναδίπλωσης"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
@@ -182,7 +182,7 @@ msgstr "Ιδιωτική"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Διεύθυνση τοπικής σύνδεσης (Link-local)"
+msgstr "Διεύθυνση τοπικής σύνδεσης"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -364,7 +364,7 @@ msgstr "Περιοχή GeoIP"
 #. TRANSLATORS: Output field label for DNS hostname
 #: src/subnetcalc.cc:835
 msgid "DNS Hostname"
-msgstr "Όνομα κεντρικού υπολογιστή DNS"
+msgstr "Όνομα κεντρικού DNS"
 
 #. TRANSLATORS: Command-line syntax message prefix:
 #. "Usage: <program> [options]".
@@ -411,25 +411,25 @@ msgstr "ΣΦΑΛΜΑ: Ασύμβατη μάσκα δικτύου {0}!"
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "Το {0} είναι διεύθυνση ΠΟΛΥΔΙΑΝΟΜΗΣ (MULTICAST)"
+msgstr "Το {0} είναι διεύθυνση ΠΟΛΥΔΙΑΝΟΜΗΣ"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "Το {0} είναι η διεύθυνση ΕΚΠΟΜΠΗΣ (BROADCAST) του {1}/{2}"
+msgstr "Το {0} είναι η διεύθυνση ΕΚΠΟΜΠΗΣ του {1}/{2}"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "Το {0} είναι διεύθυνση ΔΙΚΤΥΟΥ (NETWORK)"
+msgstr "Το {0} είναι διεύθυνση ΔΙΚΤΥΟΥ"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "Το {0} είναι διεύθυνση ΚΕΝΤΡΙΚΟΥ ΥΠΟΛΟΓΙΣΤΗ (HOST) στο {1}/{2}"
+msgstr "Το {0} είναι διεύθυνση ΚΕΝΤΡΙΚΟΥ ΥΠΟΛΟΓΙΣΤΗ στο {1}/{2}"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

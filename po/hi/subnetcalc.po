@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:30+0100\n"
+"PO-Revision-Date: 2026-11-07 23:35+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: hi\n"
@@ -177,7 +177,7 @@ msgstr "लूपबैक नेटवर्क में"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
 msgid "Private"
-msgstr "निजी (Private)"
+msgstr "निजी"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
@@ -411,25 +411,25 @@ msgstr "त्रुटि: असंगत नेटमास्क {0}!"
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "{0} एक मल्टीकास्ट (MULTICAST) पता है"
+msgstr "{0} एक मल्टीकास्ट पता है"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0}, {1}/{2} का ब्रॉडकास्ट (BROADCAST) पता है"
+msgstr "{0}, {1}/{2} का ब्रॉडकास्ट पता है"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} एक नेटवर्क (NETWORK) पता है"
+msgstr "{0} एक नेटवर्क पता है"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "{0}, {1}/{2} में एक होस्ट (HOST) पता है"
+msgstr "{0}, {1}/{2} में एक होस्ट पता है"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

@@ -32,9 +32,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-10-17 20:10+0200\n"
+"PO-Revision-Date: 2026-11-07 22:30+0100\n"
 "Last-Translator: Thomas Dreibholz <dreibh@simula.no>\n"
-"Language-Team:\n"
+"Language-Team: none\n"
 "Language: de\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -47,7 +47,7 @@ msgstr ""
 #. address without specifying an IPv6 target address.
 #: src/subnetcalc.cc:308
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
-msgstr "FEHLER: Um eine eindeutige lokale Adresse zu generieren, muß eine IPv6-Adresse angegeben werden!"
+msgstr "FEHLER: Um eine eindeutige lokale Adresse zu generieren, muss eine IPv6-Adresse angegeben werden!"
 
 #. TRANSLATORS: Status message when generating unique local address:
 #. {0} = random number generator device path (e.g. /dev/urandom)
@@ -98,7 +98,7 @@ msgstr "Netzmaske"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "Bei Punkt-zu-Punkt-Links nicht erforderlich"
+msgstr "bei Punkt-zu-Punkt-Links nicht erforderlich"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -123,7 +123,7 @@ msgstr "Host-Bits"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Maximale Hosts"
+msgstr "Max. Hosts"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -374,7 +374,7 @@ msgstr "Aufruf:"
 #: src/subnetcalc.cc:1347
 #, no-c-format, c++-format
 msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
-msgstr ""
+msgstr "Weitere Informationen finden Sie in der Manpage zu {}, in der Dokumentation unter {}, im Quellcode unter {} oder befragen Sie Ihr bevorzugtes LLM."
 
 #. TRANSLATORS: Error message when output format is invalid:
 #. {0} = input format

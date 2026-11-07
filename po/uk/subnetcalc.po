@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:50+0100\n"
+"PO-Revision-Date: 2026-11-07 23:00+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: uk\n"
@@ -106,12 +106,12 @@ msgstr "не потрібна для з'єднань точка-точка"
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Широкомовна адреса (Broadcast)"
+msgstr "Broadcast"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Зворотна маска (Wildcard)"
+msgstr "Зворотна маска"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
@@ -182,12 +182,12 @@ msgstr "Приватна"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Канальна локальна адреса (Link-local)"
+msgstr "Link-local адреса"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
 msgid "link-local"
-msgstr "канальний локальний"
+msgstr "link-local"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:607 src/subnetcalc.cc:671
@@ -197,7 +197,7 @@ msgstr "в межах організації"
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:611 src/subnetcalc.cc:667
 msgid "site-local"
-msgstr "в межах сайту (site-local)"
+msgstr "site-local"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:615 src/subnetcalc.cc:675
@@ -213,12 +213,12 @@ msgstr "Область дії: "
 #: src/subnetcalc.cc:620 src/subnetcalc.cc:690
 #, no-c-format, c++-format
 msgid "Corresponding multicast MAC address: {0}"
-msgstr "Відповідна багатоадресна MAC-адреса: {0}"
+msgstr "Відповідна multicast MAC-адреса: {0}"
 
 #. TRANSLATORS: Multicast property
 #: src/subnetcalc.cc:624 src/subnetcalc.cc:694
 msgid "Source-specific multicast"
-msgstr "Багатоадресне розсилання із зазначенням джерела (SSM)"
+msgstr "Multicast із зазначенням джерела (SSM)"
 
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:637
@@ -243,12 +243,12 @@ msgstr "IPv4-вбудована адреса IPv6"
 #. TRANSLATORS: Section header for IPv6 multicast properties
 #: src/subnetcalc.cc:654
 msgid "Multicast Properties"
-msgstr "Властивості багатоадресного розсилання (Multicast)"
+msgstr "Властивості Multicast"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:659
 msgid "node-local"
-msgstr "в межах вузла (node-local)"
+msgstr "в межах вузла"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:679
@@ -264,22 +264,22 @@ msgstr "Тимчасово виділена адреса"
 #: src/subnetcalc.cc:699
 #, no-c-format, c++-format
 msgid "Address is solicited node multicast address for {0}"
-msgstr "Адреса є груповою адресою запитуваного вузла для {0}"
+msgstr "Адреса є solicited-node multicast-адресою для {0}"
 
 #. TRANSLATORS: Section header for link-local unicast properties
 #: src/subnetcalc.cc:706
 msgid "Link-Local Unicast Properties:"
-msgstr "Властивості канальної локальної одноадресної адреси (Link-Local Unicast):"
+msgstr "Властивості Link-Local Unicast:"
 
 #. TRANSLATORS: Section header for site-local unicast properties
 #: src/subnetcalc.cc:710
 msgid "Site-Local Unicast Properties:"
-msgstr "Властивості локальної для сайту одноадресної адреси (Site-Local Unicast):"
+msgstr "Властивості Site-Local Unicast:"
 
 #. TRANSLATORS: Section header for unique local unicast properties
 #: src/subnetcalc.cc:714
 msgid "Unique Local Unicast Properties:"
-msgstr "Властивості унікальної локальної одноадресної адреси (Unique Local Unicast):"
+msgstr "Властивості Unique Local Unicast:"
 
 #. TRANSLATORS: Unique local address allocation type
 #: src/subnetcalc.cc:717
@@ -294,7 +294,7 @@ msgstr "Призначено глобальною організацією"
 #. TRANSLATORS: Section header for global unicast properties
 #: src/subnetcalc.cc:726
 msgid "Global Unicast Properties:"
-msgstr "Властивості глобальної одноадресної адреси (Global Unicast):"
+msgstr "Властивості Global Unicast:"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:732
@@ -319,7 +319,7 @@ msgstr "MAC-адреса"
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:772
 msgid "Solicited Node Multicast Address"
-msgstr "Групова адреса запитуваного вузла"
+msgstr "Solicited-node multicast-адреса"
 
 #. TRANSLATORS: 6-to-4 encapsulation address label
 #: src/subnetcalc.cc:788

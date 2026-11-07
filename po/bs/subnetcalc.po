@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-06 23:25+0100\n"
+"PO-Revision-Date: 2026-11-07 22:15+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: bs\n"
@@ -101,7 +101,7 @@ msgstr "Mrežna maska"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "Nije potrebno na vezama tačka-do-tačke"
+msgstr "nije potrebno na vezama tačka-do-tačke"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -126,7 +126,7 @@ msgstr "Bitovi hosta"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Maks. broj hostova"
+msgstr "Maks. hostova"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -207,7 +207,7 @@ msgstr "globalni"
 #. TRANSLATORS: Multicast scope label prefix
 #: src/subnetcalc.cc:618 src/subnetcalc.cc:682
 msgid "Scope: "
-msgstr "Doseg: "
+msgstr "Opseg: "
 
 #. TRANSLATORS: Multicast MAC address: {0} = MAC address string
 #: src/subnetcalc.cc:620 src/subnetcalc.cc:690
@@ -243,7 +243,7 @@ msgstr "IPv4-ugrađena IPv6 adresa"
 #. TRANSLATORS: Section header for IPv6 multicast properties
 #: src/subnetcalc.cc:654
 msgid "Multicast Properties"
-msgstr "Multicast svojstva"
+msgstr "Svojstva multicasta"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:659

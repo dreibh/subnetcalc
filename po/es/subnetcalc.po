@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 18:30+0100\n"
+"PO-Revision-Date: 2026-11-07 23:50+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: none\n"
 "Language: es\n"
@@ -50,7 +50,7 @@ msgstr ""
 #. address without specifying an IPv6 target address.
 #: src/subnetcalc.cc:308
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
-msgstr "¡ERROR: Debe proporcionarse una dirección IPv6 para generar una dirección local única!"
+msgstr "ERROR: ¡Debe proporcionarse una dirección IPv6 para generar una dirección local única!"
 
 #. TRANSLATORS: Status message when generating unique local address:
 #. {0} = random number generator device path (e.g. /dev/urandom)
@@ -64,14 +64,14 @@ msgstr "Generando dirección IPv6 local única (usando {0}) ..."
 #: src/subnetcalc.cc:324
 #, no-c-format, c++-format
 msgid "ERROR: Unable to read from {0}!"
-msgstr "¡ERROR: No se puede leer de {0}!"
+msgstr "ERROR: ¡No se puede leer de {0}!"
 
 #. TRANSLATORS: Error message when opening random device fails:
 #. {0} = random device file path
 #: src/subnetcalc.cc:331
 #, no-c-format, c++-format
 msgid "ERROR: Unable to open {0}!"
-msgstr "¡ERROR: No se puede abrir {0}!"
+msgstr "ERROR: ¡No se puede abrir {0}!"
 
 #. TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
 #: src/subnetcalc.cc:499 src/subnetcalc.cc:1310
@@ -86,7 +86,7 @@ msgstr "Dirección"
 #. TRANSLATORS: Output field label for the expanded IPv6 address
 #: src/subnetcalc.cc:513
 msgid "Exp. Address"
-msgstr "Dirección expandida"
+msgstr "Dir. expandida"
 
 #. TRANSLATORS: Output field label for the network IP address
 #: src/subnetcalc.cc:518
@@ -106,17 +106,17 @@ msgstr "no es necesario en enlaces punto a punto"
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Difusión (Broadcast)"
+msgstr "Difusión"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Máscara comodín (Wildcard)"
+msgstr "Máscara comodín"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Dirección hexadecimal"
+msgstr "Dirección hex."
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
@@ -167,12 +167,12 @@ msgstr "No válida (no pertenece a las clases A, B, C ni D)"
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Dirección de bucle invertido (loopback)"
+msgstr "Dirección de bucle invertido"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
 msgid "In loopback network"
-msgstr "En red de bucle invertido (loopback)"
+msgstr "En red de bucle invertido"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
@@ -182,7 +182,7 @@ msgstr "Privada"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Dirección de enlace local (link-local)"
+msgstr "Dirección de enlace local"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -384,46 +384,46 @@ msgstr "Para más información, consulte la página del manual de {}, lea la doc
 #: src/subnetcalc.cc:1508
 #, no-c-format, c++-format
 msgid "ERROR: Invalid format {0}!"
-msgstr "¡ERROR: Formato {0} no válido!"
+msgstr "ERROR: ¡Formato {0} no válido!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
 #: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
 #, no-c-format, c++-format
 msgid "ERROR: Invalid address {0}!"
-msgstr "¡ERROR: Dirección {0} no válida!"
+msgstr "ERROR: ¡Dirección {0} no válida!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
 #: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
 #, no-c-format, c++-format
 msgid "ERROR: Invalid netmask {0}!"
-msgstr "¡ERROR: Máscara de red {0} no válida!"
+msgstr "ERROR: ¡Máscara de red {0} no válida!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
 #: src/subnetcalc.cc:1623
 #, no-c-format, c++-format
 msgid "ERROR: Incompatible netmask {0}!"
-msgstr "¡ERROR: Máscara de red {0} incompatible!"
+msgstr "ERROR: ¡Máscara de red {0} incompatible!"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "{0} es una dirección de MULTIDIFUSIÓN (MULTICAST)"
+msgstr "{0} es una dirección de MULTIDIFUSIÓN"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0} es la dirección de DIFUSIÓN (BROADCAST) de {1}/{2}"
+msgstr "{0} es la dirección de DIFUSIÓN de {1}/{2}"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} es una dirección de RED (NETWORK)"
+msgstr "{0} es una dirección de RED"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
