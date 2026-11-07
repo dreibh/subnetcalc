@@ -1,0 +1,442 @@
+# ==========================================================================
+#             ____        _     _   _      _    ____      _
+#            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
+#            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
+#             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
+#            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
+#
+#                    ---  IPv4/IPv6 Subnet Calculator  ---
+#                   https://www.nntb.no/~dreibh/subnetcalc/
+# ==========================================================================
+#
+# SubNetCalc - IPv4/IPv6 Subnet Calculator
+# Copyright (C) 2024-2026 by Thomas Dreibholz
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+# Contact: thomas.dreibholz@gmail.com
+#
+# NOTE: This catalog was automatically generated/translated with AI assistance.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
+"Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
+"POT-Creation-Date: 2026-11-06 22:13+0100\n"
+"PO-Revision-Date: 2026-11-07 19:55+0100\n"
+"Last-Translator: AI Translation <ai@noreply.localhost>\n"
+"Language-Team: none\n"
+"Language: mi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Language: mi\n"
+"X-Source-Language: en_GB\n"
+"X-Generator: AI Translation (Gemini)\n"
+
+#. TRANSLATORS: Error message when attempting to generate a unique local
+#. address without specifying an IPv6 target address.
+#: src/subnetcalc.cc:308
+msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
+msgstr "HAPA: Me tuku he wāhitau IPv6 hei whakaputa i tētahi wāhitau ā-rohe motuhake!"
+
+#. TRANSLATORS: Status message when generating unique local address:
+#. {0} = random number generator device path (e.g. /dev/urandom)
+#: src/subnetcalc.cc:319 src/subnetcalc.cc:339
+#, no-c-format, c++-format
+msgid "Generating Unique Local IPv6 address (using {0}) ..."
+msgstr "E whakaputa ana i te wāhitau IPv6 ā-Rohe Motuhake (mā te whakamahi i {0}) ..."
+
+#. TRANSLATORS: Error message when reading from random device fails:
+#. {0} = random device file path
+#: src/subnetcalc.cc:324
+#, no-c-format, c++-format
+msgid "ERROR: Unable to read from {0}!"
+msgstr "HAPA: Kāore i taea te pānui mai i {0}!"
+
+#. TRANSLATORS: Error message when opening random device fails:
+#. {0} = random device file path
+#: src/subnetcalc.cc:331
+#, no-c-format, c++-format
+msgid "ERROR: Unable to open {0}!"
+msgstr "HAPA: Kāore i taea te huaki i {0}!"
+
+#. TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
+#: src/subnetcalc.cc:499 src/subnetcalc.cc:1310
+msgid "LTR"
+msgstr "LTR"
+
+#. TRANSLATORS: Output field label for the input IP address
+#: src/subnetcalc.cc:506 src/subnetcalc.cc:511
+msgid "Address"
+msgstr "Wāhitau"
+
+#. TRANSLATORS: Output field label for the expanded IPv6 address
+#: src/subnetcalc.cc:513
+msgid "Exp. Address"
+msgstr "Wāhitau Whānui"
+
+#. TRANSLATORS: Output field label for the network IP address
+#: src/subnetcalc.cc:518
+msgid "Network"
+msgstr "Kōtuitui"
+
+#. TRANSLATORS: Output field label for the subnet mask
+#: src/subnetcalc.cc:520
+msgid "Netmask"
+msgstr "Māsk Kōtuitui"
+
+#. TRANSLATORS: Explanation when broadcast address is not applicable
+#: src/subnetcalc.cc:525
+msgid "not needed on Point-to-Point links"
+msgstr "kāore e hiahiatia ki ngā hononga Pūwāhi-ki-Pūwāhi"
+
+#. TRANSLATORS: Output field label for the broadcast address
+#: src/subnetcalc.cc:527
+msgid "Broadcast"
+msgstr "Pāpāho (Broadcast)"
+
+#. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
+#: src/subnetcalc.cc:531
+msgid "Wildcard Mask"
+msgstr "Māsk Kāri-tāwhai (Wildcard)"
+
+#. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
+#: src/subnetcalc.cc:535
+msgid "Hex. Address"
+msgstr "Wāhitau Pokapū-16"
+
+#. TRANSLATORS: Output field label for the number of host bits in the subnet
+#: src/subnetcalc.cc:539
+msgid "Host Bits"
+msgstr "Moka Kaihautū"
+
+#. TRANSLATORS: Output field label for the maximum number of usable hosts
+#: src/subnetcalc.cc:543
+msgid "Max. Hosts"
+msgstr "Kaihautū Mōrahi"
+
+#. TRANSLATORS: Output field label for the usable host address range
+#: src/subnetcalc.cc:545
+msgid "Host Range"
+msgstr "Awhe Kaihautū"
+
+#. TRANSLATORS: Output field label for IP address properties
+#: src/subnetcalc.cc:550
+msgid "Properties"
+msgstr "Āhuatanga"
+
+#. TRANSLATORS: IPv4 network class designation
+#: src/subnetcalc.cc:560
+msgid "Class A"
+msgstr "Akomanga A"
+
+#. TRANSLATORS: IPv4 network class designation
+#: src/subnetcalc.cc:564
+msgid "Class B"
+msgstr "Akomanga B"
+
+#. TRANSLATORS: IPv4 network class designation
+#: src/subnetcalc.cc:568
+msgid "Class C"
+msgstr "Akomanga C"
+
+#. TRANSLATORS: IPv4 network class designation
+#: src/subnetcalc.cc:572
+msgid "Class D (Multicast)"
+msgstr "Akomanga D (Pāhotanga Maha)"
+
+#. TRANSLATORS: Error message when IPv4 address is outside classes A through D
+#: src/subnetcalc.cc:576
+msgid "Invalid (not in class A, B, C or D)"
+msgstr "Muhu (kāore i te akomanga A, B, C, D rānei)"
+
+#. TRANSLATORS: IPv4 address property
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:583 src/subnetcalc.cc:633
+msgid "Loopback address"
+msgstr "Wāhitau koropiko-hoki (Loopback)"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:587
+msgid "In loopback network"
+msgstr "Kei roto i te kōtuitui koropiko-hoki"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:591
+msgid "Private"
+msgstr "Tūmataiti"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:595
+msgid "Link-local address"
+msgstr "Wāhitau hononga-ā-rohe (Link-local)"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:603 src/subnetcalc.cc:663
+msgid "link-local"
+msgstr "hononga-ā-rohe"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:607 src/subnetcalc.cc:671
+msgid "organization-local"
+msgstr "rōpū-ā-rohe"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:611 src/subnetcalc.cc:667
+msgid "site-local"
+msgstr "pae-ā-rohe"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:615 src/subnetcalc.cc:675
+msgid "global"
+msgstr "ao whānui"
+
+#. TRANSLATORS: Multicast scope label prefix
+#: src/subnetcalc.cc:618 src/subnetcalc.cc:682
+msgid "Scope: "
+msgstr "Hōkai: "
+
+#. TRANSLATORS: Multicast MAC address: {0} = MAC address string
+#: src/subnetcalc.cc:620 src/subnetcalc.cc:690
+#, no-c-format, c++-format
+msgid "Corresponding multicast MAC address: {0}"
+msgstr "Wāhitau MAC pāhotanga maha e hāngai ana: {0}"
+
+#. TRANSLATORS: Multicast property
+#: src/subnetcalc.cc:624 src/subnetcalc.cc:694
+msgid "Source-specific multicast"
+msgstr "Pāhotanga maha pūtake-motuhake (SSM)"
+
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:637
+msgid "Unspecified address"
+msgstr "Wāhitau tē tohua"
+
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:641
+msgid "IPv4-compatible IPv6 address"
+msgstr "Wāhitau IPv6 hototahi-IPv4"
+
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:645
+msgid "IPv4-mapped IPv6 address"
+msgstr "Wāhitau IPv6 mahere-IPv4"
+
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:649
+msgid "IPv4-embedded IPv6 address"
+msgstr "Wāhitau IPv6 tāmau-IPv4"
+
+#. TRANSLATORS: Section header for IPv6 multicast properties
+#: src/subnetcalc.cc:654
+msgid "Multicast Properties"
+msgstr "Āhuatanga Pāhotanga Maha"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:659
+msgid "node-local"
+msgstr "pona-ā-rohe"
+
+#. TRANSLATORS: Multicast scope level
+#: src/subnetcalc.cc:679
+msgid "unknown"
+msgstr "kāore e mōhiotia"
+
+#. TRANSLATORS: IPv6 multicast flag property
+#: src/subnetcalc.cc:686
+msgid "Temporarily-allocated address"
+msgstr "Wāhitau kua whakaritea rangitahi"
+
+#. TRANSLATORS: Solicited node multicast target: {0} = target node mask
+#: src/subnetcalc.cc:699
+#, no-c-format, c++-format
+msgid "Address is solicited node multicast address for {0}"
+msgstr "He wāhitau pāhotanga maha pona-tono tēnei wāhitau mō {0}"
+
+#. TRANSLATORS: Section header for link-local unicast properties
+#: src/subnetcalc.cc:706
+msgid "Link-Local Unicast Properties:"
+msgstr "Āhuatanga Pāhotanga Takitahi Hononga-ā-Rohe:"
+
+#. TRANSLATORS: Section header for site-local unicast properties
+#: src/subnetcalc.cc:710
+msgid "Site-Local Unicast Properties:"
+msgstr "Āhuatanga Pāhotanga Takitahi Pae-ā-Rohe:"
+
+#. TRANSLATORS: Section header for unique local unicast properties
+#: src/subnetcalc.cc:714
+msgid "Unique Local Unicast Properties:"
+msgstr "Āhuatanga Pāhotanga Takitahi ā-Rohe Motuhake:"
+
+#. TRANSLATORS: Unique local address allocation type
+#: src/subnetcalc.cc:717
+msgid "Locally chosen"
+msgstr "Kua kōwhiria ā-rohe"
+
+#. TRANSLATORS: Unique local address allocation type
+#: src/subnetcalc.cc:721
+msgid "Assigned by global instance"
+msgstr "Kua whakawhiwhia e tētahi hinonga o te ao whānui"
+
+#. TRANSLATORS: Section header for global unicast properties
+#: src/subnetcalc.cc:726
+msgid "Global Unicast Properties:"
+msgstr "Āhuatanga Pāhotanga Takitahi Ao Whānui:"
+
+#. TRANSLATORS: IPv6 unique local unicast property label
+#: src/subnetcalc.cc:732
+msgid "Global ID"
+msgstr "Tohu Ao Whānui (Global ID)"
+
+#. TRANSLATORS: IPv6 unique local unicast property label
+#: src/subnetcalc.cc:736
+msgid "Subnet ID"
+msgstr "Tohu Kōtuitui-iti (Subnet ID)"
+
+#. TRANSLATORS: IPv6 unicast property label
+#: src/subnetcalc.cc:740
+msgid "Interface ID"
+msgstr "Tohu Atanga (Interface ID)"
+
+#. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
+#: src/subnetcalc.cc:758
+msgid "MAC Address"
+msgstr "Wāhitau MAC"
+
+#. TRANSLATORS: IPv6 unicast property label
+#: src/subnetcalc.cc:772
+msgid "Solicited Node Multicast Address"
+msgstr "Wāhitau Pāhotanga Maha Pona-tono"
+
+#. TRANSLATORS: 6-to-4 encapsulation address label
+#: src/subnetcalc.cc:788
+msgid "6-to-4 Address"
+msgstr "Wāhitau 6-ki-te-4"
+
+#. TRANSLATORS: Output field label for GeoIP Autonomous System info
+#: src/subnetcalc.cc:796
+msgid "GeoIP AS Info"
+msgstr "Mōhiohio AS GeoIP"
+
+#. TRANSLATORS: Output field label for GeoIP country info
+#: src/subnetcalc.cc:801
+msgid "GeoIP Country"
+msgstr "Whenua GeoIP"
+
+#. TRANSLATORS: Cardinal direction abbreviation: North
+#: src/subnetcalc.cc:806
+msgid "N"
+msgstr "T"
+
+#. TRANSLATORS: Cardinal direction abbreviation: South
+#: src/subnetcalc.cc:808
+msgid "S"
+msgstr "T"
+
+#. TRANSLATORS: Cardinal direction abbreviation: East
+#: src/subnetcalc.cc:811
+msgid "E"
+msgstr "R"
+
+#. TRANSLATORS: Cardinal direction abbreviation: West
+#: src/subnetcalc.cc:813
+msgid "W"
+msgstr "U"
+
+#. TRANSLATORS: Output field label for GeoIP region / location info
+#: src/subnetcalc.cc:827
+msgid "GeoIP Region"
+msgstr "Rohe GeoIP"
+
+#. TRANSLATORS: Output field label for DNS hostname
+#: src/subnetcalc.cc:835
+msgid "DNS Hostname"
+msgstr "Ingoa Kaihautū DNS"
+
+#. TRANSLATORS: Command-line syntax message prefix:
+#. "Usage: <program> [options]".
+#: src/subnetcalc.cc:1329
+msgid "Usage:"
+msgstr "Whakamahinga:"
+
+#. TRANSLATORS: Informational message at the end of usage:
+#. "For further information, see the man page for <manpage>, read the documentation at <url>, examine the source code at <url>, or consult your favourite LLM.".
+#: src/subnetcalc.cc:1347
+#, no-c-format, c++-format
+msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
+msgstr "Mō ētahi atu mōhiohio, tirohia te whārangi man mō {}, pānuitia ngā tuhituhinga i {}, tirohia te waehere pūtake i {}, whakapā atu rānei ki tō LLM tino pai."
+
+#. TRANSLATORS: Error message when output format is invalid:
+#. {0} = input format
+#: src/subnetcalc.cc:1508
+#, no-c-format, c++-format
+msgid "ERROR: Invalid format {0}!"
+msgstr "HAPA: Hōputu muhu {0}!"
+
+#. TRANSLATORS: Error message when address string is invalid:
+#. {0} = input address
+#: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
+#, no-c-format, c++-format
+msgid "ERROR: Invalid address {0}!"
+msgstr "HAPA: Wāhitau muhu {0}!"
+
+#. TRANSLATORS: Error message when netmask string is invalid:
+#. {0} = input netmask
+#: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
+#, no-c-format, c++-format
+msgid "ERROR: Invalid netmask {0}!"
+msgstr "HAPA: Māsk kōtuitui muhu {0}!"
+
+#. TRANSLATORS: Error message when address and netmask families mismatch:
+#. {0} = netmask string
+#: src/subnetcalc.cc:1623
+#, no-c-format, c++-format
+msgid "ERROR: Incompatible netmask {0}!"
+msgstr "HAPA: Māsk kōtuitui kāore e hototahi {0}!"
+
+#. TRANSLATORS: Address property: {0} = address string
+#: src/subnetcalc.cc:1749
+#, no-c-format, c++-format
+msgid "{0} is a MULTICAST address"
+msgstr "He wāhitau PĀHOTANGA MAHA (MULTICAST) a {0}"
+
+#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
+#: src/subnetcalc.cc:1755
+#, no-c-format, c++-format
+msgid "{0} is the BROADCAST address of {1}/{2}"
+msgstr "Ko {0} te wāhitau PĀPĀHO (BROADCAST) o {1}/{2}"
+
+#. TRANSLATORS: Address property: {0} = address string
+#: src/subnetcalc.cc:1763
+#, no-c-format, c++-format
+msgid "{0} is a NETWORK address"
+msgstr "He wāhitau KŌTUITUI (NETWORK) a {0}"
+
+#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
+#: src/subnetcalc.cc:1769
+#, no-c-format, c++-format
+msgid "{0} is a HOST address in {1}/{2}"
+msgstr "He wāhitau KAIHAUTŪ (HOST) a {0} i roto i {1}/{2}"
+
+#. TRANSLATORS: Default fallback text when GeoIP data is unavailable
+#: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043
+msgid "Unknown"
+msgstr "Kāore e mōhiotia"
+
+#. TRANSLATORS: Progress message while performing reverse DNS lookup
+#: src/subnetcalc.cc:2080
+msgid "Performing reverse DNS lookup ..."
+msgstr "E mahi ana i te rapu DNS kōaro ..."
