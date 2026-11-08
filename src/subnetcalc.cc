@@ -498,7 +498,7 @@ static void outputPlainText(std::ostream&          os,
    PropertyFormatter formatter("   ", { "", "- ", "+ " }, "=",
                                (std::string(gettext("LTR")) == "RTL"));
 
-   // --- Address & Exp. Address (with Binary Breakdown) ---
+   // ====== Address and Expanded Address (with Binary Breakdown) ===========
    const std::string binaryText = formatAddressBinary(address, prefix, colourMode);
    if(details.expandedAddress.empty()) {
       // IPv4: binary breakdown shown directly below Address
@@ -513,7 +513,7 @@ static void outputPlainText(std::ostream&          os,
       formatter.add(gettext("Exp. Address"), details.expandedAddress + "\n" + binaryText);
    }
 
-   // --- Core Network Details (Level 0) ---
+   // ====== Core Network Details ===========================================
    // TRANSLATORS: Output field label for the network IP address
    formatter.add(gettext("Network"), std::format("{} / {}", details.network, details.prefix));
    // TRANSLATORS: Output field label for the subnet mask
@@ -545,7 +545,7 @@ static void outputPlainText(std::ostream&          os,
       formatter.add(gettext("Host Range"), std::format("{{ {} - {} }}", details.hostMin, details.hostMax));
    }
 
-   // --- Properties Header ---
+   // ====== Properties Header ==============================================
    // TRANSLATORS: Output field label for IP address properties
    formatter.add(gettext("Properties"), "");
 
@@ -790,7 +790,7 @@ static void outputPlainText(std::ostream&          os,
       }
    }
 
-   // --- GeoIP Information (Level 0) ---
+   // ====== GeoIP Information ==============================================
    if(details.hasGeoIPASN) {
       // TRANSLATORS: Output field label for GeoIP Autonomous System info
       formatter.add(gettext("GeoIP AS Info"), details.geoIPASInfo);
@@ -812,7 +812,6 @@ static void outputPlainText(std::ostream&          os,
          // TRANSLATORS: Cardinal direction abbreviation: West
          gettext("W");
 
-      // Format location with semicolon delimiter to prevent bracket flipping in RTL terminals
       const std::string regionValue =
          std::format("{}{}{}, {}; {:.4f}°{}, {:.4f}°{}{}{}",
                      details.geoIPPostalCode,
@@ -827,12 +826,19 @@ static void outputPlainText(std::ostream&          os,
       formatter.add(gettext("GeoIP Region"), regionValue);
    }
 
-   // --- Reverse DNS Information (Level 0) ---
+   // ====== Reverse DNS Information ========================================
    if(details.hasDNSHostname || !details.dnsError.empty()) {
-      const std::string dnsVal = details.hasDNSHostname ?
-         details.dnsHostname : details.dnsError;
+      std::string dnsValue;
+      if(details.hasDNSHostname) {
+         dnsValue = details.dnsHostname;
+      }
+      else {
+         dnsValue = formatter.isRtl()
+                      ? std::format("\"{}\"", details.dnsError)
+                      : std::format("({})", details.dnsError);
+      }
       // TRANSLATORS: Output field label for DNS hostname
-      formatter.add(gettext("DNS Hostname"), dnsVal);
+      formatter.add(gettext("DNS Hostname"), dnsValue);
    }
 
    // Stream formatted output
@@ -2113,7 +2119,13 @@ int main(int argc, char** argv)
          details.hasDNSHostname = true;
       }
       else {
-         details.dnsError = std::format("({})", gai_strerror(error));
+         std::string_view gaiError(gai_strerror(error));
+#if defined(_WIN32)
+         while(!gaiError.empty() && (gaiError.back() == ' ')) {
+            gaiError.remove_suffix(1);
+         }
+#endif
+         details.dnsError = gaiError;
       }
    }
 
