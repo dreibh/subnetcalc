@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-11-06 22:13+0100\n"
+"POT-Creation-Date: 2026-11-08 17:55+0100\n"
 "PO-Revision-Date: 2026-11-07 22:45+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: Farsi <none>\n"
@@ -74,7 +74,7 @@ msgid "ERROR: Unable to open {0}!"
 msgstr "خطا: باز کردن {0} امکان‌پذیر نیست!"
 
 #. TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
-#: src/subnetcalc.cc:499 src/subnetcalc.cc:1310
+#: src/subnetcalc.cc:499 src/subnetcalc.cc:1316
 msgid "LTR"
 msgstr "RTL"
 
@@ -357,86 +357,86 @@ msgid "W"
 msgstr "غ"
 
 #. TRANSLATORS: Output field label for GeoIP region / location info
-#: src/subnetcalc.cc:827
+#: src/subnetcalc.cc:826
 msgid "GeoIP Region"
 msgstr "منطقه GeoIP"
 
 #. TRANSLATORS: Output field label for DNS hostname
-#: src/subnetcalc.cc:835
+#: src/subnetcalc.cc:841
 msgid "DNS Hostname"
 msgstr "نام میزبان DNS"
 
 #. TRANSLATORS: Command-line syntax message prefix:
 #. "Usage: <program> [options]".
-#: src/subnetcalc.cc:1329
+#: src/subnetcalc.cc:1335
 msgid "Usage:"
 msgstr "کاربرد:"
 
 #. TRANSLATORS: Informational message at the end of usage:
 #. "For further information, see the man page for <manpage>, read the documentation at <url>, examine the source code at <url>, or consult your favourite LLM.".
-#: src/subnetcalc.cc:1347
+#: src/subnetcalc.cc:1353
 #, no-c-format, c++-format
 msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
 msgstr "برای اطلاعات بیشتر، صفحه man برای {} را ببینید، مستندات را در {} بخوانید، کد منبع را در {} بررسی کنید، یا با LLM دلخواه خود مشورت نمایید."
 
 #. TRANSLATORS: Error message when output format is invalid:
 #. {0} = input format
-#: src/subnetcalc.cc:1508
+#: src/subnetcalc.cc:1514
 #, no-c-format, c++-format
 msgid "ERROR: Invalid format {0}!"
 msgstr "خطا: قالب نامعتبر {0}!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
-#: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
+#: src/subnetcalc.cc:1574 src/subnetcalc.cc:1590
 #, no-c-format, c++-format
 msgid "ERROR: Invalid address {0}!"
 msgstr "خطا: نشانی نامعتبر {0}!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
-#: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
+#: src/subnetcalc.cc:1581 src/subnetcalc.cc:1600 src/subnetcalc.cc:1622
 #, no-c-format, c++-format
 msgid "ERROR: Invalid netmask {0}!"
 msgstr "خطا: ماسک شبکه نامعتبر {0}!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
-#: src/subnetcalc.cc:1623
+#: src/subnetcalc.cc:1629
 #, no-c-format, c++-format
 msgid "ERROR: Incompatible netmask {0}!"
 msgstr "خطا: ماسک شبکه ناسازگار {0}!"
 
 #. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1749
+#: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
 msgstr "{0} یک نشانی چندپخشی (MULTICAST) است"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1755
+#: src/subnetcalc.cc:1761
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
 msgstr "{0} نشانی برودکست (BROADCAST) برای {1}/{2} است"
 
 #. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1763
+#: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
 msgstr "{0} یک نشانی شبکه (NETWORK) است"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1769
+#: src/subnetcalc.cc:1775
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
 msgstr "{0} یک نشانی میزبان (HOST) در {1}/{2} است"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
-#: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043
+#: src/subnetcalc.cc:2020 src/subnetcalc.cc:2041 src/subnetcalc.cc:2049
 msgid "Unknown"
 msgstr "ناشناخته"
 
 #. TRANSLATORS: Progress message while performing reverse DNS lookup
-#: src/subnetcalc.cc:2080
+#: src/subnetcalc.cc:2086
 msgid "Performing reverse DNS lookup ..."
 msgstr "در حال انجام جستجوی معکوس DNS ..."

@@ -41,6 +41,10 @@
 #include <unistd.h>
 #else
 #include <windows.h>
+#include <windns.h>
+#if defined(_MSC_VER)
+#pragma comment(lib, "dnsapi.lib")
+#endif
 #ifndef IFNAMSIZ
 #define IFNAMSIZ IF_NAMESIZE
 #endif
@@ -510,55 +514,90 @@ bool string2address(std::string_view      string,
       }
    }
 #endif
-   const char*      targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
-   struct addrinfo* result     = nullptr;
+   const char* targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
+
+   auto cleanupPunycode = [&]() {
+#ifndef AI_IDN
+      if(punycode != nullptr) {
+         idn2_free(punycode);
+         punycode = nullptr;
+      }
+#endif
+   };
+
+   struct addrinfo* resList = nullptr;
 
    if(addressFamily == AF_INET) {
       hints.ai_family = AF_INET;
-      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
-#ifndef AI_IDN
-         if(punycode != nullptr) {
-            idn2_free(punycode);
-         }
-#endif
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0) {
+         cleanupPunycode();
          return false;
       }
    }
    else if(addressFamily == AF_INET6) {
       hints.ai_family = AF_INET6;
-      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
-#ifndef AI_IDN
-         if(punycode != nullptr) {
-            idn2_free(punycode);
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0) {
+#if defined(_WIN32)
+         // Windows without an IPv6 route suppresses AAAA queries via getaddrinfo.
+         // Fall back to querying the DNS API directly.
+         PDNS_RECORD pDnsRecord = nullptr;
+         const DNS_STATUS status = DnsQuery_A(
+            targetHost,
+            DNS_TYPE_AAAA,
+            DNS_QUERY_STANDARD,
+            nullptr,
+            &pDnsRecord,
+            nullptr
+         );
+
+         if(status == ERROR_SUCCESS && pDnsRecord != nullptr) {
+            bool found = false;
+            for(PDNS_RECORD curr = pDnsRecord; curr != nullptr; curr = curr->pNext) {
+               if(curr->wType == DNS_TYPE_AAAA) {
+                  std::memset(address, 0, sizeof(union sockaddr_union));
+                  address->in6.sin6_family = AF_INET6;
+                  std::memcpy(&address->in6.sin6_addr,
+                              &curr->Data.AAAA.Ip6Address,
+                              sizeof(struct in6_addr));
+                  address->in6.sin6_port = htons(portNumber);
+                  found = true;
+                  break;
+               }
+            }
+            DnsRecordListFree(pDnsRecord, DnsFreeRecordList);
+            cleanupPunycode();
+            return found;
          }
 #endif
+         cleanupPunycode();
          return false;
       }
    }
    else {
-      // Default: try IPv6 first, then fall back to IPv4
+      // AF_UNSPEC: Try IPv6 first, then IPv4
       hints.ai_family = AF_INET6;
-      if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
-         hints.ai_family = AF_UNSPEC;
-         if(getaddrinfo(targetHost, nullptr, &hints, &result) != 0) {
-#ifndef AI_IDN
-            if(punycode != nullptr) {
-               idn2_free(punycode);
-            }
-#endif
+      resList = nullptr;
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+         hints.ai_family = AF_INET;
+         resList = nullptr;
+         if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+            cleanupPunycode();
             return false;
          }
       }
    }
 
-#ifndef AI_IDN
-   if(punycode != nullptr) {
-      idn2_free(punycode);
+   cleanupPunycode();
+
+   if(resList == nullptr || resList->ai_addr == nullptr) {
+      if(resList != nullptr) {
+         freeaddrinfo(resList);
+      }
+      return false;
    }
-#endif
 
    std::memset(address, 0, sizeof(union sockaddr_union));
-   std::memcpy(address, result->ai_addr, result->ai_addrlen);
+   std::memcpy(address, resList->ai_addr, resList->ai_addrlen);
 
    if(address->sa.sa_family == AF_INET) {
       address->in.sin_port = htons(portNumber);
@@ -567,6 +606,6 @@ bool string2address(std::string_view      string,
       address->in6.sin6_port = htons(portNumber);
    }
 
-   freeaddrinfo(result);
+   freeaddrinfo(resList);
    return true;
 }
