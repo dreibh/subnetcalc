@@ -10,7 +10,7 @@
 # ==========================================================================
 #
 # SubNetCalc - IPv4/IPv6 Subnet Calculator
-# Copyright (C) 2024-2026 by Thomas Dreibholz
+# Copyright (C) 2009-2027 by Thomas Dreibholz
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-11-06 22:13+0100\n"
+"POT-Creation-Date: 2026-11-08 12:08+0100\n"
 "PO-Revision-Date: 2026-11-08 11:55+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: Māori <none>\n"
@@ -377,4 +377,66 @@ msgstr "Whakamahinga:"
 #: src/subnetcalc.cc:1347
 #, no-c-format, c++-format
 msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
-msgstr "Mō ētahi
+msgstr "Mō ētahi atu mōhiohio, tirohia te whārangi man mō {}, pānuitia ngā tuhituhinga i {}, tirohia te waehere pūtake i {}, whakapā atu rānei ki tō LLM tino pai."
+
+#. TRANSLATORS: Error message when output format is invalid:
+#. {0} = input format
+#: src/subnetcalc.cc:1508
+#, no-c-format, c++-format
+msgid "ERROR: Invalid format {0}!"
+msgstr "HAPA: Hōputu muhu {0}!"
+
+#. TRANSLATORS: Error message when address string is invalid:
+#. {0} = input address
+#: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
+#, no-c-format, c++-format
+msgid "ERROR: Invalid address {0}!"
+msgstr "HAPA: Wāhitau muhu {0}!"
+
+#. TRANSLATORS: Error message when netmask string is invalid:
+#. {0} = input netmask
+#: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
+#, no-c-format, c++-format
+msgid "ERROR: Invalid netmask {0}!"
+msgstr "HAPA: Māsk kōtuitui muhu {0}!"
+
+#. TRANSLATORS: Error message when address and netmask families mismatch:
+#. {0} = netmask string
+#: src/subnetcalc.cc:1623
+#, no-c-format, c++-format
+msgid "ERROR: Incompatible netmask {0}!"
+msgstr "HAPA: Māsk kōtuitui kāore e hototahi {0}!"
+
+#. TRANSLATORS: Address property: {0} = address string
+#: src/subnetcalc.cc:1749
+#, no-c-format, c++-format
+msgid "{0} is a MULTICAST address"
+msgstr "He wāhitau PĀHOTANGA MAHA a {0}"
+
+#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
+#: src/subnetcalc.cc:1755
+#, no-c-format, c++-format
+msgid "{0} is the BROADCAST address of {1}/{2}"
+msgstr "Ko {0} te wāhitau PĀPĀHO o {1}/{2}"
+
+#. TRANSLATORS: Address property: {0} = address string
+#: src/subnetcalc.cc:1763
+#, no-c-format, c++-format
+msgid "{0} is a NETWORK address"
+msgstr "He wāhitau KŌTUITUI a {0}"
+
+#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
+#: src/subnetcalc.cc:1769
+#, no-c-format, c++-format
+msgid "{0} is a HOST address in {1}/{2}"
+msgstr "He wāhitau KAIHAUTŪ a {0} i roto i {1}/{2}"
+
+#. TRANSLATORS: Default fallback text when GeoIP data is unavailable
+#: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043
+msgid "Unknown"
+msgstr "Kāore e mōhiotia"
+
+#. TRANSLATORS: Progress message while performing reverse DNS lookup
+#: src/subnetcalc.cc:2080
+msgid "Performing reverse DNS lookup ..."
+msgstr "E mahi ana i te rapu DNS kōaro ..."
