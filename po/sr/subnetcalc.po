@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 22:05+0100\n"
+"PO-Revision-Date: 2026-11-08 12:40+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: Serbian <none>\n"
 "Language: sr\n"
@@ -101,7 +101,7 @@ msgstr "Мрежна маска"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "није потребно на Point-to-Point везама"
+msgstr "није потребно на point-to-point везама"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -264,7 +264,7 @@ msgstr "Привремено додељена адреса"
 #: src/subnetcalc.cc:699
 #, no-c-format, c++-format
 msgid "Address is solicited node multicast address for {0}"
-msgstr "Адреса је тражена (solicited) чворна multicast адреса за {0}"
+msgstr "Адреса је multicast адреса траженог чвора за {0}"
 
 #. TRANSLATORS: Section header for link-local unicast properties
 #: src/subnetcalc.cc:706
@@ -319,7 +319,7 @@ msgstr "MAC адреса"
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:772
 msgid "Solicited Node Multicast Address"
-msgstr "Тражена (solicited) чворна multicast адреса"
+msgstr "Multicast адреса траженог чвора"
 
 #. TRANSLATORS: 6-to-4 encapsulation address label
 #: src/subnetcalc.cc:788
@@ -423,7 +423,7 @@ msgstr "{0} је BROADCAST адреса за {1}/{2}"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} је МРЕЖНА (NETWORK) адреса"
+msgstr "{0} је МРЕЖНА адреса"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769

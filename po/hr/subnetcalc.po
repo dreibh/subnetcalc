@@ -34,7 +34,7 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 21:50+0100\n"
+"PO-Revision-Date: 2026-11-08 12:35+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: Croatian <none>\n"
 "Language: hr\n"
@@ -101,7 +101,7 @@ msgstr "Mrežna maska"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "nije potrebno na Point-to-Point vezama"
+msgstr "nije potrebno na point-to-point vezama"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -177,7 +177,7 @@ msgstr "U loopback mreži"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
 msgid "Private"
-msgstr "Privatno (Private)"
+msgstr "Privatno"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
@@ -264,7 +264,7 @@ msgstr "Privremeno dodijeljena adresa"
 #: src/subnetcalc.cc:699
 #, no-c-format, c++-format
 msgid "Address is solicited node multicast address for {0}"
-msgstr "Adresa je tražena (solicited) čvorna multicast adresa za {0}"
+msgstr "Adresa je multicast adresa traženog čvora za {0}"
 
 #. TRANSLATORS: Section header for link-local unicast properties
 #: src/subnetcalc.cc:706
@@ -319,7 +319,7 @@ msgstr "MAC adresa"
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:772
 msgid "Solicited Node Multicast Address"
-msgstr "Tražena (solicited) čvorna multicast adresa"
+msgstr "Multicast adresa traženog čvora"
 
 #. TRANSLATORS: 6-to-4 encapsulation address label
 #: src/subnetcalc.cc:788
@@ -423,7 +423,7 @@ msgstr "{0} je BROADCAST adresa za {1}/{2}"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} je MREŽNA (NETWORK) adresa"
+msgstr "{0} je MREŽNA adresa"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769

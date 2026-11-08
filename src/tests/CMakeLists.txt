@@ -532,7 +532,7 @@ SET_TESTS_PROPERTIES(cli_help_i18n_he PROPERTIES
 ADD_SUBNETCALC_TEST(i18n_ar_ipv4_calc 192.168.0.255/24 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_ar_ipv4_calc PROPERTIES
    ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
-   PASS_REGULAR_EXPRESSION "العنوان.*=.*192\\.168\\.0\\.255.*الشبكة.*=.*192\\.168\\.0\\.0 / 24.*قناع الشبكة.*=.*255\\.255\\.255\\.0.*البث العام.*=.*192\\.168\\.0\\.255.*قناع البدل \\(Wildcard\\).*=.*0\\.0\\.0\\.255.*العنوان بالست عشري.*=.*C0A800FF.*بتات المضيف.*=.*8.*أقصى عدد للمضيفين.*=.*254.*نطاق المضيفين.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*الخصائص.*=.*هو عنوان البث العام \\(BROADCAST\\) لـ 192\\.168\\.0\\.0/24.*الفئة C.*خاص"
+   PASS_REGULAR_EXPRESSION "العنوان.*=.*192\\.168\\.0\\.255.*الشبكة.*=.*192\\.168\\.0\\.0 / 24.*قناع الشبكة.*=.*255\\.255\\.255\\.0.*البث العام.*=.*192\\.168\\.0\\.255.*قناع البدل.*=.*0\\.0\\.0\\.255.*العنوان بالست عشري.*=.*C0A800FF.*بتات المضيف.*=.*8.*أقصى عدد للمضيفين.*=.*254.*نطاق المضيفين.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*الخصائص.*=.*192\\.168\\.0\\.255.*هو عنوان البث العام.*192\\.168\\.0\\.0/24.*الفئة C.*خاص"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_ar;rtl;ipv4"
 )
@@ -541,7 +541,7 @@ SET_TESTS_PROPERTIES(i18n_ar_ipv4_calc PROPERTIES
 ADD_SUBNETCALC_TEST(i18n_ar_ipv6_ula fc00:1:3:4::/64 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_ar_ipv6_ula PROPERTIES
    ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=ar;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
-   PASS_REGULAR_EXPRESSION "العنوان.*=.*fc00:1:3:4::.*العنوان الموسّع.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*الشبكة.*=.*fc00:1:3:4:: / 64.*قناع الشبكة.*=.*ffff:ffff:ffff:ffff::.*خصائص البث الفردي المحلي الفريد \\(Unique Local\\):.*مُعيَّن من قِبل هيئة عالمية.*المُعرّف العالمي \\(Global ID\\).*=.*0000010003.*مُعرّف الشبكة الفرعية \\(Subnet ID\\).*=.*0004.*مُعرّف الواجهة \\(Interface ID\\).*=.*0000:0000:0000:0000"
+   PASS_REGULAR_EXPRESSION "العنوان.*=.*fc00:1:3:4::.*العنوان الموسّع.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*الشبكة.*=.*fc00:1:3:4:: / 64.*قناع الشبكة.*=.*ffff:ffff:ffff:ffff::.*خصائص البث الفردي المحلي الفريد.*مُعيَّن من قِبل هيئة عالمية.*المُعرّف العالمي.*=.*0000010003.*مُعرّف الشبكة الفرعية.*=.*0004.*مُعرّف الواجهة.*=.*0000:0000:0000:0000"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_ar;rtl;ipv6;ula"
 )
@@ -550,7 +550,7 @@ SET_TESTS_PROPERTIES(i18n_ar_ipv6_ula PROPERTIES
 ADD_SUBNETCALC_TEST(i18n_he_ipv4_calc 192.168.0.255/24 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_he_ipv4_calc PROPERTIES
    ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
-   PASS_REGULAR_EXPRESSION "כתובת.*=.*192\\.168\\.0\\.255.*רשת.*=.*192\\.168\\.0\\.0 / 24.*מסיכת רשת.*=.*255\\.255\\.255\\.0.*שידור כולל \\(Broadcast\\).*=.*192\\.168\\.0\\.255.*מסיכת תווים כלליים \\(Wildcard\\).*=.*0\\.0\\.0\\.255.*כתובת הקסדצימלית.*=.*C0A800FF.*סיביות מארח.*=.*8.*מארחים מרביים.*=.*254.*טווח מארחים.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*מאפיינים.*=.*היא כתובת השידור הכולל \\(BROADCAST\\) של 192\\.168\\.0\\.0/24.*מחלקה C.*פרטית"
+   PASS_REGULAR_EXPRESSION "כתובת.*=.*192\\.168\\.0\\.255.*רשת.*=.*192\\.168\\.0\\.0 / 24.*מסכת רשת.*=.*255\\.255\\.255\\.0.*שידור.*=.*192\\.168\\.0\\.255.*מסכת Wildcard.*=.*0\\.0\\.0\\.255.*כתובת הקס.*=.*C0A800FF.*סיביות מארח.*=.*8.*מקס.*מארחים.*=.*254.*טווח מארחים.*=.*\\{ 192\\.168\\.0\\.1 - 192\\.168\\.0\\.254 \\}.*מאפיינים.*=.*192\\.168\\.0\\.255 היא כתובת BROADCAST של 192\\.168\\.0\\.0/24.*מחלקה C.*פרטית"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_he;rtl;ipv4"
 )
@@ -559,7 +559,7 @@ SET_TESTS_PROPERTIES(i18n_he_ipv4_calc PROPERTIES
 ADD_SUBNETCALC_TEST(i18n_he_ipv6_ula fc00:1:3:4::/64 -c -n -g)
 SET_TESTS_PROPERTIES(i18n_he_ipv6_ula PROPERTIES
    ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
-   PASS_REGULAR_EXPRESSION "כתובת.*=.*fc00:1:3:4::.*כתובת מורחבת.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*רשת.*=.*fc00:1:3:4:: / 64.*מסיכת רשת.*=.*ffff:ffff:ffff:ffff::.*מאפייני שידור יחיד מקומי ייחודי \\(Unique Local\\):.*הוקצה על ידי גוף גלובלי.*מזהה גלובלי \\(Global ID\\).*=.*0000010003.*מזהה תת-רשת \\(Subnet ID\\).*=.*0004.*מזהה ממשק \\(Interface ID\\).*=.*0000:0000:0000:0000"
+   PASS_REGULAR_EXPRESSION "כתובת.*=.*fc00:1:3:4::.*כתובת מורחבת.*=.*fc00:0001:0003:0004:0000:0000:0000:0000.*רשת.*=.*fc00:1:3:4:: / 64.*מסכת רשת.*=.*ffff:ffff:ffff:ffff::.*מאפייני Unique Local Unicast:.*הוקצה על ידי מופע גלובלי.*מזהה גלובלי.*=.*0000010003.*מזהה תת.*רשת.*=.*0004.*מזהה ממשק.*=.*0000:0000:0000:0000"
    FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:"
    LABELS "i18n;locale_he;rtl;ipv6;ula"
 )
