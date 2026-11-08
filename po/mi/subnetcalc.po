@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:55+0100\n"
+"PO-Revision-Date: 2026-11-08 11:55+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Māori <none>\n"
 "Language: mi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "HAPA: Me tuku he wāhitau IPv6 hei whakaputa i tētahi wāhitau ā-rohe 
 #: src/subnetcalc.cc:319 src/subnetcalc.cc:339
 #, no-c-format, c++-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
-msgstr "E whakaputa ana i te wāhitau IPv6 ā-Rohe Motuhake (mā te whakamahi i {0}) ..."
+msgstr "E whakaputa ana i te wāhitau IPv6 ā-rohe motuhake (mā te whakamahi i {0}) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
@@ -86,7 +86,7 @@ msgstr "Wāhitau"
 #. TRANSLATORS: Output field label for the expanded IPv6 address
 #: src/subnetcalc.cc:513
 msgid "Exp. Address"
-msgstr "Wāhitau Whānui"
+msgstr "Wāhitau whānui"
 
 #. TRANSLATORS: Output field label for the network IP address
 #: src/subnetcalc.cc:518
@@ -96,42 +96,42 @@ msgstr "Kōtuitui"
 #. TRANSLATORS: Output field label for the subnet mask
 #: src/subnetcalc.cc:520
 msgid "Netmask"
-msgstr "Māsk Kōtuitui"
+msgstr "Māsk kōtuitui"
 
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "kāore e hiahiatia ki ngā hononga Pūwāhi-ki-Pūwāhi"
+msgstr "kāore e hiahiatia ki ngā hononga pūwāhi-ki-pūwāhi"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Pāpāho (Broadcast)"
+msgstr "Pāpāho"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Māsk Kāri-tāwhai (Wildcard)"
+msgstr "Māsk kāri-tāwhai"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Wāhitau Pokapū-16"
+msgstr "Wāhitau pokapū-16"
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
 msgid "Host Bits"
-msgstr "Moka Kaihautū"
+msgstr "Moka kaihautū"
 
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Kaihautū Mōrahi"
+msgstr "Kaihautū mōrahi"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
 msgid "Host Range"
-msgstr "Awhe Kaihautū"
+msgstr "Awhe kaihautū"
 
 #. TRANSLATORS: Output field label for IP address properties
 #: src/subnetcalc.cc:550
@@ -167,7 +167,7 @@ msgstr "Muhu (kāore i te akomanga A, B, C, D rānei)"
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Wāhitau koropiko-hoki (Loopback)"
+msgstr "Wāhitau koropiko-hoki"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
@@ -182,7 +182,7 @@ msgstr "Tūmataiti"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Wāhitau hononga-ā-rohe (Link-local)"
+msgstr "Wāhitau hononga-ā-rohe"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -299,17 +299,17 @@ msgstr "Āhuatanga Pāhotanga Takitahi Ao Whānui:"
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:732
 msgid "Global ID"
-msgstr "Tohu Ao Whānui (Global ID)"
+msgstr "Tohu Ao Whānui"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:736
 msgid "Subnet ID"
-msgstr "Tohu Kōtuitui-iti (Subnet ID)"
+msgstr "Tohu Kōtuitui-iti"
 
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:740
 msgid "Interface ID"
-msgstr "Tohu Atanga (Interface ID)"
+msgstr "Tohu Atanga"
 
 #. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
 #: src/subnetcalc.cc:758
@@ -339,7 +339,7 @@ msgstr "Whenua GeoIP"
 #. TRANSLATORS: Cardinal direction abbreviation: North
 #: src/subnetcalc.cc:806
 msgid "N"
-msgstr "T"
+msgstr "Tk"
 
 #. TRANSLATORS: Cardinal direction abbreviation: South
 #: src/subnetcalc.cc:808
@@ -377,66 +377,4 @@ msgstr "Whakamahinga:"
 #: src/subnetcalc.cc:1347
 #, no-c-format, c++-format
 msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
-msgstr "Mō ētahi atu mōhiohio, tirohia te whārangi man mō {}, pānuitia ngā tuhituhinga i {}, tirohia te waehere pūtake i {}, whakapā atu rānei ki tō LLM tino pai."
-
-#. TRANSLATORS: Error message when output format is invalid:
-#. {0} = input format
-#: src/subnetcalc.cc:1508
-#, no-c-format, c++-format
-msgid "ERROR: Invalid format {0}!"
-msgstr "HAPA: Hōputu muhu {0}!"
-
-#. TRANSLATORS: Error message when address string is invalid:
-#. {0} = input address
-#: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
-#, no-c-format, c++-format
-msgid "ERROR: Invalid address {0}!"
-msgstr "HAPA: Wāhitau muhu {0}!"
-
-#. TRANSLATORS: Error message when netmask string is invalid:
-#. {0} = input netmask
-#: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
-#, no-c-format, c++-format
-msgid "ERROR: Invalid netmask {0}!"
-msgstr "HAPA: Māsk kōtuitui muhu {0}!"
-
-#. TRANSLATORS: Error message when address and netmask families mismatch:
-#. {0} = netmask string
-#: src/subnetcalc.cc:1623
-#, no-c-format, c++-format
-msgid "ERROR: Incompatible netmask {0}!"
-msgstr "HAPA: Māsk kōtuitui kāore e hototahi {0}!"
-
-#. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1749
-#, no-c-format, c++-format
-msgid "{0} is a MULTICAST address"
-msgstr "He wāhitau PĀHOTANGA MAHA (MULTICAST) a {0}"
-
-#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1755
-#, no-c-format, c++-format
-msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "Ko {0} te wāhitau PĀPĀHO (BROADCAST) o {1}/{2}"
-
-#. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1763
-#, no-c-format, c++-format
-msgid "{0} is a NETWORK address"
-msgstr "He wāhitau KŌTUITUI (NETWORK) a {0}"
-
-#. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1769
-#, no-c-format, c++-format
-msgid "{0} is a HOST address in {1}/{2}"
-msgstr "He wāhitau KAIHAUTŪ (HOST) a {0} i roto i {1}/{2}"
-
-#. TRANSLATORS: Default fallback text when GeoIP data is unavailable
-#: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043
-msgid "Unknown"
-msgstr "Kāore e mōhiotia"
-
-#. TRANSLATORS: Progress message while performing reverse DNS lookup
-#: src/subnetcalc.cc:2080
-msgid "Performing reverse DNS lookup ..."
-msgstr "E mahi ana i te rapu DNS kōaro ..."
+msgstr "Mō ētahi

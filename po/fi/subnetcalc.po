@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 18:45+0100\n"
+"PO-Revision-Date: 2026-11-08 12:10+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Finnish <none>\n"
 "Language: fi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -106,7 +106,7 @@ msgstr "ei tarvita point-to-point-linkeissä"
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Yleislähetys (Broadcast)"
+msgstr "Yleislähetys"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
@@ -126,7 +126,7 @@ msgstr "Isäntäbitit"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Isäntien enimmäismäärä"
+msgstr "Maks. isännät"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -167,7 +167,7 @@ msgstr "Virheellinen (ei luokassa A, B, C tai D)"
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Silmukkaosoite (Loopback)"
+msgstr "Silmukkaosoite"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
@@ -306,7 +306,7 @@ msgstr "Globaali ID"
 msgid "Subnet ID"
 msgstr "Aliverkko-ID"
 
-#. TRANSLATORS: IPv6 unicast property label
+#. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:740
 msgid "Interface ID"
 msgstr "Liitäntä-ID"
@@ -411,25 +411,25 @@ msgstr "VIRHE: Yhteensopimaton verkkopeite {0}!"
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "{0} on RYHMÄLÄHETYSOSOITE (MULTICAST)"
+msgstr "{0} on RYHMÄLÄHETYSOSOITE"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0} on verkon {1}/{2} YLEISLÄHETYSOSOITE (BROADCAST)"
+msgstr "{0} on verkon {1}/{2} YLEISLÄHETYSOSOITE"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} on VERKKO-OSOITE (NETWORK)"
+msgstr "{0} on VERKKO-OSOITE"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "{0} on ISÄNTÄOSOITE (HOST) verkossa {1}/{2}"
+msgstr "{0} on ISÄNTÄOSOITE verkossa {1}/{2}"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

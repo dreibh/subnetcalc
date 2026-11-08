@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:35+0100\n"
+"PO-Revision-Date: 2026-11-08 11:58+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Italian <none>\n"
 "Language: it\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,7 +116,7 @@ msgstr "Maschera wildcard"
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Indirizzo esadecimale"
+msgstr "Indirizzo esad."
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
@@ -384,28 +384,28 @@ msgstr "Per ulteriori informazioni, consultare la pagina man di {}, leggere la d
 #: src/subnetcalc.cc:1508
 #, no-c-format, c++-format
 msgid "ERROR: Invalid format {0}!"
-msgstr "ERRORE: Formato non valido {0}!"
+msgstr "ERRORE: Formato {0} non valido!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
 #: src/subnetcalc.cc:1568 src/subnetcalc.cc:1584
 #, no-c-format, c++-format
 msgid "ERROR: Invalid address {0}!"
-msgstr "ERRORE: Indirizzo non valido {0}!"
+msgstr "ERRORE: Indirizzo {0} non valido!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
 #: src/subnetcalc.cc:1575 src/subnetcalc.cc:1594 src/subnetcalc.cc:1616
 #, no-c-format, c++-format
 msgid "ERROR: Invalid netmask {0}!"
-msgstr "ERRORE: Maschera di rete non valida {0}!"
+msgstr "ERRORE: Maschera di rete {0} non valida!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
 #: src/subnetcalc.cc:1623
 #, no-c-format, c++-format
 msgid "ERROR: Incompatible netmask {0}!"
-msgstr "ERRORE: Maschera di rete incompatibile {0}!"
+msgstr "ERRORE: Maschera di rete {0} incompatibile!"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1749
@@ -423,7 +423,7 @@ msgstr "{0} è l'indirizzo di BROADCAST di {1}/{2}"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} è un indirizzo di RETE (NETWORK)"
+msgstr "{0} è un indirizzo di RETE"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769

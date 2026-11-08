@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-06 23:15+0100\n"
+"PO-Revision-Date: 2026-11-08 12:15+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Danish <none>\n"
 "Language: da\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "FEJL: En IPv6-adresse skal angives for at generere en unik lokal adresse
 #: src/subnetcalc.cc:319 src/subnetcalc.cc:339
 #, no-c-format, c++-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
-msgstr "Genererer Unique Local IPv6-adresse (med {0}) ..."
+msgstr "Genererer unik lokal IPv6-adresse (med {0}) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
@@ -218,7 +218,7 @@ msgstr "Tilsvarende multicast-MAC-adresse: {0}"
 #. TRANSLATORS: Multicast property
 #: src/subnetcalc.cc:624 src/subnetcalc.cc:694
 msgid "Source-specific multicast"
-msgstr "Kildespecifik multicast"
+msgstr "Kildespecifik multicast (SSM)"
 
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:637

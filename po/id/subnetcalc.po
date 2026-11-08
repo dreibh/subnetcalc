@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:45+0100\n"
+"PO-Revision-Date: 2026-11-08 12:00+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Indonesian <none>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -57,7 +57,7 @@ msgstr "KESALAHAN: Alamat IPv6 harus diberikan untuk menghasilkan alamat lokal u
 #: src/subnetcalc.cc:319 src/subnetcalc.cc:339
 #, no-c-format, c++-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
-msgstr "Menghasilkan alamat IPv6 Lokal Unik (menggunakan {0}) ..."
+msgstr "Menghasilkan alamat IPv6 lokal unik (menggunakan {0}) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
@@ -86,7 +86,7 @@ msgstr "Alamat"
 #. TRANSLATORS: Output field label for the expanded IPv6 address
 #: src/subnetcalc.cc:513
 msgid "Exp. Address"
-msgstr "Alamat Diperluas"
+msgstr "Alamat diperluas"
 
 #. TRANSLATORS: Output field label for the network IP address
 #: src/subnetcalc.cc:518
@@ -101,7 +101,7 @@ msgstr "Netmask"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "tidak diperlukan pada tautan Titik-ke-Titik (Point-to-Point)"
+msgstr "tidak diperlukan pada tautan titik-ke-titik"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
@@ -111,27 +111,27 @@ msgstr "Broadcast"
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Wildcard Mask"
+msgstr "Wildcard mask"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Alamat Heks."
+msgstr "Alamat heks."
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
 msgid "Host Bits"
-msgstr "Bit Host"
+msgstr "Bit host"
 
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Host Maks."
+msgstr "Host maks."
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
 msgid "Host Range"
-msgstr "Rentang Host"
+msgstr "Rentang host"
 
 #. TRANSLATORS: Output field label for IP address properties
 #: src/subnetcalc.cc:550
@@ -177,7 +177,7 @@ msgstr "Dalam jaringan loopback"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
 msgid "Private"
-msgstr "Pribadi (Private)"
+msgstr "Pribadi"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
@@ -423,7 +423,7 @@ msgstr "{0} adalah alamat BROADCAST dari {1}/{2}"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} adalah alamat JARINGAN (NETWORK)"
+msgstr "{0} adalah alamat JARINGAN"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769

@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-06 23:45+0100\n"
+"PO-Revision-Date: 2026-11-08 11:25+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Russian <none>\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -101,17 +101,17 @@ msgstr "Маска сети"
 #. TRANSLATORS: Explanation when broadcast address is not applicable
 #: src/subnetcalc.cc:525
 msgid "not needed on Point-to-Point links"
-msgstr "Не требуется для соединений точка-точка"
+msgstr "не требуется для соединений точка-точка"
 
 #. TRANSLATORS: Output field label for the broadcast address
 #: src/subnetcalc.cc:527
 msgid "Broadcast"
-msgstr "Широковещательный адрес"
+msgstr "Широковещ. адрес"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Обратная маска (Wildcard)"
+msgstr "Обратная маска"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
@@ -182,7 +182,7 @@ msgstr "Частный"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Канальный локальный адрес (Link-local)"
+msgstr "Канальный локальный адрес"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -197,7 +197,7 @@ msgstr "в пределах организации"
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:611 src/subnetcalc.cc:667
 msgid "site-local"
-msgstr "в пределах площадки (site-local)"
+msgstr "в пределах площадки"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:615 src/subnetcalc.cc:675
@@ -243,12 +243,12 @@ msgstr "IPv4-встроенный адрес IPv6"
 #. TRANSLATORS: Section header for IPv6 multicast properties
 #: src/subnetcalc.cc:654
 msgid "Multicast Properties"
-msgstr "Свойства многоадресной рассылки (Multicast)"
+msgstr "Свойства Multicast"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:659
 msgid "node-local"
-msgstr "в пределах узла (node-local)"
+msgstr "в пределах узла"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:679
@@ -269,17 +269,17 @@ msgstr "Адрес является адресом многоадресной р
 #. TRANSLATORS: Section header for link-local unicast properties
 #: src/subnetcalc.cc:706
 msgid "Link-Local Unicast Properties:"
-msgstr "Свойства канального локального одноадресного адреса (Link-Local Unicast):"
+msgstr "Свойства Link-Local Unicast:"
 
 #. TRANSLATORS: Section header for site-local unicast properties
 #: src/subnetcalc.cc:710
 msgid "Site-Local Unicast Properties:"
-msgstr "Свойства локального для площадки одноадресного адреса (Site-Local Unicast):"
+msgstr "Свойства Site-Local Unicast:"
 
 #. TRANSLATORS: Section header for unique local unicast properties
 #: src/subnetcalc.cc:714
 msgid "Unique Local Unicast Properties:"
-msgstr "Свойства уникального локального одноадресного адреса (Unique Local Unicast):"
+msgstr "Свойства Unique Local Unicast:"
 
 #. TRANSLATORS: Unique local address allocation type
 #: src/subnetcalc.cc:717
@@ -294,7 +294,7 @@ msgstr "Назначен глобальной организацией"
 #. TRANSLATORS: Section header for global unicast properties
 #: src/subnetcalc.cc:726
 msgid "Global Unicast Properties:"
-msgstr "Свойства глобального одноадресного адреса (Global Unicast):"
+msgstr "Свойства Global Unicast:"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:732
@@ -411,25 +411,25 @@ msgstr "ОШИБКА: Несовместимая маска сети {0}!"
 #: src/subnetcalc.cc:1749
 #, no-c-format, c++-format
 msgid "{0} is a MULTICAST address"
-msgstr "{0} является адресом МНОГОАДРЕСНОЙ РАССЫЛКИ (MULTICAST)"
+msgstr "{0} является адресом МНОГОАДРЕСНОЙ РАССЫЛКИ"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1755
 #, no-c-format, c++-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
-msgstr "{0} является ШИРОКОВЕЩАТЕЛЬНЫМ адресом (BROADCAST) для {1}/{2}"
+msgstr "{0} является ШИРОКОВЕЩАТЕЛЬНЫМ адресом для {1}/{2}"
 
 #. TRANSLATORS: Address property: {0} = address string
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} является адресом СЕТИ (NETWORK)"
+msgstr "{0} является адресом СЕТИ"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "{0} является адресом УЗЛА (HOST) в {1}/{2}"
+msgstr "{0} является адресом УЗЛА в {1}/{2}"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

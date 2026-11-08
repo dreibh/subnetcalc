@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 20:35+0100\n"
+"PO-Revision-Date: 2026-11-08 12:05+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Hungarian <none>\n"
 "Language: hu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,7 +111,7 @@ msgstr "Broadcast"
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
 #: src/subnetcalc.cc:531
 msgid "Wildcard Mask"
-msgstr "Helyettesítő maszk (Wildcard)"
+msgstr "Wildcard maszk"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
@@ -167,7 +167,7 @@ msgstr "Érvénytelen (nem az A, B, C vagy D osztályba tartozik)"
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Visszacsatolási cím (Loopback)"
+msgstr "Visszacsatolási cím"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
@@ -182,7 +182,7 @@ msgstr "Magán"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Helyi kapcsolatú cím (Link-local)"
+msgstr "Helyi kapcsolatú cím"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -299,17 +299,17 @@ msgstr "Globális unicast tulajdonságok:"
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:732
 msgid "Global ID"
-msgstr "Globális azonosító (Global ID)"
+msgstr "Globális azonosító"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:736
 msgid "Subnet ID"
-msgstr "Alhálózati azonosító (Subnet ID)"
+msgstr "Alhálózati azonosító"
 
 #. TRANSLATORS: IPv6 unicast property label
 #: src/subnetcalc.cc:740
 msgid "Interface ID"
-msgstr "Interfész-azonosító (Interface ID)"
+msgstr "Interfész-azonosító"
 
 #. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
 #: src/subnetcalc.cc:758
@@ -423,13 +423,13 @@ msgstr "A(z) {0} a(z) {1}/{2} BROADCAST címe"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "A(z) {0} egy HÁLÓZATI (NETWORK) cím"
+msgstr "A(z) {0} egy HÁLÓZATI cím"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
 #, no-c-format, c++-format
 msgid "{0} is a HOST address in {1}/{2}"
-msgstr "A(z) {0} egy GÉP (HOST) cím a(z) {1}/{2} hálózatban"
+msgstr "A(z) {0} egy GÉP cím a(z) {1}/{2} hálózatban"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
 #: src/subnetcalc.cc:2014 src/subnetcalc.cc:2035 src/subnetcalc.cc:2043

@@ -34,9 +34,9 @@ msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
 "POT-Creation-Date: 2026-11-06 22:13+0100\n"
-"PO-Revision-Date: 2026-11-07 19:35+0100\n"
+"PO-Revision-Date: 2026-11-08 11:48+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
-"Language-Team: none\n"
+"Language-Team: Polish <none>\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -116,7 +116,7 @@ msgstr "Maska wildcard"
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
 #: src/subnetcalc.cc:535
 msgid "Hex. Address"
-msgstr "Adres szesnastkowy"
+msgstr "Adres hex."
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
 #: src/subnetcalc.cc:539
@@ -126,7 +126,7 @@ msgstr "Bity hosta"
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
 #: src/subnetcalc.cc:543
 msgid "Max. Hosts"
-msgstr "Maks. liczba hostów"
+msgstr "Maks. hostów"
 
 #. TRANSLATORS: Output field label for the usable host address range
 #: src/subnetcalc.cc:545
@@ -167,12 +167,12 @@ msgstr "Nieprawidłowy (nie należy do klasy A, B, C ani D)"
 #. TRANSLATORS: IPv6 address property
 #: src/subnetcalc.cc:583 src/subnetcalc.cc:633
 msgid "Loopback address"
-msgstr "Adres pętli zwrotnej (loopback)"
+msgstr "Adres pętli zwrotnej"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:587
 msgid "In loopback network"
-msgstr "W sieci pętli zwrotnej (loopback)"
+msgstr "W sieci pętli zwrotnej"
 
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:591
@@ -182,7 +182,7 @@ msgstr "Prywatny"
 #. TRANSLATORS: IPv4 address property
 #: src/subnetcalc.cc:595
 msgid "Link-local address"
-msgstr "Adres łącza lokalnego (link-local)"
+msgstr "Adres łącza lokalnego"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:603 src/subnetcalc.cc:663
@@ -197,7 +197,7 @@ msgstr "organizacyjny lokalny"
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:611 src/subnetcalc.cc:667
 msgid "site-local"
-msgstr "lokalny dla ośrodka (site-local)"
+msgstr "lokalny dla ośrodka"
 
 #. TRANSLATORS: Multicast scope level
 #: src/subnetcalc.cc:615 src/subnetcalc.cc:675
@@ -306,7 +306,7 @@ msgstr "Globalny ID"
 msgid "Subnet ID"
 msgstr "ID podsieci"
 
-#. TRANSLATORS: IPv6 unicast property label
+#. TRANSLATORS: IPv6 unique local unicast property label
 #: src/subnetcalc.cc:740
 msgid "Interface ID"
 msgstr "ID interfejsu"
@@ -423,7 +423,7 @@ msgstr "{0} jest adresem BROADCAST dla {1}/{2}"
 #: src/subnetcalc.cc:1763
 #, no-c-format, c++-format
 msgid "{0} is a NETWORK address"
-msgstr "{0} jest adresem SIECI (NETWORK)"
+msgstr "{0} jest adresem SIECI"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
 #: src/subnetcalc.cc:1769
