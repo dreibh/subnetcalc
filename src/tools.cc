@@ -455,6 +455,7 @@ static bool resolveNameToAddress(const char*           targetHost,
       hints.ai_family = AF_INET6;
       if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
          hints.ai_family = AF_INET;
+         resList = nullptr;
          if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
             return false;
          }

@@ -62,17 +62,9 @@ class PropertyFormatter {
 
    friend std::ostream& operator<<(std::ostream& os, const PropertyFormatter& pf);
 
-   static size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept;
-   static size_t computeDisplayWidth(std::string_view sv) noexcept;
-
 
    // ====== Private methods ================================================
    private:
-   static char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept;
-   static bool isZeroWidth(char32_t codePoint) noexcept;
-   static bool isRegionalIndicator(char32_t codePoint) noexcept;
-   static bool isEmojiWide(char32_t codePoint) noexcept;
-   static bool isCjkWide(char32_t codePoint) noexcept;
    static void printMultilineValue(std::ostream& os, const std::string& value,
                                    size_t leadingWidth, bool rtl);
    static bool startsWithAscii(std::string_view sv) noexcept;

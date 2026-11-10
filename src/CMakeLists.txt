@@ -43,7 +43,9 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 #### LIBRARIES                                                           ####
 #############################################################################
 
-ADD_LIBRARY(libpropertyformatter STATIC propertyformatter.cc)
+ADD_LIBRARY(libpropertyformatter STATIC
+            displaywidth.cc
+            propertyformatter.cc)
 TARGET_INCLUDE_DIRECTORIES(libpropertyformatter PRIVATE
                            ${Intl_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(libpropertyformatter PRIVATE
