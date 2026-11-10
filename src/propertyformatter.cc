@@ -1,16 +1,13 @@
 // ==========================================================================
-//             ____        _     _   _      _    ____      _
-//            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
-//            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
-//             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
-//            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
-//
-//                    ---  IPv4/IPv6 Subnet Calculator  ---
-//                   https://www.nntb.no/~dreibh/subnetcalc/
+//  ___                       _        ___                   _   _
+// | _ \_ _ ___ _ __  ___ _ _| |_ _  _| __|__ _ _ _ __  __ _| |_| |_ ___ _ _
+// |  _/ '_/ _ \ '_ \/ -_) '_|  _| || | _/ _ \ '_| '  \/ _` |  _|  _/ -_) '_|
+// |_| |_| \___/ .__/\___|_|  \__|\_, |_|\___/_| |_|_|_\__,_|\__|\__\___|_|
+//             |_|                |__/
 // ==========================================================================
 //
-// SubNetCalc - IPv4/IPv6 Subnet Calculator
-// Copyright (C) 2009-2026 by Thomas Dreibholz
+// Property Formatter
+// Copyright (C) 2026 by Thomas Dreibholz
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -429,9 +426,9 @@ bool PropertyFormatter::isRegionalIndicator(char32_t codePoint) noexcept
 // ###### Wide emoji check ##################################################
 bool PropertyFormatter::isEmojiWide(char32_t codePoint) noexcept
 {
-   return ((codePoint >= 0x23e9) && (codePoint <= 0x23f3)) || // ⏱ (U+23F1 Stopwatch), timers
-          ((codePoint >= 0x23f8) && (codePoint <= 0x23fa)) || // Media controls
-          ((codePoint >= 0x2600) && (codePoint <= 0x27bf)) || // Dingbats & miscellaneous symbols
+   return ((codePoint >=  0x23e9) && (codePoint <=  0x23f3)) || // ⏱ (U+23F1 Stopwatch), timers
+          ((codePoint >=  0x23f8) && (codePoint <=  0x23fa)) || // Media controls
+          ((codePoint >=  0x2600) && (codePoint <=  0x27bf)) || // Dingbats & miscellaneous symbols
           ((codePoint >= 0x1f300) && (codePoint <= 0x1f64f)) || // Pictographs, Emoticons (🔥)
           ((codePoint >= 0x1f680) && (codePoint <= 0x1f6ff)) || // Transport, Maps (🛰, 🛡)
           ((codePoint >= 0x1f7e0) && (codePoint <= 0x1f7eb)) || // Colored geometric shapes (🟢)
@@ -443,15 +440,15 @@ bool PropertyFormatter::isEmojiWide(char32_t codePoint) noexcept
 // ###### Wide CJK Check ####################################################
 bool PropertyFormatter::isCjkWide(char32_t codePoint) noexcept
 {
-   return ((codePoint >= 0x1100) && (codePoint <= 0x115f))   || // Hangul Jamo
-          ((codePoint >= 0x2329 && codePoint <= 0x232a))   || // Angle brackets
-          ((codePoint >= 0x2e80) && (codePoint <= 0xa4cf))   || // CJK Radicals, Kanji, Katakana, Hiragana
-          ((codePoint >= 0xac00) && (codePoint <= 0xd7a3))   || // Hangul Syllables
-          ((codePoint >= 0xf900) && (codePoint <= 0xfaff))   || // CJK Compatibility
-          ((codePoint >= 0xfe10) && (codePoint <= 0xfe19))   || // Vertical forms
-          ((codePoint >= 0xfe30) && (codePoint <= 0xfe6f))   || // CJK Compatibility Forms
-          ((codePoint >= 0xff01) && (codePoint <= 0xff60))   || // Fullwidth Forms
-          ((codePoint >= 0xffe0) && (codePoint <= 0xffe6))   || // Fullwidth symbols
+   return ((codePoint >=  0x1100) && (codePoint <=  0x115f))  || // Hangul Jamo
+          ((codePoint >=  0x2329) && (codePoint <=  0x232a))  || // Angle brackets
+          ((codePoint >=  0x2e80) && (codePoint <=  0xa4cf))  || // CJK Radicals, Kanji, Katakana, Hiragana
+          ((codePoint >=  0xac00) && (codePoint <=  0xd7a3))  || // Hangul Syllables
+          ((codePoint >=  0xf900) && (codePoint <=  0xfaff))  || // CJK Compatibility
+          ((codePoint >=  0xfe10) && (codePoint <=  0xfe19))  || // Vertical forms
+          ((codePoint >=  0xfe30) && (codePoint <=  0xfe6f))  || // CJK Compatibility Forms
+          ((codePoint >=  0xff01) && (codePoint <=  0xff60))  || // Fullwidth Forms
+          ((codePoint >=  0xffe0) && (codePoint <=  0xffe6))  || // Fullwidth symbols
           ((codePoint >= 0x20000) && (codePoint <= 0x2fa1f)) || // SIP Ideographs
           ((codePoint >= 0x30000) && (codePoint <= 0x3134f));   // TIP Ideographs
 }
@@ -483,7 +480,7 @@ void PropertyFormatter::printMultilineValue(std::ostream& os, const std::string&
       }
 
       if(!line.empty()) {
-         // Technical values (IPs, formulas, brackets, error strings) start with ASCII (< 0x80)
+         // Technical values (IPs, formulas, brackets, error strings) start with ASCII (< 0x80):
          const bool valIsLTR = rtl && startsWithAscii(line);
          if(valIsLTR) {
             os << utf8Lrm << line << utf8Lrm;

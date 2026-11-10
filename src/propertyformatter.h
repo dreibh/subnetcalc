@@ -1,16 +1,13 @@
 // ==========================================================================
-//             ____        _     _   _      _    ____      _
-//            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
-//            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
-//             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
-//            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
-//
-//                    ---  IPv4/IPv6 Subnet Calculator  ---
-//                   https://www.nntb.no/~dreibh/subnetcalc/
+//  ___                       _        ___                   _   _
+// | _ \_ _ ___ _ __  ___ _ _| |_ _  _| __|__ _ _ _ __  __ _| |_| |_ ___ _ _
+// |  _/ '_/ _ \ '_ \/ -_) '_|  _| || | _/ _ \ '_| '  \/ _` |  _|  _/ -_) '_|
+// |_| |_| \___/ .__/\___|_|  \__|\_, |_|\___/_| |_|_|_\__,_|\__|\__\___|_|
+//             |_|                |__/
 // ==========================================================================
 //
-// SubNetCalc - IPv4/IPv6 Subnet Calculator
-// Copyright (C) 2009-2026 by Thomas Dreibholz
+// Property Formatter
+// Copyright (C) 2026 by Thomas Dreibholz
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
