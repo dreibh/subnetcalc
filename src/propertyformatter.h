@@ -53,9 +53,13 @@ class PropertyFormatter {
       CurrentSection++;
    }
 
-   PropertyFormatter& add(size_t level, std::string key, std::string value = "");
-   PropertyFormatter& add(std::string key, std::string value = "");
-   PropertyFormatter& addLine(size_t level, std::string text);
+   PropertyFormatter& add(size_t      level,
+                          std::string key,
+                          std::string value = "");
+   PropertyFormatter& add(std::string key,
+                          std::string value = "");
+   PropertyFormatter& addLine(size_t      level,
+                              std::string text);
 
    void print(std::ostream& os) const;
    [[nodiscard]] std::string str() const;

@@ -181,15 +181,15 @@ static bool isEmojiWide(char32_t codePoint) noexcept
 // ###### Wide CJK Check ####################################################
 static bool isCjkWide(char32_t codePoint) noexcept
 {
-   return ((codePoint >=  0x1100) && (codePoint <=  0x115f))  || // Hangul Jamo
-          ((codePoint >=  0x2329) && (codePoint <=  0x232a))  || // Angle brackets
-          ((codePoint >=  0x2e80) && (codePoint <=  0xa4cf))  || // CJK Radicals, Kanji, Katakana, Hiragana
-          ((codePoint >=  0xac00) && (codePoint <=  0xd7a3))  || // Hangul Syllables
-          ((codePoint >=  0xf900) && (codePoint <=  0xfaff))  || // CJK Compatibility
-          ((codePoint >=  0xfe10) && (codePoint <=  0xfe19))  || // Vertical forms
-          ((codePoint >=  0xfe30) && (codePoint <=  0xfe6f))  || // CJK Compatibility Forms
-          ((codePoint >=  0xff01) && (codePoint <=  0xff60))  || // Fullwidth Forms
-          ((codePoint >=  0xffe0) && (codePoint <=  0xffe6))  || // Fullwidth symbols
+   return ((codePoint >=  0x1100) && (codePoint <=  0x115f)) || // Hangul Jamo
+          ((codePoint >=  0x2329) && (codePoint <=  0x232a)) || // Angle brackets
+          ((codePoint >=  0x2e80) && (codePoint <=  0xa4cf)) || // CJK Radicals, Kanji, Katakana, Hiragana
+          ((codePoint >=  0xac00) && (codePoint <=  0xd7a3)) || // Hangul Syllables
+          ((codePoint >=  0xf900) && (codePoint <=  0xfaff)) || // CJK Compatibility
+          ((codePoint >=  0xfe10) && (codePoint <=  0xfe19)) || // Vertical forms
+          ((codePoint >=  0xfe30) && (codePoint <=  0xfe6f)) || // CJK Compatibility Forms
+          ((codePoint >=  0xff01) && (codePoint <=  0xff60)) || // Fullwidth Forms
+          ((codePoint >=  0xffe0) && (codePoint <=  0xffe6)) || // Fullwidth symbols
           ((codePoint >= 0x20000) && (codePoint <= 0x2fa1f)) || // SIP Ideographs
           ((codePoint >= 0x30000) && (codePoint <= 0x3134f));   // TIP Ideographs
 }
