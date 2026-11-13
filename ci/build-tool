@@ -7,7 +7,7 @@
 #             |____/ \__,_|_|_|\__,_|     |_|\___/ \___/|_|___/
 #
 #                           --- Build-Tools ---
-#                https://www.nntb.no/~dreibh/system-tools/
+#                  https://www.nntb.no/~dreibh/build-tools/
 # ==========================================================================
 #
 # Unified Build Tool
@@ -415,7 +415,7 @@ def readRPMPackagingInformation() -> dict[str,Any]:
       re_rpm_name    : Final[re.Pattern[str]] = re.compile(r'^(Name:[ \t]*)(\S+)')
       re_rpm_version : Final[re.Pattern[str]] = re.compile(r'^(Version:[ \t]*)(\d+)\.(\d+)\.(\d+)(.*|)')
       re_rpm_release : Final[re.Pattern[str]] = re.compile(r'^(Release:[ \t]*)(\d+)')
-      re_rpm_package : Final[re.Pattern[str]] = re.compile(r'^(%package[ \t]+)([a-zA-Z0-9+-]+)')
+      re_rpm_package : Final[re.Pattern[str]] = re.compile(r'^(%package[ \t]+)(-[a-zA-Z]* [^ ]+ )([a-zA-Z0-9+-]+)')
       try:
          rpmSpecFile         : TextIO           = open(packageInfo['rpm_spec_name'], 'r', encoding='utf-8')
          rpmSpecFileContents : Final[list[str]] = rpmSpecFile.readlines()
