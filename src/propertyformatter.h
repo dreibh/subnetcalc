@@ -1,16 +1,13 @@
 // ==========================================================================
-//             ____        _     _   _      _    ____      _
-//            / ___| _   _| |__ | \ | | ___| |_ / ___|__ _| | ___
-//            \___ \| | | | '_ \|  \| |/ _ \ __| |   / _` | |/ __|
-//             ___) | |_| | |_) | |\  |  __/ |_| |__| (_| | | (__
-//            |____/ \__,_|_.__/|_| \_|\___|\__|\____\__,_|_|\___|
-//
-//                    ---  IPv4/IPv6 Subnet Calculator  ---
-//                   https://www.nntb.no/~dreibh/subnetcalc/
+//  ___                       _        ___                   _   _
+// | _ \_ _ ___ _ __  ___ _ _| |_ _  _| __|__ _ _ _ __  __ _| |_| |_ ___ _ _
+// |  _/ '_/ _ \ '_ \/ -_) '_|  _| || | _/ _ \ '_| '  \/ _` |  _|  _/ -_) '_|
+// |_| |_| \___/ .__/\___|_|  \__|\_, |_|\___/_| |_|_|_\__,_|\__|\__\___|_|
+//             |_|                |__/
 // ==========================================================================
 //
-// SubNetCalc - IPv4/IPv6 Subnet Calculator
-// Copyright (C) 2009-2026 by Thomas Dreibholz
+// Property Formatter
+// Copyright (C) 2026 by Thomas Dreibholz
 //
 // This program is free software: you can redistribute it and/or modify
 // it under the terms of the GNU General Public License as published by
@@ -56,26 +53,22 @@ class PropertyFormatter {
       CurrentSection++;
    }
 
-   PropertyFormatter& add(size_t level, std::string key, std::string value = "");
-   PropertyFormatter& add(std::string key, std::string value = "");
-   PropertyFormatter& addLine(size_t level, std::string text);
+   PropertyFormatter& add(size_t      level,
+                          std::string key,
+                          std::string value = "");
+   PropertyFormatter& add(std::string key,
+                          std::string value = "");
+   PropertyFormatter& addLine(size_t      level,
+                              std::string text);
 
    void print(std::ostream& os) const;
    [[nodiscard]] std::string str() const;
 
    friend std::ostream& operator<<(std::ostream& os, const PropertyFormatter& pf);
 
-   static size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept;
-   static size_t computeDisplayWidth(std::string_view sv) noexcept;
-
 
    // ====== Private methods ================================================
    private:
-   static char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept;
-   static bool isZeroWidth(char32_t codePoint) noexcept;
-   static bool isRegionalIndicator(char32_t codePoint) noexcept;
-   static bool isEmojiWide(char32_t codePoint) noexcept;
-   static bool isCjkWide(char32_t codePoint) noexcept;
    static void printMultilineValue(std::ostream& os, const std::string& value,
                                    size_t leadingWidth, bool rtl);
    static bool startsWithAscii(std::string_view sv) noexcept;

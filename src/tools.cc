@@ -423,6 +423,146 @@ static bool parseIPv4Shorthand(std::string_view str, struct in_addr* out)
 #endif
 
 
+#if !defined(_WIN32)
+// ###### Resolve name to address (POSIX via getaddrinfo) ###################
+static bool resolveNameToAddress(const char*           targetHost,
+                                 union sockaddr_union* address,
+                                 const uint16_t        portNumber,
+                                 const int             addressFamily)
+{
+   struct addrinfo hints { };
+   hints.ai_socktype = SOCK_DGRAM;
+#ifdef AI_IDN
+   hints.ai_flags    = AI_IDN;
+#endif
+
+   struct addrinfo* resList = nullptr;
+
+   if(addressFamily == AF_INET) {
+      hints.ai_family = AF_INET;
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+         return false;
+      }
+   }
+   else if(addressFamily == AF_INET6) {
+      hints.ai_family = AF_INET6;
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+         return false;
+      }
+   }
+   else {
+      // AF_UNSPEC: Try IPv6 first, then fall back to IPv4
+      hints.ai_family = AF_INET6;
+      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+         hints.ai_family = AF_INET;
+         resList = nullptr;
+         if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
+            return false;
+         }
+      }
+   }
+
+   std::memset(address, 0, sizeof(union sockaddr_union));
+   std::memcpy(address, resList->ai_addr, resList->ai_addrlen);
+
+   if(address->sa.sa_family == AF_INET) {
+      address->in.sin_port = htons(portNumber);
+   }
+   else if(address->sa.sa_family == AF_INET6) {
+      address->in6.sin6_port = htons(portNumber);
+   }
+
+   freeaddrinfo(resList);
+   return true;
+}
+
+#else
+// ###### Resolve name to address (Windows via DnsQuery / getaddrinfo) ######
+static bool resolveNameToAddress(const char*           targetHost,
+                                 union sockaddr_union* address,
+                                 const uint16_t        portNumber,
+                                 const int             addressFamily)
+{
+   auto queryDnsRecord = [&](WORD type) -> bool {
+      PDNS_RECORD pDnsRecord = nullptr;
+      const DNS_STATUS status = DnsQuery_A(
+         targetHost,
+         type,
+         DNS_QUERY_STANDARD,
+         nullptr,
+         &pDnsRecord,
+         nullptr
+      );
+
+      if((status == ERROR_SUCCESS) && (pDnsRecord != nullptr)) {
+         for(PDNS_RECORD curr = pDnsRecord; curr != nullptr; curr = curr->pNext) {
+            if(curr->wType == type) {
+               std::memset(address, 0, sizeof(union sockaddr_union));
+               if(type == DNS_TYPE_AAAA) {
+                  address->in6.sin6_family = AF_INET6;
+                  std::memcpy(&address->in6.sin6_addr,
+                              &curr->Data.AAAA.Ip6Address,
+                              sizeof(struct in6_addr));
+                  address->in6.sin6_port = htons(portNumber);
+               }
+               else if(type == DNS_TYPE_A) {
+                  address->in.sin_family      = AF_INET;
+                  address->in.sin_addr.s_addr = curr->Data.A.IpAddress;
+                  address->in.sin_port        = htons(portNumber);
+               }
+               DnsRecordListFree(pDnsRecord, DnsFreeRecordList);
+               return true;
+            }
+         }
+         DnsRecordListFree(pDnsRecord, DnsFreeRecordList);
+      }
+      return false;
+   };
+
+   // 1. Query DNS records directly (bypasses Winsock AAAA route suppression)
+   if(addressFamily == AF_INET) {
+      if(queryDnsRecord(DNS_TYPE_A)) {
+         return true;
+      }
+   }
+   else if(addressFamily == AF_INET6) {
+      if(queryDnsRecord(DNS_TYPE_AAAA)) {
+         return true;
+      }
+   }
+   else {
+      // AF_UNSPEC: Try IPv6 first, then IPv4
+      if(queryDnsRecord(DNS_TYPE_AAAA)) {
+         return true;
+      }
+      if(queryDnsRecord(DNS_TYPE_A)) {
+         return true;
+      }
+   }
+
+   // 2. Fallback to getaddrinfo for local hostnames (e.g., localhost, NetBIOS, hosts file)
+   struct addrinfo hints { };
+   hints.ai_socktype = SOCK_DGRAM;
+   hints.ai_family   = addressFamily;
+   struct addrinfo* resList = nullptr;
+   if((getaddrinfo(targetHost, nullptr, &hints, &resList) == 0) && (resList != nullptr)) {
+      std::memset(address, 0, sizeof(union sockaddr_union));
+      std::memcpy(address, resList->ai_addr, resList->ai_addrlen);
+      if(address->sa.sa_family == AF_INET) {
+         address->in.sin_port = htons(portNumber);
+      }
+      else if(address->sa.sa_family == AF_INET6) {
+         address->in6.sin6_port = htons(portNumber);
+      }
+      freeaddrinfo(resList);
+      return true;
+   }
+
+   return false;
+}
+#endif
+
+
 // ###### Convert string to address #########################################
 bool string2address(std::string_view      string,
                     union sockaddr_union* address,
@@ -499,13 +639,7 @@ bool string2address(std::string_view      string,
 #endif
    }
 
-   // ====== Resolve domain name =============================================
-   struct addrinfo hints { };
-   hints.ai_socktype = SOCK_DGRAM;
-#ifdef AI_IDN
-   hints.ai_flags    = AI_IDN;
-#endif
-
+   // ====== Resolve name to address ========================================
    char* punycode = nullptr;
 #ifndef AI_IDN
    if(idn2_to_ascii_8z(hostStr.c_str(), &punycode, IDN2_NONTRANSITIONAL) != IDN2_OK) {
@@ -515,97 +649,14 @@ bool string2address(std::string_view      string,
    }
 #endif
    const char* targetHost = (punycode != nullptr) ? punycode : hostStr.c_str();
+   const bool success     =
+      resolveNameToAddress(targetHost, address, portNumber, addressFamily);
 
-   auto cleanupPunycode = [&]() {
 #ifndef AI_IDN
-      if(punycode != nullptr) {
-         idn2_free(punycode);
-         punycode = nullptr;
-      }
+   if(punycode != nullptr) {
+      idn2_free(punycode);
+   }
 #endif
-   };
 
-   struct addrinfo* resList = nullptr;
-
-   if(addressFamily == AF_INET) {
-      hints.ai_family = AF_INET;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0) {
-         cleanupPunycode();
-         return false;
-      }
-   }
-   else if(addressFamily == AF_INET6) {
-      hints.ai_family = AF_INET6;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0) {
-#if defined(_WIN32)
-         // Windows without an IPv6 route suppresses AAAA queries via getaddrinfo.
-         // Fall back to querying the DNS API directly.
-         PDNS_RECORD pDnsRecord = nullptr;
-         const DNS_STATUS status = DnsQuery_A(
-            targetHost,
-            DNS_TYPE_AAAA,
-            DNS_QUERY_STANDARD,
-            nullptr,
-            &pDnsRecord,
-            nullptr
-         );
-
-         if(status == ERROR_SUCCESS && pDnsRecord != nullptr) {
-            bool found = false;
-            for(PDNS_RECORD curr = pDnsRecord; curr != nullptr; curr = curr->pNext) {
-               if(curr->wType == DNS_TYPE_AAAA) {
-                  std::memset(address, 0, sizeof(union sockaddr_union));
-                  address->in6.sin6_family = AF_INET6;
-                  std::memcpy(&address->in6.sin6_addr,
-                              &curr->Data.AAAA.Ip6Address,
-                              sizeof(struct in6_addr));
-                  address->in6.sin6_port = htons(portNumber);
-                  found = true;
-                  break;
-               }
-            }
-            DnsRecordListFree(pDnsRecord, DnsFreeRecordList);
-            cleanupPunycode();
-            return found;
-         }
-#endif
-         cleanupPunycode();
-         return false;
-      }
-   }
-   else {
-      // AF_UNSPEC: Try IPv6 first, then IPv4
-      hints.ai_family = AF_INET6;
-      resList = nullptr;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-         hints.ai_family = AF_INET;
-         resList = nullptr;
-         if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-            cleanupPunycode();
-            return false;
-         }
-      }
-   }
-
-   cleanupPunycode();
-
-   if(resList == nullptr || resList->ai_addr == nullptr) {
-      if(resList != nullptr) {
-         freeaddrinfo(resList);
-      }
-      return false;
-   }
-
-   std::memset(address, 0, sizeof(union sockaddr_union));
-   std::memcpy(address, resList->ai_addr, resList->ai_addrlen);
-
-   if(address->sa.sa_family == AF_INET) {
-      address->in.sin_port = htons(portNumber);
-   }
-   else if(address->sa.sa_family == AF_INET6) {
-      address->in6.sin6_port = htons(portNumber);
-   }
-
-   freeaddrinfo(resList);
-   return true;
+   return success;
 }
