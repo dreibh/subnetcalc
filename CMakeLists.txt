@@ -31,8 +31,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 3.12)
 SET(BUILD_MAJOR "2")
 SET(BUILD_MINOR "7")
 SET(BUILD_PATCH "6")
+STRING(REGEX MATCH "^[0-9]+(\\.[0-9]+)?(\\.[0-9]+)?(\\.[0-9]+)?" CMAKE_COMPAT_VERSION "${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH}")
 PROJECT(subnetcalc
-        VERSION      "${BUILD_MAJOR}.${BUILD_MINOR}.${BUILD_PATCH}"
+        VERSION      "${CMAKE_COMPAT_VERSION}"
         LANGUAGES    C CXX
         HOMEPAGE_URL "https://www.nntb.no/~dreibh/subnetcalc")
 SET(PROJECT_SOURCE_URL "https://github.com/dreibh/subnetcalc")
