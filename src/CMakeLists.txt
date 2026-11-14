@@ -46,8 +46,8 @@ INCLUDE_DIRECTORIES(${CMAKE_CURRENT_BINARY_DIR})
 ADD_LIBRARY(libpropertyformatter STATIC
             displaywidth.cc
             propertyformatter.cc)
-TARGET_INCLUDE_DIRECTORIES(libpropertyformatter PRIVATE
-                           ${Intl_INCLUDE_DIRS})
+TARGET_INCLUDE_DIRECTORIES(libpropertyformatter
+                           PRIVATE ${Intl_INCLUDE_DIRS})
 TARGET_LINK_LIBRARIES(libpropertyformatter PRIVATE
                       ${Intl_LIBRARIES})
 
@@ -60,21 +60,21 @@ ADD_EXECUTABLE(subnetcalc
    subnetcalc.cc
    tools.cc
 )
-TARGET_INCLUDE_DIRECTORIES(subnetcalc PRIVATE
-                           ${Intl_INCLUDE_DIRS}
-                           ${LIBIBERTY_INCLUDE_DIR}
-                           ${MAXMINDDB_INCLUDE_DIR}
-                           ${LIBIDN2_INCLUDE_DIR}
-                           ${GETOPT_INCLUDE_DIR})
-TARGET_LINK_LIBRARIES(subnetcalc PRIVATE
-                      libpropertyformatter
-                      ${Intl_LIBRARIES}
-                      ${LIBIBERTY_LIBRARY}
-                      ${LIBIDN2_LIBRARY}
-                      ${MAXMINDDB_LIBRARY}
-                      ${SOCKET_LIBRARY}
-                      ${NSL_LIBRARY}
-                      ${GETOPT_LIBRARY})
+TARGET_INCLUDE_DIRECTORIES(subnetcalc
+                           PRIVATE ${Intl_INCLUDE_DIRS}
+                                   ${LIBIBERTY_INCLUDE_DIR}
+                                   ${MAXMINDDB_INCLUDE_DIR}
+                                   ${LIBIDN2_INCLUDE_DIR}
+                                   ${GETOPT_INCLUDE_DIR})
+TARGET_LINK_LIBRARIES(subnetcalc
+                      PRIVATE libpropertyformatter
+                              ${Intl_LIBRARIES}
+                              ${LIBIBERTY_LIBRARY}
+                              ${LIBIDN2_LIBRARY}
+                              ${MAXMINDDB_LIBRARY}
+                              ${SOCKET_LIBRARY}
+                              ${NSL_LIBRARY}
+                              ${GETOPT_LIBRARY})
 IF (WIN32)
    TARGET_LINK_LIBRARIES(subnetcalc PRIVATE ws2_32 dnsapi iphlpapi)
 ENDIF()
