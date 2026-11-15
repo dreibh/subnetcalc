@@ -36,7 +36,9 @@ PROJECT(subnetcalc
         VERSION      "${CMAKE_COMPAT_VERSION}"
         LANGUAGES    C CXX
         HOMEPAGE_URL "https://www.nntb.no/~dreibh/subnetcalc")
-SET(PROJECT_SOURCE_URL "https://github.com/dreibh/subnetcalc")
+SET(PROJECT_SOURCE_URL     "https://github.com/dreibh/subnetcalc")
+SET(PROJECT_BUGTRACKER_URL "https://github.com/dreibh/subnetcalc/issues")
+SET(PROJECT_COPYRIGHT      "Copyright (C) 2009-2027 by Thomas Dreibholz")
 
 set(CMAKE_CXX_STANDARD          20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)

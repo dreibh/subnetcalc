@@ -32,9 +32,6 @@
 #### TRANSLATIONS                                                        ####
 #############################################################################
 
-SET(copyrightHolder   "Copyright (C) 2009-2027 by Thomas Dreibholz")
-SET(bugTrackerAddress "https://github.com/dreibh/subnetcalc/issues")
-
 FILE(GLOB sources "*.sources")
 
 # ====== Find all text domains ==============================================
@@ -51,8 +48,8 @@ FOREACH(source IN LISTS sources)
       --default-domain="${textdomain}"
       --package-name="${PROJECT_NAME}"
       --package-version="${PROJECT_VERSION}"
-      --copyright-holder="${copyrightHolder}"
-      --msgid-bugs-address="${bugTrackerAddress}"
+      --copyright-holder="${PROJECT_COPYRIGHT}"
+      --msgid-bugs-address="${PROJECT_BUGTRACKER_URL}"
       --keyword=_
       --keyword=gettext
       --keyword=ngettext:1,2
