@@ -156,16 +156,16 @@ void PropertyFormatter::print(std::ostream& os) const
    for(const auto& entry : Entries) {
       if(!entry.hasSeparator) {
          if(IsRtl) {
-            // Space + RLM binds the RTL mark to cell 0, forcing RTL paragraph direction:
             const size_t totalIndentWidth = entry.level * computeDisplayWidth(Indent);
             if(totalIndentWidth > 0) {
+               // Space + RLM binds the RTL mark to cell 0, forcing RTL paragraph direction:
                os << ' ' << utf8Rlm;
                for(size_t i = 1; i < totalIndentWidth; ++i) {
                   os << ' ';
                }
             }
             else {
-               os << ' ' << utf8Rlm;
+               os << utf8Rlm;
             }
 
             if(entry.level < Prefixes.size()) {
@@ -181,7 +181,11 @@ void PropertyFormatter::print(std::ostream& os) const
             }
          }
 
-         os << entry.key << '\n';
+         os << entry.key;
+         if(IsRtl) {
+            os << utf8Rlm;
+         }
+         os << '\n';
          continue;
       }
 
@@ -207,16 +211,25 @@ void PropertyFormatter::print(std::ostream& os) const
       }
 
       if(entry.value.empty()) {
-         os << ' ' << Separator << '\n';
+         if(!Separator.empty()) {
+            os << ' ' << Separator;
+         }
+         os << '\n';
       }
       else {
-         os << ' ' << Separator << ' ';
+         if(!Separator.empty()) {
+            os << ' ' << Separator << ' ';
+         }
+         else {
+            os << ' ';
+         }
 
-         const size_t prefixWidth  = (entry.level < Prefixes.size()) ?
+         const size_t prefixWidth    = (entry.level < Prefixes.size()) ?
             computeDisplayWidth(Prefixes[entry.level]) : 0;
-         const size_t indentWidth  = entry.level * computeDisplayWidth(Indent);
-         const size_t leadingWidth = indentWidth + prefixWidth + maxKeyWidth +
-                                        1 + computeDisplayWidth(Separator) + 1;
+         const size_t indentWidth    = entry.level * computeDisplayWidth(Indent);
+         const size_t separatorWidth = Separator.empty() ?
+            1 : (1 + computeDisplayWidth(Separator) + 1);
+         const size_t leadingWidth   = indentWidth + prefixWidth + maxKeyWidth + separatorWidth;
 
          printMultilineValue(os, entry.value, leadingWidth, IsRtl);
       }
