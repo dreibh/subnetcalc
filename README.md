@@ -9,9 +9,9 @@
 
 # 💡 What is SubNetCalc?
 
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.).
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.). In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML) via the `-F` / `--format` option.
 
-In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML) via the `-F` / `--format` option.
+SubNetCalc provides internationalisation&nbsp;(i18n) support using [GNU gettext](https://www.gnu.org/software/gettext/). That is, translation files for the output of the programs are supported. You can support the project by contributing translations for your language. See [Internationalisation&nbsp;(I18N)](#internationalisation) for details!
 
 
 # 😀 Examples
@@ -368,32 +368,32 @@ See [https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release](https://www
 
 # 🌏 Internationalisation
 
-To provide a translation of SubNetCalc into your language, apply the following steps:
+To provide a translation of one or more components of NetPerfMeter into your language, apply the following steps:
 
-1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e.&nbsp;use the "master" branch with the latest development version. The build will create a `.pot` (translation template) file under [`po`](po).
+1. Build NetPerfMeter from the Git sources (see [Development Version](#development-version)), i.e., use the "master" branch with the latest development version. The build will create `.pot` (translation template files) under [`po`](po).
 
-2. Create a new Git branch for your translations, e.g.&nbsp;`my_username/translations_language_XX` (with `XX` the language code for your language, e.g. `da` for Danish):
+2. Create a new Git branch for your translations, e.g., `my_username/translations_language_XX` (where `XX` is the language code for your language, e.g., `da` for Danish):
 
    ```bash
    git branch my_username/translations_language_XX
    git checkout my_username/translations_language_XX
    ```
 
-3. Take a look at the existing `.po` files (translations files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g.&nbsp;[`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for your language `XX` under [`po`](po):
+3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g., [`po/de/netperfmeter.po`](po/de/netperfmeter.po) or [`po/nb/netperfmeter.po`](po/nb/netperfmeter.po) for netperfmeter. Then, prepare a translation for program `PROGRAM` (e.g., netperfmeter; see the name of the `.pot` translation template file) for your language `XX` under [`po`](po):
 
    ```bash
    mkdir -p XX
-   msginit --input subnetcalc.pot \
+   msginit --input PROGRAM.pot \
            --locale XX.UTF-8 \
-           --output-file XX/subnetcalc.po
-   git add XX/subnetcalc.po
+           --output-file XX/PROGRAM.po
+   git add XX/PROGRAM.po
    ```
 
-4. Add your translations into `XX/subnetcalc.po`, with a text editor or PO file editor like [Poedit](https://poedit.com/).
+4. Add your translations into `XX/PROGRAM.po`, with a text editor or PO file editor like [Poedit](https://poedit.com/).
 
 5. Test, commit and push your changes.
 
-6. Finally, make a pull request: [https://github.com/dreibh/subnetcalc/pulls](https://github.com/dreibh/subnetcalc/pulls).
+6. Finally, make a pull request: [https://github.com/dreibh/netperfmeter/pulls](https://github.com/dreibh/netperfmeter/pulls).
 
 
 # 🔗 Useful Links
