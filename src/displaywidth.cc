@@ -74,7 +74,7 @@ size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept
 
 
 // ###### Decode UTF-8 Code Point ###########################################
-static char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept
+char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept
 {
    const auto byte0 = static_cast<unsigned char>(sv[offset]);
    if(byte0 < 0x80) {

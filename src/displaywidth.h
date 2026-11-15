@@ -31,6 +31,7 @@
 #include <string_view>
 
 size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept;
+char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept;
 size_t computeDisplayWidth(std::string_view sv) noexcept;
 
 #endif // DISPLAYWIDTH_H

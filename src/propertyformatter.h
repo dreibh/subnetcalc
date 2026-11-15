@@ -71,7 +71,8 @@ class PropertyFormatter {
    private:
    static void printMultilineValue(std::ostream& os, const std::string& value,
                                    size_t leadingWidth, bool rtl);
-   static bool startsWithAscii(std::string_view sv) noexcept;
+   static bool isRtlCodePoint(char32_t codePoint) noexcept;
+   static bool isLtrValue(std::string_view sv) noexcept;
    static std::string sanitizeBidiBrackets(std::string_view sv, bool isRtl);
 
 

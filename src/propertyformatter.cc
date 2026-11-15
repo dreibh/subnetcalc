@@ -283,8 +283,9 @@ void PropertyFormatter::printMultilineValue(std::ostream&      os,
       }
 
       if(!line.empty()) {
-         // Technical values (IPs, formulas, brackets, error strings) start with ASCII (< 0x80):
-         const bool valIsLTR = rtl && startsWithAscii(line);
+         // Pure technical/ASCII values (IPs, formulas, untranslated strings) get LRM isolation;
+         // localized strings containing RTL script characters keep natural RTL flow:
+         const bool valIsLTR = rtl && isLtrValue(line);
          if(valIsLTR) {
             os << utf8Lrm << line << utf8Lrm;
          }
@@ -298,16 +299,34 @@ void PropertyFormatter::printMultilineValue(std::ostream&      os,
 }
 
 
-// ###### Check if string starts with ASCII character #######################
-bool PropertyFormatter::startsWithAscii(std::string_view sv) noexcept
+// ###### Check if code point belongs to an RTL script ######################
+bool PropertyFormatter::isRtlCodePoint(char32_t codePoint) noexcept
 {
-   size_t offset = 0;
+   return ((codePoint >= 0x0590) && (codePoint <= 0x08ff)) || // Hebrew, Arabic, Syriac, Thaana, etc.
+          ((codePoint >= 0xfb1d) && (codePoint <= 0xfdff)) || // Hebrew & Arabic Presentation Forms-A
+          ((codePoint >= 0xfe70) && (codePoint <= 0xfeff));   // Arabic Presentation Forms-B
+}
+
+
+// ###### Check if value line is purely LTR (no RTL characters) #############
+bool PropertyFormatter::isLtrValue(std::string_view sv) noexcept
+{
+   bool   hasAscii = false;
+   size_t offset   = 0;
+
    while(offset < sv.size()) {
       if(sv[offset] == 0x1b) {
          offset = skipAnsiSequence(sv, offset);
          continue;
       }
-      return static_cast<unsigned char>(sv[offset]) < 0x80;
+
+      const char32_t codePoint = decodeNextUtf8(sv, offset);
+      if(isRtlCodePoint(codePoint)) {
+         return false;
+      }
+      if(!hasAscii && (codePoint > 0x20) && (codePoint < 0x80)) {
+         hasAscii = true;
+      }
    }
-   return false;
+   return hasAscii;
 }
