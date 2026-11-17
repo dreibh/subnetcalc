@@ -82,22 +82,26 @@ char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept
       return byte0;
    }
    if(((byte0 & 0xe0) == 0xc0) && (offset + 1 < sv.size())) {
-      const char32_t codePoint = ((byte0 & 0x1f) << 6) | (static_cast<unsigned char>(sv[offset + 1]) & 0x3f);
+      const char32_t codePoint =
+         static_cast<char32_t>(((byte0 & 0x1f) << 6) |
+                               (static_cast<unsigned char>(sv[offset + 1]) & 0x3f));
       offset += 2;
       return codePoint;
    }
    if(((byte0 & 0xf0) == 0xe0) && (offset + 2 < sv.size())) {
-      const char32_t codePoint = ((byte0 & 0x0f) << 12) |
-                                 ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 6) |
-                                 (static_cast<unsigned char>(sv[offset + 2]) & 0x3f);
+      const char32_t codePoint =
+         static_cast<char32_t>(((byte0 & 0x0f) << 12) |
+                               ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 6) |
+                               (static_cast<unsigned char>(sv[offset + 2]) & 0x3f));
       offset += 3;
       return codePoint;
    }
    if(((byte0 & 0xf8) == 0xf0) && (offset + 3 < sv.size())) {
-      const char32_t codePoint = ((byte0 & 0x07) << 18) |
-                                 ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 12) |
-                                 ((static_cast<unsigned char>(sv[offset + 2]) & 0x3f) << 6) |
-                                 (static_cast<unsigned char>(sv[offset + 3]) & 0x3f);
+      const char32_t codePoint =
+         static_cast<char32_t>(((byte0 & 0x07) << 18) |
+                               ((static_cast<unsigned char>(sv[offset + 1]) & 0x3f) << 12) |
+                               ((static_cast<unsigned char>(sv[offset + 2]) & 0x3f) << 6) |
+                               (static_cast<unsigned char>(sv[offset + 3]) & 0x3f));
       offset += 4;
       return codePoint;
    }
