@@ -431,39 +431,36 @@ static bool resolveNameToAddress(const char*           targetHost,
                                  const int             addressFamily)
 {
    struct addrinfo hints { };
+   hints.ai_family   = addressFamily;
    hints.ai_socktype = SOCK_DGRAM;
 #ifdef AI_IDN
    hints.ai_flags    = AI_IDN;
 #endif
 
    struct addrinfo* resList = nullptr;
+   if((getaddrinfo(targetHost, nullptr, &hints, &resList) != 0) || (resList == nullptr)) {
+      return false;
+   }
 
-   if(addressFamily == AF_INET) {
-      hints.ai_family = AF_INET;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-         return false;
+   // Prefer IPv6 over IPv4 when AF_UNSPEC is requested
+   const struct addrinfo* chosen = nullptr;
+   for(const struct addrinfo* rp = resList; rp != nullptr; rp = rp->ai_next) {
+      if(rp->ai_family == AF_INET6) {
+         chosen = rp;
+         break;
+      }
+      if((chosen == nullptr) && (rp->ai_family == AF_INET)) {
+         chosen = rp;
       }
    }
-   else if(addressFamily == AF_INET6) {
-      hints.ai_family = AF_INET6;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-         return false;
-      }
-   }
-   else {
-      // AF_UNSPEC: Try IPv6 first, then fall back to IPv4
-      hints.ai_family = AF_INET6;
-      if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-         hints.ai_family = AF_INET;
-         resList = nullptr;
-         if(getaddrinfo(targetHost, nullptr, &hints, &resList) != 0 || resList == nullptr) {
-            return false;
-         }
-      }
+
+   if(chosen == nullptr) {
+      freeaddrinfo(resList);
+      return false;
    }
 
    std::memset(address, 0, sizeof(union sockaddr_union));
-   std::memcpy(address, resList->ai_addr, resList->ai_addrlen);
+   std::memcpy(address, chosen->ai_addr, chosen->ai_addrlen);
 
    if(address->sa.sa_family == AF_INET) {
       address->in.sin_port = htons(portNumber);
