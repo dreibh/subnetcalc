@@ -32,24 +32,26 @@
 #### TRANSLATIONS                                                        ####
 #############################################################################
 
-FILE(GLOB sources "*.sources")
+SET(FIX_POT_CHARSET_SCRIPT   "${PROJECT_SOURCE_DIR}/cmake/fix-pot-charset.cmake")
+SET(CHECK_PO_LANGUAGE_SCRIPT "${PROJECT_SOURCE_DIR}/cmake/check-po-language.cmake")
+
+FILE(GLOB sources CONFIGURE_DEPENDS "*.sources")
 
 # ====== Find all text domains ==============================================
 FOREACH(source IN LISTS sources)
    # The .sources file lists the source files for each text domain:
-   GET_FILENAME_COMPONENT(potFile "${source}" NAME_WE)
-   SET(potFile "${CMAKE_CURRENT_BINARY_DIR}/${potFile}.pot")
    GET_FILENAME_COMPONENT(textdomain "${source}" NAME_WE)
+   SET(potFile "${CMAKE_CURRENT_BINARY_DIR}/${textdomain}.pot")
 
    # ====== Common xgettext extraction flags and keywords ===================
    SET(xgettextCommonOptions
       --from-code=utf-8
       --add-comments=TRANSLATORS:
-      --default-domain="${textdomain}"
-      --package-name="${PROJECT_NAME}"
-      --package-version="${PROJECT_VERSION}"
-      --copyright-holder="${PROJECT_COPYRIGHT}"
-      --msgid-bugs-address="${PROJECT_BUGTRACKER_URL}"
+      "--default-domain=${textdomain}"
+      "--package-name=${PROJECT_NAME}"
+      "--package-version=${PROJECT_VERSION}"
+      "--copyright-holder=${PROJECT_COPYRIGHT}"
+      "--msgid-bugs-address=${PROJECT_BUGTRACKER_URL}"
       --keyword=_
       --keyword=gettext
       --keyword=ngettext:1,2
@@ -106,55 +108,81 @@ FOREACH(source IN LISTS sources)
 
    # Ensure UTF-8 charset header in generated template:
    LIST(APPEND xgettextCommands
-      COMMAND sed -e "s/charset=CHARSET/charset=UTF-8/g" -i~ "${potFile}"
+      COMMAND "${CMAKE_COMMAND}" -D "POT_FILE=${potFile}" -P "${FIX_POT_CHARSET_SCRIPT}"
    )
 
-   MESSAGE("Translation template: ${textdomain} (${source} -> ${potFile})")
+   MESSAGE(STATUS "Translation template: ${textdomain} (${source} -> ${potFile})")
    ADD_CUSTOM_COMMAND(OUTPUT "${potFile}"
                       ${xgettextCommands}
                       WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                      DEPENDS ${potInputFilesForDependency} "${source}"
+                      DEPENDS ${potInputFilesForDependency} "${source}" "${FIX_POT_CHARSET_SCRIPT}"
                       VERBATIM)
    SET(generate_PotFile "generate_pot_${textdomain}")
    ADD_CUSTOM_TARGET(${generate_PotFile} ALL DEPENDS "${potFile}")
 
 
    # ====== Process PO files (translations) =================================
-   FILE(GLOB_RECURSE poFiles "*/${textdomain}.po")
+   FILE(GLOB_RECURSE poFiles CONFIGURE_DEPENDS "*/${textdomain}.po")
    FOREACH(poFile IN LISTS poFiles)
 
-      # ====== Update PO file (translation) =================================
+      # ====== Verify that PO file Language header matches directory ========
       GET_FILENAME_COMPONENT(languageDirectory "${poFile}" DIRECTORY)
-      GET_FILENAME_COMPONENT(language "${languageDirectory}" NAME "${CMAKE_CURRENT_SOURCE_DIR}")
-      SET(poStampFile "${CMAKE_CURRENT_BINARY_DIR}/${language}/.${textdomain}.po.stamp")
+      GET_FILENAME_COMPONENT(language "${languageDirectory}" NAME)
 
-      MESSAGE("Translation update: ${textdomain}, ${language} (${potFile} -> ${poFile})")
-      # The .po file cannot be OUTPUT, since "make clean" would then delete it
-      # => Using a stamp file as placeholder to ensure the dependency.
-      ADD_CUSTOM_COMMAND(OUTPUT "${poStampFile}"
+      FILE(STRINGS "${poFile}" poLanguageLines REGEX "^\"Language:")
+      SET(poLanguageMatched FALSE)
+      FOREACH(poLangLine IN LISTS poLanguageLines)
+         IF(poLangLine MATCHES "^\"Language:[ \t]*${language}[ \t]*\\\\n\"$")
+            SET(poLanguageMatched TRUE)
+         ENDIF()
+      ENDFOREACH()
+      IF(NOT poLanguageMatched)
+         MESSAGE(FATAL_ERROR
+            "Language mismatch in ${poFile}: directory is '${language}', "
+            "found header: ${poLanguageLines} (expected '\"Language: ${language}\\n\"')!")
+      ENDIF()
+
+
+      # ====== Copy and update PO file in build directory ===================
+      SET(mergedPoDir "${CMAKE_CURRENT_BINARY_DIR}/${language}")
+      SET(mergedPoFile "${mergedPoDir}/${textdomain}.merged.po")
+
+      MESSAGE(STATUS "Translation update: ${textdomain}, ${language} (${poFile} + ${potFile} -> ${mergedPoFile})")
+      ADD_CUSTOM_COMMAND(OUTPUT "${mergedPoFile}"
+                         COMMAND "${CMAKE_COMMAND}"
+                            -D "PO_FILE=${poFile}"
+                            -D "EXPECTED_LANGUAGE=${language}"
+                            -P "${CHECK_PO_LANGUAGE_SCRIPT}"
+                         COMMAND "${CMAKE_COMMAND}" -E make_directory "${mergedPoDir}"
+                         COMMAND "${CMAKE_COMMAND}" -E copy "${poFile}" "${mergedPoFile}"
                          COMMAND "${MSGMERGE}"
-                            --update "${poFile}" "${potFile}"
+                            --update
+                            --backup=none
                             --no-wrap
-                         COMMAND touch "${poStampFile}"
+                            "${mergedPoFile}"
+                            "${potFile}"
                          WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                         DEPENDS ${generate_PotFile} "${potFile}")
+                         DEPENDS ${generate_PotFile} "${potFile}" "${poFile}" "${CHECK_PO_LANGUAGE_SCRIPT}"
+                         VERBATIM)
       SET(generate_PoFile "generate_po_${textdomain}_${language}")
-      ADD_CUSTOM_TARGET(${generate_PoFile} DEPENDS "${poStampFile}")
+      ADD_CUSTOM_TARGET(${generate_PoFile} DEPENDS "${mergedPoFile}")
 
 
-      # ====== Compile PO file to MO file ===================================
-      FILE(MAKE_DIRECTORY "${CMAKE_CURRENT_BINARY_DIR}/${language}/LC_MESSAGES")
-      SET(moFile "${CMAKE_CURRENT_BINARY_DIR}/${language}/LC_MESSAGES/${textdomain}.mo")
+      # ====== Compile merged PO file to MO file ============================
+      SET(moDir "${CMAKE_CURRENT_BINARY_DIR}/${language}/LC_MESSAGES")
+      SET(moFile "${moDir}/${textdomain}.mo")
 
-      MESSAGE("Compiling translation: ${textdomain}, ${language} (${poFile} -> ${moFile})")
+      MESSAGE(STATUS "Compiling translation: ${textdomain}, ${language} (${mergedPoFile} -> ${moFile})")
       ADD_CUSTOM_COMMAND(OUTPUT "${moFile}"
+                         COMMAND "${CMAKE_COMMAND}" -E make_directory "${moDir}"
                          COMMAND "${MSGFMT}"
                             --statistics
                             --check
-                            --output-file="${moFile}"
-                            ${poFile}
+                            "--output-file=${moFile}"
+                            "${mergedPoFile}"
                          WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-                         DEPENDS ${generate_PoFile} "${poFile}")
+                         DEPENDS ${generate_PoFile} "${mergedPoFile}"
+                         VERBATIM)
       SET(generate_MoFile "generate_mo_${textdomain}_${language}")
       ADD_CUSTOM_TARGET(${generate_MoFile} ALL DEPENDS "${moFile}")
 
