@@ -31,7 +31,26 @@
 #include <string_view>
 
 size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept;
-char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept;
-size_t computeDisplayWidth(std::string_view sv) noexcept;
+char32_t decodeNextCodePoint(std::string_view sv, size_t& offset) noexcept;
+void computeStringWidth(std::string_view sv,
+                        size_t&          displayWidth,
+                        size_t&          codePointCount,
+                        size_t*          byteCount = nullptr) noexcept;
+
+[[nodiscard]] inline size_t computeDisplayWidth(std::string_view sv) noexcept
+{
+   size_t displayWidth   = 0;
+   size_t codePointCount = 0;
+   computeStringWidth(sv, displayWidth, codePointCount);
+   return displayWidth;
+}
+
+[[nodiscard]] inline size_t computeCodePointCount(std::string_view sv) noexcept
+{
+   size_t displayWidth   = 0;
+   size_t codePointCount = 0;
+   computeStringWidth(sv, displayWidth, codePointCount);
+   return codePointCount;
+}
 
 #endif // DISPLAYWIDTH_H

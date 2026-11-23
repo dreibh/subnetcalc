@@ -25,7 +25,7 @@
 // Contact: thomas.dreibholz@gmail.com
 
 #include "propertyformatter.h"
-#include "displaywidth.h"
+#include <displaywidth.h>
 
 #include <algorithm>
 #include <sstream>
@@ -320,7 +320,7 @@ bool PropertyFormatter::isLtrValue(std::string_view sv) noexcept
          continue;
       }
 
-      const char32_t codePoint = decodeNextUtf8(sv, offset);
+      const char32_t codePoint = decodeNextCodePoint(sv, offset);
       if(isRtlCodePoint(codePoint)) {
          return false;
       }

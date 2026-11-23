@@ -74,7 +74,7 @@ size_t skipAnsiSequence(std::string_view sv, size_t offset) noexcept
 
 
 // ###### Decode UTF-8 Code Point ###########################################
-char32_t decodeNextUtf8(std::string_view sv, size_t& offset) noexcept
+char32_t decodeNextCodePoint(std::string_view sv, size_t& offset) noexcept
 {
    const auto byte0 = static_cast<unsigned char>(sv[offset]);
    if(byte0 < 0x80) {
@@ -157,6 +157,7 @@ static bool isZeroWidth(char32_t codePoint) noexcept
           ((codePoint >= 0x202a) && (codePoint <= 0x202e)) || // Directional embeddings / overrides
           ((codePoint >= 0x2060) && (codePoint <= 0x206f)) || // Word joiners, isolates
           ((codePoint >= 0xfe00) && (codePoint <= 0xfe0f)) || // Variation Selectors (VS1-VS16)
+          (codePoint == 0xfeff)                            || // Zero-Width No-Break Space / UTF-8 BOM
           ((codePoint >= 0xe0100) && (codePoint <= 0xe01ef)); // Variation Selectors Supplement
 }
 
@@ -199,19 +200,27 @@ static bool isCjkWide(char32_t codePoint) noexcept
 }
 
 
-// ###### Compute display width #############################################
-size_t computeDisplayWidth(std::string_view sv) noexcept
+// ###### Compute display width and code point count ########################
+void computeStringWidth(std::string_view sv,
+                        size_t&          displayWidth,
+                        size_t&          codePointCount,
+                        size_t*          byteCount) noexcept
 {
-   size_t colWidth = 0;
-   size_t offset   = 0;
+   size_t colWidth  = 0;
+   size_t cpCount   = 0;
+   size_t ansiBytes = 0;
+   size_t offset    = 0;
 
    while(offset < sv.size()) {
       if(sv[offset] == 0x1b) {
-         offset = skipAnsiSequence(sv, offset);
+         const size_t nextOffset = skipAnsiSequence(sv, offset);
+         ansiBytes += (nextOffset - offset);
+         offset = nextOffset;
          continue;
       }
 
-      const char32_t codePoint = decodeNextUtf8(sv, offset);
+      const char32_t codePoint = decodeNextCodePoint(sv, offset);
+      cpCount += 1;
 
       if(isZeroWidth(codePoint)) {
          continue;
@@ -221,7 +230,7 @@ size_t computeDisplayWidth(std::string_view sv) noexcept
       if(codePoint == 0x0993) {
          size_t peekOffset = offset;
          if(peekOffset < sv.size()) {
-            const char32_t nextCp = decodeNextUtf8(sv, peekOffset);
+            const char32_t nextCp = decodeNextCodePoint(sv, peekOffset);
             if((nextCp == 0x09df) || (nextCp == 0x09af)) {
                continue;
             }
@@ -242,5 +251,10 @@ size_t computeDisplayWidth(std::string_view sv) noexcept
 
       colWidth += 1;
    }
-   return colWidth;
+
+   displayWidth   = colWidth;
+   codePointCount = cpCount;
+   if(byteCount != nullptr) {
+      *byteCount = sv.size() - ansiBytes;
+   }
 }
