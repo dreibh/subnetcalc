@@ -9,9 +9,53 @@
 
 # 💡 What is SubNetCalc?
 
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.). In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML) via the `-F` / `--format` option.
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.). In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML).
 
-SubNetCalc provides internationalisation&nbsp;(i18n) support using [GNU gettext](https://www.gnu.org/software/gettext/). That is, translation files for the output of the programs are supported. You can support the project by contributing translations for your language. See [Internationalisation&nbsp;(I18N)](#internationalisation) for details!
+Internationalisation&nbsp;(i18n) is supported using [GNU gettext](https://www.gnu.org/software/gettext/). That is, translation files for the output of the programs are supported. You can support the project by contributing translations for your language. See [Internationalisation&nbsp;(I18N)](#internationalisation) for details!
+
+Address parsing, subnet calculation, property classification, and generation features are implemented according to the following RFCs:
+
+## IPv4 Addressing and Subnetting
+
+* [RFC 791](https://www.rfc-editor.org/rfc/rfc791) (*Internet Protocol*): Classful network identification (`Class A`, `Class B`, `Class C`, `Class D (Multicast)`, and invalid/reserved `Class E`), network address calculation, and 32-bit hexadecimal address formatting.
+* [RFC 919](https://www.rfc-editor.org/rfc/rfc919) / [RFC 922](https://www.rfc-editor.org/rfc/rfc922) (*Broadcasting Internet Datagrams in the Presence of Subnets*): Directed subnet broadcast address calculation and identification.
+* [RFC 950](https://www.rfc-editor.org/rfc/rfc950) / [RFC 4632](https://www.rfc-editor.org/rfc/rfc4632) (*Subnetting and Classless Inter-Domain Routing (CIDR)*): Arbitrary prefix lengths (`/0`–`/32`), subnet masks, wildcard (inverted) masks, host bit counts, maximum usable host counts, and usable host address ranges.
+* [RFC 1122](https://www.rfc-editor.org/rfc/rfc1122) / [RFC 6890](https://www.rfc-editor.org/rfc/rfc6890) (*Host Requirements and Special-Purpose IP Address Registries*): Identification of the IPv4 loopback host (`127.0.0.1`) and loopback network (`127.0.0.0/8`), default route (`0.0.0.0/0`), and limited broadcast (`255.255.255.255`).
+* [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918) (*Address Allocation for Private Internets*): Identification of IPv4 private address spaces (`10.0.0.0/8`, `172.16.0.0/12`, and `192.168.0.0/16`).
+* [RFC 3021](https://www.rfc-editor.org/rfc/rfc3021) (*Using 31-Bit Prefixes on IPv4 Point-to-Point Links*): Point-to-point `/31` handling (as well as `/32` host routes), omitting the broadcast address and treating both endpoints as usable hosts (`2^1 - 0 = 2`).
+* [RFC 3927](https://www.rfc-editor.org/rfc/rfc3927) (*Dynamic Configuration of IPv4 Link-Local Addresses*): Identification of IPv4 link-local addresses in `169.254.0.0/16`.
+
+## IPv6 Addressing and Subnetting
+
+* [RFC 4291](https://www.rfc-editor.org/rfc/rfc4291) (*IP Version 6 Addressing Architecture*):
+  * Arbitrary CIDR prefix lengths (`/0`–`/128`), zero-padded expanded address formatting, binary bit breakdown, and host range calculation.
+  * Special address identification: Unspecified (`::`), Loopback (`::1`), IPv4-compatible (`::x.x.x.x`), and IPv4-mapped (`::ffff:x.x.x.x`).
+  * Unicast scope classification: Link-Local Unicast (`fe80::/10`), Site-Local Unicast (`fec0::/10`, deprecated by [RFC 3879](https://www.rfc-editor.org/rfc/rfc3879)), and Global Unicast (`2000::/3`).
+  * Modified EUI-64 Interface Identifier decoding (`ff:fe` detection and universal/local bit inversion) to extract the underlying 48-bit IEEE 802 MAC address.
+  * Solicited-Node Multicast Address (`ff02::1:ffXX:XXXX`) derivation for unicast addresses, and target node mask (`xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxXX:XXXX`) extraction when inspecting `ff02::1:ff00:0/104`.
+* [RFC 5952](https://www.rfc-editor.org/rfc/rfc5952) (*A Recommendation for IPv6 Address Text Representation*): Canonical IPv6 text compression for addresses and masks (shortening the longest run of consecutive 16-bit zero fields while never compressing a single zero field to `::`).
+* [RFC 4193](https://www.rfc-editor.org/rfc/rfc4193) (*Unique Local IPv6 Unicast Addresses (ULA)*):
+  * Classification of `fc00::/7` addresses into locally chosen (`fd00::/8`, `L=1`) and globally assigned (`fc00::/8`, `L=0`).
+  * Extraction and display of the 40-bit Global ID and 16-bit Subnet ID.
+  * Random ULA `/48` prefix generation (`-u` / `--uniquelocal` via `/dev/urandom` and `-U` / `--uniquelocalhq` via `/dev/random`).
+* [RFC 6164](https://www.rfc-editor.org/rfc/rfc6164) (*Using 127-Bit IPv6 Prefixes on Inter-Router Links*): Point-to-point `/127` handling (as well as `/128` host routes), disabling Subnet-Router anycast reservation so both endpoints are usable hosts (`2^1 - 0 = 2`).
+
+## Multicast Addressing
+
+* [RFC 1112](https://www.rfc-editor.org/rfc/rfc1112) / [RFC 2365](https://www.rfc-editor.org/rfc/rfc2365) / [RFC 5771](https://www.rfc-editor.org/rfc/rfc5771) (*IPv4 Multicast Addressing and Administrative Scoping*): Classification of IPv4 Class D multicast (`224.0.0.0/4`) scopes (`link-local` in `224.0.0.0/8`, `organization-local` in `239.192.0.0/14`, `site-local` in `239.252.0.0/14`, and `global`) and mapping of the lower 23 bits to Ethernet multicast MAC addresses (`01:00:5e:xx:xx:xx`).
+* [RFC 4291](https://www.rfc-editor.org/rfc/rfc4291) / [RFC 7346](https://www.rfc-editor.org/rfc/rfc7346) (*IPv6 Multicast Addressing and Scopes*): Classification of IPv6 multicast (`ff00::/8`) scopes (`node-local`, `link-local`, `site-local`, `organization-local`, and `global`) and temporarily-allocated (transient) flag detection (`ff1x::/16`).
+* [RFC 2464](https://www.rfc-editor.org/rfc/rfc2464) (*Transmission of IPv6 Packets over Ethernet Networks*): Mapping of the lower 32 bits of an IPv6 multicast address to its Ethernet multicast MAC address (`33:33:xx:xx:xx:xx`).
+* [RFC 3306](https://www.rfc-editor.org/rfc/rfc3306) / [RFC 4607](https://www.rfc-editor.org/rfc/rfc4607) (*Source-Specific Multicast (SSM)*): Identification of IPv4 SSM (`232.0.0.0/8`) and IPv6 SSM (`ff3x::/32`) addresses.
+
+## Transition and Translation Mechanisms
+
+* [RFC 3056](https://www.rfc-editor.org/rfc/rfc3056) (*Connection of IPv6 Domains via IPv4 Clouds — 6to4*): Detection of `2002::/16` addresses and extraction of the embedded 32-bit IPv4 gateway address.
+* [RFC 6052](https://www.rfc-editor.org/rfc/rfc6052) / [RFC 8215](https://www.rfc-editor.org/rfc/rfc8215) (*IPv6 Addressing of IPv4/IPv6 Translators — NAT64*): Recognition of IPv4-embedded IPv6 addresses under the Well-Known Prefix (`64:ff9b::/96`) and Local-Use translation prefix (`64:ff9b:1::/48`), formatting the embedded lower 32 bits in dotted-decimal IPv4 notation.
+
+## Hostnames, IDN and Literal Address Syntax
+
+* [RFC 2732](https://www.rfc-editor.org/rfc/rfc2732) (*Format for Literal IPv6 Addresses in URLs*): Parsing of bracketed IPv6 literal addresses (`[address]`).
+* [RFC 1035](https://www.rfc-editor.org/rfc/rfc1035) / [RFC 3596](https://www.rfc-editor.org/rfc/rfc3596) / [RFC 5890](https://www.rfc-editor.org/rfc/rfc5890) / [RFC 5891](https://www.rfc-editor.org/rfc/rfc5891) (*DNS and Internationalized Domain Names — IDNA2008*): Forward (`A` and `AAAA`) and reverse (`PTR`) DNS resolution with Unicode IDN and Punycode (`xn--`) conversion.
 
 
 # 😀 Examples
