@@ -730,6 +730,26 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_space_netmask_24
+   ARGS                 192.168.1.1 255.255.255.0 -c -n -g
+   ADDRESS              192.168.1.1
+   FAMILY               IPv4
+   NETWORK              192.168.1.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            192.168.1.255
+   WILDCARD             0.0.0.255
+   HEX                  C0A80101
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             192.168.1.1
+   HOST_MAX             192.168.1.254
+   TYPE                 host
+   CLASS                "Class C"
+   FLAG                 "Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_shorthand_3part
    ARGS                 10.1.1 24 -c -n -g
    ADDRESS              10.1.0.1
@@ -764,6 +784,26 @@ ADD_SUBNETCALC_MATRIX_TEST(
    MAX_HOSTS            65534
    HOST_MIN             10.0.0.1
    HOST_MAX             10.0.255.254
+   TYPE                 host
+   CLASS                "Class A"
+   FLAG                 "Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_shorthand_1part
+   ARGS                 167772161 24 -c -n -g
+   ADDRESS              10.0.0.1
+   FAMILY               IPv4
+   NETWORK              10.0.0.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            10.0.0.255
+   WILDCARD             0.0.0.255
+   HEX                  0A000001
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             10.0.0.1
+   HOST_MAX             10.0.0.254
    TYPE                 host
    CLASS                "Class A"
    FLAG                 "Private"
@@ -984,6 +1024,25 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_p2p_31_network
+   ARGS                 10.1.1.0 31 -c -n -g
+   ADDRESS              10.1.1.0
+   FAMILY               IPv4
+   NETWORK              10.1.1.0
+   PREFIX               31
+   NETMASK              255.255.255.254
+   WILDCARD             0.0.0.1
+   HEX                  0A010100
+   HOST_BITS            1
+   MAX_HOSTS            2
+   HOST_MIN             10.1.1.0
+   HOST_MAX             10.1.1.1
+   TYPE                 network
+   CLASS                "Class A"
+   FLAG                 "Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_host_32
    ARGS                 10.1.1.1 32 -c -n -g
    ADDRESS              10.1.1.1
@@ -1159,6 +1218,25 @@ ADD_SUBNETCALC_MATRIX_TEST(
 #############################################################################
 #### IPV6 MATRIX TESTS                                                   ####
 #############################################################################
+
+# --- Formatting Syntaxes ---------------------------------------------------
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_slash_netmask_64
+   ARGS                 2001:db8::1/ffff:ffff:ffff:ffff:: -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:db8::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2001:db8::1
+   HOST_MAX             2001:db8::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
 
 # --- Special & Embedded Types ----------------------------------------------
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1502,6 +1580,22 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_unknown_scope
+   ARGS                 ff03::1 128 -c -n -g
+   ADDRESS              ff03::1
+   EXPANDED_ADDRESS     ff03:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              ff03::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "unknown"
+   MULTICAST_MAC        "33:33:00:00:00:01"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_multicast_transient
    ARGS                 ff12::1 128 -c -n -g
    ADDRESS              ff12::1
@@ -1572,6 +1666,24 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 boundary_ipv6_p16_rfc5952
+   ARGS                 2001:db8::1 16 -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001::
+   PREFIX               16
+   NETMASK              ffff::
+   WILDCARD             0:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            112
+   MAX_HOSTS            5192296858534827628530496329220095
+   HOST_MIN             2001::1
+   HOST_MAX             2001:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 boundary_ipv6_p127
    ARGS                 2001:db8:abcd:1234:5678:9abc:def0:1 127 -c -n -g
    ADDRESS              2001:db8:abcd:1234:5678:9abc:def0:1
@@ -1591,24 +1703,68 @@ ADD_SUBNETCALC_MATRIX_TEST(
 
 
 #############################################################################
-#### CLI LOOKUP OPTIONS                                                  ####
+#### CLI LOOKUP OPTIONS & EDGE CASES                                     ####
 #############################################################################
 
-ADD_SUBNETCALC_TEST(cli_nocolour_short       10.1.1.1 24 -c)
-ADD_SUBNETCALC_TEST(cli_nocolour_long_uk     10.1.1.1 24 --nocolour)
-ADD_SUBNETCALC_TEST(cli_nocolor_long_us      10.1.1.1 24 --nocolor)
-ADD_SUBNETCALC_TEST(cli_noreverse_short      8.8.8.8 32 -n)
-ADD_SUBNETCALC_TEST(cli_noreverse_long       8.8.8.8 32 --noreverselookup)
-ADD_SUBNETCALC_TEST(cli_nogeoip_short        8.8.8.8 32 -g)
-ADD_SUBNETCALC_TEST(cli_nogeoip_long         8.8.8.8 32 --nogeoiplookup)
-ADD_SUBNETCALC_TEST(cli_combined_flags       2001:4860:4860::8888 128 -c -n -g)
-ADD_SUBNETCALC_TEST(cli_combined_short       2001:4860:4860::8888 128 -cng)
+ADD_SUBNETCALC_TEST(cli_nocolour_short            10.1.1.1 24 -c)
+ADD_SUBNETCALC_TEST(cli_nocolour_long_uk          10.1.1.1 24 --nocolour)
+ADD_SUBNETCALC_TEST(cli_nocolor_long_us           10.1.1.1 24 --nocolor)
+ADD_SUBNETCALC_TEST(cli_noreverse_short           8.8.8.8 32 -n)
+ADD_SUBNETCALC_TEST(cli_noreverse_long            8.8.8.8 32 --noreverselookup)
+ADD_SUBNETCALC_TEST(cli_nogeoip_short             8.8.8.8 32 -g)
+ADD_SUBNETCALC_TEST(cli_nogeoip_long              8.8.8.8 32 --nogeoiplookup)
+ADD_SUBNETCALC_TEST(cli_combined_flags            2001:4860:4860::8888 128 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_combined_short            2001:4860:4860::8888 128 -cng)
+ADD_SUBNETCALC_TEST(cli_default_prefix_ipv4       192.168.1.1 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_default_prefix_ipv6       2001:db8::1 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_ipv4_with_port            192.168.1.1:8080/24 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_ipv6_bracket_with_port    "[2001:db8::1]:443/64" -c -n -g)
+ADD_SUBNETCALC_TEST(cli_p2p_31_broadcast_text     10.1.1.0 31 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_colour_ipv4               192.168.1.1/24 -n -g)
+ADD_SUBNETCALC_TEST(cli_colour_ipv6_eui64         fe80::0211:22ff:fe33:4455/64 -n -g)
 
 SET_TESTS_PROPERTIES(
    cli_nocolour_short cli_nocolour_long_uk cli_nocolor_long_us
    cli_noreverse_short cli_noreverse_long cli_nogeoip_short
    cli_nogeoip_long cli_combined_flags cli_combined_short
    PROPERTIES LABELS "cli;options"
+)
+
+SET_TESTS_PROPERTIES(cli_default_prefix_ipv4 PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 192\\.168\\.1\\.1 / 32"
+   LABELS "cli;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_default_prefix_ipv6 PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 2001:db8::1 / 128"
+   LABELS "cli;ipv6"
+)
+
+SET_TESTS_PROPERTIES(cli_ipv4_with_port PROPERTIES
+   PASS_REGULAR_EXPRESSION "Address[ ]+= 192\\.168\\.1\\.1.*Network[ ]+= 192\\.168\\.1\\.0 / 24"
+   LABELS "cli;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_ipv6_bracket_with_port PROPERTIES
+   PASS_REGULAR_EXPRESSION "Address[ ]+= 2001:db8::1.*Network[ ]+= 2001:db8:: / 64"
+   LABELS "cli;ipv6"
+)
+
+SET_TESTS_PROPERTIES(cli_p2p_31_broadcast_text PROPERTIES
+   PASS_REGULAR_EXPRESSION "Broadcast[ ]+= not needed on Point-to-Point links"
+   LABELS "cli;ipv4"
+)
+
+STRING(ASCII 27 ESC)
+
+SET_TESTS_PROPERTIES(cli_colour_ipv4 PROPERTIES
+   PASS_REGULAR_EXPRESSION "${ESC}\\[34m1${ESC}\\[0m.*${ESC}\\[33m1${ESC}\\[0m"
+   LABELS "cli;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_colour_ipv6_eui64 PROPERTIES
+   PASS_REGULAR_EXPRESSION "MAC Address[ ]+= ${ESC}\\[36m00:11:22${ESC}\\[0m:${ESC}\\[38m33:44:55${ESC}\\[0m"
+   LABELS "cli;ipv6"
 )
 
 
@@ -1621,6 +1777,9 @@ ADD_SUBNETCALC_TEST(ula_gen_urandom_long     fd01:1122:3344:affe:0102:03ff:fe04:
 ADD_SUBNETCALC_TEST(ula_gen_random_short     fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -U)
 ADD_SUBNETCALC_TEST(ula_gen_random_long      fd01:1122:3344:affe:0102:03ff:fe04:0506 64 --uniquelocalhq)
 ADD_SUBNETCALC_TEST(ula_gen_slash_input      fd01:1122:3344:affe::1/64 -u)
+ADD_SUBNETCALC_TEST(ula_gen_json             fd01:1122:3344:affe::1/64 -u -F json)
+ADD_SUBNETCALC_TEST(ula_gen_yaml             fd01:1122:3344:affe::1/64 -u -F yaml)
+ADD_SUBNETCALC_TEST(ula_gen_xml              fd01:1122:3344:affe::1/64 -u -F xml)
 
 SET_TESTS_PROPERTIES(
    ula_gen_urandom_short ula_gen_urandom_long ula_gen_random_short
@@ -1628,6 +1787,24 @@ SET_TESTS_PROPERTIES(
    PROPERTIES
       PASS_REGULAR_EXPRESSION "Generating Unique Local IPv6 address.*Unique Local Unicast Properties"
       LABELS "ipv6;ula"
+)
+
+SET_TESTS_PROPERTIES(ula_gen_json PROPERTIES
+   PASS_REGULAR_EXPRESSION "^\\{.*\"address\":[ ]*\"fd[0-9a-f][0-9a-f]:"
+   FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;Generating Unique Local"
+   LABELS "ipv6;ula;format_json"
+)
+
+SET_TESTS_PROPERTIES(ula_gen_yaml PROPERTIES
+   PASS_REGULAR_EXPRESSION "^address:[ ]*\"fd[0-9a-f][0-9a-f]:"
+   FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;Generating Unique Local"
+   LABELS "ipv6;ula;format_yaml"
+)
+
+SET_TESTS_PROPERTIES(ula_gen_xml PROPERTIES
+   PASS_REGULAR_EXPRESSION "^<\\?xml.*<address>fd[0-9a-f][0-9a-f]:"
+   FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;Generating Unique Local"
+   LABELS "ipv6;ula;format_xml"
 )
 
 
@@ -1649,8 +1826,8 @@ ADD_SUBNETCALC_DNS_TEST(dns_idn_muenchen            www.münchen.de/24 -4)
 # Norwegian IDN: Punycode then IDN
 ADD_SUBNETCALC_DNS_TEST(dns_punycode_snoe           www.xn--sn-mka.no)
 ADD_SUBNETCALC_DNS_TEST(dns_idn_snoe                www.snø.no)
-ADD_SUBNETCALC_DNS_TEST(dns_punycode_blaa           www.xn--bl-zia.no/24)
-ADD_SUBNETCALC_DNS_TEST(dns_idn_blaa                www.blå.no/24)
+ADD_SUBNETCALC_DNS_TEST(dns_punycode_blaa           www.xn--bl-zia.no/24 -4)
+ADD_SUBNETCALC_DNS_TEST(dns_idn_blaa                www.blå.no/24 -4)
 
 # Swedish IDN: Punycode then IDN
 ADD_SUBNETCALC_DNS_TEST(dns_punycode_raek           xn--rksmrgs-5wao1o.se)
@@ -1742,13 +1919,23 @@ ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_octet_256   10.1.1.1 255.255.255.256)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bad_hex          fd00::ghjk 64)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_triple_colon     fd00:::1 64)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_prefix_129       fd00::1 129)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_word_gaps   fd00::1 ffff:0:ffff::)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_bit_gaps    fd00::1 ff0f::)
 ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v4_v6        10.1.1.1 ffff:ffff:ffff::)
+ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v6_v4        fd00::1 255.255.255.0)
 ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_1    www.heise.de 64 -4)
 ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_2    www.nntb.no 64 -4)
 ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_1    www.heise.de 255.255.255.0 -6)
 ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_2    www.nntb.no 255.255.255.0 -6)
 ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula           10.1.1.1 24 -u)
+ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula_hq        10.1.1.1 24 -U)
 ADD_SUBNETCALC_FAIL_TEST(fail_double_slash          10.1.1.1/24/32)
+ADD_SUBNETCALC_FAIL_TEST(fail_empty_prefix_slash    10.1.1.1/)
+ADD_SUBNETCALC_FAIL_TEST(fail_empty_address_slash   /24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_alpha       10.1.1.1:80abc/24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_overflow    10.1.1.1:99999/24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_unclosed_bracket "[2001:db8::1/64")
+ADD_SUBNETCALC_FAIL_TEST(fail_netmask_with_port     10.1.1.1/255.255.255.0:80)
 ADD_SUBNETCALC_FAIL_TEST(fail_nonexistent_domain    invalid.domain.test 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_unknown_flag          10.1.1.1 24 --invalid-flag)
 ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_csv    10.1.1.1 24 -F csv)
