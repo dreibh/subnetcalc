@@ -159,10 +159,8 @@ FUNCTION(ADD_SUBNETCALC_MATRIX_TEST)
    ENDIF()
    STRING(APPEND T_PARTS ".*Host Bits[ ]+= ${ARG_HOST_BITS}")
    IF(DEFINED ARG_MAX_HOSTS)
-      IF(ARG_MAX_HOSTS EQUAL 0)
-         STRING(APPEND T_PARTS ".*Max\\. Hosts[ ]+= 2\\^0 - 0")
-      ELSEIF(HAVE_INT128 OR ARG_HOST_BITS LESS 64)
-         STRING(APPEND T_PARTS ".*Max\\. Hosts[ ]+= ${ARG_MAX_HOSTS}")
+      IF(HAVE_INT128 OR ARG_HOST_BITS LESS 64)
+         STRING(APPEND T_PARTS ".*Max\\. Hosts[ ]+= ${ARG_MAX_HOSTS}[ ]+\\(2\\^${ARG_HOST_BITS} - ")
       ELSE()
          STRING(APPEND T_PARTS ".*Max\\. Hosts[ ]+= 2\\^${ARG_HOST_BITS}")
       ENDIF()
@@ -950,6 +948,26 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_ietf_protocol_service_cont_high
+   ARGS                 192.0.0.7 32 -c -n -g
+   ADDRESS              192.0.0.7
+   FAMILY               IPv4
+   NETWORK              192.0.0.7
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  C0000007
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             192.0.0.7
+   HOST_MAX             192.0.0.7
+   TYPE                 host
+   CLASS                "Class C"
+   FLAG                 "IETF Protocol Assignments"
+   FLAG2                "IPv4 Service Continuity Prefix"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_ietf_protocol_dummy
    ARGS                 192.0.0.8 32 -c -n -g
    ADDRESS              192.0.0.8
@@ -960,7 +978,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  C0000008
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             192.0.0.8
    HOST_MAX             192.0.0.8
    TYPE                 host
@@ -980,7 +998,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  C0000009
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             192.0.0.9
    HOST_MAX             192.0.0.9
    TYPE                 host
@@ -1000,7 +1018,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  C000000A
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             192.0.0.10
    HOST_MAX             192.0.0.10
    TYPE                 host
@@ -1020,9 +1038,29 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  C00000AA
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             192.0.0.170
    HOST_MAX             192.0.0.170
+   TYPE                 host
+   CLASS                "Class C"
+   FLAG                 "IETF Protocol Assignments"
+   FLAG2                "NAT64/DNS64 Discovery"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_ietf_protocol_nat64_2
+   ARGS                 192.0.0.171 32 -c -n -g
+   ADDRESS              192.0.0.171
+   FAMILY               IPv4
+   NETWORK              192.0.0.171
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  C00000AB
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             192.0.0.171
+   HOST_MAX             192.0.0.171
    TYPE                 host
    CLASS                "Class C"
    FLAG                 "IETF Protocol Assignments"
@@ -1245,9 +1283,29 @@ ADD_SUBNETCALC_MATRIX_TEST(
    CLASS                "Class E (Reserved)"
 )
 
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_class_e_high
+   ARGS                 255.255.255.254 32 -c -n -g
+   ADDRESS              255.255.255.254
+   FAMILY               IPv4
+   NETWORK              255.255.255.254
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  FFFFFFFE
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             255.255.255.254
+   HOST_MAX             255.255.255.254
+   TYPE                 host
+   CLASS                "Class E (Reserved)"
+)
+
 SET_TESTS_PROPERTIES(
    ipv4_class_e_reserved_text ipv4_class_e_reserved_json
    ipv4_class_e_reserved_yaml ipv4_class_e_reserved_xml
+   ipv4_class_e_high_text ipv4_class_e_high_json
+   ipv4_class_e_high_yaml ipv4_class_e_high_xml
    PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Limited broadcast"
 )
 
@@ -1321,7 +1379,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  00000000
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             0.0.0.0
    HOST_MAX             0.0.0.0
    TYPE                 host
@@ -1339,7 +1397,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  FFFFFFFF
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             255.255.255.255
    HOST_MAX             255.255.255.255
    TYPE                 host
@@ -1462,7 +1520,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    WILDCARD             0.0.0.0
    HEX                  0A010101
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             10.1.1.1
    HOST_MAX             10.1.1.1
    TYPE                 host
@@ -1695,7 +1753,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    WILDCARD             ::
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             ::
    HOST_MAX             ::
    TYPE                 host
@@ -1713,7 +1771,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    WILDCARD             ::
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             ::1
    HOST_MAX             ::1
    TYPE                 host
@@ -1731,7 +1789,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    WILDCARD             ::
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             "(::192\\.0\\.2\\.1|::c000:201)"
    HOST_MAX             "(::192\\.0\\.2\\.1|::c000:201)"
    TYPE                 host
@@ -1749,7 +1807,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    WILDCARD             ::
    HOST_BITS            0
-   MAX_HOSTS            0
+   MAX_HOSTS            1
    HOST_MIN             ::ffff:192.0.2.1
    HOST_MAX             ::ffff:192.0.2.1
    TYPE                 host
@@ -1943,6 +2001,27 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ietf_protocol_low
+   ARGS                 2001::1 64 -c -n -g
+   ADDRESS              2001::1
+   EXPANDED_ADDRESS     2001:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2001::1
+   HOST_MAX             2001::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   FLAG                 "IETF Protocol Assignments"
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_ietf_protocol
    ARGS                 2001:1::1 64 -c -n -g
    ADDRESS              2001:1::1
@@ -1963,9 +2042,57 @@ ADD_SUBNETCALC_MATRIX_TEST(
    SNMC                 ff02::1:ff00:0001
 )
 
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ietf_protocol_high
+   ARGS                 2001:1ff::1 64 -c -n -g
+   ADDRESS              2001:1ff::1
+   EXPANDED_ADDRESS     2001:01ff:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:1ff::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2001:1ff::1
+   HOST_MAX             2001:1ff::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   FLAG                 "IETF Protocol Assignments"
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_benchmarking_boundary
+   ARGS                 2001:2:1::1 48 -c -n -g
+   ADDRESS              2001:2:1::1
+   EXPANDED_ADDRESS     2001:0002:0001:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:2:1::
+   PREFIX               48
+   NETMASK              ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            80
+   MAX_HOSTS            1208925819614629174706175
+   HOST_MIN             2001:2:1::1
+   HOST_MAX             2001:2:1:ffff:ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   FLAG                 "IETF Protocol Assignments"
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
 SET_TESTS_PROPERTIES(
+   ipv6_ietf_protocol_low_text ipv6_ietf_protocol_low_json
+   ipv6_ietf_protocol_low_yaml ipv6_ietf_protocol_low_xml
    ipv6_ietf_protocol_text ipv6_ietf_protocol_json
    ipv6_ietf_protocol_yaml ipv6_ietf_protocol_xml
+   ipv6_ietf_protocol_high_text ipv6_ietf_protocol_high_json
+   ipv6_ietf_protocol_high_yaml ipv6_ietf_protocol_high_xml
+   ipv6_benchmarking_boundary_text ipv6_benchmarking_boundary_json
+   ipv6_benchmarking_boundary_yaml ipv6_benchmarking_boundary_xml
    PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Benchmarking"
 )
 
