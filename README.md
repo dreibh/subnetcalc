@@ -9,21 +9,24 @@
 
 # 💡 What is SubNetCalc?
 
-SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.). In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML).
+SubNetCalc is an IPv4/IPv6 subnet address calculator. For given IPv4 or IPv6 address and netmask or prefix length, it calculates network address, broadcast address, maximum number of hosts and host address range. Also, it prints the addresses in binary format for better understandability. Furthermore, it prints useful information on specific address types (e.g. type, scope, interface ID, etc.). In addition to standard formatted console output, SubNetCalc supports machine-readable output formats (JSON, YAML, and XML) via the `-F` / `--format` option.
 
-Internationalisation&nbsp;(i18n) is supported using [GNU gettext](https://www.gnu.org/software/gettext/). That is, translation files for the output of the programs are supported. You can support the project by contributing translations for your language. See [Internationalisation&nbsp;(I18N)](#internationalisation) for details!
+Internationalisation&nbsp;(i18n) is supported using [GNU gettext](https://www.gnu.org/software/gettext/). That is, translation files for the output of the programs are supported. You can support the project by contributing translations for your language. See [Internationalisation&nbsp;(I18N)](#-internationalisation) for details!
 
 Address parsing, subnet calculation, property classification, and generation features are implemented according to the following RFCs:
 
 ## IPv4 Addressing and Subnetting
 
-* [RFC 791](https://www.rfc-editor.org/rfc/rfc791) (*Internet Protocol*): Classful network identification (`Class A`, `Class B`, `Class C`, `Class D (Multicast)`, and invalid/reserved `Class E`), network address calculation, and 32-bit hexadecimal address formatting.
+* [RFC 791](https://www.rfc-editor.org/rfc/rfc791) (*Internet Protocol*): Classful network identification (`Class A`, `Class B`, `Class C`, `Class D (Multicast)`, and `Class E (Reserved)`), network address calculation, and 32-bit hexadecimal address formatting.
 * [RFC 919](https://www.rfc-editor.org/rfc/rfc919) / [RFC 922](https://www.rfc-editor.org/rfc/rfc922) (*Broadcasting Internet Datagrams in the Presence of Subnets*): Directed subnet broadcast address calculation and identification.
 * [RFC 950](https://www.rfc-editor.org/rfc/rfc950) / [RFC 4632](https://www.rfc-editor.org/rfc/rfc4632) (*Subnetting and Classless Inter-Domain Routing (CIDR)*): Arbitrary prefix lengths (`/0`–`/32`), subnet masks, wildcard (inverted) masks, host bit counts, maximum usable host counts, and usable host address ranges.
-* [RFC 1122](https://www.rfc-editor.org/rfc/rfc1122) / [RFC 6890](https://www.rfc-editor.org/rfc/rfc6890) (*Host Requirements and Special-Purpose IP Address Registries*): Identification of the IPv4 loopback host (`127.0.0.1`) and loopback network (`127.0.0.0/8`), default route (`0.0.0.0/0`), and limited broadcast (`255.255.255.255`).
+* [RFC 1122](https://www.rfc-editor.org/rfc/rfc1122) / [RFC 6890](https://www.rfc-editor.org/rfc/rfc6890) (*Host Requirements and Special-Purpose IP Address Registries*): Identification of the IPv4 loopback host (`127.0.0.1`), loopback network (`127.0.0.0/8`), limited broadcast (`255.255.255.255`), and IETF Protocol Assignments (`192.0.0.0/24`, including `192.0.0.0/29` per [RFC 7335](https://www.rfc-editor.org/rfc/rfc7335), `192.0.0.8/32` per [RFC 7600](https://www.rfc-editor.org/rfc/rfc7600), `192.0.0.9/32` per [RFC 7723](https://www.rfc-editor.org/rfc/rfc7723), `192.0.0.10/32` per [RFC 8155](https://www.rfc-editor.org/rfc/rfc8155), and `192.0.0.170`–`192.0.0.171` per [RFC 7050](https://www.rfc-editor.org/rfc/rfc7050) / [RFC 8880](https://www.rfc-editor.org/rfc/rfc8880)).
 * [RFC 1918](https://www.rfc-editor.org/rfc/rfc1918) (*Address Allocation for Private Internets*): Identification of IPv4 private address spaces (`10.0.0.0/8`, `172.16.0.0/12`, and `192.168.0.0/16`).
+* [RFC 2544](https://www.rfc-editor.org/rfc/rfc2544) / [RFC 6815](https://www.rfc-editor.org/rfc/rfc6815) (*Benchmarking Methodology for Network Interconnect Devices*): Identification of the IPv4 benchmarking prefix (`198.18.0.0/15`).
 * [RFC 3021](https://www.rfc-editor.org/rfc/rfc3021) (*Using 31-Bit Prefixes on IPv4 Point-to-Point Links*): Point-to-point `/31` handling (as well as `/32` host routes), omitting the broadcast address and treating both endpoints as usable hosts (`2^1 - 0 = 2`).
 * [RFC 3927](https://www.rfc-editor.org/rfc/rfc3927) (*Dynamic Configuration of IPv4 Link-Local Addresses*): Identification of IPv4 link-local addresses in `169.254.0.0/16`.
+* [RFC 5737](https://www.rfc-editor.org/rfc/rfc5737) (*IPv4 Address Blocks Reserved for Documentation*): Identification of documentation prefixes `192.0.2.0/24` (TEST-NET-1), `198.51.100.0/24` (TEST-NET-2), and `203.0.113.0/24` (TEST-NET-3).
+* [RFC 6598](https://www.rfc-editor.org/rfc/rfc6598) (*IANA-Reserved IPv4 Prefix for Shared Address Space*): Identification of Shared Address Space for Carrier-Grade NAT (`100.64.0.0/10`).
 
 ## IPv6 Addressing and Subnetting
 
@@ -33,6 +36,8 @@ Address parsing, subnet calculation, property classification, and generation fea
   * Unicast scope classification: Link-Local Unicast (`fe80::/10`), Site-Local Unicast (`fec0::/10`, deprecated by [RFC 3879](https://www.rfc-editor.org/rfc/rfc3879)), and Global Unicast (`2000::/3`).
   * Modified EUI-64 Interface Identifier decoding (`ff:fe` detection and universal/local bit inversion) to extract the underlying 48-bit IEEE 802 MAC address.
   * Solicited-Node Multicast Address (`ff02::1:ffXX:XXXX`) derivation for unicast addresses, and target node mask (`xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xxXX:XXXX`) extraction when inspecting `ff02::1:ff00:0/104`.
+* [RFC 2928](https://www.rfc-editor.org/rfc/rfc2928) / [RFC 6890](https://www.rfc-editor.org/rfc/rfc6890) (*Initial IPv6 Sub-TLA ID Assignments & Special-Purpose IP Address Registries*): Identification of the IPv6 IETF Protocol Assignments block (`2001::/23`).
+* [RFC 5180](https://www.rfc-editor.org/rfc/rfc5180) (*IPv6 Benchmarking Methodology for Network Interconnect Devices*): Identification of the IPv6 benchmarking prefix (`2001:2::/48`).
 * [RFC 5952](https://www.rfc-editor.org/rfc/rfc5952) (*A Recommendation for IPv6 Address Text Representation*): Canonical IPv6 text compression for addresses and masks (shortening the longest run of consecutive 16-bit zero fields while never compressing a single zero field to `::`).
 * [RFC 4193](https://www.rfc-editor.org/rfc/rfc4193) (*Unique Local IPv6 Unicast Addresses (ULA)*):
   * Classification of `fc00::/7` addresses into locally chosen (`fd00::/8`, `L=1`) and globally assigned (`fc00::/8`, `L=0`).
@@ -104,7 +109,6 @@ Address parsing, subnet calculation, property classification, and generation fea
      - Global Unicast Properties:
         + Interface ID                     = 7777:772e:0002:0085
         + Solicited Node Multicast Address = <span style="color: green">ff02::1:ff</span>02:0085
-        + 6-to-4 Address                   = 2.224.3.254
   GeoIP AS Info  = Plus.line AG (AS12306)
   GeoIP Country  = Germany (DE)
   DNS Hostname   = www.heise.de
@@ -159,10 +163,10 @@ Address parsing, subnet calculation, property classification, and generation fea
   Netmask        = ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
   Wildcard Mask  = ::
   Host Bits      = 0
-  Max. Hosts     = 0   (2^0 - 1)
-  Host Range     = { 2401:3800:c001::69 - 2401:3800:c001::68 }
+  Max. Hosts     = 1   (2^0 - 0)
+  Host Range     = { 2401:3800:c001::68 - 2401:3800:c001::68 }
   Properties     =
-     - 2401:3800:c001::68 is a NETWORK address
+     - 2401:3800:c001::68 is a HOST address in 2401:3800:c001::68/128
      - Global Unicast Properties:
         + Interface ID                     = 0000:0000:0000:0068
         + Solicited Node Multicast Address = ff02::1:ff00:0068
@@ -250,8 +254,7 @@ Address parsing, subnet calculation, property classification, and generation fea
       "description": "2a02:2e0:3fe:1001:7777:772e:2:85 is a HOST address in 2a02:2e0:3fe:1001::/64",
       "unicast_type": "Global Unicast",
       "interface_id": "7777:772e:0002:0085",
-      "solicited_node_multicast": "ff02::1:ff02:0085",
-      "six_to_four": "2.224.3.254"
+      "solicited_node_multicast": "ff02::1:ff02:0085"
     },
     "geoip": {
       "asn": 12306,
@@ -391,7 +394,7 @@ Optionally, for installation to the standard paths (usually under `/usr/local`):
 sudo make install
 ```
 
-Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) FreeBSD.
+Note: The script [`ci/get-dependencies`](https://github.com/dreibh/subnetcalc/blob/master/ci/get-dependencies) automatically installs the build dependencies under Debian/Ubuntu Linux, Fedora Linux, and FreeBSD. For manual handling of the build dependencies, see the packaging configuration in [`debian/control`](https://github.com/dreibh/subnetcalc/blob/master/debian/control) (Debian/Ubuntu Linux), [`subnetcalc.spec`](https://github.com/dreibh/subnetcalc/blob/master/rpm/subnetcalc.spec) (Fedora Linux), and [`Makefile`](https://github.com/dreibh/subnetcalc/blob/master/freebsd/subnetcalc/Makefile) (FreeBSD).
 
 Contributions:
 
@@ -412,9 +415,9 @@ See [https://www.nntb.no/~dreibh/subnetcalc/#current-stable-release](https://www
 
 # 🌏 Internationalisation
 
-To provide a translation of one or more components of NetPerfMeter into your language, apply the following steps:
+To provide a translation of SubNetCalc into your language, apply the following steps:
 
-1. Build NetPerfMeter from the Git sources (see [Development Version](#development-version)), i.e., use the "master" branch with the latest development version. The build will create `.pot` (translation template files) under [`po`](po).
+1. Build SubNetCalc from the Git sources (see [Development Version](#development-version)), i.e., use the "master" branch with the latest development version. The build will create `.pot` (translation template files) under [`po`](po).
 
 2. Create a new Git branch for your translations, e.g., `my_username/translations_language_XX` (where `XX` is the language code for your language, e.g., `da` for Danish):
 
@@ -423,21 +426,22 @@ To provide a translation of one or more components of NetPerfMeter into your lan
    git checkout my_username/translations_language_XX
    ```
 
-3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g., [`po/de/netperfmeter.po`](po/de/netperfmeter.po) or [`po/nb/netperfmeter.po`](po/nb/netperfmeter.po) for netperfmeter. Then, prepare a translation for program `PROGRAM` (e.g., netperfmeter; see the name of the `.pot` translation template file) for your language `XX` under [`po`](po):
+3. Take a look at the existing `.po` files (translation files) in [`po/de`](po/de) (German) and [`po/nb`](po/nb) (Bokmål) as examples, e.g., [`po/de/subnetcalc.po`](po/de/subnetcalc.po) or [`po/nb/subnetcalc.po`](po/nb/subnetcalc.po). Then, prepare a translation for `subnetcalc` (see [`po/subnetcalc.pot`](po/subnetcalc.pot)) for your language `XX` under [`po`](po):
 
    ```bash
+   cd po
    mkdir -p XX
-   msginit --input PROGRAM.pot \
+   msginit --input subnetcalc.pot \
            --locale XX.UTF-8 \
-           --output-file XX/PROGRAM.po
-   git add XX/PROGRAM.po
+           --output-file XX/subnetcalc.po
+   git add XX/subnetcalc.po
    ```
 
-4. Add your translations into `XX/PROGRAM.po`, with a text editor or PO file editor like [Poedit](https://poedit.com/).
+4. Add your translations into `XX/subnetcalc.po`, with a text editor or PO file editor like [Poedit](https://poedit.com/).
 
 5. Test, commit and push your changes.
 
-6. Finally, make a pull request: [https://github.com/dreibh/netperfmeter/pulls](https://github.com/dreibh/netperfmeter/pulls).
+6. Finally, make a pull request: [https://github.com/dreibh/subnetcalc/pulls](https://github.com/dreibh/subnetcalc/pulls).
 
 
 # 🔗 Useful Links
