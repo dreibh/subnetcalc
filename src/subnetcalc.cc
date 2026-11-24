@@ -1841,6 +1841,9 @@ int main(int argc, char** argv)
       const in6_addr ipv6address = getIPv6Address(address);
       const uint16_t word0       = static_cast<uint16_t>((ipv6address.s6_addr[0] << 8) | ipv6address.s6_addr[1]);
       const uint16_t word1       = static_cast<uint16_t>((ipv6address.s6_addr[2] << 8) | ipv6address.s6_addr[3]);
+      const uint16_t word2       = static_cast<uint16_t>((ipv6address.s6_addr[4] << 8) | ipv6address.s6_addr[5]);
+      const uint16_t word3       = static_cast<uint16_t>((ipv6address.s6_addr[6] << 8) | ipv6address.s6_addr[7]);
+      const uint16_t word4       = static_cast<uint16_t>((ipv6address.s6_addr[8] << 8) | ipv6address.s6_addr[9]);
       const uint16_t word5       = static_cast<uint16_t>((ipv6address.s6_addr[10] << 8) | ipv6address.s6_addr[11]);
       const uint16_t word6       = static_cast<uint16_t>((ipv6address.s6_addr[12] << 8) | ipv6address.s6_addr[13]);
       const uint16_t word7       = static_cast<uint16_t>((ipv6address.s6_addr[14] << 8) | ipv6address.s6_addr[15]);
@@ -1893,7 +1896,9 @@ int main(int argc, char** argv)
             details.isSourceSpecificMulticast = true;
          }
 
-         if((word0 == 0xff02) && (word5 == 0x0001) && ((word6 & 0xff00) == 0xff00)) {
+         if((word0 == 0xff02) && (word1 == 0x0000) && (word2 == 0x0000) &&
+            (word3 == 0x0000) && (word4 == 0x0000) && (word5 == 0x0001) &&
+            ((word6 & 0xff00) == 0xff00)) {
             details.solicitedNodeFor = std::format("xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx{:02x}:{:04x}",
                                                    word6 & 0xff, word7);
          }
@@ -1923,7 +1928,7 @@ int main(int argc, char** argv)
          else if((word0 & 0xe000) == 0x2000) {
             details.unicastType = "Global Unicast";
             hasSubnetID         = false;
-            if((word0 & 0x2002) == 0x2002) {
+            if(word0 == 0x2002) {
                details.hasSixToFour = true;
                sockaddr_union sixToFour { };
                sixToFour.sa.sa_family       = AF_INET;
