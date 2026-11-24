@@ -1556,6 +1556,32 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_non_6to4_global
+   ARGS                 2003:db8::1 64 -c -n -g
+   ADDRESS              2003:db8::1
+   EXPANDED_ADDRESS     2003:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2003:db8::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2003:db8::1
+   HOST_MAX             2003:db8::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_non_6to4_global_text ipv6_non_6to4_global_json
+   ipv6_non_6to4_global_yaml ipv6_non_6to4_global_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;6-to-4;six_to_four"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_doc_rfc3849
    ARGS                 2001:db8::1 64 -c -n -g
    ADDRESS              2001:db8::1
@@ -1727,6 +1753,28 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_non_solicited_node
+   ARGS                 ff02:1::1:ff11:2233 128 -c -n -g
+   ADDRESS              ff02:1::1:ff11:2233
+   EXPANDED_ADDRESS     ff02:0001:0000:0000:0000:0001:ff11:2233
+   FAMILY               IPv6
+   NETWORK              ff02:1::1:ff11:2233
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "link-local"
+   MULTICAST_MAC        "33:33:ff:11:22:33"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_multicast_non_solicited_node_text ipv6_multicast_non_solicited_node_json
+   ipv6_multicast_non_solicited_node_yaml ipv6_multicast_non_solicited_node_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;solicited node multicast address for;solicited_node_for"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_multicast_ssm
    ARGS                 ff3e:0::123:4 128 -c -n -g
    ADDRESS              ff3e::123:4
@@ -1820,6 +1868,7 @@ ADD_SUBNETCALC_TEST(cli_json_with_dns_block       127.0.0.1/8 -g -F json)
 ADD_SUBNETCALC_TEST(cli_default_prefix_ipv4       192.168.1.1 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_default_prefix_ipv6       2001:db8::1 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv4_with_port            192.168.1.1:8080/24 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_ipv6_bracket_no_port      "[2001:db8::1]/64" -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv6_bracket_with_port    "[2001:db8::1]:443/64" -c -n -g)
 ADD_SUBNETCALC_TEST(cli_p2p_31_broadcast_text     10.1.1.0 31 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_colour_ipv4               192.168.1.1/24 -n -g)
@@ -1870,6 +1919,11 @@ SET_TESTS_PROPERTIES(cli_default_prefix_ipv6 PROPERTIES
 SET_TESTS_PROPERTIES(cli_ipv4_with_port PROPERTIES
    PASS_REGULAR_EXPRESSION "Address[ ]+= 192\\.168\\.1\\.1.*Network[ ]+= 192\\.168\\.1\\.0 / 24"
    LABELS "cli;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_ipv6_bracket_no_port PROPERTIES
+   PASS_REGULAR_EXPRESSION "Address[ ]+= 2001:db8::1.*Network[ ]+= 2001:db8:: / 64"
+   LABELS "cli;ipv6"
 )
 
 SET_TESTS_PROPERTIES(cli_ipv6_bracket_with_port PROPERTIES
@@ -2033,43 +2087,46 @@ ADD_SUBNETCALC_DNS_TEST(force_ipv6_heise_cn         www.heise.de 64 -6 -c -n)
 #############################################################################
 
 ADD_SUBNETCALC_FAIL_TEST(fail_no_args)
-ADD_SUBNETCALC_FAIL_TEST(fail_too_many_args         10.1.1.1 24 255.255.255.0)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_octet_256        256.1.1.1 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_extra_octet      10.1.1.1.1 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_double_dot       10.1..1 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_trailing_dot     10.1.1.1. 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_leading_dot      .10.1.1.1 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_1  256.1 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_2  10.16777216 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_3  10.1.65536 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_prefix_33        10.1.1.1 33)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_alpha_prefix     10.1.1.1 24a)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_negative_prefix  10.1.1.1 -5)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_gaps        10.1.1.1 255.0.255.0)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_octet_256   10.1.1.1 255.255.255.256)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bad_hex          fd00::ghjk 64)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_triple_colon     fd00:::1 64)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_prefix_129       fd00::1 129)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_word_gaps   fd00::1 ffff:0:ffff::)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_bit_gaps    fd00::1 ff0f::)
-ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v4_v6        10.1.1.1 ffff:ffff:ffff::)
-ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v6_v4        fd00::1 255.255.255.0)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_on_ipv6_lit  2001:db8::1 64 -4)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_on_ipv4_lit  10.1.1.1 24 -6)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_1    www.heise.de 64 -4)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_2    www.nntb.no 64 -4)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_1    www.heise.de 255.255.255.0 -6)
-ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_2    www.nntb.no 255.255.255.0 -6)
-ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula           10.1.1.1 24 -u)
-ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula_hq        10.1.1.1 24 -U)
-ADD_SUBNETCALC_FAIL_TEST(fail_double_slash          10.1.1.1/24/32)
-ADD_SUBNETCALC_FAIL_TEST(fail_empty_prefix_slash    10.1.1.1/)
-ADD_SUBNETCALC_FAIL_TEST(fail_empty_address_slash   /24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_alpha       10.1.1.1:80abc/24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_overflow    10.1.1.1:99999/24)
-ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_unclosed_bracket "[2001:db8::1/64")
-ADD_SUBNETCALC_FAIL_TEST(fail_netmask_with_port     10.1.1.1/255.255.255.0:80)
-ADD_SUBNETCALC_FAIL_TEST(fail_nonexistent_domain    invalid.domain.test 24)
-ADD_SUBNETCALC_FAIL_TEST(fail_unknown_flag          10.1.1.1 24 --invalid-flag)
-ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_csv    10.1.1.1 24 -F csv)
-ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_html   10.1.1.1 24 --format html)
+ADD_SUBNETCALC_FAIL_TEST(fail_too_many_args               10.1.1.1 24 255.255.255.0)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_octet_256              256.1.1.1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_extra_octet            10.1.1.1.1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_double_dot             10.1..1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_trailing_dot           10.1.1.1. 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_leading_dot            .10.1.1.1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_1        256.1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_2        10.16777216 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_3        10.1.65536 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_prefix_33              10.1.1.1 33)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_alpha_prefix           10.1.1.1 24a)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_negative_prefix        10.1.1.1 -5)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_gaps              10.1.1.1 255.0.255.0)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_octet_256         10.1.1.1 255.255.255.256)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bad_hex                fd00::ghjk 64)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_triple_colon           fd00:::1 64)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_prefix_129             fd00::1 129)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_word_gaps         fd00::1 ffff:0:ffff::)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_bit_gaps          fd00::1 ff0f::)
+ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v4_v6              10.1.1.1 ffff:ffff:ffff::)
+ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v6_v4              fd00::1 255.255.255.0)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_on_ipv6_lit        2001:db8::1 64 -4)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_on_ipv4_lit        10.1.1.1 24 -6)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_1          www.heise.de 64 -4)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v4_v6_pref_2          www.nntb.no 64 -4)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_1          www.heise.de 255.255.255.0 -6)
+ADD_SUBNETCALC_FAIL_TEST(fail_force_v6_v4_mask_2          www.nntb.no 255.255.255.0 -6)
+ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula                 10.1.1.1 24 -u)
+ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula_hq              10.1.1.1 24 -U)
+ADD_SUBNETCALC_FAIL_TEST(fail_double_slash                10.1.1.1/24/32)
+ADD_SUBNETCALC_FAIL_TEST(fail_empty_prefix_slash          10.1.1.1/)
+ADD_SUBNETCALC_FAIL_TEST(fail_empty_address_slash         /24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_alpha             10.1.1.1:80abc/24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_overflow          10.1.1.1:99999/24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_unclosed_bracket       "[2001:db8::1/64")
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_trailing_bracket       "[2001:db8::1]foo/64")
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_port   "2001:db8::1/[ffff:ffff:ffff:ffff::]:80")
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_trail  "2001:db8::1/[ffff:ffff:ffff:ffff::]foo")
+ADD_SUBNETCALC_FAIL_TEST(fail_netmask_with_port           10.1.1.1/255.255.255.0:80)
+ADD_SUBNETCALC_FAIL_TEST(fail_nonexistent_domain          invalid.domain.test 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_unknown_flag                10.1.1.1 24 --invalid-flag)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_csv          10.1.1.1 24 -F csv)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_html         10.1.1.1 24 --format html)
