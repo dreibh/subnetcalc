@@ -128,7 +128,7 @@ struct SubnetDetails {
    unsigned int hostBits { 0 };
    bool         isMulticast { false };
    bool         hasMaxHosts { false }; // true when decimal host count is available
-   std::string  maxHostsCount;         // Pure decimal string ("0", "254") for machine formats
+   std::string  maxHostsCount;         // Pure decimal string ("1", "254") for machine formats
    std::string  maxHostsText;          // Formula string ("254   (2^8 - 2)") for Text
    std::string  hostMin;
    std::string  hostMax;
@@ -137,7 +137,7 @@ struct SubnetDetails {
    std::string  addressType;     // "host", "network", "broadcast", "multicast"
    std::string  addressTypeDescription;
 
-   // ====== IPv4 Specific
+   // ====== IPv4 Specific ==================================================
    std::string              ipv4Class;
    std::vector<std::string> ipv4Flags;
    std::string              multicastScope;
@@ -145,21 +145,22 @@ struct SubnetDetails {
    bool                     isSourceSpecificMulticast { false };
 
    // ====== IPv6 Specific ==================================================
-   std::string  ipv6Special;
-   bool         isTransientMulticast { false };
-   std::string  solicitedNodeFor;
-   std::string  unicastType;
-   std::string  ulaType;
-   bool         hasGlobalID { false };
-   std::string  globalID;
-   bool         hasSubnetID { false };
-   std::string  subnetID;
-   std::string  interfaceID;
-   bool         hasMACAddress { false };
-   std::string  macAddress;
-   std::string  solicitedNodeMulticast;
-   bool         hasSixToFour { false };
-   std::string  sixToFourAddress;
+   std::string              ipv6Special;
+   bool                     isTransientMulticast { false };
+   std::string              solicitedNodeFor;
+   std::string              unicastType;
+   std::string              ulaType;
+   std::vector<std::string> ipv6Flags;
+   bool                     hasGlobalID { false };
+   std::string              globalID;
+   bool                     hasSubnetID { false };
+   std::string              subnetID;
+   std::string              interfaceID;
+   bool                     hasMACAddress { false };
+   std::string              macAddress;
+   std::string              solicitedNodeMulticast;
+   bool                     hasSixToFour { false };
+   std::string              sixToFourAddress;
 
    // ====== GeoIP Information ==============================================
    bool         hasGeoIPASN { false };
@@ -572,8 +573,8 @@ static void outputPlainText(std::ostream&          os,
             formatter.addLine(1, gettext("Class D (Multicast)"));
          }
          else {
-            // TRANSLATORS: Error message when IPv4 address is outside classes A through D
-            formatter.addLine(1, gettext("Invalid (not in class A, B, C or D)"));
+            // TRANSLATORS: IPv4 network class designation
+            formatter.addLine(1, gettext("Class E (Reserved)"));
          }
       }
 
@@ -590,9 +591,49 @@ static void outputPlainText(std::ostream&          os,
             // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("Private"));
          }
+         else if(flag == "Shared address space for CGN") {
+            // TRANSLATORS: IPv4 address property
+            formatter.addLine(1, gettext("Shared address space for CGN"));
+         }
          else if(flag == "Link-local address") {
             // TRANSLATORS: IPv4 address property
             formatter.addLine(1, gettext("Link-local address"));
+         }
+         else if(flag == "Documentation") {
+            // TRANSLATORS: IPv4 address property
+            formatter.addLine(1, gettext("Documentation"));
+         }
+         else if(flag == "Benchmarking") {
+            // TRANSLATORS: IPv4 address property
+            formatter.addLine(1, gettext("Benchmarking"));
+         }
+         else if(flag == "IETF Protocol Assignments") {
+            // TRANSLATORS: IPv4 address property
+            formatter.addLine(1, gettext("IETF Protocol Assignments"));
+         }
+         else if(flag == "IPv4 Service Continuity Prefix") {
+            // TRANSLATORS: IPv4 address property (RFC 7335)
+            formatter.addLine(1, gettext("IPv4 Service Continuity Prefix"));
+         }
+         else if(flag == "IPv4 dummy address") {
+            // TRANSLATORS: IPv4 address property (RFC 7600)
+            formatter.addLine(1, gettext("IPv4 dummy address"));
+         }
+         else if(flag == "Port Control Protocol Anycast") {
+            // TRANSLATORS: IPv4 address property (RFC 7723)
+            formatter.addLine(1, gettext("Port Control Protocol Anycast"));
+         }
+         else if(flag == "TURN Anycast") {
+            // TRANSLATORS: IPv4 address property (RFC 8155)
+            formatter.addLine(1, gettext("TURN Anycast"));
+         }
+         else if(flag == "NAT64/DNS64 Discovery") {
+            // TRANSLATORS: IPv4 address property (RFC 7050 / RFC 8880)
+            formatter.addLine(1, gettext("NAT64/DNS64 Discovery"));
+         }
+         else if(flag == "Limited broadcast") {
+            // TRANSLATORS: IPv4 address property
+            formatter.addLine(1, gettext("Limited broadcast"));
          }
       }
 
@@ -724,6 +765,17 @@ static void outputPlainText(std::ostream&          os,
          else if(details.unicastType == "Global Unicast") {
             // TRANSLATORS: Section header for global unicast properties
             formatter.addLine(1, gettext("Global Unicast Properties:"));
+         }
+
+         for(const auto& flag : details.ipv6Flags) {
+            if(flag == "IETF Protocol Assignments") {
+               // TRANSLATORS: IPv6 address property
+               formatter.addLine(2, gettext("IETF Protocol Assignments"));
+            }
+            else if(flag == "Benchmarking") {
+               // TRANSLATORS: IPv6 address property
+               formatter.addLine(2, gettext("Benchmarking"));
+            }
          }
 
          // Aligned Key-Value Unicast Properties at Level 2
@@ -928,6 +980,14 @@ static void outputJSON(std::ostream& os, const SubnetDetails& details)
       if(!details.ulaType.empty()) {
          propEntries.push_back(std::format("    \"ula_type\": \"{}\"", escapeJSON(details.ulaType)));
       }
+      if(!details.ipv6Flags.empty()) {
+         std::string flagsStr = "    \"flags\": [";
+         for(size_t i = 0; i < details.ipv6Flags.size(); ++i) {
+            flagsStr += (i > 0 ? ", " : "") + std::format("\"{}\"", escapeJSON(details.ipv6Flags[i]));
+         }
+         flagsStr += "]";
+         propEntries.push_back(flagsStr);
+      }
       if(details.hasGlobalID) {
          propEntries.push_back(std::format("    \"global_id\": \"{}\"", escapeJSON(details.globalID)));
       }
@@ -1098,6 +1158,12 @@ static void outputYAML(std::ostream& os, const SubnetDetails& details)
    if(!details.ulaType.empty()) {
       os << std::format("  ula_type: \"{}\"\n", escapeJSON(details.ulaType));
    }
+   if(!details.ipv6Flags.empty()) {
+      os << "  flags:\n";
+      for(const auto& flag : details.ipv6Flags) {
+         os << std::format("    - \"{}\"\n", escapeJSON(flag));
+      }
+   }
    if(details.hasGlobalID) {
       os << std::format("  global_id: \"{}\"\n", escapeJSON(details.globalID));
    }
@@ -1228,6 +1294,13 @@ static void outputXML(std::ostream& os, const SubnetDetails& details)
    }
    if(!details.ulaType.empty()) {
       os << std::format("    <ula_type>{}</ula_type>\n", escapeXML(details.ulaType));
+   }
+   if(!details.ipv6Flags.empty()) {
+      os << "    <flags>\n";
+      for(const auto& flag : details.ipv6Flags) {
+         os << std::format("      <flag>{}</flag>\n", escapeXML(flag));
+      }
+      os << "    </flags>\n";
    }
    if(details.hasGlobalID) {
       os << std::format("    <global_id>{}</global_id>\n", escapeXML(details.globalID));
@@ -1669,14 +1742,11 @@ int main(int argc, char** argv)
    if(hostBits >= 128) {
       maxHosts = ~static_cast<unsigned __int128>(0) - reservedHosts;
    }
-   else if(hostBits > 0) {
+   else {
       maxHosts = (static_cast<unsigned __int128>(1) << hostBits) - reservedHosts;
    }
-   else {
-      maxHosts = 0;
-   }
 #else
-   if((hostBits < 64) && (hostBits > 0)) {
+   if(hostBits < 64) {
       maxHosts = (1ULL << hostBits) - reservedHosts;
    }
    else {
@@ -1722,29 +1792,24 @@ int main(int argc, char** argv)
 
 #if defined(__SIZEOF_INT128__)
       details.hasMaxHosts   = true;
-      details.maxHostsCount = (maxHosts > 0) ? toString(maxHosts) : "0";
-      if(maxHosts > 0) {
-         details.maxHostsText = std::format("{}   (2^{} - {})", details.maxHostsCount, hostBits, reservedHosts);
-      }
-      else {
-         details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
-      }
+      details.maxHostsCount = toString(maxHosts);
 #else
       if(hostBits < 64) {
          details.hasMaxHosts   = true;
-         details.maxHostsCount = (maxHosts > 0) ? std::to_string(maxHosts) : "0";
-         if(maxHosts > 0) {
-            details.maxHostsText = std::format("{}   (2^{} - {})", details.maxHostsCount, hostBits, reservedHosts);
-         }
-         else {
-            details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
-         }
+         details.maxHostsCount = std::to_string(maxHosts);
       }
       else {
-         details.hasMaxHosts  = false;
-         details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
+         details.hasMaxHosts = false;
       }
 #endif
+
+      if(details.hasMaxHosts) {
+         details.maxHostsText = std::format("{}   (2^{} - {})",
+                                            details.maxHostsCount, hostBits, reservedHosts);
+      }
+      else {
+         details.maxHostsText = std::format("2^{} - {}", hostBits, reservedHosts);
+      }
    }
 
    // ====== Collect Classification & Properties ============================
@@ -1780,6 +1845,8 @@ int main(int argc, char** argv)
       const in_addr_t    ipv4address = ntohl(getIPv4Address(address));
       const unsigned int a           = ipv4address >> 24;
       const unsigned int b           = (ipv4address & 0x00ff0000) >> 16;
+      const unsigned int c           = (ipv4address & 0x0000ff00) >> 8;
+      const unsigned int d           = (ipv4address & 0x000000ff);
 
       if(IN_CLASSA(ipv4address)) {
          details.ipv4Class = "Class A";
@@ -1791,6 +1858,10 @@ int main(int argc, char** argv)
          }
          else if(a == 10) {
             details.ipv4Flags.push_back("Private");
+         }
+         else if((a == 100) && ((b >= 64) && (b <= 127))) {
+            // RFC 6598: 100.64.0.0/10 Shared Address Space for CGN
+            details.ipv4Flags.push_back("Shared address space for CGN");
          }
       }
       else if(IN_CLASSB(ipv4address)) {
@@ -1806,6 +1877,41 @@ int main(int argc, char** argv)
          details.ipv4Class = "Class C";
          if((a == 192) && (b == 168)) {
             details.ipv4Flags.push_back("Private");
+         }
+         else if((a == 192) && (b == 0) && (c == 0)) {
+            // RFC 6890: 192.0.0.0/24 IETF Protocol Assignments
+            details.ipv4Flags.push_back("IETF Protocol Assignments");
+            if(d <= 7) {
+               // RFC 7335: 192.0.0.0/29 IPv4 Service Continuity Prefix
+               details.ipv4Flags.push_back("IPv4 Service Continuity Prefix");
+            }
+            else if(d == 8) {
+               // RFC 7600: 192.0.0.8/32 IPv4 dummy address
+               details.ipv4Flags.push_back("IPv4 dummy address");
+            }
+            else if(d == 9) {
+               // RFC 7723: 192.0.0.9/32 Port Control Protocol Anycast
+               details.ipv4Flags.push_back("Port Control Protocol Anycast");
+            }
+            else if(d == 10) {
+               // RFC 8155: 192.0.0.10/32 Traversal Using Relays around NAT Anycast
+               details.ipv4Flags.push_back("TURN Anycast");
+            }
+            else if((d == 170) || (d == 171)) {
+               // RFC 7050 / RFC 8880: 192.0.0.170/32, 192.0.0.171/32 NAT64/DNS64 Discovery
+               details.ipv4Flags.push_back("NAT64/DNS64 Discovery");
+            }
+         }
+         else if(((a == 192) && (b == 0) && (c == 2)) ||
+                 ((a == 198) && (b == 51) && (c == 100)) ||
+                 ((a == 203) && (b == 0) && (c == 113))) {
+            // RFC 5737: TEST-NET-1 (192.0.2.0/24), TEST-NET-2 (198.51.100.0/24),
+            //           and TEST-NET-3 (203.0.113.0/24)
+            details.ipv4Flags.push_back("Documentation");
+         }
+         else if((a == 198) && ((b == 18) || (b == 19))) {
+            // RFC 2544 / RFC 6815: 198.18.0.0/15 Benchmarking
+            details.ipv4Flags.push_back("Benchmarking");
          }
       }
       else if(IN_CLASSD(ipv4address)) {
@@ -1833,7 +1939,13 @@ int main(int argc, char** argv)
          }
       }
       else {
-         details.ipv4Class = "Invalid (not in class A, B, C or D)";
+         if(ipv4address == INADDR_BROADCAST) {
+            // RFC 1122 / RFC 919: 255.255.255.255/32 Limited Broadcast
+            details.ipv4Flags.push_back("Limited broadcast");
+         }
+         else {
+            details.ipv4Class = "Class E (Reserved)";
+         }
       }
    }
    else {
@@ -1928,7 +2040,15 @@ int main(int argc, char** argv)
          else if((word0 & 0xe000) == 0x2000) {
             details.unicastType = "Global Unicast";
             hasSubnetID         = false;
-            if(word0 == 0x2002) {
+            if((word0 == 0x2001) && ((word1 & 0xfe00) == 0x0000)) {
+               // RFC 2928 / RFC 6890: 2001::/23 IETF Protocol Assignments
+               details.ipv6Flags.push_back("IETF Protocol Assignments");
+               if((word1 == 0x0002) && (word2 == 0x0000)) {
+                  // RFC 5180 / RFC 6890: 2001:2::/48 Benchmarking
+                  details.ipv6Flags.push_back("Benchmarking");
+               }
+            }
+            else if(word0 == 0x2002) {
                details.hasSixToFour = true;
                sockaddr_union sixToFour { };
                sixToFour.sa.sa_family       = AF_INET;
