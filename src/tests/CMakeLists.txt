@@ -984,7 +984,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    TYPE                 host
    CLASS                "Class C"
    FLAG                 "IETF Protocol Assignments"
-   FLAG2                "IPv4 dummy address"
+   FLAG2                "IPv4 Dummy Address"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1090,7 +1090,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
 SET_TESTS_PROPERTIES(
    ipv4_ietf_protocol_unassigned_text ipv4_ietf_protocol_unassigned_json
    ipv4_ietf_protocol_unassigned_yaml ipv4_ietf_protocol_unassigned_xml
-   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;IPv4 Service Continuity Prefix;IPv4 dummy address;Port Control Protocol Anycast;TURN Anycast;NAT64/DNS64 Discovery"
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;IPv4 Service Continuity Prefix;IPv4 Dummy Address;Port Control Protocol Anycast;TURN Anycast;NAT64/DNS64 Discovery"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(

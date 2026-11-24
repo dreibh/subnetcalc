@@ -615,9 +615,9 @@ static void outputPlainText(std::ostream&          os,
             // TRANSLATORS: IPv4 address property (RFC 7335)
             formatter.addLine(1, gettext("IPv4 Service Continuity Prefix"));
          }
-         else if(flag == "IPv4 dummy address") {
+         else if(flag == "IPv4 Dummy Address") {
             // TRANSLATORS: IPv4 address property (RFC 7600)
-            formatter.addLine(1, gettext("IPv4 dummy address"));
+            formatter.addLine(1, gettext("IPv4 Dummy Address"));
          }
          else if(flag == "Port Control Protocol Anycast") {
             // TRANSLATORS: IPv4 address property (RFC 7723)
@@ -655,8 +655,8 @@ static void outputPlainText(std::ostream&          os,
             // TRANSLATORS: Multicast scope level
             scopeVal = gettext("global");
          }
-         // TRANSLATORS: Multicast scope label prefix
-         formatter.addLine(2, std::string(gettext("Scope: ")) + scopeVal);
+         // TRANSLATORS: Multicast scope: {0} = scope level string
+         formatter.addLine(2, formatText(gettext("Scope: {0}"), scopeVal));
          // TRANSLATORS: Multicast MAC address: {0} = MAC address string
          formatter.addLine(2, formatText(gettext("Corresponding multicast MAC address: {0}"), details.multicastMac));
 
@@ -692,7 +692,7 @@ static void outputPlainText(std::ostream&          os,
       }
       else if(details.isMulticast) {
          // TRANSLATORS: Section header for IPv6 multicast properties
-         formatter.addLine(1, gettext("Multicast Properties"));
+         formatter.addLine(1, gettext("Multicast Properties:"));
 
          std::string scopeVal;
          if(details.multicastScope == "node-local") {
@@ -719,8 +719,8 @@ static void outputPlainText(std::ostream&          os,
             // TRANSLATORS: Multicast scope level
             scopeVal = gettext("unknown");
          }
-         // TRANSLATORS: Multicast scope label prefix
-         formatter.addLine(2, std::string(gettext("Scope: ")) + scopeVal);
+         // TRANSLATORS: Multicast scope: {0} = scope level string
+         formatter.addLine(2, formatText(gettext("Scope: {0}"), scopeVal));
 
          if(details.isTransientMulticast) {
             // TRANSLATORS: IPv6 multicast flag property
@@ -1422,8 +1422,8 @@ static void usage(const char* program, const int exitCode)
                    ENTRY(OPT("-v") PIPE OPT("--version"))
              << "\n"
              // TRANSLATORS: Informational message at the end of usage:
-             // "For further information, see the man page for <manpage>, read the documentation at <url>, examine the source code at <url>, or consult your favourite LLM.".
-             << formatText(gettext("For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."),
+             // {0} = manpage name, {1} = documentation URL, {2} = repository URL
+             << formatText(gettext("For further information, see the man page for {0}, read the documentation at {1}, examine the source code at {2}, or consult your favourite LLM."),
                            manpage, homepage, repository) << "\n";
    std::exit(exitCode);
 }
@@ -1886,8 +1886,8 @@ int main(int argc, char** argv)
                details.ipv4Flags.push_back("IPv4 Service Continuity Prefix");
             }
             else if(d == 8) {
-               // RFC 7600: 192.0.0.8/32 IPv4 dummy address
-               details.ipv4Flags.push_back("IPv4 dummy address");
+               // RFC 7600: 192.0.0.8/32 IPv4 Dummy Address
+               details.ipv4Flags.push_back("IPv4 Dummy Address");
             }
             else if(d == 9) {
                // RFC 7723: 192.0.0.9/32 Port Control Protocol Anycast
