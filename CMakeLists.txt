@@ -146,6 +146,19 @@ OPTION(WITH_GEOIP "Build with GeoIP support"                       ON)
 
 CHECK_TYPE_SIZE("__int128" HAVE_INT128)
 
+# ====== Structure members ==================================================
+CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in" "sin_len" "sys/types.h;netinet/in.h" HAVE_SIN_LEN)
+IF (HAVE_SIN_LEN)
+    MESSAGE(STATUS "HAVE_SIN_LEN")
+    ADD_DEFINITIONS(-DHAVE_SIN_LEN)
+ENDIF()
+
+CHECK_STRUCT_HAS_MEMBER("struct sockaddr_in6" "sin6_len" "sys/types.h;netinet/in.h" HAVE_SIN6_LEN)
+IF (HAVE_SIN6_LEN)
+    MESSAGE(STATUS "HAVE_SIN6_LEN")
+    ADD_DEFINITIONS(-DHAVE_SIN6_LEN)
+ENDIF()
+
 
 #############################################################################
 #### REQUIREMENTS                                                        ####

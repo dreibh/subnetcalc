@@ -572,15 +572,20 @@ bool string2address(std::string_view      string,
    // ====== Handle RFC 2732 [addr]:port format ==============================
    if(!host.empty() && host.front() == '[') {
       const auto closeBracket = host.find(']');
-      if(closeBracket != std::string_view::npos) {
-         if(readPort && closeBracket + 1 < host.size() && host[closeBracket + 1] == ':') {
-            const auto portStr = host.substr(closeBracket + 2);
-            if(std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber).ec != std::errc{}) {
-               return false;
-            }
-         }
-         host = host.substr(1, closeBracket - 1);
+      if(closeBracket == std::string_view::npos) {
+         return false;
       }
+      if(closeBracket + 1 < host.size()) {
+         if(!readPort || (host[closeBracket + 1] != ':')) {
+            return false;
+         }
+         const auto portStr = host.substr(closeBracket + 2);
+         auto [p, ec] = std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber);
+         if(ec != std::errc{} || p != portStr.data() + portStr.size()) {
+            return false;
+         }
+      }
+      host = host.substr(1, closeBracket - 1);
    }
    // ====== Handle standard host:port format ================================
    else if(readPort) {
@@ -588,7 +593,8 @@ bool string2address(std::string_view      string,
       const auto lastColon  = host.rfind(':');
       if(firstColon != std::string_view::npos && firstColon == lastColon) {
          const auto portStr = host.substr(lastColon + 1);
-         if(std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber).ec != std::errc{}) {
+         auto [p, ec] = std::from_chars(portStr.data(), portStr.data() + portStr.size(), portNumber);
+         if(ec != std::errc{} || p != portStr.data() + portStr.size()) {
             return false;
          }
          host = host.substr(0, lastColon);
@@ -631,6 +637,9 @@ bool string2address(std::string_view      string,
          address->in.sin_family = AF_INET;
          address->in.sin_addr   = in4;
          address->in.sin_port   = htons(portNumber);
+#ifdef HAVE_SIN_LEN
+         address->in.sin_len    = sizeof(struct sockaddr_in);
+#endif
          return true;
       }
 #endif

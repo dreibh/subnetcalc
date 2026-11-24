@@ -1125,7 +1125,7 @@ static void outputYAML(std::ostream& os, const SubnetDetails& details)
             os << std::format("  asn: {}\n", details.geoIPASNumber);
          }
          if(!details.geoIPASOrganization.empty()) {
-            os << std::format("  as_organization: \"{}\"", escapeJSON(details.geoIPASOrganization));
+            os << std::format("  as_organization: \"{}\"\n", escapeJSON(details.geoIPASOrganization));
          }
       }
       if(details.hasGeoIPCity) {
@@ -1575,7 +1575,7 @@ int main(int argc, char** argv)
          return 1;
       }
       if(readPrefix(netmaskPart, address, netmask) < 0) {
-         if(!string2address(netmaskPart, &netmask, true, addressFamily)) {
+         if(!string2address(netmaskPart, &netmask, false, addressFamily)) {
             // TRANSLATORS: Error message when netmask string is invalid:
             // {0} = input netmask
             std::cerr << formatText(gettext("ERROR: Invalid netmask {0}!"), netmaskPart) << '\n';
@@ -1594,7 +1594,7 @@ int main(int argc, char** argv)
          const std::string_view secondArg = argv[optind + 1];
          if(!secondArg.empty() && (secondArg.front() != '-')) {
             if(readPrefix(secondArg, address, netmask) < 0) {
-               if(!string2address(secondArg, &netmask, true, addressFamily)) {
+               if(!string2address(secondArg, &netmask, false, addressFamily)) {
                   // TRANSLATORS: Error message when netmask string is invalid:
                   // {0} = input netmask
                   std::cerr << formatText(gettext("ERROR: Invalid netmask {0}!"), secondArg) << '\n';
