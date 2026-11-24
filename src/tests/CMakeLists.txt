@@ -966,6 +966,24 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_unspecified_host_32
+   ARGS                 0.0.0.0 32 -c -n -g
+   ADDRESS              0.0.0.0
+   FAMILY               IPv4
+   NETWORK              0.0.0.0
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  00000000
+   HOST_BITS            0
+   MAX_HOSTS            0
+   HOST_MIN             0.0.0.0
+   HOST_MAX             0.0.0.0
+   TYPE                 host
+   CLASS                "Class A"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_limited_broadcast
    ARGS                 255.255.255.255 32 -c -n -g
    ADDRESS              255.255.255.255
@@ -980,6 +998,25 @@ ADD_SUBNETCALC_MATRIX_TEST(
    HOST_MIN             255.255.255.255
    HOST_MAX             255.255.255.255
    TYPE                 host
+   CLASS                "Invalid (not in class A, B, C or D)"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_broadcast_in_default_0
+   ARGS                 255.255.255.255 0 -c -n -g
+   ADDRESS              255.255.255.255
+   FAMILY               IPv4
+   NETWORK              0.0.0.0
+   PREFIX               0
+   NETMASK              0.0.0.0
+   BROADCAST            255.255.255.255
+   WILDCARD             255.255.255.255
+   HEX                  FFFFFFFF
+   HOST_BITS            32
+   MAX_HOSTS            4294967294
+   HOST_MIN             0.0.0.1
+   HOST_MAX             255.255.255.254
+   TYPE                 broadcast
    CLASS                "Invalid (not in class A, B, C or D)"
 )
 
@@ -1242,6 +1279,24 @@ ADD_SUBNETCALC_MATRIX_TEST(
 ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_slash_netmask_64
    ARGS                 2001:db8::1/ffff:ffff:ffff:ffff:: -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:db8::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2001:db8::1
+   HOST_MAX             2001:db8::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_space_netmask_64
+   ARGS                 2001:db8::1 ffff:ffff:ffff:ffff:: -c -n -g
    ADDRESS              2001:db8::1
    EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
    FAMILY               IPv6
@@ -1791,6 +1846,28 @@ ADD_SUBNETCALC_MATRIX_TEST(
    SSM                  TRUE
 )
 
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_non_ssm
+   ARGS                 ff3e:1::123:4 128 -c -n -g
+   ADDRESS              ff3e:1::123:4
+   EXPANDED_ADDRESS     ff3e:0001:0000:0000:0000:0000:0123:0004
+   FAMILY               IPv6
+   NETWORK              ff3e:1::123:4
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "global"
+   MULTICAST_MAC        "33:33:01:23:00:04"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_multicast_non_ssm_text ipv6_multicast_non_ssm_json
+   ipv6_multicast_non_ssm_yaml ipv6_multicast_non_ssm_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Source-specific multicast;source_specific_multicast"
+)
+
 # --- Arbitrary Bit Boundaries ----------------------------------------------
 ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 boundary_ipv6_p1
@@ -1839,10 +1916,28 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe
    WILDCARD             ::1
    HOST_BITS            1
-   MAX_HOSTS            1
-   HOST_MIN             2001:db8:abcd:1234:5678:9abc:def0:1
+   MAX_HOSTS            2
+   HOST_MIN             2001:db8:abcd:1234:5678:9abc:def0:0
    HOST_MAX             2001:db8:abcd:1234:5678:9abc:def0:1
    TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 boundary_ipv6_p127_network
+   ARGS                 2001:db8:abcd:1234:5678:9abc:def0:0 127 -c -n -g
+   ADDRESS              2001:db8:abcd:1234:5678:9abc:def0:0
+   EXPANDED_ADDRESS     2001:0db8:abcd:1234:5678:9abc:def0:0000
+   FAMILY               IPv6
+   NETWORK              2001:db8:abcd:1234:5678:9abc:def0:0
+   PREFIX               127
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:fffe
+   WILDCARD             ::1
+   HOST_BITS            1
+   MAX_HOSTS            2
+   HOST_MIN             2001:db8:abcd:1234:5678:9abc:def0:0
+   HOST_MAX             2001:db8:abcd:1234:5678:9abc:def0:1
+   TYPE                 network
    UNICAST_TYPE         "Global Unicast"
 )
 
@@ -1860,6 +1955,9 @@ ADD_SUBNETCALC_TEST(cli_nogeoip_short             8.8.8.8 32 -g)
 ADD_SUBNETCALC_TEST(cli_nogeoip_long              8.8.8.8 32 --nogeoiplookup)
 ADD_SUBNETCALC_TEST(cli_combined_flags            2001:4860:4860::8888 128 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_combined_short            2001:4860:4860::8888 128 -cng)
+ADD_SUBNETCALC_TEST(cli_double_dash_options       -c -n -g -- 192.168.1.1 24)
+ADD_SUBNETCALC_TEST(cli_single_dash_long_opts     10.1.1.1/24 -nocolor -noreverselookup -nogeoiplookup)
+ADD_SUBNETCALC_TEST(cli_family_override_v4        10.1.1.1/24 -6 -4 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_json        10.1.1.1/24 --format=json -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_yaml        10.1.1.1/24 --format=yaml -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_xml         10.1.1.1/24 --format=xml -n -g)
@@ -1867,6 +1965,7 @@ ADD_SUBNETCALC_TEST(cli_format_equals_text        10.1.1.1/24 --format=text -c -
 ADD_SUBNETCALC_TEST(cli_json_with_dns_block       127.0.0.1/8 -g -F json)
 ADD_SUBNETCALC_TEST(cli_default_prefix_ipv4       192.168.1.1 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_default_prefix_ipv6       2001:db8::1 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_localhost_with_port       localhost:8080 -4 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv4_with_port            192.168.1.1:8080/24 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv6_bracket_no_port      "[2001:db8::1]/64" -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv6_bracket_with_port    "[2001:db8::1]:443/64" -c -n -g)
@@ -1879,6 +1978,21 @@ SET_TESTS_PROPERTIES(
    cli_noreverse_short cli_noreverse_long cli_nogeoip_short
    cli_nogeoip_long cli_combined_flags cli_combined_short
    PROPERTIES LABELS "cli;options"
+)
+
+SET_TESTS_PROPERTIES(cli_double_dash_options PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 192\\.168\\.1\\.0 / 24"
+   LABELS "cli;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_single_dash_long_opts PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 10\\.1\\.1\\.0 / 24"
+   LABELS "cli;options;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_family_override_v4 PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 10\\.1\\.1\\.0 / 24"
+   LABELS "cli;options;ipv4"
 )
 
 SET_TESTS_PROPERTIES(cli_format_equals_json PROPERTIES
@@ -1916,6 +2030,11 @@ SET_TESTS_PROPERTIES(cli_default_prefix_ipv6 PROPERTIES
    LABELS "cli;ipv6"
 )
 
+SET_TESTS_PROPERTIES(cli_localhost_with_port PROPERTIES
+   PASS_REGULAR_EXPRESSION "Address[ ]+= 127\\.0\\.0\\.1.*Network[ ]+= 127\\.0\\.0\\.1 / 32"
+   LABELS "cli;ipv4"
+)
+
 SET_TESTS_PROPERTIES(cli_ipv4_with_port PROPERTIES
    PASS_REGULAR_EXPRESSION "Address[ ]+= 192\\.168\\.1\\.1.*Network[ ]+= 192\\.168\\.1\\.0 / 24"
    LABELS "cli;ipv4"
@@ -1944,7 +2063,7 @@ SET_TESTS_PROPERTIES(cli_colour_ipv4 PROPERTIES
 )
 
 SET_TESTS_PROPERTIES(cli_colour_ipv6_eui64 PROPERTIES
-   PASS_REGULAR_EXPRESSION "MAC Address[ ]+= ${ESC}\\[36m00:11:22${ESC}\\[0m:${ESC}\\[38m33:44:55${ESC}\\[0m"
+   PASS_REGULAR_EXPRESSION "Interface ID[ ]+= ${ESC}\\[36m0211:22${ESC}\\[37mff:fe${ESC}\\[38m33:4455${ESC}\\[0m.*MAC Address[ ]+= ${ESC}\\[36m00:11:22${ESC}\\[0m:${ESC}\\[38m33:44:55${ESC}\\[0m.*Solicited Node Multicast Address[ ]+= ${ESC}\\[32mff02::1:ff${ESC}\\[38m33:4455${ESC}\\[0m"
    LABELS "cli;ipv6"
 )
 
@@ -2093,10 +2212,13 @@ ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_extra_octet            10.1.1.1.1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_double_dot             10.1..1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_trailing_dot           10.1.1.1. 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_leading_dot            .10.1.1.1 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_trail_dot    10.1. 24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_1part_ovf    4294967296 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_1        256.1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_2        10.16777216 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_3        10.1.65536 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_prefix_33              10.1.1.1 33)
+ADD_SUBNETCALC_FAIL_TEST(fail_prefix_int_overflow         10.1.1.1 999999999999999999999)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_alpha_prefix           10.1.1.1 24a)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_negative_prefix        10.1.1.1 -5)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_mask_gaps              10.1.1.1 255.0.255.0)
@@ -2105,6 +2227,7 @@ ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bad_hex                fd00::ghjk 64)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_triple_colon           fd00:::1 64)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_prefix_129             fd00::1 129)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_word_gaps         fd00::1 ffff:0:ffff::)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_partial_word_gap  fd00::1 ffff:8000:1::)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_mask_bit_gaps          fd00::1 ff0f::)
 ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v4_v6              10.1.1.1 ffff:ffff:ffff::)
 ADD_SUBNETCALC_FAIL_TEST(fail_mismatch_v6_v4              fd00::1 255.255.255.0)
@@ -2123,6 +2246,7 @@ ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_alpha             10.1.1.1:80abc/24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_overflow          10.1.1.1:99999/24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_unclosed_bracket       "[2001:db8::1/64")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_trailing_bracket       "[2001:db8::1]foo/64")
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bracket_port_overflow  "[::1]:65536/128")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_port   "2001:db8::1/[ffff:ffff:ffff:ffff::]:80")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_trail  "2001:db8::1/[ffff:ffff:ffff:ffff::]foo")
 ADD_SUBNETCALC_FAIL_TEST(fail_netmask_with_port           10.1.1.1/255.255.255.0:80)

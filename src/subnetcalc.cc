@@ -1646,19 +1646,19 @@ int main(int argc, char** argv)
       host1         = network + 1;
       host2         = broadcast - 1;
       if(prefix >= 31) {
+         // Exception: /31 for point-to-point links (RFC 3021) and /32 host routes
          reservedHosts = 0;
-         host1 = network;
-         host2 = broadcast;
+         host1         = network;
+         host2         = broadcast;
       }
    }
    else {
       reservedHosts = 1;
       hostBits      = 128 - static_cast<unsigned int>(prefix);
-      if(prefix < 128) {
-         host1 = network + 1;
-         host2 = broadcast;
-      }
-      else {
+      host1         = network + 1;
+      host2         = broadcast;
+      if(prefix >= 127) {
+         // Exception: /127 for point-to-point links (RFC 6164) and /128 host routes
          reservedHosts = 0;
          host1         = network;
          host2         = broadcast;
