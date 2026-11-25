@@ -496,6 +496,8 @@ ADD_SUBNETCALC_TEST(cli_help_i18n_de  -h)
 ADD_SUBNETCALC_TEST(cli_help_i18n_nb  -h)
 ADD_SUBNETCALC_TEST(cli_help_i18n_ar  -h)
 ADD_SUBNETCALC_TEST(cli_help_i18n_he  -h)
+ADD_SUBNETCALC_TEST(cli_help_i18n_mn  -h)
+ADD_SUBNETCALC_TEST(cli_help_i18n_lt  -h)
 
 SET_TESTS_PROPERTIES(cli_version_short cli_version_long PROPERTIES
    PASS_REGULAR_EXPRESSION "SubNetCalc [0-9]+\\.[0-9]+\\.[0-9]+"
@@ -532,6 +534,20 @@ SET_TESTS_PROPERTIES(cli_help_i18n_he PROPERTIES
    ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=he;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
    PASS_REGULAR_EXPRESSION "שימוש:"
    LABELS "cli;i18n;locale_he;rtl"
+)
+
+# Mongolian catalog translation ("Хэрэглээ:")
+SET_TESTS_PROPERTIES(cli_help_i18n_mn PROPERTIES
+   ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=mn;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   PASS_REGULAR_EXPRESSION "Хэрэглээ:"
+   LABELS "cli;i18n;locale_mn"
+)
+
+# Lithuanian catalog translation ("Naudojimas:")
+SET_TESTS_PROPERTIES(cli_help_i18n_lt PROPERTIES
+   ENVIRONMENT "LC_ALL=en_US.UTF-8;LANGUAGE=lt;TEXTDOMAINDIR=${TEST_LOCALE_DIR}"
+   PASS_REGULAR_EXPRESSION "Naudojimas:"
+   LABELS "cli;i18n;locale_lt"
 )
 
 
@@ -660,6 +676,52 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_c_private_boundary_low
+   ARGS                 192.167.255.255 24 -c -n -g
+   ADDRESS              192.167.255.255
+   FAMILY               IPv4
+   NETWORK              192.167.255.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            192.167.255.255
+   WILDCARD             0.0.0.255
+   HEX                  C0A7FFFF
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             192.167.255.1
+   HOST_MAX             192.167.255.254
+   TYPE                 broadcast
+   CLASS                "Class C"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_c_private_boundary_high
+   ARGS                 192.169.0.1 24 -c -n -g
+   ADDRESS              192.169.0.1
+   FAMILY               IPv4
+   NETWORK              192.169.0.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            192.169.0.255
+   WILDCARD             0.0.0.255
+   HEX                  C0A90001
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             192.169.0.1
+   HOST_MAX             192.169.0.254
+   TYPE                 host
+   CLASS                "Class C"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_c_private_boundary_low_text ipv4_c_private_boundary_low_json
+   ipv4_c_private_boundary_low_yaml ipv4_c_private_boundary_low_xml
+   ipv4_c_private_boundary_high_text ipv4_c_private_boundary_high_json
+   ipv4_c_private_boundary_high_yaml ipv4_c_private_boundary_high_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_b_private
    ARGS                 172.16.0.1 12 -c -n -g
    ADDRESS              172.16.0.1
@@ -677,6 +739,52 @@ ADD_SUBNETCALC_MATRIX_TEST(
    TYPE                 host
    CLASS                "Class B"
    FLAG                 "Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_b_private_boundary_low
+   ARGS                 172.15.255.255 16 -c -n -g
+   ADDRESS              172.15.255.255
+   FAMILY               IPv4
+   NETWORK              172.15.0.0
+   PREFIX               16
+   NETMASK              255.255.0.0
+   BROADCAST            172.15.255.255
+   WILDCARD             0.0.255.255
+   HEX                  AC0FFFFF
+   HOST_BITS            16
+   MAX_HOSTS            65534
+   HOST_MIN             172.15.0.1
+   HOST_MAX             172.15.255.254
+   TYPE                 broadcast
+   CLASS                "Class B"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_b_private_boundary_high_12
+   ARGS                 172.32.0.0 12 -c -n -g
+   ADDRESS              172.32.0.0
+   FAMILY               IPv4
+   NETWORK              172.32.0.0
+   PREFIX               12
+   NETMASK              255.240.0.0
+   BROADCAST            172.47.255.255
+   WILDCARD             0.15.255.255
+   HEX                  AC200000
+   HOST_BITS            20
+   MAX_HOSTS            1048574
+   HOST_MIN             172.32.0.1
+   HOST_MAX             172.47.255.254
+   TYPE                 network
+   CLASS                "Class B"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_b_private_boundary_low_text ipv4_b_private_boundary_low_json
+   ipv4_b_private_boundary_low_yaml ipv4_b_private_boundary_low_xml
+   ipv4_b_private_boundary_high_12_text ipv4_b_private_boundary_high_12_json
+   ipv4_b_private_boundary_high_12_yaml ipv4_b_private_boundary_high_12_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Private"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -713,6 +821,26 @@ ADD_SUBNETCALC_MATRIX_TEST(
    MAX_HOSTS            16777214
    HOST_MIN             10.0.0.1
    HOST_MAX             10.255.255.254
+   TYPE                 host
+   CLASS                "Class A"
+   FLAG                 "Private"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_a_prefix_0
+   ARGS                 10.1.1.1/0 -c -n -g
+   ADDRESS              10.1.1.1
+   FAMILY               IPv4
+   NETWORK              0.0.0.0
+   PREFIX               0
+   NETMASK              0.0.0.0
+   BROADCAST            255.255.255.255
+   WILDCARD             255.255.255.255
+   HEX                  0A010101
+   HOST_BITS            32
+   MAX_HOSTS            4294967294
+   HOST_MIN             0.0.0.1
+   HOST_MAX             255.255.255.254
    TYPE                 host
    CLASS                "Class A"
    FLAG                 "Private"
@@ -858,6 +986,52 @@ ADD_SUBNETCALC_MATRIX_TEST(
    TYPE                 host
    CLASS                "Class B"
    FLAG                 "Link-local address"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_link_local_boundary_low
+   ARGS                 169.253.255.255 16 -c -n -g
+   ADDRESS              169.253.255.255
+   FAMILY               IPv4
+   NETWORK              169.253.0.0
+   PREFIX               16
+   NETMASK              255.255.0.0
+   BROADCAST            169.253.255.255
+   WILDCARD             0.0.255.255
+   HEX                  A9FDFFFF
+   HOST_BITS            16
+   MAX_HOSTS            65534
+   HOST_MIN             169.253.0.1
+   HOST_MAX             169.253.255.254
+   TYPE                 broadcast
+   CLASS                "Class B"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_link_local_boundary_high
+   ARGS                 169.255.0.1 16 -c -n -g
+   ADDRESS              169.255.0.1
+   FAMILY               IPv4
+   NETWORK              169.255.0.0
+   PREFIX               16
+   NETMASK              255.255.0.0
+   BROADCAST            169.255.255.255
+   WILDCARD             0.0.255.255
+   HEX                  A9FF0001
+   HOST_BITS            16
+   MAX_HOSTS            65534
+   HOST_MIN             169.255.0.1
+   HOST_MAX             169.255.255.254
+   TYPE                 host
+   CLASS                "Class B"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_link_local_boundary_low_text ipv4_link_local_boundary_low_json
+   ipv4_link_local_boundary_low_yaml ipv4_link_local_boundary_low_xml
+   ipv4_link_local_boundary_high_text ipv4_link_local_boundary_high_json
+   ipv4_link_local_boundary_high_yaml ipv4_link_local_boundary_high_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Link-local address"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1028,6 +1202,31 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_ietf_protocol_subassign_gap
+   ARGS                 192.0.0.11 32 -c -n -g
+   ADDRESS              192.0.0.11
+   FAMILY               IPv4
+   NETWORK              192.0.0.11
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  C000000B
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             192.0.0.11
+   HOST_MAX             192.0.0.11
+   TYPE                 host
+   CLASS                "Class C"
+   FLAG                 "IETF Protocol Assignments"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_ietf_protocol_subassign_gap_text ipv4_ietf_protocol_subassign_gap_json
+   ipv4_ietf_protocol_subassign_gap_yaml ipv4_ietf_protocol_subassign_gap_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;IPv4 Service Continuity Prefix;IPv4 Dummy Address;Port Control Protocol Anycast;TURN Anycast;NAT64/DNS64 Discovery"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_ietf_protocol_nat64
    ARGS                 192.0.0.170 32 -c -n -g
    ADDRESS              192.0.0.170
@@ -1116,6 +1315,73 @@ SET_TESTS_PROPERTIES(
    ipv4_ietf_protocol_boundary_text ipv4_ietf_protocol_boundary_json
    ipv4_ietf_protocol_boundary_yaml ipv4_ietf_protocol_boundary_xml
    PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;IETF Protocol Assignments;Documentation"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_doc_testnet1_boundary_low
+   ARGS                 192.0.1.255 24 -c -n -g
+   ADDRESS              192.0.1.255
+   FAMILY               IPv4
+   NETWORK              192.0.1.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            192.0.1.255
+   WILDCARD             0.0.0.255
+   HEX                  C00001FF
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             192.0.1.1
+   HOST_MAX             192.0.1.254
+   TYPE                 broadcast
+   CLASS                "Class C"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_doc_testnet2_boundary_low
+   ARGS                 198.51.99.255 24 -c -n -g
+   ADDRESS              198.51.99.255
+   FAMILY               IPv4
+   NETWORK              198.51.99.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            198.51.99.255
+   WILDCARD             0.0.0.255
+   HEX                  C63363FF
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             198.51.99.1
+   HOST_MAX             198.51.99.254
+   TYPE                 broadcast
+   CLASS                "Class C"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_doc_testnet3_boundary_low
+   ARGS                 203.0.112.255 24 -c -n -g
+   ADDRESS              203.0.112.255
+   FAMILY               IPv4
+   NETWORK              203.0.112.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            203.0.112.255
+   WILDCARD             0.0.0.255
+   HEX                  CB0070FF
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             203.0.112.1
+   HOST_MAX             203.0.112.254
+   TYPE                 broadcast
+   CLASS                "Class C"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_doc_testnet1_boundary_low_text ipv4_doc_testnet1_boundary_low_json
+   ipv4_doc_testnet1_boundary_low_yaml ipv4_doc_testnet1_boundary_low_xml
+   ipv4_doc_testnet2_boundary_low_text ipv4_doc_testnet2_boundary_low_json
+   ipv4_doc_testnet2_boundary_low_yaml ipv4_doc_testnet2_boundary_low_xml
+   ipv4_doc_testnet3_boundary_low_text ipv4_doc_testnet3_boundary_low_json
+   ipv4_doc_testnet3_boundary_low_yaml ipv4_doc_testnet3_boundary_low_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Documentation"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1265,6 +1531,31 @@ SET_TESTS_PROPERTIES(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_pre_multicast_boundary
+   ARGS                 223.255.255.255 24 -c -n -g
+   ADDRESS              223.255.255.255
+   FAMILY               IPv4
+   NETWORK              223.255.255.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            223.255.255.255
+   WILDCARD             0.0.0.255
+   HEX                  DFFFFFFF
+   HOST_BITS            8
+   MAX_HOSTS            254
+   HOST_MIN             223.255.255.1
+   HOST_MAX             223.255.255.254
+   TYPE                 broadcast
+   CLASS                "Class C"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_pre_multicast_boundary_text ipv4_pre_multicast_boundary_json
+   ipv4_pre_multicast_boundary_yaml ipv4_pre_multicast_boundary_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;multicast;multicast_mac;source_specific_multicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_class_e_reserved
    ARGS                 240.0.0.1 4 -c -n -g
    ADDRESS              240.0.0.1
@@ -1301,11 +1592,32 @@ ADD_SUBNETCALC_MATRIX_TEST(
    CLASS                "Class E (Reserved)"
 )
 
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_class_e_14_boundary
+   ARGS                 240.0.0.0 14 -c -n -g
+   ADDRESS              240.0.0.0
+   FAMILY               IPv4
+   NETWORK              240.0.0.0
+   PREFIX               14
+   NETMASK              255.252.0.0
+   BROADCAST            240.3.255.255
+   WILDCARD             0.3.255.255
+   HEX                  F0000000
+   HOST_BITS            18
+   MAX_HOSTS            262142
+   HOST_MIN             240.0.0.1
+   HOST_MAX             240.3.255.254
+   TYPE                 network
+   CLASS                "Class E (Reserved)"
+)
+
 SET_TESTS_PROPERTIES(
    ipv4_class_e_reserved_text ipv4_class_e_reserved_json
    ipv4_class_e_reserved_yaml ipv4_class_e_reserved_xml
    ipv4_class_e_high_text ipv4_class_e_high_json
    ipv4_class_e_high_yaml ipv4_class_e_high_xml
+   ipv4_class_e_14_boundary_text ipv4_class_e_14_boundary_json
+   ipv4_class_e_14_boundary_yaml ipv4_class_e_14_boundary_xml
    PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Limited broadcast"
 )
 
@@ -1452,6 +1764,100 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_loopback_net_host_8
+   ARGS                 127.0.0.2 8 -c -n -g
+   ADDRESS              127.0.0.2
+   FAMILY               IPv4
+   NETWORK              127.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            127.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  7F000002
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             127.0.0.1
+   HOST_MAX             127.255.255.254
+   TYPE                 host
+   CLASS                "Class A"
+   FLAG                 "In loopback network"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_loopback_net_127_1
+   ARGS                 127.1.2.3 8 -c -n -g
+   ADDRESS              127.1.2.3
+   FAMILY               IPv4
+   NETWORK              127.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            127.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  7F010203
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             127.0.0.1
+   HOST_MAX             127.255.255.254
+   TYPE                 host
+   CLASS                "Class A"
+   FLAG                 "In loopback network"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_loopback_net_host_8_text ipv4_loopback_net_host_8_json
+   ipv4_loopback_net_host_8_yaml ipv4_loopback_net_host_8_xml
+   ipv4_loopback_net_127_1_text ipv4_loopback_net_127_1_json
+   ipv4_loopback_net_127_1_yaml ipv4_loopback_net_127_1_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Loopback address"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_loopback_net_boundary_low
+   ARGS                 126.255.255.255 8 -c -n -g
+   ADDRESS              126.255.255.255
+   FAMILY               IPv4
+   NETWORK              126.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            126.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  7EFFFFFF
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             126.0.0.1
+   HOST_MAX             126.255.255.254
+   TYPE                 broadcast
+   CLASS                "Class A"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_loopback_net_boundary_high
+   ARGS                 128.0.0.1 8 -c -n -g
+   ADDRESS              128.0.0.1
+   FAMILY               IPv4
+   NETWORK              128.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            128.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  80000001
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             128.0.0.1
+   HOST_MAX             128.255.255.254
+   TYPE                 host
+   CLASS                "Class B"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_loopback_net_boundary_low_text ipv4_loopback_net_boundary_low_json
+   ipv4_loopback_net_boundary_low_yaml ipv4_loopback_net_boundary_low_xml
+   ipv4_loopback_net_boundary_high_text ipv4_loopback_net_boundary_high_json
+   ipv4_loopback_net_boundary_high_yaml ipv4_loopback_net_boundary_high_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Loopback address;In loopback network"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_loopback_net
    ARGS                 127.0.0.2 24 -c -n -g
    ADDRESS              127.0.0.2
@@ -1465,7 +1871,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    HOST_BITS            8
    MAX_HOSTS            254
    HOST_MIN             127.0.0.1
-   HOST_MAX             127.0.0.254
+   HOST_MAX             127.255.255.254
    TYPE                 host
    CLASS                "Class A"
    FLAG                 "In loopback network"
@@ -1548,6 +1954,68 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_zero_host_byte
+   ARGS                 224.0.0.0 24 -c -n -g
+   ADDRESS              224.0.0.0
+   FAMILY               IPv4
+   NETWORK              224.0.0.0
+   PREFIX               24
+   NETMASK              255.255.255.0
+   BROADCAST            224.0.0.255
+   WILDCARD             0.0.0.255
+   HEX                  E0000000
+   HOST_BITS            8
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "link-local"
+   MULTICAST_MAC        "01:00:5e:00:00:00"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_ssm_boundary_low
+   ARGS                 231.255.255.255 8 -c -n -g
+   ADDRESS              231.255.255.255
+   FAMILY               IPv4
+   NETWORK              231.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            231.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  E7FFFFFF
+   HOST_BITS            24
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "global"
+   MULTICAST_MAC        "01:00:5e:7f:ff:ff"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_ssm_boundary_high
+   ARGS                 233.0.0.1 8 -c -n -g
+   ADDRESS              233.0.0.1
+   FAMILY               IPv4
+   NETWORK              233.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            233.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  E9000001
+   HOST_BITS            24
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "global"
+   MULTICAST_MAC        "01:00:5e:00:00:01"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_multicast_ssm_boundary_low_text ipv4_multicast_ssm_boundary_low_json
+   ipv4_multicast_ssm_boundary_low_yaml ipv4_multicast_ssm_boundary_low_xml
+   ipv4_multicast_ssm_boundary_high_text ipv4_multicast_ssm_boundary_high_json
+   ipv4_multicast_ssm_boundary_high_yaml ipv4_multicast_ssm_boundary_high_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Source-specific multicast;source_specific_multicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_multicast_ssm
    ARGS                 232.1.2.3 8 -c -n -g
    ADDRESS              232.1.2.3
@@ -1567,6 +2035,48 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_org_local_boundary_low
+   ARGS                 239.191.255.255 14 -c -n -g
+   ADDRESS              239.191.255.255
+   FAMILY               IPv4
+   NETWORK              239.188.0.0
+   PREFIX               14
+   NETMASK              255.252.0.0
+   BROADCAST            239.191.255.255
+   WILDCARD             0.3.255.255
+   HEX                  EFBFFFFF
+   HOST_BITS            18
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "global"
+   MULTICAST_MAC        "01:00:5e:3f:ff:ff"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_multicast_org_local_boundary_low_text ipv4_multicast_org_local_boundary_low_json
+   ipv4_multicast_org_local_boundary_low_yaml ipv4_multicast_org_local_boundary_low_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;organization-local"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_org_local_boundary_high
+   ARGS                 239.196.0.0 14 -c -n -g
+   ADDRESS              239.196.0.0
+   FAMILY               IPv4
+   NETWORK              239.196.0.0
+   PREFIX               14
+   NETMASK              255.252.0.0
+   BROADCAST            239.199.255.255
+   WILDCARD             0.3.255.255
+   HEX                  EFC40000
+   HOST_BITS            18
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "organization-local"
+   MULTICAST_MAC        "01:00:5e:44:00:00"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv4_multicast_org_local
    ARGS                 239.192.1.1 14 -c -n -g
    ADDRESS              239.192.1.1
@@ -1582,6 +2092,30 @@ ADD_SUBNETCALC_MATRIX_TEST(
    CLASS                "Class D (Multicast)"
    SCOPE                "organization-local"
    MULTICAST_MAC        "01:00:5e:40:01:01"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_site_local_boundary_low
+   ARGS                 239.251.255.255 14 -c -n -g
+   ADDRESS              239.251.255.255
+   FAMILY               IPv4
+   NETWORK              239.248.0.0
+   PREFIX               14
+   NETMASK              255.252.0.0
+   BROADCAST            239.251.255.255
+   WILDCARD             0.3.255.255
+   HEX                  EFFBFFFF
+   HOST_BITS            18
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "organization-local"
+   MULTICAST_MAC        "01:00:5e:7b:ff:ff"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_multicast_site_local_boundary_low_text ipv4_multicast_site_local_boundary_low_json
+   ipv4_multicast_site_local_boundary_low_yaml ipv4_multicast_site_local_boundary_low_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;site-local"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1618,6 +2152,74 @@ ADD_SUBNETCALC_MATRIX_TEST(
    CLASS                "Class D (Multicast)"
    SCOPE                "global"
    MULTICAST_MAC        "01:00:5e:01:01:01"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_class_a_zero_octet_host
+   ARGS                 0.1.2.3 8 -c -n -g
+   ADDRESS              0.1.2.3
+   FAMILY               IPv4
+   NETWORK              0.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            0.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  00010203
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             0.0.0.1
+   HOST_MAX             0.255.255.254
+   TYPE                 host
+   CLASS                "Class A"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_class_a_zero_octet_host_text ipv4_class_a_zero_octet_host_json
+   ipv4_class_a_zero_octet_host_yaml ipv4_class_a_zero_octet_host_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Loopback address;In loopback network;Private;Shared address space for CGN"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_loopback_net_broadcast_8
+   ARGS                 127.255.255.255 8 -c -n -g
+   ADDRESS              127.255.255.255
+   FAMILY               IPv4
+   NETWORK              127.0.0.0
+   PREFIX               8
+   NETMASK              255.0.0.0
+   BROADCAST            127.255.255.255
+   WILDCARD             0.255.255.255
+   HEX                  7FFFFFFF
+   HOST_BITS            24
+   MAX_HOSTS            16777214
+   HOST_MIN             127.0.0.1
+   HOST_MAX             127.255.255.254
+   TYPE                 broadcast
+   CLASS                "Class A"
+   FLAG                 "In loopback network"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv4_loopback_net_broadcast_8_text ipv4_loopback_net_broadcast_8_json
+   ipv4_loopback_net_broadcast_8_yaml ipv4_loopback_net_broadcast_8_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Loopback address"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv4_multicast_top_32
+   ARGS                 239.255.255.255 32 -c -n -g
+   ADDRESS              239.255.255.255
+   FAMILY               IPv4
+   NETWORK              239.255.255.255
+   PREFIX               32
+   NETMASK              255.255.255.255
+   WILDCARD             0.0.0.0
+   HEX                  EFFFFFFF
+   HOST_BITS            0
+   TYPE                 multicast
+   CLASS                "Class D (Multicast)"
+   SCOPE                "site-local"
+   MULTICAST_MAC        "01:00:5e:7f:ff:ff"
 )
 
 # --- Arbitrary Bit Boundaries ----------------------------------------------
@@ -1719,6 +2321,42 @@ ADD_SUBNETCALC_MATRIX_TEST(
    MAX_HOSTS            18446744073709551615
    HOST_MIN             2001:db8::1
    HOST_MAX             2001:db8::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_full_mask_128
+   ARGS                 2001:db8::1/ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:db8::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             2001:db8::1
+   HOST_MAX             2001:db8::1
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_zero_mask_0
+   ARGS                 2001:db8::1/:: -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              ::
+   PREFIX               0
+   NETMASK              ::
+   WILDCARD             ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            128
+   MAX_HOSTS            340282366920938463463374607431768211454
+   HOST_MIN             ::1
+   HOST_MAX             ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
    TYPE                 host
    UNICAST_TYPE         "Global Unicast"
 )
@@ -1851,6 +2489,24 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_nat64_local_use_48
+   ARGS                 64:ff9b:1::1 48 -c -n -g
+   ADDRESS              64:ff9b:1::0\\.0\\.0\\.1
+   EXPANDED_ADDRESS     0064:ff9b:0001:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              64:ff9b:1::0\\.0\\.0\\.0
+   PREFIX               48
+   NETMASK              ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            80
+   MAX_HOSTS            1208925819614629174706175
+   HOST_MIN             64:ff9b:1::0\\.0\\.0\\.1
+   HOST_MAX             64:ff9b:1:ffff:ffff:ffff:255\\.255\\.255\\.255
+   TYPE                 host
+   SPECIAL              "IPv4-embedded IPv6 address"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_nat64_non_translation
    ARGS                 64:ff9b:2::1 96 -c -n -g
    ADDRESS              64:ff9b:2::1
@@ -1868,6 +2524,34 @@ ADD_SUBNETCALC_MATRIX_TEST(
    SUBNET_ID            0000
    INTERFACE_ID         0000:0000:0000:0001
    SNMC                 ff02::1:ff00:0001
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_nat64_word2_boundary
+   ARGS                 64:ff9b:2::1.2.3.4 96 -c -n -g
+   ADDRESS              64:ff9b:2::102:304
+   EXPANDED_ADDRESS     0064:ff9b:0002:0000:0000:0000:0102:0304
+   FAMILY               IPv6
+   NETWORK              64:ff9b:2::
+   PREFIX               96
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff
+   HOST_BITS            32
+   MAX_HOSTS            4294967295
+   HOST_MIN             64:ff9b:2::1
+   HOST_MAX             64:ff9b:2::ffff:ffff
+   TYPE                 host
+   SUBNET_ID            0000
+   INTERFACE_ID         0000:0000:0102:0304
+   SNMC                 ff02::1:ff02:0304
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_nat64_non_translation_text ipv6_nat64_non_translation_json
+   ipv6_nat64_non_translation_yaml ipv6_nat64_non_translation_xml
+   ipv6_nat64_word2_boundary_text ipv6_nat64_word2_boundary_json
+   ipv6_nat64_word2_boundary_yaml ipv6_nat64_word2_boundary_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;IPv4-embedded IPv6 address"
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
@@ -1913,6 +2597,27 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_link_local_eui64_u_bit_set
+   ARGS                 fe80::0011:22ff:fe33:4455 64 -c -n -g
+   ADDRESS              fe80::11:22ff:fe33:4455
+   EXPANDED_ADDRESS     fe80:0000:0000:0000:0011:22ff:fe33:4455
+   FAMILY               IPv6
+   NETWORK              fe80::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             fe80::1
+   HOST_MAX             fe80::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Link-Local Unicast"
+   INTERFACE_ID         0011:22ff:fe33:4455
+   MAC_ADDRESS          02:11:22:33:44:55
+   SNMC                 ff02::1:ff33:4455
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_link_local
    ARGS                 fe80::1 64 -c -n -g
    ADDRESS              fe80::1
@@ -1954,6 +2659,81 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ula_boundary_low
+   ARGS                 fbff:ffff::1 64 -c -n -g
+   ADDRESS              fbff:ffff::1
+   EXPANDED_ADDRESS     fbff:ffff:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              fbff:ffff::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             fbff:ffff::1
+   HOST_MAX             fbff:ffff::ffff:ffff:ffff:ffff
+   TYPE                 host
+   SUBNET_ID            0000
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_ula_boundary_low_text ipv6_ula_boundary_low_json
+   ipv6_ula_boundary_low_yaml ipv6_ula_boundary_low_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Unique Local Unicast;ula_type;global_id"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ula_boundary_high
+   ARGS                 fe00::1 64 -c -n -g
+   ADDRESS              fe00::1
+   EXPANDED_ADDRESS     fe00:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              fe00::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             fe00::1
+   HOST_MAX             fe00::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Unique Local Unicast"
+   ULA_TYPE             "Assigned by global instance"
+   GLOBAL_ID            0000000000
+   SUBNET_ID            0000
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_pre_gua_boundary
+   ARGS                 1fff:ffff::1 64 -c -n -g
+   ADDRESS              1fff:ffff::1
+   EXPANDED_ADDRESS     1fff:ffff:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              1fff:ffff::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             1fff:ffff::1
+   HOST_MAX             1fff:ffff::ffff:ffff:ffff:ffff
+   TYPE                 host
+   SUBNET_ID            0000
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_pre_gua_boundary_text ipv6_pre_gua_boundary_json
+   ipv6_pre_gua_boundary_yaml ipv6_pre_gua_boundary_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Global Unicast;unicast_type"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_ula_local
    ARGS                 fd01:1122:3344:affe:0102:03ff:fe04:0506 64 -c -n -g
    ADDRESS              fd01:1122:3344:affe:102:3ff:fe04:506
@@ -1977,6 +2757,35 @@ ADD_SUBNETCALC_MATRIX_TEST(
    SNMC                 ff02::1:ff04:0506
 )
 
+SET_TESTS_PROPERTIES(
+   ipv6_ula_local_text ipv6_ula_local_json
+   ipv6_ula_local_yaml ipv6_ula_local_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Assigned by global instance"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ula_local_8
+   ARGS                 fd00::1 8 -c -n -g
+   ADDRESS              fd00::1
+   EXPANDED_ADDRESS     fd00:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              fd00::
+   PREFIX               8
+   NETMASK              ff00::
+   WILDCARD             ff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            120
+   MAX_HOSTS            1329227995784915872903807060280344575
+   HOST_MIN             fd00::1
+   HOST_MAX             fdff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Unique Local Unicast"
+   ULA_TYPE             "Locally chosen"
+   GLOBAL_ID            0000000000
+   SUBNET_ID            0000
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
 ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_ula_global
    ARGS                 fc00:1122:3344:affe::1 64 -c -n -g
@@ -1996,6 +2805,35 @@ ADD_SUBNETCALC_MATRIX_TEST(
    ULA_TYPE             "Assigned by global instance"
    GLOBAL_ID            0011223344
    SUBNET_ID            affe
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_ula_global_text ipv6_ula_global_json
+   ipv6_ula_global_yaml ipv6_ula_global_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Locally chosen"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_ula_global_8
+   ARGS                 fc00::1 8 -c -n -g
+   ADDRESS              fc00::1
+   EXPANDED_ADDRESS     fc00:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              fc00::
+   PREFIX               8
+   NETMASK              ff00::
+   WILDCARD             ff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            120
+   MAX_HOSTS            1329227995784915872903807060280344575
+   HOST_MIN             fc00::1
+   HOST_MAX             fcff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Unique Local Unicast"
+   ULA_TYPE             "Assigned by global instance"
+   GLOBAL_ID            0000000000
+   SUBNET_ID            0000
    INTERFACE_ID         0000:0000:0000:0001
    SNMC                 ff02::1:ff00:0001
 )
@@ -2166,6 +3004,27 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_6to4_network
+   ARGS                 2002:0a01:0101:: 48 -c -n -g
+   ADDRESS              2002:a01:101::
+   EXPANDED_ADDRESS     2002:0a01:0101:0000:0000:0000:0000:0000
+   FAMILY               IPv6
+   NETWORK              2002:a01:101::
+   PREFIX               48
+   NETMASK              ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            80
+   MAX_HOSTS            1208925819614629174706175
+   HOST_MIN             2002:a01:101::1
+   HOST_MAX             2002:a01:101:ffff:ffff:ffff:ffff:ffff
+   TYPE                 network
+   UNICAST_TYPE         "Global Unicast"
+   INTERFACE_ID         0000:0000:0000:0000
+   SNMC                 ff02::1:ff00:0000
+   SIX_TO_FOUR          10.1.1.1
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_non_6to4_global
    ARGS                 2003:db8::1 64 -c -n -g
    ADDRESS              2003:db8::1
@@ -2212,6 +3071,52 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_non_eui64_unicast
+   ARGS                 2001:db8::1234:5678:9abc:def0 64 -c -n -g
+   ADDRESS              2001:db8::1234:5678:9abc:def0
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:1234:5678:9abc:def0
+   FAMILY               IPv6
+   NETWORK              2001:db8::
+   PREFIX               64
+   NETMASK              ffff:ffff:ffff:ffff::
+   WILDCARD             ::ffff:ffff:ffff:ffff
+   HOST_BITS            64
+   MAX_HOSTS            18446744073709551615
+   HOST_MIN             2001:db8::1
+   HOST_MAX             2001:db8::ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   INTERFACE_ID         1234:5678:9abc:def0
+   SNMC                 ff02::1:ffbc:def0
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_non_eui64_unicast_text ipv6_non_eui64_unicast_json
+   ipv6_non_eui64_unicast_yaml ipv6_non_eui64_unicast_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;MAC Address;mac_address"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_global_host_128
+   ARGS                 2001:db8::1/128 -c -n -g
+   ADDRESS              2001:db8::1
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              2001:db8::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   MAX_HOSTS            1
+   HOST_MIN             2001:db8::1
+   HOST_MAX             2001:db8::1
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   INTERFACE_ID         0000:0000:0000:0001
+   SNMC                 ff02::1:ff00:0001
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_global_network_address
    ARGS                 2001:db8:: 64 -c -n -g
    ADDRESS              2001:db8::
@@ -2229,6 +3134,15 @@ ADD_SUBNETCALC_MATRIX_TEST(
    UNICAST_TYPE         "Global Unicast"
    INTERFACE_ID         0000:0000:0000:0000
    SNMC                 ff02::1:ff00:0000
+)
+
+# Ensure IPv6 output never emits Broadcast / broadcast
+SET_TESTS_PROPERTIES(
+   ipv6_slash_netmask_64_text ipv6_slash_netmask_64_json
+   ipv6_slash_netmask_64_yaml ipv6_slash_netmask_64_xml
+   ipv6_global_network_address_text ipv6_global_network_address_json
+   ipv6_global_network_address_yaml ipv6_global_network_address_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Broadcast;broadcast"
 )
 
 # --- Multicast Scopes & Flags ----------------------------------------------
@@ -2329,6 +3243,28 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_non_transient
+   ARGS                 ff02::1 128 -c -n -g
+   ADDRESS              ff02::1
+   EXPANDED_ADDRESS     ff02:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              ff02::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "link-local"
+   MULTICAST_MAC        "33:33:00:00:00:01"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_multicast_non_transient_text ipv6_multicast_non_transient_json
+   ipv6_multicast_non_transient_yaml ipv6_multicast_non_transient_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Temporarily-allocated address;transient"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_multicast_transient
    ARGS                 ff12::1 128 -c -n -g
    ADDRESS              ff12::1
@@ -2346,6 +3282,23 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_transient_global
+   ARGS                 ff1e::1 128 -c -n -g
+   ADDRESS              ff1e::1
+   EXPANDED_ADDRESS     ff1e:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              ff1e::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "global"
+   MULTICAST_MAC        "33:33:00:00:00:01"
+   TRANSIENT            TRUE
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_multicast_solicited_node
    ARGS                 ff02::1:ff11:2233 104 -c -n -g
    ADDRESS              ff02::1:ff11:2233
@@ -2356,6 +3309,23 @@ ADD_SUBNETCALC_MATRIX_TEST(
    NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ff00:0
    WILDCARD             ::ff:ffff
    HOST_BITS            24
+   TYPE                 multicast
+   SCOPE                "link-local"
+   MULTICAST_MAC        "33:33:ff:11:22:33"
+   SOLICITED_NODE_FOR   "xxxx:xxxx:xxxx:xxxx:xxxx:xxxx:xx11:2233"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_solicited_node_128
+   ARGS                 ff02::1:ff11:2233 128 -c -n -g
+   ADDRESS              ff02::1:ff11:2233
+   EXPANDED_ADDRESS     ff02:0000:0000:0000:0000:0001:ff11:2233
+   FAMILY               IPv6
+   NETWORK              ff02::1:ff11:2233
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
    TYPE                 multicast
    SCOPE                "link-local"
    MULTICAST_MAC        "33:33:ff:11:22:33"
@@ -2402,6 +3372,23 @@ ADD_SUBNETCALC_MATRIX_TEST(
 )
 
 ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_ssm_linklocal
+   ARGS                 ff32::1 128 -c -n -g
+   ADDRESS              ff32::1
+   EXPANDED_ADDRESS     ff32:0000:0000:0000:0000:0000:0000:0001
+   FAMILY               IPv6
+   NETWORK              ff32::1
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "link-local"
+   MULTICAST_MAC        "33:33:00:00:00:01"
+   SSM                  TRUE
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
    NAME                 ipv6_multicast_non_ssm
    ARGS                 ff3e:1::123:4 128 -c -n -g
    ADDRESS              ff3e:1::123:4
@@ -2421,6 +3408,49 @@ SET_TESTS_PROPERTIES(
    ipv6_multicast_non_ssm_text ipv6_multicast_non_ssm_json
    ipv6_multicast_non_ssm_yaml ipv6_multicast_non_ssm_xml
    PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;Source-specific multicast;source_specific_multicast"
+)
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_global_prefix_0
+   ARGS                 2001:db8::/0 -c -n -g
+   ADDRESS              2001:db8::
+   EXPANDED_ADDRESS     2001:0db8:0000:0000:0000:0000:0000:0000
+   FAMILY               IPv6
+   NETWORK              ::
+   PREFIX               0
+   NETMASK              ::
+   WILDCARD             ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   HOST_BITS            128
+   MAX_HOSTS            340282366920938463463374607431768211454
+   HOST_MIN             ::1
+   HOST_MAX             ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   TYPE                 host
+   UNICAST_TYPE         "Global Unicast"
+   INTERFACE_ID         0000:0000:0000:0000
+   SNMC                 ff02::1:ff00:0000
+)
+
+
+ADD_SUBNETCALC_MATRIX_TEST(
+   NAME                 ipv6_multicast_low_snmc_word6
+   ARGS                 ff02::1:0011:2233 128 -c -n -g
+   ADDRESS              ff02::1:11:2233
+   EXPANDED_ADDRESS     ff02:0000:0000:0000:0000:0001:0011:2233
+   FAMILY               IPv6
+   NETWORK              ff02::1:11:2233
+   PREFIX               128
+   NETMASK              ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff
+   WILDCARD             ::
+   HOST_BITS            0
+   TYPE                 multicast
+   SCOPE                "link-local"
+   MULTICAST_MAC        "33:33:00:11:22:33"
+)
+
+SET_TESTS_PROPERTIES(
+   ipv6_multicast_low_snmc_word6_text ipv6_multicast_low_snmc_word6_json
+   ipv6_multicast_low_snmc_word6_yaml ipv6_multicast_low_snmc_word6_xml
+   PROPERTIES FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;: null;<null>;solicited node multicast address for;solicited_node_for"
 )
 
 # --- Arbitrary Bit Boundaries ----------------------------------------------
@@ -2513,6 +3543,8 @@ ADD_SUBNETCALC_TEST(cli_combined_short            2001:4860:4860::8888 128 -cng)
 ADD_SUBNETCALC_TEST(cli_double_dash_options       -c -n -g -- 192.168.1.1 24)
 ADD_SUBNETCALC_TEST(cli_single_dash_long_opts     10.1.1.1/24 -nocolor -noreverselookup -nogeoiplookup)
 ADD_SUBNETCALC_TEST(cli_family_override_v4        10.1.1.1/24 -6 -4 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_family_match_v4           10.1.1.1 24 -4 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_family_match_v6           2001:db8::1 64 -6 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_json        10.1.1.1/24 --format=json -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_yaml        10.1.1.1/24 --format=yaml -n -g)
 ADD_SUBNETCALC_TEST(cli_format_equals_xml         10.1.1.1/24 --format=xml -n -g)
@@ -2522,11 +3554,13 @@ ADD_SUBNETCALC_TEST(cli_default_prefix_ipv4       192.168.1.1 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_default_prefix_ipv6       2001:db8::1 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_localhost_with_port       localhost:8080 -4 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv4_with_port            192.168.1.1:8080/24 -c -n -g)
+ADD_SUBNETCALC_TEST(cli_ipv4_port_zero            192.168.1.1:0/24 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv6_bracket_no_port      "[2001:db8::1]/64" -c -n -g)
 ADD_SUBNETCALC_TEST(cli_ipv6_bracket_with_port    "[2001:db8::1]:443/64" -c -n -g)
 ADD_SUBNETCALC_TEST(cli_p2p_31_broadcast_text     10.1.1.0 31 -c -n -g)
 ADD_SUBNETCALC_TEST(cli_colour_ipv4               192.168.1.1/24 -n -g)
 ADD_SUBNETCALC_TEST(cli_colour_ipv6_eui64         fe80::0211:22ff:fe33:4455/64 -n -g)
+ADD_SUBNETCALC_TEST(cli_nocolour_ipv6_eui64       fe80::0211:22ff:fe33:4455/64 -c -n -g)
 
 SET_TESTS_PROPERTIES(
    cli_nocolour_short cli_nocolour_long_uk cli_nocolor_long_us
@@ -2545,9 +3579,14 @@ SET_TESTS_PROPERTIES(cli_single_dash_long_opts PROPERTIES
    LABELS "cli;options;ipv4"
 )
 
-SET_TESTS_PROPERTIES(cli_family_override_v4 PROPERTIES
+SET_TESTS_PROPERTIES(cli_family_override_v4 cli_family_match_v4 PROPERTIES
    PASS_REGULAR_EXPRESSION "Network[ ]+= 10\\.1\\.1\\.0 / 24"
    LABELS "cli;options;ipv4"
+)
+
+SET_TESTS_PROPERTIES(cli_family_match_v6 PROPERTIES
+   PASS_REGULAR_EXPRESSION "Network[ ]+= 2001:db8:: / 64"
+   LABELS "cli;options;ipv6"
 )
 
 SET_TESTS_PROPERTIES(cli_format_equals_json PROPERTIES
@@ -2595,6 +3634,11 @@ SET_TESTS_PROPERTIES(cli_ipv4_with_port PROPERTIES
    LABELS "cli;ipv4"
 )
 
+SET_TESTS_PROPERTIES(cli_ipv4_port_zero PROPERTIES
+   PASS_REGULAR_EXPRESSION "Address[ ]+= 192\\.168\\.1\\.1.*Network[ ]+= 192\\.168\\.1\\.0 / 24"
+   LABELS "cli;ipv4"
+)
+
 SET_TESTS_PROPERTIES(cli_ipv6_bracket_no_port PROPERTIES
    PASS_REGULAR_EXPRESSION "Address[ ]+= 2001:db8::1.*Network[ ]+= 2001:db8:: / 64"
    LABELS "cli;ipv6"
@@ -2612,6 +3656,13 @@ SET_TESTS_PROPERTIES(cli_p2p_31_broadcast_text PROPERTIES
 
 STRING(ASCII 27 ESC)
 
+ADD_SUBNETCALC_TEST(cli_nocolour_ipv4_binary       10.1.1.1/24 -c -n -g)
+SET_TESTS_PROPERTIES(cli_nocolour_ipv4_binary PROPERTIES
+   PASS_REGULAR_EXPRESSION "00001010 \. 00000001 \. 00000001 \. 00000001"
+   FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;${ESC}"
+   LABELS "cli;ipv4"
+)
+
 SET_TESTS_PROPERTIES(cli_colour_ipv4 PROPERTIES
    PASS_REGULAR_EXPRESSION "${ESC}\\[34m1${ESC}\\[0m.*${ESC}\\[33m1${ESC}\\[0m"
    LABELS "cli;ipv4"
@@ -2619,6 +3670,12 @@ SET_TESTS_PROPERTIES(cli_colour_ipv4 PROPERTIES
 
 SET_TESTS_PROPERTIES(cli_colour_ipv6_eui64 PROPERTIES
    PASS_REGULAR_EXPRESSION "Interface ID[ ]+= ${ESC}\\[36m0211:22${ESC}\\[37mff:fe${ESC}\\[38m33:4455${ESC}\\[0m.*MAC Address[ ]+= ${ESC}\\[36m00:11:22${ESC}\\[0m:${ESC}\\[38m33:44:55${ESC}\\[0m.*Solicited Node Multicast Address[ ]+= ${ESC}\\[32mff02::1:ff${ESC}\\[38m33:4455${ESC}\\[0m"
+   LABELS "cli;ipv6"
+)
+
+SET_TESTS_PROPERTIES(cli_nocolour_ipv6_eui64 PROPERTIES
+   PASS_REGULAR_EXPRESSION "Interface ID[ ]+= 0211:22ff:fe33:4455.*MAC Address[ ]+= 00:11:22:33:44:55"
+   FAIL_REGULAR_EXPRESSION "INTERNAL ERROR;ERROR:;${ESC}"
    LABELS "cli;ipv6"
 )
 
@@ -2762,6 +3819,8 @@ ADD_SUBNETCALC_DNS_TEST(force_ipv6_heise_cn         www.heise.de 64 -6 -c -n)
 
 ADD_SUBNETCALC_FAIL_TEST(fail_no_args)
 ADD_SUBNETCALC_FAIL_TEST(fail_too_many_args               10.1.1.1 24 255.255.255.0)
+ADD_SUBNETCALC_FAIL_TEST(fail_missing_format_arg_short    10.1.1.1 24 -F)
+ADD_SUBNETCALC_FAIL_TEST(fail_missing_format_arg_long     10.1.1.1 24 --format)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_octet_256              256.1.1.1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_extra_octet            10.1.1.1.1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_double_dot             10.1..1 24)
@@ -2773,6 +3832,7 @@ ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_1        256.1 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_2        10.16777216 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_shorthand_ovf_3        10.1.65536 24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_prefix_33              10.1.1.1 33)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_plus_prefix            10.1.1.1/+24)
 ADD_SUBNETCALC_FAIL_TEST(fail_prefix_int_overflow         10.1.1.1 999999999999999999999)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_alpha_prefix           10.1.1.1 24a)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_negative_prefix        10.1.1.1 -5)
@@ -2797,10 +3857,12 @@ ADD_SUBNETCALC_FAIL_TEST(fail_v4_with_ula_hq              10.1.1.1 24 -U)
 ADD_SUBNETCALC_FAIL_TEST(fail_double_slash                10.1.1.1/24/32)
 ADD_SUBNETCALC_FAIL_TEST(fail_empty_prefix_slash          10.1.1.1/)
 ADD_SUBNETCALC_FAIL_TEST(fail_empty_address_slash         /24)
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_empty_port             10.1.1.1:/24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_alpha             10.1.1.1:80abc/24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv4_port_overflow          10.1.1.1:99999/24)
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_unclosed_bracket       "[2001:db8::1/64")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_trailing_bracket       "[2001:db8::1]foo/64")
+ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_empty_bracket_port     "[2001:db8::1]:/64")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_bracket_port_overflow  "[::1]:65536/128")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_port   "2001:db8::1/[ffff:ffff:ffff:ffff::]:80")
 ADD_SUBNETCALC_FAIL_TEST(fail_ipv6_netmask_bracket_trail  "2001:db8::1/[ffff:ffff:ffff:ffff::]foo")
@@ -2809,3 +3871,7 @@ ADD_SUBNETCALC_FAIL_TEST(fail_nonexistent_domain          invalid.domain.test 24
 ADD_SUBNETCALC_FAIL_TEST(fail_unknown_flag                10.1.1.1 24 --invalid-flag)
 ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_csv          10.1.1.1 24 -F csv)
 ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_html         10.1.1.1 24 --format html)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_uppercase_json 10.1.1.1 24 -F JSON)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_uppercase_yaml 10.1.1.1 24 --format=YAML)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_uppercase_xml  10.1.1.1 24 --format=XML)
+ADD_SUBNETCALC_FAIL_TEST(fail_invalid_format_mixed_text     10.1.1.1 24 --format=Text)
