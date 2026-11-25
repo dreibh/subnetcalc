@@ -1871,7 +1871,7 @@ ADD_SUBNETCALC_MATRIX_TEST(
    HOST_BITS            8
    MAX_HOSTS            254
    HOST_MIN             127.0.0.1
-   HOST_MAX             127.255.255.254
+   HOST_MAX             127.0.0.254
    TYPE                 host
    CLASS                "Class A"
    FLAG                 "In loopback network"
