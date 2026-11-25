@@ -376,6 +376,10 @@ std::string mask2string(const sockaddr_union& mask)
 // ###### Helper for BSD IPv4 shorthand (e.g. "10.1", "10.1.1") ############
 static bool parseIPv4Shorthand(std::string_view str, struct in_addr* out)
 {
+   if(str.empty() || str.front() == '.' || str.back() == '.') {
+      return false;
+   }
+
    uint32_t parts[4];
    size_t   count = 0;
    size_t   start = 0;
