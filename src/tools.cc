@@ -29,6 +29,7 @@
 
 #include "tools.h"
 
+#include <algorithm>
 #include <cassert>
 #include <charconv>
 #include <cstring>
@@ -647,6 +648,20 @@ bool string2address(std::string_view      string,
          return true;
       }
 #endif
+   }
+
+   // Reject out-of-range pure-decimal 1-part IPv4 values (e.g., "4294967296")
+   // rather than letting platform getaddrinfo() wrap them modulo 2^32.
+   if(!hostStr.empty() &&
+      std::all_of(hostStr.begin(), hostStr.end(), [](unsigned char c) {
+         return std::isdigit(c) != 0;
+      })) {
+      uint32_t v4Num = 0;
+      const auto [ptr, ec] =
+         std::from_chars(hostStr.data(), hostStr.data() + hostStr.size(), v4Num);
+      if((ec != std::errc{}) || (ptr != hostStr.data() + hostStr.size())) {
+         return false;
+      }
    }
 
    // ====== Resolve name to address ========================================
