@@ -607,6 +607,9 @@ bool string2address(std::string_view      string,
    }
 
    const std::string hostStr(host);
+   if(hostStr.empty()) {
+      return false;
+   }
 
    // ====== Fast-path: try inet_pton for literal IP addresses ===============
    if(addressFamily == AF_INET6 || addressFamily == AF_UNSPEC) {
