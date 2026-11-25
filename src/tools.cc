@@ -611,6 +611,15 @@ bool string2address(std::string_view      string,
       return false;
    }
 
+   // Reject IPv4 literals when AF_INET6 is explicitly forced so resolvers
+   // (such as macOS getaddrinfo) do not synthesize ::ffff:x.x.x.x.
+   if(addressFamily == AF_INET6) {
+      struct in_addr v4check;
+      if(inet_pton(AF_INET, hostStr.c_str(), &v4check) == 1) {
+         return false;
+      }
+   }
+
    // ====== Fast-path: try inet_pton for literal IP addresses ===============
    if(addressFamily == AF_INET6 || addressFamily == AF_UNSPEC) {
       struct in6_addr in6;

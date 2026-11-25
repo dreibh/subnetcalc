@@ -1976,19 +1976,20 @@ int main(int argc, char** argv)
          details.ipv6Special = "IPv4-embedded IPv6 address";
       }
       else if(IN6_IS_ADDR_MULTICAST(&ipv6address)) {
-         if(IN6_IS_ADDR_MC_NODELOCAL(&ipv6address)) {
+         const uint8_t scope = ipv6address.s6_addr[1] & 0x0f;
+         if(scope == 0x1) {
             details.multicastScope = "node-local";
          }
-         else if(IN6_IS_ADDR_MC_LINKLOCAL(&ipv6address)) {
+         else if(scope == 0x2) {
             details.multicastScope = "link-local";
          }
-         else if(IN6_IS_ADDR_MC_SITELOCAL(&ipv6address)) {
+         else if(scope == 0x5) {
             details.multicastScope = "site-local";
          }
-         else if(IN6_IS_ADDR_MC_ORGLOCAL(&ipv6address)) {
+         else if(scope == 0x8) {
             details.multicastScope = "organization-local";
          }
-         else if(IN6_IS_ADDR_MC_GLOBAL(&ipv6address)) {
+         else if(scope == 0xe) {
             details.multicastScope = "global";
          }
          else {
