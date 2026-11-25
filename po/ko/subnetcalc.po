@@ -33,8 +33,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \"subnetcalc\" \"2.7.6\"\n"
 "Report-Msgid-Bugs-To: \"https://github.com/dreibh/subnetcalc/issues\"\n"
-"POT-Creation-Date: 2026-11-08 17:55+0100\n"
-"PO-Revision-Date: 2026-11-07 23:25+0100\n"
+"POT-Creation-Date: 2026-11-24 18:15+0100\n"
+"PO-Revision-Date: 2026-11-24 18:15+0100\n"
 "Last-Translator: AI Translation <ai@noreply.localhost>\n"
 "Language-Team: Korean <none>\n"
 "Language: ko\n"
@@ -48,395 +48,448 @@ msgstr ""
 
 #. TRANSLATORS: Error message when attempting to generate a unique local
 #. address without specifying an IPv6 target address.
-#: src/subnetcalc.cc:308
+#: src/subnetcalc.cc:309
 msgid "ERROR: An IPv6 address must be given to generate a unique local address!"
 msgstr "오류: 고유 로컬 주소를 생성하려면 IPv6 주소를 지정해야 합니다!"
 
 #. TRANSLATORS: Status message when generating unique local address:
 #. {0} = random number generator device path (e.g. /dev/urandom)
-#: src/subnetcalc.cc:319 src/subnetcalc.cc:339
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:320 src/subnetcalc.cc:340
+#, no-c-format
 msgid "Generating Unique Local IPv6 address (using {0}) ..."
 msgstr "고유 로컬 IPv6 주소 생성 중 ({0} 사용) ..."
 
 #. TRANSLATORS: Error message when reading from random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:324
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:325
+#, no-c-format
 msgid "ERROR: Unable to read from {0}!"
 msgstr "오류: {0}에서 읽을 수 없습니다!"
 
 #. TRANSLATORS: Error message when opening random device fails:
 #. {0} = random device file path
-#: src/subnetcalc.cc:331
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:332
+#, no-c-format
 msgid "ERROR: Unable to open {0}!"
 msgstr "오류: {0}을(를) 열 수 없습니다!"
 
 #. TRANSLATORS: Text direction: LTR (Left-to-Right) or RTL (Right-to-Left)
-#: src/subnetcalc.cc:499 src/subnetcalc.cc:1316
+#: src/subnetcalc.cc:500 src/subnetcalc.cc:1389
 msgid "LTR"
 msgstr "LTR"
 
 #. TRANSLATORS: Output field label for the input IP address
-#: src/subnetcalc.cc:506 src/subnetcalc.cc:511
+#: src/subnetcalc.cc:507 src/subnetcalc.cc:512
 msgid "Address"
 msgstr "주소"
 
 #. TRANSLATORS: Output field label for the expanded IPv6 address
-#: src/subnetcalc.cc:513
+#: src/subnetcalc.cc:514
 msgid "Exp. Address"
 msgstr "확장 주소"
 
 #. TRANSLATORS: Output field label for the network IP address
-#: src/subnetcalc.cc:518
+#: src/subnetcalc.cc:519
 msgid "Network"
 msgstr "네트워크"
 
 #. TRANSLATORS: Output field label for the subnet mask
-#: src/subnetcalc.cc:520
+#: src/subnetcalc.cc:521
 msgid "Netmask"
 msgstr "넷마스크"
 
 #. TRANSLATORS: Explanation when broadcast address is not applicable
-#: src/subnetcalc.cc:525
+#: src/subnetcalc.cc:526
 msgid "not needed on Point-to-Point links"
 msgstr "점대점 링크에서는 불필요"
 
 #. TRANSLATORS: Output field label for the broadcast address
-#: src/subnetcalc.cc:527
+#: src/subnetcalc.cc:528
 msgid "Broadcast"
 msgstr "브로드캐스트"
 
 #. TRANSLATORS: Output field label for the wildcard mask (inverted netmask)
-#: src/subnetcalc.cc:531
+#: src/subnetcalc.cc:532
 msgid "Wildcard Mask"
 msgstr "와일드카드 마스크"
 
 #. TRANSLATORS: Output field label for the hexadecimal representation of the IPv4 address
-#: src/subnetcalc.cc:535
+#: src/subnetcalc.cc:536
 msgid "Hex. Address"
 msgstr "16진수 주소"
 
 #. TRANSLATORS: Output field label for the number of host bits in the subnet
-#: src/subnetcalc.cc:539
+#: src/subnetcalc.cc:540
 msgid "Host Bits"
 msgstr "호스트 비트"
 
 #. TRANSLATORS: Output field label for the maximum number of usable hosts
-#: src/subnetcalc.cc:543
+#: src/subnetcalc.cc:544
 msgid "Max. Hosts"
 msgstr "최대 호스트 수"
 
 #. TRANSLATORS: Output field label for the usable host address range
-#: src/subnetcalc.cc:545
+#: src/subnetcalc.cc:546
 msgid "Host Range"
 msgstr "호스트 범위"
 
 #. TRANSLATORS: Output field label for IP address properties
-#: src/subnetcalc.cc:550
+#: src/subnetcalc.cc:551
 msgid "Properties"
 msgstr "속성"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:560
+#: src/subnetcalc.cc:561
 msgid "Class A"
 msgstr "클래스 A"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:564
+#: src/subnetcalc.cc:565
 msgid "Class B"
 msgstr "클래스 B"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:568
+#: src/subnetcalc.cc:569
 msgid "Class C"
 msgstr "클래스 C"
 
 #. TRANSLATORS: IPv4 network class designation
-#: src/subnetcalc.cc:572
+#: src/subnetcalc.cc:573
 msgid "Class D (Multicast)"
 msgstr "클래스 D (멀티캐스트)"
 
-#. TRANSLATORS: Error message when IPv4 address is outside classes A through D
-#: src/subnetcalc.cc:576
-msgid "Invalid (not in class A, B, C or D)"
-msgstr "유효하지 않음 (클래스 A, B, C, D 중 어디에도 속하지 않음)"
+#. TRANSLATORS: IPv4 network class designation
+#: src/subnetcalc.cc:577
+msgid "Class E (Reserved)"
+msgstr "클래스 E (예약됨)"
 
 #. TRANSLATORS: IPv4 address property
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:583 src/subnetcalc.cc:633
+#: src/subnetcalc.cc:584 src/subnetcalc.cc:674
 msgid "Loopback address"
 msgstr "루프백 주소"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:587
+#: src/subnetcalc.cc:588
 msgid "In loopback network"
 msgstr "루프백 네트워크 내"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:591
+#: src/subnetcalc.cc:592
 msgid "Private"
 msgstr "사설"
 
 #. TRANSLATORS: IPv4 address property
-#: src/subnetcalc.cc:595
+#: src/subnetcalc.cc:596
+msgid "Shared address space for CGN"
+msgstr "CGN용 공유 주소 공간"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:600
 msgid "Link-local address"
 msgstr "링크 로컬 주소"
 
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:604
+msgid "Documentation"
+msgstr "문서화"
+
+#. TRANSLATORS: IPv4 address property
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:608 src/subnetcalc.cc:777
+msgid "Benchmarking"
+msgstr "벤치마킹"
+
+#. TRANSLATORS: IPv4 address property
+#. TRANSLATORS: IPv6 address property
+#: src/subnetcalc.cc:612 src/subnetcalc.cc:773
+msgid "IETF Protocol Assignments"
+msgstr "IETF 프로토콜 할당"
+
+#. TRANSLATORS: IPv4 address property (RFC 7335)
+#: src/subnetcalc.cc:616
+msgid "IPv4 Service Continuity Prefix"
+msgstr "IPv4 서비스 연속성 접두사"
+
+#. TRANSLATORS: IPv4 address property (RFC 7600)
+#: src/subnetcalc.cc:620
+msgid "IPv4 Dummy Address"
+msgstr "IPv4 더미 주소"
+
+#. TRANSLATORS: IPv4 address property (RFC 7723)
+#: src/subnetcalc.cc:624
+msgid "Port Control Protocol Anycast"
+msgstr "포트 제어 프로토콜 애니캐스트"
+
+#. TRANSLATORS: IPv4 address property (RFC 8155)
+#: src/subnetcalc.cc:628
+msgid "TURN Anycast"
+msgstr "TURN 애니캐스트"
+
+#. TRANSLATORS: IPv4 address property (RFC 7050 / RFC 8880)
+#: src/subnetcalc.cc:632
+msgid "NAT64/DNS64 Discovery"
+msgstr "NAT64/DNS64 탐색"
+
+#. TRANSLATORS: IPv4 address property
+#: src/subnetcalc.cc:636
+msgid "Limited broadcast"
+msgstr "제한된 브로드캐스트"
+
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:603 src/subnetcalc.cc:663
+#: src/subnetcalc.cc:644 src/subnetcalc.cc:704
 msgid "link-local"
 msgstr "링크 로컬"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:607 src/subnetcalc.cc:671
+#: src/subnetcalc.cc:648 src/subnetcalc.cc:712
 msgid "organization-local"
 msgstr "조직 로컬"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:611 src/subnetcalc.cc:667
+#: src/subnetcalc.cc:652 src/subnetcalc.cc:708
 msgid "site-local"
 msgstr "사이트 로컬"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:615 src/subnetcalc.cc:675
+#: src/subnetcalc.cc:656 src/subnetcalc.cc:716
 msgid "global"
 msgstr "글로벌"
 
-#. TRANSLATORS: Multicast scope label prefix
-#: src/subnetcalc.cc:618 src/subnetcalc.cc:682
-msgid "Scope: "
-msgstr "범위: "
+#. TRANSLATORS: Multicast scope: {0} = scope level string
+#: src/subnetcalc.cc:659 src/subnetcalc.cc:723
+#, no-c-format
+msgid "Scope: {0}"
+msgstr "범위: {0}"
 
 #. TRANSLATORS: Multicast MAC address: {0} = MAC address string
-#: src/subnetcalc.cc:620 src/subnetcalc.cc:690
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:661 src/subnetcalc.cc:731
+#, no-c-format
 msgid "Corresponding multicast MAC address: {0}"
 msgstr "해당 멀티캐스트 MAC 주소: {0}"
 
 #. TRANSLATORS: Multicast property
-#: src/subnetcalc.cc:624 src/subnetcalc.cc:694
+#: src/subnetcalc.cc:665 src/subnetcalc.cc:735
 msgid "Source-specific multicast"
 msgstr "소스 특정 멀티캐스트 (SSM)"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:637
+#: src/subnetcalc.cc:678
 msgid "Unspecified address"
 msgstr "미지정 주소"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:641
+#: src/subnetcalc.cc:682
 msgid "IPv4-compatible IPv6 address"
 msgstr "IPv4 호환 IPv6 주소"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:645
+#: src/subnetcalc.cc:686
 msgid "IPv4-mapped IPv6 address"
 msgstr "IPv4 매핑 IPv6 주소"
 
 #. TRANSLATORS: IPv6 address property
-#: src/subnetcalc.cc:649
+#: src/subnetcalc.cc:690
 msgid "IPv4-embedded IPv6 address"
 msgstr "IPv4 임베디드 IPv6 주소"
 
 #. TRANSLATORS: Section header for IPv6 multicast properties
-#: src/subnetcalc.cc:654
-msgid "Multicast Properties"
-msgstr "멀티캐스트 속성"
+#: src/subnetcalc.cc:695
+msgid "Multicast Properties:"
+msgstr "멀티캐스트 속성:"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:659
+#: src/subnetcalc.cc:700
 msgid "node-local"
 msgstr "노드 로컬"
 
 #. TRANSLATORS: Multicast scope level
-#: src/subnetcalc.cc:679
+#: src/subnetcalc.cc:720
 msgid "unknown"
 msgstr "알 수 없음"
 
 #. TRANSLATORS: IPv6 multicast flag property
-#: src/subnetcalc.cc:686
+#: src/subnetcalc.cc:727
 msgid "Temporarily-allocated address"
 msgstr "임시 할당된 주소"
 
 #. TRANSLATORS: Solicited node multicast target: {0} = target node mask
-#: src/subnetcalc.cc:699
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:740
+#, no-c-format
 msgid "Address is solicited node multicast address for {0}"
 msgstr "주소가 {0}의 요청 노드 멀티캐스트 주소입니다"
 
 #. TRANSLATORS: Section header for link-local unicast properties
-#: src/subnetcalc.cc:706
+#: src/subnetcalc.cc:747
 msgid "Link-Local Unicast Properties:"
 msgstr "링크 로컬 유니캐스트 속성:"
 
 #. TRANSLATORS: Section header for site-local unicast properties
-#: src/subnetcalc.cc:710
+#: src/subnetcalc.cc:751
 msgid "Site-Local Unicast Properties:"
 msgstr "사이트 로컬 유니캐스트 속성:"
 
 #. TRANSLATORS: Section header for unique local unicast properties
-#: src/subnetcalc.cc:714
+#: src/subnetcalc.cc:755
 msgid "Unique Local Unicast Properties:"
 msgstr "고유 로컬 유니캐스트 속성:"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:717
+#: src/subnetcalc.cc:758
 msgid "Locally chosen"
 msgstr "로컬에서 선택됨"
 
 #. TRANSLATORS: Unique local address allocation type
-#: src/subnetcalc.cc:721
+#: src/subnetcalc.cc:762
 msgid "Assigned by global instance"
 msgstr "글로벌 기관에서 할당됨"
 
 #. TRANSLATORS: Section header for global unicast properties
-#: src/subnetcalc.cc:726
+#: src/subnetcalc.cc:767
 msgid "Global Unicast Properties:"
 msgstr "글로벌 유니캐스트 속성:"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:732
+#: src/subnetcalc.cc:784
 msgid "Global ID"
 msgstr "글로벌 ID"
 
 #. TRANSLATORS: IPv6 unique local unicast property label
-#: src/subnetcalc.cc:736
+#: src/subnetcalc.cc:788
 msgid "Subnet ID"
 msgstr "서브넷 ID"
 
 #. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:740
+#: src/subnetcalc.cc:792
 msgid "Interface ID"
 msgstr "인터페이스 ID"
 
 #. TRANSLATORS: IPv6 unicast MAC address label derived from EUI-64
-#: src/subnetcalc.cc:758
+#: src/subnetcalc.cc:810
 msgid "MAC Address"
 msgstr "MAC 주소"
 
 #. TRANSLATORS: IPv6 unicast property label
-#: src/subnetcalc.cc:772
+#: src/subnetcalc.cc:824
 msgid "Solicited Node Multicast Address"
 msgstr "요청 노드 멀티캐스트 주소"
 
 #. TRANSLATORS: 6-to-4 encapsulation address label
-#: src/subnetcalc.cc:788
+#: src/subnetcalc.cc:840
 msgid "6-to-4 Address"
 msgstr "6to4 주소"
 
 #. TRANSLATORS: Output field label for GeoIP Autonomous System info
-#: src/subnetcalc.cc:796
+#: src/subnetcalc.cc:848
 msgid "GeoIP AS Info"
 msgstr "GeoIP AS 정보"
 
 #. TRANSLATORS: Output field label for GeoIP country info
-#: src/subnetcalc.cc:801
+#: src/subnetcalc.cc:853
 msgid "GeoIP Country"
 msgstr "GeoIP 국가"
 
 #. TRANSLATORS: Cardinal direction abbreviation: North
-#: src/subnetcalc.cc:806
+#: src/subnetcalc.cc:858
 msgid "N"
 msgstr "북"
 
 #. TRANSLATORS: Cardinal direction abbreviation: South
-#: src/subnetcalc.cc:808
+#: src/subnetcalc.cc:860
 msgid "S"
 msgstr "남"
 
 #. TRANSLATORS: Cardinal direction abbreviation: East
-#: src/subnetcalc.cc:811
+#: src/subnetcalc.cc:863
 msgid "E"
 msgstr "동"
 
 #. TRANSLATORS: Cardinal direction abbreviation: West
-#: src/subnetcalc.cc:813
+#: src/subnetcalc.cc:865
 msgid "W"
 msgstr "서"
 
 #. TRANSLATORS: Output field label for GeoIP region / location info
-#: src/subnetcalc.cc:826
+#: src/subnetcalc.cc:878
 msgid "GeoIP Region"
 msgstr "GeoIP 지역"
 
 #. TRANSLATORS: Output field label for DNS hostname
-#: src/subnetcalc.cc:841
+#: src/subnetcalc.cc:893
 msgid "DNS Hostname"
 msgstr "DNS 호스트 이름"
 
 #. TRANSLATORS: Command-line syntax message prefix:
 #. "Usage: <program> [options]".
-#: src/subnetcalc.cc:1335
+#: src/subnetcalc.cc:1408
 msgid "Usage:"
 msgstr "사용법:"
 
 #. TRANSLATORS: Informational message at the end of usage:
-#. "For further information, see the man page for <manpage>, read the documentation at <url>, examine the source code at <url>, or consult your favourite LLM.".
-#: src/subnetcalc.cc:1353
-#, no-c-format, c++-format
-msgid "For further information, see the man page for {}, read the documentation at {}, examine the source code at {}, or consult your favourite LLM."
-msgstr "자세한 내용은 {}의 man 페이지를 참조하거나, {}의 문서를 읽거나, {}의 소스 코드를 살펴보거나, 선호하는 LLM에 문의하십시오."
+#. {0} = manpage name, {1} = documentation URL, {2} = repository URL
+#: src/subnetcalc.cc:1426
+#, no-c-format
+msgid "For further information, see the man page for {0}, read the documentation at {1}, examine the source code at {2}, or consult your favourite LLM."
+msgstr "자세한 내용은 {0}의 man 페이지를 참조하거나, {1}의 문서를 읽거나, {2}의 소스 코드를 살펴보거나, 선호하는 LLM에 문의하십시오."
 
 #. TRANSLATORS: Error message when output format is invalid:
 #. {0} = input format
-#: src/subnetcalc.cc:1514
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1587
+#, no-c-format
 msgid "ERROR: Invalid format {0}!"
 msgstr "오류: 잘못된 형식 {0}입니다!"
 
 #. TRANSLATORS: Error message when address string is invalid:
 #. {0} = input address
-#: src/subnetcalc.cc:1574 src/subnetcalc.cc:1590
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1647 src/subnetcalc.cc:1663
+#, no-c-format
 msgid "ERROR: Invalid address {0}!"
 msgstr "오류: 잘못된 주소 {0}입니다!"
 
 #. TRANSLATORS: Error message when netmask string is invalid:
 #. {0} = input netmask
-#: src/subnetcalc.cc:1581 src/subnetcalc.cc:1600 src/subnetcalc.cc:1622
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1654 src/subnetcalc.cc:1673 src/subnetcalc.cc:1695
+#, no-c-format
 msgid "ERROR: Invalid netmask {0}!"
 msgstr "오류: 잘못된 넷마스크 {0}입니다!"
 
 #. TRANSLATORS: Error message when address and netmask families mismatch:
 #. {0} = netmask string
-#: src/subnetcalc.cc:1629
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1702
+#, no-c-format
 msgid "ERROR: Incompatible netmask {0}!"
 msgstr "오류: 호환되지 않는 넷마스크 {0}입니다!"
 
 #. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1755
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1820
+#, no-c-format
 msgid "{0} is a MULTICAST address"
 msgstr "{0}은(는) 멀티캐스트 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1761
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1826
+#, no-c-format
 msgid "{0} is the BROADCAST address of {1}/{2}"
 msgstr "{0}은(는) {1}/{2}의 브로드캐스트 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address string
-#: src/subnetcalc.cc:1769
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1834
+#, no-c-format
 msgid "{0} is a NETWORK address"
 msgstr "{0}은(는) 네트워크 주소입니다"
 
 #. TRANSLATORS: Address property: {0} = address, {1} = network, {2} = prefix
-#: src/subnetcalc.cc:1775
-#, no-c-format, c++-format
+#: src/subnetcalc.cc:1840
+#, no-c-format
 msgid "{0} is a HOST address in {1}/{2}"
 msgstr "{0}은(는) {1}/{2}의 호스트 주소입니다"
 
 #. TRANSLATORS: Default fallback text when GeoIP data is unavailable
-#: src/subnetcalc.cc:2020 src/subnetcalc.cc:2041 src/subnetcalc.cc:2049
+#: src/subnetcalc.cc:2145 src/subnetcalc.cc:2166 src/subnetcalc.cc:2174
 msgid "Unknown"
 msgstr "알 수 없음"
 
 #. TRANSLATORS: Progress message while performing reverse DNS lookup
-#: src/subnetcalc.cc:2086
+#: src/subnetcalc.cc:2211
 msgid "Performing reverse DNS lookup ..."
 msgstr "역방향 DNS 조회 수행 중 ..."
